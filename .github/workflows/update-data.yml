@@ -1,0 +1,50 @@
+name: Update Radar Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository'yi al
+        uses: actions/checkout@v4
+
+      - name: Python kur
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Veri klasorunu olustur
+        run: mkdir -p data
+
+      - name: Radar verisini olustur
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+
+          data = {
+              "updated_at": datetime.now(timezone.utc).isoformat(),
+              "status": "ok",
+              "message": "Hisse Radar veri sistemi calisiyor"
+          }
+
+          with open("data/radar.json", "w", encoding="utf-8") as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          PY
+
+      - name: Degisiklikleri kaydet
+        run: |
+          git config user.name "hisse-radar-bot"
+          git config user.email "actions@github.com"
+          git add data/radar.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Radar verisini guncelle"
+          git push
