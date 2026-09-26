@@ -1,4 +1,4 @@
-name: Global Niche Radar V12
+name: Global Niche Radar V13
 
 on:
   workflow_dispatch:
@@ -21,22 +21,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Global Niche V12 verilerini güncelle
-        env:
-          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+      - name: Global Niche V13 verilerini güncelle
         run: |
           python <<'PY'
-          import os
           import json
+          import os
           import time
           import statistics
           from datetime import datetime, timezone
           from urllib.request import Request, urlopen
-          from urllib.parse import quote, urlencode
-          from urllib.error import HTTPError
+          from urllib.parse import quote
 
           PATH = "data/global-niche.json"
-          API_KEY = os.environ.get("FMP_API_KEY", "").strip()
 
           CANDIDATES = [
               {"symbol":"RKLB","name":"Rocket Lab USA, Inc.","market":"NASDAQ","country":"USA","theme":"Space","size":"small"},
@@ -55,7 +51,7 @@ jobs:
           ]
 
           HEADERS = {
-              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/7.0)",
+              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/8.0)",
               "Accept": "application/json"
           }
 
@@ -216,223 +212,6 @@ jobs:
                   print("Yahoo error:", symbol, repr(e))
                   return None
 
-          def fmp_request(endpoint, symbol, limit=2):
-              if not API_KEY:
-                  return None
-
-              params = urlencode({
-                  "symbol": symbol,
-                  "limit": limit,
-                  "period": "annual",
-                  "apikey": API_KEY
-              })
-
-              url = (
-                  "https://financialmodelingprep.com/stable/"
-                  + endpoint
-                  + "?"
-                  + params
-              )
-
-              try:
-                  data = get_json(url)
-
-                  if isinstance(data, list):
-                      return data
-
-                  return None
-
-              except HTTPError as e:
-                  print("FMP HTTP:", symbol, endpoint, e.code)
-                  return None
-
-              except Exception as e:
-                  print("FMP error:", symbol, endpoint, repr(e))
-                  return None
-
-          def fmp_financial_quality(symbol):
-              if not API_KEY:
-                  return {
-                      "available": False,
-                      "score": None,
-                      "maxScore": 20,
-                      "coverage": 0,
-                      "source": None,
-                      "reason": "FMP_API_KEY missing"
-                  }
-
-              income = fmp_request(
-                  "income-statement",
-                  symbol,
-                  2
-              )
-
-              time.sleep(0.35)
-
-              balance = fmp_request(
-                  "balance-sheet-statement",
-                  symbol,
-                  1
-              )
-
-              time.sleep(0.35)
-
-              cashflow = fmp_request(
-                  "cash-flow-statement",
-                  symbol,
-                  1
-              )
-
-              if not income and not balance and not cashflow:
-                  return {
-                      "available": False,
-                      "score": None,
-                      "maxScore": 20,
-                      "coverage": 0,
-                      "source": "FMP Stable API",
-                      "reason": "No financial statements returned"
-                  }
-
-              latest_income = income[0] if income else {}
-              previous_income = income[1] if income and len(income) > 1 else {}
-              latest_balance = balance[0] if balance else {}
-              latest_cashflow = cashflow[0] if cashflow else {}
-
-              revenue = latest_income.get("revenue")
-              previous_revenue = previous_income.get("revenue")
-
-              revenue_growth = pct_change(
-                  revenue,
-                  previous_revenue
-              )
-
-              net_income = latest_income.get("netIncome")
-              previous_net_income = previous_income.get("netIncome")
-
-              cash = (
-                  latest_balance.get("cashAndCashEquivalents")
-                  or latest_balance.get("cashAndShortTermInvestments")
-              )
-
-              debt = latest_balance.get("totalDebt")
-
-              if debt is None:
-                  short_debt = latest_balance.get("shortTermDebt") or 0
-                  long_debt = latest_balance.get("longTermDebt") or 0
-                  debt = short_debt + long_debt
-
-              assets = latest_balance.get("totalAssets")
-              liabilities = latest_balance.get("totalLiabilities")
-              free_cash_flow = latest_cashflow.get("freeCashFlow")
-              operating_cash_flow = latest_cashflow.get("operatingCashFlow")
-
-              raw = 0
-              available_max = 0
-
-              # 1) Revenue growth: 6
-              if revenue_growth is not None:
-                  available_max += 6
-
-                  if revenue_growth >= 30:
-                      raw += 6
-                  elif revenue_growth >= 15:
-                      raw += 5
-                  elif revenue_growth >= 5:
-                      raw += 4
-                  elif revenue_growth >= 0:
-                      raw += 3
-                  elif revenue_growth >= -10:
-                      raw += 1
-
-              # 2) Profitability / earnings improvement: 4
-              if net_income is not None:
-                  available_max += 4
-
-                  if net_income > 0:
-                      raw += 4
-                  elif (
-                      previous_net_income is not None
-                      and net_income > previous_net_income
-                  ):
-                      raw += 2
-                  else:
-                      raw += 1
-
-              # 3) Cash vs debt: 4
-              if cash is not None and debt is not None:
-                  available_max += 4
-
-                  if debt <= 0 and cash > 0:
-                      raw += 4
-                  elif debt > 0:
-                      ratio = cash / debt
-
-                      if ratio >= 1.5:
-                          raw += 4
-                      elif ratio >= 1:
-                          raw += 3
-                      elif ratio >= 0.5:
-                          raw += 2
-                      else:
-                          raw += 1
-
-              # 4) Balance sheet: 3
-              if assets not in (None, 0) and liabilities is not None:
-                  available_max += 3
-
-                  ratio = liabilities / assets
-
-                  if ratio <= 0.40:
-                      raw += 3
-                  elif ratio <= 0.60:
-                      raw += 2
-                  elif ratio <= 0.80:
-                      raw += 1
-
-              # 5) Free cash flow: 3
-              if free_cash_flow is not None:
-                  available_max += 3
-
-                  if free_cash_flow > 0:
-                      raw += 3
-                  elif (
-                      operating_cash_flow is not None
-                      and operating_cash_flow > 0
-                  ):
-                      raw += 1
-
-              score = None
-
-              if available_max >= 10:
-                  score = round(
-                      raw / available_max * 20
-                  )
-
-              coverage = round(
-                  available_max / 20 * 100
-              )
-
-              return {
-                  "available": score is not None,
-                  "score": score,
-                  "rawScore": raw,
-                  "availableMax": available_max,
-                  "maxScore": 20,
-                  "coverage": coverage,
-                  "reportedCurrency": latest_income.get("reportedCurrency") or latest_balance.get("reportedCurrency"),
-                  "fiscalYear": latest_income.get("fiscalYear"),
-                  "revenue": revenue,
-                  "revenueGrowth": round(revenue_growth, 2) if revenue_growth is not None else None,
-                  "netIncome": net_income,
-                  "cash": cash,
-                  "debt": debt,
-                  "assets": assets,
-                  "liabilities": liabilities,
-                  "operatingCashFlow": operating_cash_flow,
-                  "freeCashFlow": free_cash_flow,
-                  "source": "FMP Stable API"
-              }
-
           def calculate_score(data, candidate):
               c = {
                   "momentum": 0,
@@ -568,9 +347,6 @@ jobs:
           fresh_count = 0
           cached_count = 0
           unavailable_count = 0
-          financial_count = 0
-
-          print("FMP API key configured:", bool(API_KEY))
 
           for candidate in CANDIDATES:
               symbol = candidate["symbol"]
@@ -606,7 +382,12 @@ jobs:
 
               elif previous.get("price") is not None:
                   cached_count += 1
-                  technical_score = previous.get("technicalScore", previous.get("score", 0))
+
+                  technical_score = previous.get(
+                      "technicalScore",
+                      previous.get("score", 0)
+                  )
+
                   components = previous.get("scoreComponents", {})
                   metrics = previous.get("metrics", {})
 
@@ -614,7 +395,10 @@ jobs:
                       "price": previous.get("price"),
                       "previousClose": previous.get("previousClose"),
                       "change": previous.get("change"),
-                      "changePercentage": previous.get("changePercentage", previous.get("changePct")),
+                      "changePercentage": previous.get(
+                          "changePercentage",
+                          previous.get("changePct")
+                      ),
                       "volume": previous.get("volume"),
                       "dayLow": previous.get("dayLow"),
                       "dayHigh": previous.get("dayHigh"),
@@ -633,19 +417,13 @@ jobs:
                   components = {}
                   metrics = {}
                   data = {}
+
                   name = candidate["name"]
                   exchange = candidate["market"]
                   market_cap = None
                   data_status = "unavailable"
                   quote_source = None
 
-              financial = fmp_financial_quality(symbol)
-
-              if financial.get("available"):
-                  financial_count += 1
-
-              # Ana radar puanını şimdilik değiştirmiyoruz.
-              # Finansal katmanı doğruladıktan sonra V13'te birleştireceğiz.
               score = technical_score
 
               if score >= 85:
@@ -657,13 +435,7 @@ jobs:
               else:
                   status = "ADAY"
 
-              confidence = (
-                  "HIGH"
-                  if fresh and financial.get("available")
-                  else "MEDIUM"
-                  if fresh
-                  else "LOW"
-              )
+              confidence = "MEDIUM" if fresh else "LOW"
 
               output_candidates.append({
                   "symbol": symbol,
@@ -672,13 +444,24 @@ jobs:
                   "country": candidate["country"],
                   "theme": candidate["theme"],
                   "size": candidate["size"],
+
                   "score": score,
                   "technicalScore": technical_score,
                   "scoreComponents": components,
                   "metrics": metrics,
-                  "financialQuality": financial,
+
+                  "financialQuality": {
+                      "available": False,
+                      "score": None,
+                      "maxScore": 20,
+                      "coverage": 0,
+                      "source": None,
+                      "reason": "Financial provider pending"
+                  },
+
                   "researchConfidence": confidence,
                   "status": status,
+
                   "price": data.get("price"),
                   "previousClose": data.get("previousClose"),
                   "change": data.get("change"),
@@ -690,25 +473,26 @@ jobs:
                   "dayHigh": data.get("dayHigh"),
                   "currency": data.get("currency"),
                   "exchange": exchange,
+
                   "marketDataAvailable": data.get("price") is not None,
                   "marketDataStatus": data_status,
                   "quoteSource": quote_source
               })
 
-              time.sleep(0.50)
+              time.sleep(0.25)
 
           output_candidates.sort(
               key=lambda x: (-x.get("score", 0), x["symbol"])
           )
 
           output = {
-              "version": "global-niche-v12",
-              "scoreVersion": "3.2",
+              "version": "global-niche-v13",
+              "scoreVersion": "3.3",
               "scoreMax": 100,
               "generatedAt": datetime.now(timezone.utc).isoformat(),
               "count": len(output_candidates),
               "marketDataCount": fresh_count,
-              "financialDataCount": financial_count,
+              "financialDataCount": 0,
 
               "quoteStatus": {
                   "fresh": fresh_count,
@@ -717,7 +501,7 @@ jobs:
               },
 
               "quoteProvider": "Yahoo Finance chart / cache fallback",
-              "financialProvider": "FMP Stable API",
+              "financialProvider": "pending",
 
               "scoreModel": {
                   "momentum": 30,
@@ -728,7 +512,7 @@ jobs:
               },
 
               "financialModel": {
-                  "enabled": True,
+                  "enabled": False,
                   "maxScore": 20,
                   "includedInMainScore": False,
                   "principle": "verified-data-only"
@@ -748,22 +532,19 @@ jobs:
               )
 
           print("================================")
-          print("GLOBAL NICHE RADAR V12 TAMAMLANDI")
+          print("GLOBAL NICHE RADAR V13 TAMAMLANDI")
           print("Aday sayısı:", len(CANDIDATES))
           print("Yeni fiyat:", fresh_count)
           print("Önbellekten:", cached_count)
           print("Fiyat bulunamayan:", unavailable_count)
-          print("Finansal veri bulunan:", financial_count)
+          print("Finansal katman: güvenilir kaynak bekliyor")
           print("================================")
 
           for item in output_candidates:
-              fq = item["financialQuality"]
-
               print(
                   item["symbol"],
                   "technical:", item["technicalScore"],
-                  "financial:", fq.get("score"),
-                  "coverage:", fq.get("coverage"),
+                  "data:", item["marketDataStatus"],
                   "confidence:", item["researchConfidence"]
               )
 
@@ -779,6 +560,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar V12"
+            git commit -m "Update Global Niche Radar V13"
             git push
           fi
