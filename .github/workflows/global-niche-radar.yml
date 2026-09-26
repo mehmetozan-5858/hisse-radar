@@ -1,4 +1,4 @@
-name: Global Niche Radar
+name: Global Niche Radar V9
 
 on:
   workflow_dispatch:
@@ -21,13 +21,12 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Global Niche verilerini güncelle
+      - name: Global Niche V9 verilerini güncelle
         run: |
           python <<'PY'
           import os
           import json
           import time
-          import math
           import statistics
           from datetime import datetime, timezone
           from urllib.request import Request, urlopen
@@ -51,8 +50,8 @@ jobs:
               {"symbol":"PAPIL.IS","name":"Papilon Savunma","market":"BIST","country":"Türkiye","theme":"Biometrics / Defense","size":"micro"}
           ]
 
-          YAHOO_HEADERS = {
-              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/3.0)",
+          HEADERS = {
+              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/4.0)",
               "Accept": "application/json"
           }
 
@@ -74,38 +73,45 @@ jobs:
               print("Previous data unavailable:", repr(e))
 
           def get_json(url):
-              req = Request(url, headers=YAHOO_HEADERS)
+              req = Request(url, headers=HEADERS)
 
               with urlopen(req, timeout=30) as response:
                   return json.loads(
                       response.read().decode("utf-8")
                   )
 
+          def average(values):
+              clean = [
+                  float(x)
+                  for x in values
+                  if x is not None
+              ]
+
+              if not clean:
+                  return None
+
+              return sum(clean) / len(clean)
+
           def pct_change(new, old):
               if new is None or old in (None, 0):
                   return None
-              return ((new / old) - 1) * 100
 
-          def average(values):
-              clean = [
-                  float(x) for x in values
-                  if x is not None
-              ]
-              if not clean:
-                  return None
-              return sum(clean) / len(clean)
+              return ((new / old) - 1) * 100
 
           def yahoo_history(symbol):
               url = (
                   "https://query1.finance.yahoo.com/v8/finance/chart/"
                   + quote(symbol)
-                  + "?interval=1d&range=6mo"
+                  + "?interval=1d&range=1y"
               )
 
               try:
                   data = get_json(url)
 
-                  results = data.get("chart", {}).get("result", [])
+                  results = (
+                      data.get("chart", {})
+                          .get("result", [])
+                  )
 
                   if not results:
                       return None
@@ -172,6 +178,7 @@ jobs:
                   def past_return(days):
                       if len(closes) <= days:
                           return None
+
                       return pct_change(
                           closes[-1],
                           closes[-1-days]
@@ -187,6 +194,12 @@ jobs:
                       average(closes[-50:])
                       if len(closes) >= 50
                       else average(closes)
+                  )
+
+                  ma200 = (
+                      average(closes[-200:])
+                      if len(closes) >= 200
+                      else None
                   )
 
                   avg_volume20 = average(volumes[-20:])
@@ -218,52 +231,73 @@ jobs:
                   volatility20 = None
 
                   if len(returns) >= 5:
-                      sample = returns[-20:]
-                      volatility20 = statistics.pstdev(sample)
+                      volatility20 = statistics.pstdev(
+                          returns[-20:]
+                      )
 
-                  high_6m = max(closes)
-                  low_6m = min(closes)
+                  high52 = max(closes)
+                  low52 = min(closes)
+
+                  drawdown52 = None
+
+                  if high52 not in (None, 0):
+                      drawdown52 = (
+                          (price / high52) - 1
+                      ) * 100
 
                   return {
                       "name":
                           meta.get("longName")
                           or meta.get("shortName"),
+
                       "price": round(price, 4),
+
                       "previousClose":
                           round(float(previous_close), 4)
                           if previous_close is not None
                           else None,
+
                       "change":
                           round(change, 4)
                           if change is not None
                           else None,
+
                       "changePercentage":
                           round(change_pct, 4)
                           if change_pct is not None
                           else None,
+
                       "volume": current_volume,
+
                       "dayLow":
                           round(float(last["low"]), 4)
                           if last["low"] is not None
                           else None,
+
                       "dayHigh":
                           round(float(last["high"]), 4)
                           if last["high"] is not None
                           else None,
+
                       "currency": meta.get("currency"),
                       "exchangeName": meta.get("exchangeName"),
 
                       "return5d": past_return(5),
                       "return20d": past_return(20),
                       "return60d": past_return(60),
+                      "return120d": past_return(120),
 
                       "ma20": ma20,
                       "ma50": ma50,
+                      "ma200": ma200,
+
                       "avgVolume20": avg_volume20,
                       "volumeRatio": volume_ratio,
                       "volatility20": volatility20,
-                      "high6m": high_6m,
-                      "low6m": low_6m
+
+                      "high52": high52,
+                      "low52": low52,
+                      "drawdown52": drawdown52
                   }
 
               except Exception as e:
@@ -271,6 +305,7 @@ jobs:
                   return None
 
           def calculate_score(data, candidate):
+
               components = {
                   "momentum": 0,
                   "trend": 0,
@@ -279,131 +314,184 @@ jobs:
                   "theme": 0
               }
 
-              # ---------------------------------------------
-              # MOMENTUM: 30 PUAN
-              # ---------------------------------------------
+              # =========================
+              # MOMENTUM — 30
+              # =========================
 
-              r5 = data.get("return5d")
-              r20 = data.get("return20d")
-              r60 = data.get("return60d")
+              periods = [
+                  ("return5d", 10),
+                  ("return20d", 10),
+                  ("return60d", 10)
+              ]
 
-              if r5 is not None:
-                  if r5 >= 10:
-                      components["momentum"] += 10
-                  elif r5 >= 3:
-                      components["momentum"] += 8
-                  elif r5 >= 0:
-                      components["momentum"] += 6
-                  elif r5 >= -5:
-                      components["momentum"] += 3
+              for field, max_points in periods:
+                  value = data.get(field)
 
-              if r20 is not None:
-                  if r20 >= 20:
-                      components["momentum"] += 10
-                  elif r20 >= 8:
-                      components["momentum"] += 8
-                  elif r20 >= 0:
-                      components["momentum"] += 6
-                  elif r20 >= -10:
-                      components["momentum"] += 3
+                  if value is None:
+                      continue
 
-              if r60 is not None:
-                  if r60 >= 35:
-                      components["momentum"] += 10
-                  elif r60 >= 15:
-                      components["momentum"] += 8
-                  elif r60 >= 0:
-                      components["momentum"] += 6
-                  elif r60 >= -15:
-                      components["momentum"] += 3
+                  if value >= 20:
+                      points = max_points
 
-              # ---------------------------------------------
-              # TREND: 25 PUAN
-              # ---------------------------------------------
+                  elif value >= 10:
+                      points = 9
+
+                  elif value >= 5:
+                      points = 8
+
+                  elif value >= 0:
+                      points = 6
+
+                  elif value >= -5:
+                      points = 4
+
+                  elif value >= -10:
+                      points = 2
+
+                  else:
+                      points = 0
+
+                  components["momentum"] += points
+
+              # =========================
+              # TREND — 25
+              # =========================
 
               price = data.get("price")
               ma20 = data.get("ma20")
               ma50 = data.get("ma50")
-              high6m = data.get("high6m")
+              ma200 = data.get("ma200")
+              high52 = data.get("high52")
 
               if price is not None and ma20 is not None:
-                  if price > ma20:
-                      components["trend"] += 8
-                  else:
-                      components["trend"] += 3
+                  components["trend"] += (
+                      6 if price > ma20 else 2
+                  )
 
-              if (
-                  ma20 is not None
-                  and ma50 is not None
-              ):
-                  if ma20 > ma50:
-                      components["trend"] += 8
-                  else:
-                      components["trend"] += 3
+              if ma20 is not None and ma50 is not None:
+                  components["trend"] += (
+                      6 if ma20 > ma50 else 2
+                  )
 
               if (
                   price is not None
-                  and high6m not in (None, 0)
+                  and ma200 is not None
               ):
-                  distance = price / high6m
+                  components["trend"] += (
+                      6 if price > ma200 else 1
+                  )
 
-                  if distance >= 0.90:
-                      components["trend"] += 9
-                  elif distance >= 0.75:
+              elif ma200 is None:
+                  components["trend"] += 3
+
+              if price is not None and high52 not in (None, 0):
+                  ratio = price / high52
+
+                  if ratio >= 0.95:
                       components["trend"] += 7
-                  elif distance >= 0.60:
+
+                  elif ratio >= 0.85:
+                      components["trend"] += 6
+
+                  elif ratio >= 0.70:
                       components["trend"] += 4
-                  else:
+
+                  elif ratio >= 0.50:
                       components["trend"] += 2
 
-              # ---------------------------------------------
-              # HACİM: 20 PUAN
-              # ---------------------------------------------
+              # =========================
+              # HACİM — 20
+              # =========================
 
               vr = data.get("volumeRatio")
 
-              if vr is not None:
-                  if vr >= 2.0:
-                      components["volume"] = 20
-                  elif vr >= 1.5:
-                      components["volume"] = 17
-                  elif vr >= 1.1:
-                      components["volume"] = 14
-                  elif vr >= 0.8:
-                      components["volume"] = 10
-                  elif vr >= 0.5:
-                      components["volume"] = 6
-                  else:
-                      components["volume"] = 3
-              else:
+              if vr is None:
                   components["volume"] = 5
 
-              # ---------------------------------------------
-              # RİSK / VOLATİLİTE: 15 PUAN
-              # ---------------------------------------------
+              elif vr >= 2.5:
+                  components["volume"] = 20
+
+              elif vr >= 2:
+                  components["volume"] = 19
+
+              elif vr >= 1.5:
+                  components["volume"] = 17
+
+              elif vr >= 1.2:
+                  components["volume"] = 15
+
+              elif vr >= 1:
+                  components["volume"] = 13
+
+              elif vr >= 0.8:
+                  components["volume"] = 10
+
+              elif vr >= 0.5:
+                  components["volume"] = 6
+
+              else:
+                  components["volume"] = 3
+
+              # =========================
+              # RİSK / VOLATİLİTE — 15
+              # =========================
 
               vol = data.get("volatility20")
+              drawdown = data.get("drawdown52")
+
+              risk_points = 0
 
               if vol is None:
-                  components["risk"] = 5
+                  risk_points += 4
+
               elif vol <= 2:
-                  components["risk"] = 15
+                  risk_points += 10
+
               elif vol <= 4:
-                  components["risk"] = 12
+                  risk_points += 8
+
               elif vol <= 6:
-                  components["risk"] = 9
+                  risk_points += 6
+
               elif vol <= 9:
-                  components["risk"] = 6
+                  risk_points += 4
+
               else:
-                  components["risk"] = 3
+                  risk_points += 2
 
-              # ---------------------------------------------
-              # NİŞ TEMA: 10 PUAN
-              # ---------------------------------------------
+              if drawdown is None:
+                  risk_points += 2
 
-              theme = candidate.get("theme", "").lower()
+              elif drawdown >= -10:
+                  risk_points += 5
 
-              hot_terms = [
+              elif drawdown >= -20:
+                  risk_points += 4
+
+              elif drawdown >= -35:
+                  risk_points += 3
+
+              elif drawdown >= -50:
+                  risk_points += 2
+
+              else:
+                  risk_points += 1
+
+              components["risk"] = min(
+                  15,
+                  risk_points
+              )
+
+              # =========================
+              # NİŞ TEMA — 10
+              # =========================
+
+              theme = candidate.get(
+                  "theme",
+                  ""
+              ).lower()
+
+              premium_terms = [
                   "quantum",
                   "ai",
                   "space",
@@ -414,14 +502,32 @@ jobs:
                   "technology"
               ]
 
-              if any(term in theme for term in hot_terms):
+              secondary_terms = [
+                  "lithium",
+                  "helium"
+              ]
+
+              if any(
+                  term in theme
+                  for term in premium_terms
+              ):
                   components["theme"] = 10
+
+              elif any(
+                  term in theme
+                  for term in secondary_terms
+              ):
+                  components["theme"] = 8
+
               else:
-                  components["theme"] = 7
+                  components["theme"] = 6
 
               total = sum(components.values())
 
-              total = max(0, min(100, round(total)))
+              total = max(
+                  0,
+                  min(100, round(total))
+              )
 
               return total, components
 
@@ -432,33 +538,85 @@ jobs:
           unavailable_count = 0
 
           for candidate in CANDIDATES:
+
               symbol = candidate["symbol"]
 
               print("Processing:", symbol)
 
-              previous = previous_map.get(symbol, {})
+              previous = previous_map.get(
+                  symbol,
+                  {}
+              )
+
               data = yahoo_history(symbol)
 
               fresh = bool(
-                  data and data.get("price") is not None
+                  data
+                  and data.get("price") is not None
               )
 
               if fresh:
+
                   fresh_count += 1
 
-                  score, components = calculate_score(
-                      data,
-                      candidate
+                  score, components = (
+                      calculate_score(
+                          data,
+                          candidate
+                      )
                   )
 
-                  price = data.get("price")
-                  previous_close = data.get("previousClose")
-                  change = data.get("change")
-                  change_pct = data.get("changePercentage")
-                  volume = data.get("volume")
-                  day_low = data.get("dayLow")
-                  day_high = data.get("dayHigh")
-                  currency = data.get("currency")
+                  metrics = {
+                      "return5d":
+                          round(data["return5d"], 2)
+                          if data.get("return5d") is not None
+                          else None,
+
+                      "return20d":
+                          round(data["return20d"], 2)
+                          if data.get("return20d") is not None
+                          else None,
+
+                      "return60d":
+                          round(data["return60d"], 2)
+                          if data.get("return60d") is not None
+                          else None,
+
+                      "return120d":
+                          round(data["return120d"], 2)
+                          if data.get("return120d") is not None
+                          else None,
+
+                      "volumeRatio":
+                          round(data["volumeRatio"], 2)
+                          if data.get("volumeRatio") is not None
+                          else None,
+
+                      "volatility20":
+                          round(data["volatility20"], 2)
+                          if data.get("volatility20") is not None
+                          else None,
+
+                      "ma20":
+                          round(data["ma20"], 4)
+                          if data.get("ma20") is not None
+                          else None,
+
+                      "ma50":
+                          round(data["ma50"], 4)
+                          if data.get("ma50") is not None
+                          else None,
+
+                      "ma200":
+                          round(data["ma200"], 4)
+                          if data.get("ma200") is not None
+                          else None,
+
+                      "drawdown52":
+                          round(data["drawdown52"], 2)
+                          if data.get("drawdown52") is not None
+                          else None
+                  }
 
                   name = (
                       data.get("name")
@@ -473,83 +631,80 @@ jobs:
                   status_data = "fresh"
                   quote_source = "Yahoo Finance chart"
 
-                  metrics = {
-                      "return5d":
-                          round(data["return5d"], 2)
-                          if data.get("return5d") is not None
-                          else None,
-                      "return20d":
-                          round(data["return20d"], 2)
-                          if data.get("return20d") is not None
-                          else None,
-                      "return60d":
-                          round(data["return60d"], 2)
-                          if data.get("return60d") is not None
-                          else None,
-                      "volumeRatio":
-                          round(data["volumeRatio"], 2)
-                          if data.get("volumeRatio") is not None
-                          else None,
-                      "volatility20":
-                          round(data["volatility20"], 2)
-                          if data.get("volatility20") is not None
-                          else None,
-                      "ma20":
-                          round(data["ma20"], 4)
-                          if data.get("ma20") is not None
-                          else None,
-                      "ma50":
-                          round(data["ma50"], 4)
-                          if data.get("ma50") is not None
-                          else None
-                  }
-
               elif previous.get("price") is not None:
+
                   cached_count += 1
 
-                  price = previous.get("price")
-                  previous_close = previous.get("previousClose")
-                  change = previous.get("change")
-                  change_pct = (
-                      previous.get("changePct")
-                      if previous.get("changePct") is not None
-                      else previous.get("changePercentage")
+                  score = previous.get(
+                      "score",
+                      0
                   )
-                  volume = previous.get("volume")
-                  day_low = previous.get("dayLow")
-                  day_high = previous.get("dayHigh")
-                  currency = previous.get("currency")
-                  name = previous.get("name") or candidate["name"]
-                  exchange = previous.get("exchange") or candidate["market"]
-                  score = previous.get("score", 50)
-                  components = previous.get("scoreComponents", {})
-                  metrics = previous.get("metrics", {})
+
+                  components = previous.get(
+                      "scoreComponents",
+                      {}
+                  )
+
+                  metrics = previous.get(
+                      "metrics",
+                      {}
+                  )
+
+                  data = {
+                      "price": previous.get("price"),
+                      "previousClose": previous.get("previousClose"),
+                      "change": previous.get("change"),
+                      "changePercentage":
+                          previous.get("changePercentage")
+                          if previous.get("changePercentage") is not None
+                          else previous.get("changePct"),
+                      "volume": previous.get("volume"),
+                      "dayLow": previous.get("dayLow"),
+                      "dayHigh": previous.get("dayHigh"),
+                      "currency": previous.get("currency")
+                  }
+
+                  name = (
+                      previous.get("name")
+                      or candidate["name"]
+                  )
+
+                  exchange = (
+                      previous.get("exchange")
+                      or candidate["market"]
+                  )
+
                   status_data = "cached"
-                  quote_source = previous.get("quoteSource") or "cache"
+
+                  quote_source = (
+                      previous.get("quoteSource")
+                      or "cache"
+                  )
 
               else:
+
                   unavailable_count += 1
 
-                  price = None
-                  previous_close = None
-                  change = None
-                  change_pct = None
-                  volume = None
-                  day_low = None
-                  day_high = None
-                  currency = None
-                  name = candidate["name"]
-                  exchange = candidate["market"]
                   score = 0
                   components = {}
                   metrics = {}
+                  data = {}
+
+                  name = candidate["name"]
+                  exchange = candidate["market"]
+
                   status_data = "unavailable"
                   quote_source = None
 
-              if score >= 75:
+              if score >= 85:
+                  status = "ÇOK GÜÇLÜ İZLEME"
+
+              elif score >= 75:
                   status = "GÜÇLÜ İZLEME"
+
               elif score >= 60:
                   status = "İZLEME"
+
               else:
                   status = "ADAY"
 
@@ -566,23 +721,33 @@ jobs:
                   "metrics": metrics,
                   "status": status,
 
-                  "price": price,
-                  "previousClose": previous_close,
-                  "change": change,
-                  "changePct": change_pct,
-                  "changePercentage": change_pct,
-                  "volume": volume,
+                  "price": data.get("price"),
+                  "previousClose": data.get("previousClose"),
+                  "change": data.get("change"),
 
+                  "changePct":
+                      data.get("changePercentage"),
+
+                  "changePercentage":
+                      data.get("changePercentage"),
+
+                  "volume": data.get("volume"),
                   "marketCap": previous.get("marketCap"),
 
-                  "dayLow": day_low,
-                  "dayHigh": day_high,
-                  "currency": currency,
+                  "dayLow": data.get("dayLow"),
+                  "dayHigh": data.get("dayHigh"),
+
+                  "currency": data.get("currency"),
                   "exchange": exchange,
 
-                  "marketDataAvailable": price is not None,
-                  "marketDataStatus": status_data,
-                  "quoteSource": quote_source,
+                  "marketDataAvailable":
+                      data.get("price") is not None,
+
+                  "marketDataStatus":
+                      status_data,
+
+                  "quoteSource":
+                      quote_source,
 
                   "freshness": {
                       "quote": fresh,
@@ -600,20 +765,31 @@ jobs:
           )
 
           output = {
-              "version": "global-niche-v8-auto-score",
-              "scoreVersion": "1.0",
-              "scoreMax": 100,
+              "version":
+                  "global-niche-v9",
+
+              "scoreVersion":
+                  "2.0",
+
+              "scoreMax":
+                  100,
 
               "generatedAt":
-                  datetime.now(timezone.utc).isoformat(),
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
 
-              "count": len(output_candidates),
-              "marketDataCount": fresh_count,
+              "count":
+                  len(output_candidates),
+
+              "marketDataCount":
+                  fresh_count,
 
               "quoteStatus": {
                   "fresh": fresh_count,
                   "cached": cached_count,
-                  "unavailable": unavailable_count
+                  "unavailable":
+                      unavailable_count
               },
 
               "quoteProvider":
@@ -627,12 +803,20 @@ jobs:
                   "theme": 10
               },
 
-              "candidates": output_candidates
+              "candidates":
+                  output_candidates
           }
 
-          os.makedirs("data", exist_ok=True)
+          os.makedirs(
+              "data",
+              exist_ok=True
+          )
 
-          with open(PATH, "w", encoding="utf-8") as f:
+          with open(
+              PATH,
+              "w",
+              encoding="utf-8"
+          ) as f:
               json.dump(
                   output,
                   f,
@@ -641,7 +825,7 @@ jobs:
               )
 
           print("================================")
-          print("Global Niche Radar V8 AUTO tamamlandı")
+          print("GLOBAL NICHE RADAR V9 TAMAMLANDI")
           print("Aday sayısı:", len(CANDIDATES))
           print("Yeni veri:", fresh_count)
           print("Önbellekten:", cached_count)
@@ -658,6 +842,7 @@ jobs:
                   item["score"],
                   item["status"]
               )
+
           PY
 
       - name: Değişiklikleri kaydet
@@ -670,6 +855,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar V8 auto score"
+            git commit -m "Update Global Niche Radar V9"
             git push
           fi
