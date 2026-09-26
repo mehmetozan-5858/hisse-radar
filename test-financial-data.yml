@@ -1,0 +1,128 @@
+name: Test Financial Data
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Python kurulumu
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Alpha Vantage finansal veri testi
+        env:
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+        run: |
+          python <<'PY'
+          import os
+          import json
+          from urllib.request import Request, urlopen
+          from urllib.parse import urlencode
+
+          API_KEY = os.environ.get("ALPHA_VANTAGE_API_KEY", "")
+          SYMBOL = "RKLB"
+
+          if not API_KEY:
+              raise SystemExit(
+                  "ALPHA_VANTAGE_API_KEY GitHub Secret bulunamadi."
+              )
+
+          BASE_URL = "https://www.alphavantage.co/query"
+
+          def fetch(function):
+              params = urlencode({
+                  "function": function,
+                  "symbol": SYMBOL,
+                  "apikey": API_KEY
+              })
+
+              req = Request(
+                  BASE_URL + "?" + params,
+                  headers={"User-Agent": "HisseRadar/1.0"}
+              )
+
+              with urlopen(req, timeout=30) as response:
+                  return json.loads(response.read().decode("utf-8"))
+
+          print("====================================")
+          print("FINANSAL VERI TESTI")
+          print("Symbol:", SYMBOL)
+          print("====================================")
+
+          tests = [
+              ("INCOME_STATEMENT", "Gelir tablosu"),
+              ("BALANCE_SHEET", "Bilanco"),
+              ("CASH_FLOW", "Nakit akisi"),
+          ]
+
+          success = 0
+
+          for function, label in tests:
+              try:
+                  data = fetch(function)
+
+                  if "annualReports" in data and data["annualReports"]:
+                      latest = data["annualReports"][0]
+
+                      print()
+                      print(label + ": BASARILI")
+                      print("Fiscal date:", latest.get("fiscalDateEnding"))
+
+                      if function == "INCOME_STATEMENT":
+                          print("Revenue:", latest.get("totalRevenue"))
+                          print("Net income:", latest.get("netIncome"))
+
+                      elif function == "BALANCE_SHEET":
+                          print(
+                              "Cash:",
+                              latest.get("cashAndCashEquivalentsAtCarryingValue")
+                          )
+                          print("Assets:", latest.get("totalAssets"))
+                          print("Liabilities:", latest.get("totalLiabilities"))
+                          print(
+                              "Long term debt:",
+                              latest.get("longTermDebt")
+                          )
+
+                      elif function == "CASH_FLOW":
+                          print(
+                              "Operating cash flow:",
+                              latest.get("operatingCashflow")
+                          )
+                          print(
+                              "Capital expenditures:",
+                              latest.get("capitalExpenditures")
+                          )
+
+                      success += 1
+
+                  else:
+                      print()
+                      print(label + ": VERI YOK")
+                      print(
+                          "API mesaji:",
+                          data.get("Information")
+                          or data.get("Note")
+                          or data.get("Error Message")
+                          or "Bilinmeyen cevap"
+                      )
+
+              except Exception as e:
+                  print()
+                  print(label + ": HATA")
+                  print(type(e).__name__, str(e))
+
+          print()
+          print("====================================")
+          print("Basarili finansal bolum:", success, "/ 3")
+          print("====================================")
+
+          if success == 0:
+              raise SystemExit(
+                  "Alpha Vantage finansal veri testi basarisiz."
+              )
+          PY
