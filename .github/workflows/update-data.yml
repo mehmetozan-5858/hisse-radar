@@ -13,24 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Repository'yi al
+      - name: Repository checkout
         uses: actions/checkout@v4
 
-      - name: Python kur
+      - name: Python kurulumu
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Radar verisini guncelle
+      - name: Radar verilerini güncelle
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
-          python - <<'PY'
+          python <<'PY'
           import os
           import json
-          import urllib.request
-          import urllib.parse
-          from datetime import datetime, timezone
+          import time
+          import re
+          from datetime import datetime, timezone, timedelta
+          from urllib.request import Request, urlopen
+          from urllib.parse import urlencode
+          import xml.etree.ElementTree as ET
 
           API_KEY = os.environ["FMP_API_KEY"]
 
@@ -44,287 +47,508 @@ jobs:
               "TSLA"
           ]
 
-          BASE = "https://financialmodelingprep.com/stable"
+          FMP_BASE = "https://financialmodelingprep.com/stable"
 
-          def fetch(endpoint, symbol):
-              params = urllib.parse.urlencode({
-                  "symbol": symbol,
-                  "apikey": API_KEY
-              })
-              url = f"{BASE}/{endpoint}?{params}"
+          SEC_HEADERS = {
+              "User-Agent": "HisseRadar research app contact: hisseradar@example.com",
+              "Accept-Encoding": "gzip, deflate"
+          }
+
+          def get_json(url, headers=None):
+              req = Request(url, headers=headers or {})
+              with urlopen(req, timeout=30) as r:
+                  return json.loads(r.read().decode("utf-8"))
+
+          def get_text(url, headers=None):
+              req = Request(url, headers=headers or {})
+              with urlopen(req, timeout=30) as r:
+                  return r.read().decode("utf-8", errors="ignore")
+
+          def fmp(endpoint, params=None):
+              p = dict(params or {})
+              p["apikey"] = API_KEY
+              url = FMP_BASE + "/" + endpoint + "?" + urlencode(p)
+              try:
+                  return get_json(url)
+              except Exception as e:
+                  print("FMP error:", endpoint, e)
+                  return []
+
+          # --------------------------------------------------
+          # SEC ticker -> CIK eşleştirmesi
+          # --------------------------------------------------
+
+          try:
+              ticker_data = get_json(
+                  "https://www.sec.gov/files/company_tickers.json",
+                  SEC_HEADERS
+              )
+
+              CIK_MAP = {}
+
+              for item in ticker_data.values():
+                  ticker = str(item.get("ticker", "")).upper()
+                  cik = str(item.get("cik_str", "")).zfill(10)
+
+                  if ticker:
+                      CIK_MAP[ticker] = cik
+
+          except Exception as e:
+              print("SEC ticker map error:", e)
+              CIK_MAP = {}
+
+          # --------------------------------------------------
+          # SEC Form 4 içeriden işlemler
+          # --------------------------------------------------
+
+          def sec_insider(symbol):
+
+              cik = CIK_MAP.get(symbol)
+
+              result = {
+                  "score": None,
+                  "max": 20,
+                  "buys": 0,
+                  "sells": 0,
+                  "buyValue": 0,
+                  "sellValue": 0,
+                  "transactions": [],
+                  "source": "SEC EDGAR",
+                  "lookbackDays": 90
+              }
+
+              if not cik:
+                  return result
 
               try:
-                  req = urllib.request.Request(
-                      url,
-                      headers={"User-Agent": "HisseRadar/1.0"}
+                  submissions = get_json(
+                      f"https://data.sec.gov/submissions/CIK{cik}.json",
+                      SEC_HEADERS
                   )
 
-                  with urllib.request.urlopen(req, timeout=25) as response:
-                      data = json.load(response)
+                  recent = submissions.get("filings", {}).get("recent", {})
 
-                  if isinstance(data, list):
-                      return data[0] if data else {}
+                  forms = recent.get("form", [])
+                  accessions = recent.get("accessionNumber", [])
+                  filing_dates = recent.get("filingDate", [])
 
-                  if isinstance(data, dict):
-                      return data
+                  cutoff = datetime.now(timezone.utc) - timedelta(days=90)
 
-                  return {}
+                  form4s = []
+
+                  for i, form in enumerate(forms):
+
+                      if form != "4":
+                          continue
+
+                      if i >= len(accessions):
+                          continue
+
+                      filing_date = filing_dates[i] if i < len(filing_dates) else None
+
+                      if filing_date:
+                          try:
+                              dt = datetime.strptime(
+                                  filing_date,
+                                  "%Y-%m-%d"
+                              ).replace(tzinfo=timezone.utc)
+
+                              if dt < cutoff:
+                                  continue
+
+                          except Exception:
+                              pass
+
+                      form4s.append({
+                          "accession": accessions[i],
+                          "filingDate": filing_date
+                      })
+
+                      if len(form4s) >= 12:
+                          break
+
+                  for filing in form4s:
+
+                      accession = filing["accession"]
+                      accession_clean = accession.replace("-", "")
+                      cik_nozero = str(int(cik))
+
+                      txt_url = (
+                          "https://www.sec.gov/Archives/edgar/data/"
+                          + cik_nozero
+                          + "/"
+                          + accession_clean
+                          + "/"
+                          + accession
+                          + ".txt"
+                      )
+
+                      try:
+                          text = get_text(txt_url, SEC_HEADERS)
+
+                          match = re.search(
+                              r"<ownershipDocument.*?</ownershipDocument>",
+                              text,
+                              re.S | re.I
+                          )
+
+                          if not match:
+                              time.sleep(0.12)
+                              continue
+
+                          root = ET.fromstring(match.group(0))
+
+                          owner_name = ""
+
+                          owner_node = root.find(".//reportingOwner/reportingOwnerId/rptOwnerName")
+
+                          if owner_node is not None and owner_node.text:
+                              owner_name = owner_node.text.strip()
+
+                          for tx in root.findall(".//nonDerivativeTransaction"):
+
+                              code_node = tx.find(
+                                  ".//transactionCoding/transactionCode"
+                              )
+
+                              shares_node = tx.find(
+                                  ".//transactionAmounts/transactionShares/value"
+                              )
+
+                              price_node = tx.find(
+                                  ".//transactionAmounts/transactionPricePerShare/value"
+                              )
+
+                              date_node = tx.find(
+                                  ".//transactionDate/value"
+                              )
+
+                              if code_node is None:
+                                  continue
+
+                              code = (code_node.text or "").strip().upper()
+
+                              # P = açık piyasa alış
+                              # S = açık piyasa satış
+                              if code not in ("P", "S"):
+                                  continue
+
+                              try:
+                                  shares = float(shares_node.text) if shares_node is not None else 0
+                              except Exception:
+                                  shares = 0
+
+                              try:
+                                  price = float(price_node.text) if price_node is not None else 0
+                              except Exception:
+                                  price = 0
+
+                              value = shares * price
+
+                              transaction = {
+                                  "owner": owner_name,
+                                  "code": code,
+                                  "type": "BUY" if code == "P" else "SELL",
+                                  "shares": shares,
+                                  "price": price,
+                                  "value": value,
+                                  "transactionDate":
+                                      date_node.text if date_node is not None else None,
+                                  "filingDate": filing["filingDate"],
+                                  "accession": accession
+                              }
+
+                              result["transactions"].append(transaction)
+
+                              if code == "P":
+                                  result["buys"] += 1
+                                  result["buyValue"] += value
+
+                              elif code == "S":
+                                  result["sells"] += 1
+                                  result["sellValue"] += value
+
+                          time.sleep(0.12)
+
+                      except Exception as e:
+                          print(symbol, "Form 4 error:", e)
+
+                  buy_value = result["buyValue"]
+                  sell_value = result["sellValue"]
+
+                  # Araştırma sinyali:
+                  # 10 = nötr
+                  # net açık piyasa alımları puanı yükseltir
+                  # net açık piyasa satışları puanı düşürür
+
+                  if buy_value == 0 and sell_value == 0:
+                      score = 10
+
+                  else:
+                      total = buy_value + sell_value
+
+                      if total <= 0:
+                          score = 10
+                      else:
+                          balance = (buy_value - sell_value) / total
+                          score = round(10 + balance * 10)
+
+                  score = max(0, min(20, score))
+
+                  result["score"] = score
+
+                  result["transactions"] = sorted(
+                      result["transactions"],
+                      key=lambda x: (
+                          x.get("transactionDate") or "",
+                          x.get("filingDate") or ""
+                      ),
+                      reverse=True
+                  )[:20]
+
+                  result["buyValue"] = round(result["buyValue"], 2)
+                  result["sellValue"] = round(result["sellValue"], 2)
+
+                  return result
 
               except Exception as e:
-                  print(symbol, endpoint, "ERROR:", e)
-                  return {}
+                  print(symbol, "SEC submissions error:", e)
+                  return result
 
-          def num(value):
-              try:
-                  if value is None:
-                      return None
-                  return float(value)
-              except:
-                  return None
-
-          def clamp(value, low, high):
-              return max(low, min(high, value))
-
-          def growth_score(g):
-              revenue = num(
-                  g.get("revenueGrowth",
-                  g.get("growthRevenue"))
-              )
-
-              income = num(
-                  g.get("netIncomeGrowth",
-                  g.get("growthNetIncome"))
-              )
-
-              eps = num(
-                  g.get("epsgrowth",
-                  g.get("growthEPS"))
-              )
-
-              values = [x for x in [revenue, income, eps] if x is not None]
-
-              if not values:
-                  return None
-
-              avg = sum(values) / len(values)
-
-              if avg >= 0.25:
-                  return 15
-              if avg >= 0.15:
-                  return 13
-              if avg >= 0.08:
-                  return 11
-              if avg >= 0.03:
-                  return 8
-              if avg >= 0:
-                  return 5
-              if avg >= -0.10:
-                  return 2
-              return 0
-
-          def valuation_score(r):
-              pe = num(
-                  r.get("priceToEarningsRatioTTM",
-                  r.get("priceEarningsRatioTTM"))
-              )
-
-              peg = num(
-                  r.get("priceToEarningsGrowthRatioTTM",
-                  r.get("priceEarningsToGrowthRatioTTM"))
-              )
-
-              score = 0
-              used = 0
-
-              if pe is not None and pe > 0:
-                  used += 1
-                  if pe <= 15:
-                      score += 5
-                  elif pe <= 25:
-                      score += 4
-                  elif pe <= 35:
-                      score += 3
-                  elif pe <= 50:
-                      score += 2
-                  else:
-                      score += 1
-
-              if peg is not None and peg > 0:
-                  used += 1
-                  if peg <= 1:
-                      score += 5
-                  elif peg <= 1.5:
-                      score += 4
-                  elif peg <= 2:
-                      score += 3
-                  elif peg <= 3:
-                      score += 2
-                  else:
-                      score += 1
-
-              if used == 0:
-                  return None
-
-              if used == 1:
-                  score *= 2
-
-              return int(clamp(score, 0, 10))
-
-          def analyst_score(target, price):
-              if not target or not price:
-                  return None
-
-              consensus = num(
-                  target.get("targetConsensus",
-                  target.get("targetMedian",
-                  target.get("targetHigh")))
-              )
-
-              if consensus is None or price <= 0:
-                  return None
-
-              upside = (consensus - price) / price
-
-              if upside >= 0.30:
-                  return 15
-              if upside >= 0.20:
-                  return 13
-              if upside >= 0.10:
-                  return 10
-              if upside >= 0.03:
-                  return 7
-              if upside >= -0.05:
-                  return 4
-              return 1
-
-          def momentum_score(q):
-              change = num(q.get("changePercentage"))
-              volume = num(q.get("volume"))
-
-              if change is None:
-                  return None
-
-              score = 5
-
-              if change >= 3:
-                  score = 10
-              elif change >= 2:
-                  score = 9
-              elif change >= 1:
-                  score = 8
-              elif change >= 0:
-                  score = 6
-              elif change >= -1:
-                  score = 4
-              elif change >= -2:
-                  score = 2
-              else:
-                  score = 1
-
-              if volume is not None and volume <= 0:
-                  score = max(0, score - 1)
-
-              return int(clamp(score, 0, 10))
+          # --------------------------------------------------
+          # Radar
+          # --------------------------------------------------
 
           stocks = []
 
           for symbol in SYMBOLS:
-              print("Processing:", symbol)
 
-              quote = fetch("quote", symbol)
+              print("Processing", symbol)
 
-              if not quote:
-                  print(symbol, "quote bulunamadi")
-                  continue
+              quote = fmp("quote", {"symbol": symbol})
+              growth = fmp("financial-growth", {"symbol": symbol})
+              ratios = fmp("ratios-ttm", {"symbol": symbol})
+              targets = fmp("price-target-consensus", {"symbol": symbol})
 
-              growth = fetch("financial-growth", symbol)
-              ratios = fetch("ratios-ttm", symbol)
-              targets = fetch("price-target-consensus", symbol)
+              q = quote[0] if isinstance(quote, list) and quote else {}
+              g = growth[0] if isinstance(growth, list) and growth else {}
+              r = ratios[0] if isinstance(ratios, list) and ratios else {}
+              t = targets[0] if isinstance(targets, list) and targets else {}
 
-              price = num(quote.get("price"))
+              price = q.get("price")
+              change_pct = q.get("changePercentage")
 
-              scores = {
-                  "analyst": analyst_score(targets, price),
-                  "growth": growth_score(growth),
-                  "valuation": valuation_score(ratios),
-                  "momentum": momentum_score(quote)
-              }
+              # -------------------------
+              # Analist puanı /15
+              # -------------------------
 
-              available_score = sum(
-                  x for x in scores.values()
-                  if x is not None
+              analyst_score = 0
+
+              target = (
+                  t.get("targetConsensus")
+                  or t.get("targetMedian")
               )
 
-              available_max = (
-                  (15 if scores["analyst"] is not None else 0) +
-                  (15 if scores["growth"] is not None else 0) +
-                  (10 if scores["valuation"] is not None else 0) +
-                  (10 if scores["momentum"] is not None else 0)
+              try:
+                  if price and target:
+                      upside = (float(target) / float(price) - 1) * 100
+
+                      if upside >= 30:
+                          analyst_score = 15
+                      elif upside >= 20:
+                          analyst_score = 13
+                      elif upside >= 10:
+                          analyst_score = 10
+                      elif upside >= 5:
+                          analyst_score = 7
+                      elif upside >= 0:
+                          analyst_score = 4
+                      else:
+                          analyst_score = 1
+              except Exception:
+                  pass
+
+              # -------------------------
+              # Büyüme puanı /15
+              # -------------------------
+
+              growth_score = 0
+
+              growth_values = []
+
+              for key in [
+                  "revenueGrowth",
+                  "netIncomeGrowth",
+                  "epsgrowth"
+              ]:
+                  v = g.get(key)
+
+                  if v is not None:
+                      try:
+                          growth_values.append(float(v))
+                      except Exception:
+                          pass
+
+              avg_growth = None
+
+              if growth_values:
+
+                  avg_growth = sum(growth_values) / len(growth_values)
+
+                  if avg_growth >= 0.25:
+                      growth_score = 15
+                  elif avg_growth >= 0.15:
+                      growth_score = 13
+                  elif avg_growth >= 0.08:
+                      growth_score = 10
+                  elif avg_growth >= 0.03:
+                      growth_score = 7
+                  elif avg_growth >= 0:
+                      growth_score = 4
+
+              # -------------------------
+              # Değerleme /10
+              # -------------------------
+
+              valuation_score = 5
+
+              pe = r.get("priceToEarningsRatioTTM")
+              peg = r.get("priceToEarningsGrowthRatioTTM")
+
+              try:
+                  if peg is not None and float(peg) > 0:
+
+                      p = float(peg)
+
+                      if p <= 1:
+                          valuation_score = 10
+                      elif p <= 1.5:
+                          valuation_score = 8
+                      elif p <= 2:
+                          valuation_score = 6
+                      elif p <= 3:
+                          valuation_score = 4
+                      else:
+                          valuation_score = 2
+
+                  elif pe is not None:
+
+                      p = float(pe)
+
+                      if 0 < p <= 20:
+                          valuation_score = 9
+                      elif p <= 30:
+                          valuation_score = 7
+                      elif p <= 40:
+                          valuation_score = 5
+                      elif p > 40:
+                          valuation_score = 2
+
+              except Exception:
+                  valuation_score = 5
+
+              # -------------------------
+              # Momentum /10
+              # -------------------------
+
+              momentum_score = 5
+
+              try:
+                  cp = float(change_pct)
+
+                  if cp >= 4:
+                      momentum_score = 10
+                  elif cp >= 2:
+                      momentum_score = 9
+                  elif cp >= 1:
+                      momentum_score = 8
+                  elif cp >= 0:
+                      momentum_score = 6
+                  elif cp >= -1:
+                      momentum_score = 4
+                  elif cp >= -2:
+                      momentum_score = 2
+                  else:
+                      momentum_score = 1
+
+              except Exception:
+                  pass
+
+              # -------------------------
+              # SEC insider /20
+              # -------------------------
+
+              insider = sec_insider(symbol)
+
+              insider_score = insider.get("score")
+
+              base_score = (
+                  analyst_score
+                  + growth_score
+                  + valuation_score
+                  + momentum_score
               )
 
-              target_consensus = num(
-                  targets.get("targetConsensus",
-                  targets.get("targetMedian"))
-              )
+              if insider_score is None:
+                  radar_score = base_score
+                  radar_max = 50
+              else:
+                  radar_score = base_score + insider_score
+                  radar_max = 70
 
               stocks.append({
                   "symbol": symbol,
-                  "name": quote.get("name"),
+                  "name": q.get("name"),
                   "price": price,
-                  "change": num(quote.get("change")),
-                  "changePercentage": num(quote.get("changePercentage")),
-                  "volume": quote.get("volume"),
-                  "marketCap": quote.get("marketCap"),
-
-                  "radar": {
-                      "score": available_score,
-                      "max": available_max,
-                      "components": scores
-                  },
+                  "change": q.get("change"),
+                  "changePercentage": change_pct,
+                  "volume": q.get("volume"),
+                  "marketCap": q.get("marketCap"),
 
                   "fundamentals": {
-                      "revenueGrowth": num(
-                          growth.get("revenueGrowth",
-                          growth.get("growthRevenue"))
-                      ),
-                      "netIncomeGrowth": num(
-                          growth.get("netIncomeGrowth",
-                          growth.get("growthNetIncome"))
-                      ),
-                      "epsGrowth": num(
-                          growth.get("epsgrowth",
-                          growth.get("growthEPS"))
-                      ),
-                      "pe": num(
-                          ratios.get("priceToEarningsRatioTTM",
-                          ratios.get("priceEarningsRatioTTM"))
-                      ),
-                      "peg": num(
-                          ratios.get("priceToEarningsGrowthRatioTTM",
-                          ratios.get("priceEarningsToGrowthRatioTTM"))
-                      )
+                      "revenueGrowth": g.get("revenueGrowth"),
+                      "netIncomeGrowth": g.get("netIncomeGrowth"),
+                      "epsGrowth": g.get("epsgrowth"),
+                      "pe": pe,
+                      "peg": peg
                   },
 
                   "analyst": {
-                      "targetConsensus": target_consensus,
-                      "targetHigh": num(targets.get("targetHigh")),
-                      "targetLow": num(targets.get("targetLow")),
-                      "targetMedian": num(targets.get("targetMedian"))
+                      "targetConsensus": t.get("targetConsensus"),
+                      "targetHigh": t.get("targetHigh"),
+                      "targetLow": t.get("targetLow"),
+                      "targetMedian": t.get("targetMedian")
+                  },
+
+                  "insider": insider,
+
+                  "radar": {
+                      "score": radar_score,
+                      "max": radar_max,
+                      "components": {
+                          "analyst": analyst_score,
+                          "growth": growth_score,
+                          "valuation": valuation_score,
+                          "momentum": momentum_score,
+                          "insider": insider_score
+                      }
                   }
               })
 
           output = {
               "updated_at": datetime.now(timezone.utc).isoformat(),
-              "status": "ok",
-              "source": "FMP",
-              "score_version": "0.2",
-              "current_score_max": 50,
+              "score_version": "0.3",
+              "current_score_max": 70,
               "stocks": stocks
           }
 
           os.makedirs("data", exist_ok=True)
 
-          with open("data/radar.json", "w", encoding="utf-8") as f:
+          with open(
+              "data/radar.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
               json.dump(
                   output,
                   f,
@@ -332,14 +556,14 @@ jobs:
                   indent=2
               )
 
-          print("Stocks fetched:", len(stocks))
+          print("Radar update complete")
           PY
 
-      - name: Degisiklikleri kaydet
+      - name: Değişiklikleri kaydet
         run: |
           git config user.name "hisse-radar-bot"
           git config user.email "actions@github.com"
           git add data/radar.json
           git diff --cached --quiet && exit 0
-          git commit -m "Radar temel sinyallerini guncelle"
+          git commit -m "SEC insider sinyalini guncelle"
           git push
