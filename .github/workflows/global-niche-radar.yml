@@ -33,14 +33,6 @@ jobs:
 
           PATH = "data/global-niche.json"
 
-          # =========================================================
-          # GLOBAL NICHE RADAR V6
-          #
-          # Fiyat motoru:
-          # Ana Hisse Radar'da çalışan Yahoo Finance
-          # v8/finance/chart yöntemi.
-          # =========================================================
-
           CANDIDATES = [
               {
                   "symbol": "RKLB",
@@ -97,9 +89,9 @@ jobs:
                   "score": 73
               },
               {
-                  "symbol": "FLT.V",
+                  "symbol": "FLT.TO",
                   "name": "Volatus Aerospace Inc.",
-                  "market": "TSXV",
+                  "market": "TSX",
                   "country": "Canada",
                   "theme": "Drones",
                   "size": "micro",
@@ -113,15 +105,6 @@ jobs:
                   "theme": "Helium",
                   "size": "micro",
                   "score": 70
-              },
-              {
-                  "symbol": "BMN.L",
-                  "name": "Bushveld Minerals Limited",
-                  "market": "LSE-AIM",
-                  "country": "UK",
-                  "theme": "Critical Minerals",
-                  "size": "micro",
-                  "score": 71
               },
               {
                   "symbol": "DRO.AX",
@@ -171,8 +154,7 @@ jobs:
           ]
 
           YAHOO_HEADERS = {
-              "User-Agent":
-                  "Mozilla/5.0 (compatible; HisseRadar/2.0)",
+              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/2.0)",
               "Accept": "application/json"
           }
 
@@ -180,275 +162,145 @@ jobs:
           # ÖNCEKİ VERİ
           # =========================================================
 
-          previous_file = {}
           previous_map = {}
 
           try:
-              with open(
-                  PATH,
-                  "r",
-                  encoding="utf-8"
-              ) as f:
+              with open(PATH, "r", encoding="utf-8") as f:
                   previous_file = json.load(f)
 
               previous_map = {
                   item.get("symbol"): item
-                  for item in previous_file.get(
-                      "candidates",
-                      []
-                  )
+                  for item in previous_file.get("candidates", [])
                   if item.get("symbol")
               }
 
-              print(
-                  "Previous Global Niche loaded:",
-                  len(previous_map)
-              )
+              print("Previous Global Niche loaded:", len(previous_map))
 
           except Exception as e:
-              print(
-                  "Previous Global Niche unavailable:",
-                  repr(e)
-              )
+              print("Previous Global Niche unavailable:", repr(e))
 
           # =========================================================
           # HTTP
-          # Ana radardaki get_json ile aynı mantık.
           # =========================================================
 
           def get_json(url, headers=None):
-              req = Request(
-                  url,
-                  headers=headers or {}
-              )
+              req = Request(url, headers=headers or {})
 
-              with urlopen(
-                  req,
-                  timeout=30
-              ) as response:
+              with urlopen(req, timeout=30) as response:
                   raw = response.read()
 
-              return json.loads(
-                  raw.decode("utf-8")
-              )
+              return json.loads(raw.decode("utf-8"))
 
           # =========================================================
-          # YAHOO FİYAT MOTORU
-          #
-          # ANA RADARDA ÇALIŞAN FONKSİYONLA AYNI MANTIK.
+          # YAHOO - ANA RADARDA ÇALIŞAN FİYAT MOTORU
           # =========================================================
 
           def yahoo_quote(symbol):
               url = (
-                  "https://query1.finance.yahoo.com/"
-                  "v8/finance/chart/"
+                  "https://query1.finance.yahoo.com/v8/finance/chart/"
                   + quote(symbol)
                   + "?interval=1d&range=5d"
               )
 
               try:
-                  data = get_json(
-                      url,
-                      YAHOO_HEADERS
-                  )
+                  data = get_json(url, YAHOO_HEADERS)
 
-                  result = (
-                      data.get("chart", {})
-                          .get("result", [])
-                  )
+                  result = data.get("chart", {}).get("result", [])
 
                   if not result:
-                      print(
-                          "Yahoo empty result:",
-                          symbol
-                      )
+                      print("Yahoo empty result:", symbol)
                       return None
 
                   item = result[0]
                   meta = item.get("meta", {})
 
                   quote_data = (
-                      item.get(
-                          "indicators",
-                          {}
-                      )
-                      .get(
-                          "quote",
-                          [{}]
-                      )[0]
+                      item.get("indicators", {})
+                          .get("quote", [{}])[0]
                   )
 
-                  closes = quote_data.get(
-                      "close",
-                      []
-                  )
-
-                  volumes = quote_data.get(
-                      "volume",
-                      []
-                  )
-
-                  highs = quote_data.get(
-                      "high",
-                      []
-                  )
-
-                  lows = quote_data.get(
-                      "low",
-                      []
-                  )
+                  closes = quote_data.get("close", [])
+                  volumes = quote_data.get("volume", [])
+                  highs = quote_data.get("high", [])
+                  lows = quote_data.get("low", [])
 
                   valid = []
 
-                  for i, close_value in enumerate(
-                      closes
-                  ):
+                  for i, close_value in enumerate(closes):
                       if close_value is not None:
-                          valid.append(
-                              (
-                                  i,
-                                  float(close_value)
-                              )
-                          )
+                          valid.append((i, float(close_value)))
 
                   if not valid:
-                      print(
-                          "Yahoo no valid close:",
-                          symbol
-                      )
+                      print("Yahoo no valid close:", symbol)
                       return None
 
                   last_i, last_price = valid[-1]
 
-                  previous_close = meta.get(
-                      "chartPreviousClose"
-                  )
+                  previous_close = meta.get("chartPreviousClose")
 
                   if len(valid) >= 2:
-                      previous_close = (
-                          valid[-2][1]
-                      )
+                      previous_close = valid[-2][1]
 
                   change = None
                   change_pct = None
 
-                  if previous_close not in (
-                      None,
-                      0
-                  ):
-                      previous_close = float(
-                          previous_close
-                      )
+                  if previous_close not in (None, 0):
+                      previous_close = float(previous_close)
+                      change = last_price - previous_close
+                      change_pct = (change / previous_close) * 100
 
-                      change = (
-                          last_price
-                          - previous_close
-                      )
+                  volume = (
+                      volumes[last_i]
+                      if last_i < len(volumes)
+                      else None
+                  )
 
-                      change_pct = (
-                          change
-                          / previous_close
-                      ) * 100
+                  day_high = (
+                      highs[last_i]
+                      if last_i < len(highs)
+                      else None
+                  )
 
-                  volume = None
-
-                  if last_i < len(volumes):
-                      volume = volumes[last_i]
-
-                  day_high = None
-
-                  if last_i < len(highs):
-                      day_high = highs[last_i]
-
-                  day_low = None
-
-                  if last_i < len(lows):
-                      day_low = lows[last_i]
+                  day_low = (
+                      lows[last_i]
+                      if last_i < len(lows)
+                      else None
+                  )
 
                   return {
                       "symbol": symbol,
-
                       "name":
                           meta.get("longName")
-                          or meta.get(
-                              "shortName"
-                          ),
-
-                      "price":
-                          round(
-                              last_price,
-                              4
-                          ),
-
+                          or meta.get("shortName"),
+                      "price": round(last_price, 4),
                       "previousClose":
-                          round(
-                              previous_close,
-                              4
-                          )
-                          if previous_close
-                          is not None
+                          round(previous_close, 4)
+                          if previous_close is not None
                           else None,
-
                       "change":
-                          round(
-                              change,
-                              4
-                          )
-                          if change
-                          is not None
+                          round(change, 4)
+                          if change is not None
                           else None,
-
                       "changePercentage":
-                          round(
-                              change_pct,
-                              4
-                          )
-                          if change_pct
-                          is not None
+                          round(change_pct, 4)
+                          if change_pct is not None
                           else None,
-
-                      "volume":
-                          volume,
-
+                      "volume": volume,
                       "dayLow":
-                          round(
-                              float(day_low),
-                              4
-                          )
-                          if day_low
-                          is not None
+                          round(float(day_low), 4)
+                          if day_low is not None
                           else None,
-
                       "dayHigh":
-                          round(
-                              float(day_high),
-                              4
-                          )
-                          if day_high
-                          is not None
+                          round(float(day_high), 4)
+                          if day_high is not None
                           else None,
-
-                      "currency":
-                          meta.get(
-                              "currency"
-                          ),
-
-                      "exchangeName":
-                          meta.get(
-                              "exchangeName"
-                          ),
-
-                      "source":
-                          "Yahoo Finance chart"
+                      "currency": meta.get("currency"),
+                      "exchangeName": meta.get("exchangeName"),
+                      "source": "Yahoo Finance chart"
                   }
 
               except Exception as e:
-                  print(
-                      "Yahoo price error:",
-                      symbol,
-                      repr(e)
-                  )
-
+                  print("Yahoo price error:", symbol, repr(e))
                   return None
 
           # =========================================================
@@ -464,65 +316,30 @@ jobs:
           for candidate in CANDIDATES:
               symbol = candidate["symbol"]
 
-              print(
-                  "Processing:",
-                  symbol
-              )
+              print("Processing:", symbol)
 
-              previous = previous_map.get(
-                  symbol,
-                  {}
-              )
-
-              # ---------------------------------------------
-              # ANA RADARLA AYNI FİYAT ÇAĞRISI
-              # ---------------------------------------------
+              previous = previous_map.get(symbol, {})
 
               q = yahoo_quote(symbol)
 
               quote_fresh = bool(
-                  q
-                  and q.get("price")
-                  is not None
+                  q and q.get("price") is not None
               )
 
               if quote_fresh:
                   fresh_quote_count += 1
 
                   price = q.get("price")
-
-                  previous_close = q.get(
-                      "previousClose"
-                  )
-
-                  change = q.get(
-                      "change"
-                  )
-
-                  change_pct = q.get(
-                      "changePercentage"
-                  )
-
-                  volume = q.get(
-                      "volume"
-                  )
-
-                  day_low = q.get(
-                      "dayLow"
-                  )
-
-                  day_high = q.get(
-                      "dayHigh"
-                  )
-
-                  currency = q.get(
-                      "currency"
-                  )
+                  previous_close = q.get("previousClose")
+                  change = q.get("change")
+                  change_pct = q.get("changePercentage")
+                  volume = q.get("volume")
+                  day_low = q.get("dayLow")
+                  day_high = q.get("dayHigh")
+                  currency = q.get("currency")
 
                   exchange = (
-                      q.get(
-                          "exchangeName"
-                      )
+                      q.get("exchangeName")
                       or candidate["market"]
                   )
 
@@ -532,78 +349,40 @@ jobs:
                   )
 
                   market_status = "fresh"
-                  quote_source = (
-                      "Yahoo Finance chart"
-                  )
+                  quote_source = "Yahoo Finance chart"
 
-              elif previous.get(
-                  "price"
-              ) is not None:
-
+              elif previous.get("price") is not None:
                   cached_quote_count += 1
 
-                  price = previous.get(
-                      "price"
-                  )
-
-                  previous_close = (
-                      previous.get(
-                          "previousClose"
-                      )
-                  )
-
-                  change = previous.get(
-                      "change"
-                  )
+                  price = previous.get("price")
+                  previous_close = previous.get("previousClose")
+                  change = previous.get("change")
 
                   change_pct = (
-                      previous.get(
-                          "changePct"
-                      )
-                      if previous.get(
-                          "changePct"
-                      ) is not None
-                      else previous.get(
-                          "changePercentage"
-                      )
+                      previous.get("changePct")
+                      if previous.get("changePct") is not None
+                      else previous.get("changePercentage")
                   )
 
-                  volume = previous.get(
-                      "volume"
-                  )
-
-                  day_low = previous.get(
-                      "dayLow"
-                  )
-
-                  day_high = previous.get(
-                      "dayHigh"
-                  )
-
-                  currency = previous.get(
-                      "currency"
-                  )
+                  volume = previous.get("volume")
+                  day_low = previous.get("dayLow")
+                  day_high = previous.get("dayHigh")
+                  currency = previous.get("currency")
 
                   exchange = (
-                      previous.get(
-                          "exchange"
-                      )
+                      previous.get("exchange")
                       or candidate["market"]
                   )
 
                   name = (
-                      previous.get(
-                          "name"
-                      )
+                      previous.get("name")
                       or candidate["name"]
                   )
 
                   market_status = "cached"
 
                   quote_source = (
-                      previous.get(
-                          "quoteSource"
-                      )
+                      previous.get("quoteSource")
                       or "cache"
                   )
 
@@ -618,116 +397,54 @@ jobs:
                   day_low = None
                   day_high = None
                   currency = None
-
-                  exchange = candidate[
-                      "market"
-                  ]
-
-                  name = candidate[
-                      "name"
-                  ]
-
-                  market_status = (
-                      "unavailable"
-                  )
-
+                  exchange = candidate["market"]
+                  name = candidate["name"]
+                  market_status = "unavailable"
                   quote_source = None
 
-              # ---------------------------------------------
-              # STATİK RADAR PUANI
-              # ---------------------------------------------
-
-              score = candidate[
-                  "score"
-              ]
+              score = candidate["score"]
 
               if score >= 75:
-                  status = (
-                      "GÜÇLÜ İZLEME"
-                  )
+                  status = "GÜÇLÜ İZLEME"
               else:
                   status = "ADAY"
 
-              item = {
-                  "symbol":
-                      symbol,
+              output_candidates.append({
+                  "symbol": symbol,
+                  "name": name,
+                  "market": candidate["market"],
+                  "country": candidate["country"],
+                  "theme": candidate["theme"],
+                  "size": candidate["size"],
+                  "score": score,
+                  "status": status,
 
-                  "name":
-                      name,
+                  "price": price,
+                  "previousClose": previous_close,
+                  "change": change,
 
-                  "market":
-                      candidate["market"],
+                  "changePct": change_pct,
+                  "changePercentage": change_pct,
 
-                  "country":
-                      candidate["country"],
+                  "volume": volume,
 
-                  "theme":
-                      candidate["theme"],
+                  "marketCap": previous.get("marketCap"),
 
-                  "size":
-                      candidate["size"],
+                  "dayLow": day_low,
+                  "dayHigh": day_high,
 
-                  "score":
-                      score,
+                  "currency": currency,
+                  "exchange": exchange,
 
-                  "status":
-                      status,
-
-                  "price":
-                      price,
-
-                  "previousClose":
-                      previous_close,
-
-                  "change":
-                      change,
-
-                  "changePct":
-                      change_pct,
-
-                  "changePercentage":
-                      change_pct,
-
-                  "volume":
-                      volume,
-
-                  "marketCap":
-                      previous.get(
-                          "marketCap"
-                      ),
-
-                  "dayLow":
-                      day_low,
-
-                  "dayHigh":
-                      day_high,
-
-                  "currency":
-                      currency,
-
-                  "exchange":
-                      exchange,
-
-                  "marketDataAvailable":
-                      price is not None,
-
-                  "marketDataStatus":
-                      market_status,
-
-                  "quoteSource":
-                      quote_source,
+                  "marketDataAvailable": price is not None,
+                  "marketDataStatus": market_status,
+                  "quoteSource": quote_source,
 
                   "freshness": {
-                      "quote":
-                          quote_fresh
+                      "quote": quote_fresh
                   }
-              }
+              })
 
-              output_candidates.append(
-                  item
-              )
-
-              # Ana radar ile aynı bekleme.
               time.sleep(0.25)
 
           # =========================================================
@@ -736,14 +453,8 @@ jobs:
 
           output_candidates.sort(
               key=lambda item: (
-                  -item.get(
-                      "score",
-                      0
-                  ),
-                  item.get(
-                      "symbol",
-                      ""
-                  )
+                  -item.get("score", 0),
+                  item.get("symbol", "")
               )
           )
 
@@ -752,50 +463,30 @@ jobs:
           # =========================================================
 
           output = {
-              "version":
-                  "global-niche-v6",
+              "version": "global-niche-v7",
 
               "generatedAt":
-                  datetime.now(
-                      timezone.utc
-                  ).isoformat(),
+                  datetime.now(timezone.utc).isoformat(),
 
-              "count":
-                  len(
-                      output_candidates
-                  ),
+              "count": len(output_candidates),
 
-              "marketDataCount":
-                  fresh_quote_count,
+              "marketDataCount": fresh_quote_count,
 
               "quoteStatus": {
-                  "fresh":
-                      fresh_quote_count,
-
-                  "cached":
-                      cached_quote_count,
-
-                  "unavailable":
-                      unavailable_count
+                  "fresh": fresh_quote_count,
+                  "cached": cached_quote_count,
+                  "unavailable": unavailable_count
               },
 
               "quoteProvider":
                   "Yahoo Finance chart / cache fallback",
 
-              "candidates":
-                  output_candidates
+              "candidates": output_candidates
           }
 
-          os.makedirs(
-              "data",
-              exist_ok=True
-          )
+          os.makedirs("data", exist_ok=True)
 
-          with open(
-              PATH,
-              "w",
-              encoding="utf-8"
-          ) as f:
+          with open(PATH, "w", encoding="utf-8") as f:
               json.dump(
                   output,
                   f,
@@ -803,52 +494,20 @@ jobs:
                   indent=2
               )
 
-          print(
-              "================================"
-          )
-
-          print(
-              "Global Niche Radar v6 tamamlandı"
-          )
-
-          print(
-              "Aday sayısı:",
-              len(CANDIDATES)
-          )
-
-          print(
-              "Yeni fiyat:",
-              fresh_quote_count
-          )
-
-          print(
-              "Önbellekten:",
-              cached_quote_count
-          )
-
-          print(
-              "Fiyat bulunamayan:",
-              unavailable_count
-          )
-
-          print(
-              "================================"
-          )
+          print("================================")
+          print("Global Niche Radar v7 tamamlandı")
+          print("Aday sayısı:", len(CANDIDATES))
+          print("Yeni fiyat:", fresh_quote_count)
+          print("Önbellekten:", cached_quote_count)
+          print("Fiyat bulunamayan:", unavailable_count)
+          print("================================")
 
           for item in output_candidates:
               print(
-                  item.get(
-                      "symbol"
-                  ),
-                  item.get(
-                      "price"
-                  ),
-                  item.get(
-                      "currency"
-                  ),
-                  item.get(
-                      "marketDataStatus"
-                  )
+                  item.get("symbol"),
+                  item.get("price"),
+                  item.get("currency"),
+                  item.get("marketDataStatus")
               )
           PY
 
@@ -862,6 +521,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar v6"
+            git commit -m "Update Global Niche Radar v7"
             git push
           fi
