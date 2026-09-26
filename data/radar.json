@@ -1,9 +1,7 @@
 {
-  "updated_at": "2026-09-26T11:50:44.104241+00:00",
-  "status": "ok",
-  "source": "FMP",
-  "score_version": "0.2",
-  "current_score_max": 50,
+  "updated_at": "2026-09-26T12:14:37.502044+00:00",
+  "score_version": "0.3",
+  "current_score_max": 70,
   "stocks": [
     {
       "symbol": "AAPL",
@@ -13,16 +11,6 @@
       "changePercentage": 1.5331,
       "volume": 29649787,
       "marketCap": 5009416510920,
-      "radar": {
-        "score": 31,
-        "max": 50,
-        "components": {
-          "analyst": 4,
-          "growth": 13,
-          "valuation": 6,
-          "momentum": 8
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.0642551178283274,
         "netIncomeGrowth": 0.19495177946573355,
@@ -32,9 +20,31 @@
       },
       "analyst": {
         "targetConsensus": 342.13,
-        "targetHigh": 400.0,
-        "targetLow": 245.0,
-        "targetMedian": 362.0
+        "targetHigh": 400,
+        "targetLow": 245,
+        "targetMedian": 362
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 33,
+        "max": 50,
+        "components": {
+          "analyst": 4,
+          "growth": 13,
+          "valuation": 8,
+          "momentum": 8,
+          "insider": null
+        }
       }
     },
     {
@@ -45,16 +55,6 @@
       "changePercentage": 3.66317,
       "volume": 37985485,
       "marketCap": 3832846143500,
-      "radar": {
-        "score": 40,
-        "max": 50,
-        "components": {
-          "analyst": 7,
-          "growth": 15,
-          "valuation": 8,
-          "momentum": 10
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.1778868679984666,
         "netIncomeGrowth": 0.3134279990572708,
@@ -64,9 +64,31 @@
       },
       "analyst": {
         "targetConsensus": 556.42,
-        "targetHigh": 690.0,
-        "targetLow": 440.0,
-        "targetMedian": 550.0
+        "targetHigh": 690,
+        "targetLow": 440,
+        "targetMedian": 550
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 41,
+        "max": 50,
+        "components": {
+          "analyst": 7,
+          "growth": 15,
+          "valuation": 10,
+          "momentum": 9,
+          "insider": null
+        }
       }
     },
     {
@@ -77,16 +99,6 @@
       "changePercentage": 0.21819,
       "volume": 87931936,
       "marketCap": 5451420470000,
-      "radar": {
-        "score": 44,
-        "max": 50,
-        "components": {
-          "analyst": 15,
-          "growth": 15,
-          "valuation": 8,
-          "momentum": 6
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.654735357900948,
         "netIncomeGrowth": 0.6474615806805708,
@@ -96,9 +108,31 @@
       },
       "analyst": {
         "targetConsensus": 345.21,
-        "targetHigh": 515.0,
-        "targetLow": 270.0,
+        "targetHigh": 515,
+        "targetLow": 270,
         "targetMedian": 322.5
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 46,
+        "max": 50,
+        "components": {
+          "analyst": 15,
+          "growth": 15,
+          "valuation": 10,
+          "momentum": 6,
+          "insider": null
+        }
       }
     },
     {
@@ -109,16 +143,6 @@
       "changePercentage": 0.11629,
       "volume": 32976800,
       "marketCap": 2685725157000,
-      "radar": {
-        "score": 43,
-        "max": 50,
-        "components": {
-          "analyst": 15,
-          "growth": 13,
-          "valuation": 9,
-          "momentum": 6
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.12377754683294695,
         "netIncomeGrowth": 0.3109303267620848,
@@ -128,9 +152,31 @@
       },
       "analyst": {
         "targetConsensus": 326.33,
-        "targetHigh": 390.0,
-        "targetLow": 200.0,
-        "targetMedian": 325.0
+        "targetHigh": 390,
+        "targetLow": 200,
+        "targetMedian": 325
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 44,
+        "max": 50,
+        "components": {
+          "analyst": 15,
+          "growth": 13,
+          "valuation": 10,
+          "momentum": 6,
+          "insider": null
+        }
       }
     },
     {
@@ -141,16 +187,6 @@
       "changePercentage": 0.45566,
       "volume": 21265244,
       "marketCap": 4162158113480.9995,
-      "radar": {
-        "score": 43,
-        "max": 50,
-        "components": {
-          "analyst": 13,
-          "growth": 15,
-          "valuation": 9,
-          "momentum": 6
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.15090081081544376,
         "netIncomeGrowth": 0.3201422321660441,
@@ -160,9 +196,31 @@
       },
       "analyst": {
         "targetConsensus": 431.57,
-        "targetHigh": 485.0,
-        "targetLow": 350.0,
-        "targetMedian": 425.0
+        "targetHigh": 485,
+        "targetLow": 350,
+        "targetMedian": 425
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 44,
+        "max": 50,
+        "components": {
+          "analyst": 13,
+          "growth": 15,
+          "valuation": 10,
+          "momentum": 6,
+          "insider": null
+        }
       }
     },
     {
@@ -173,16 +231,6 @@
       "changePercentage": -3.33466,
       "volume": 25649562,
       "marketCap": 1914843755206,
-      "radar": {
-        "score": 19,
-        "max": 50,
-        "components": {
-          "analyst": 4,
-          "growth": 8,
-          "valuation": 6,
-          "momentum": 1
-        }
-      },
       "fundamentals": {
         "revenueGrowth": 0.2216703849824621,
         "netIncomeGrowth": -0.030500320718409236,
@@ -192,9 +240,31 @@
       },
       "analyst": {
         "targetConsensus": 766.94,
-        "targetHigh": 950.0,
-        "targetLow": 595.0,
-        "targetMedian": 769.0
+        "targetHigh": 950,
+        "targetLow": 595,
+        "targetMedian": 769
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 19,
+        "max": 50,
+        "components": {
+          "analyst": 4,
+          "growth": 7,
+          "valuation": 7,
+          "momentum": 1,
+          "insider": null
+        }
       }
     },
     {
@@ -205,16 +275,6 @@
       "changePercentage": -1.54257,
       "volume": 44753533,
       "marketCap": 1469666080781,
-      "radar": {
-        "score": 17,
-        "max": 50,
-        "components": {
-          "analyst": 13,
-          "growth": 0,
-          "valuation": 2,
-          "momentum": 2
-        }
-      },
       "fundamentals": {
         "revenueGrowth": -0.029306991503736307,
         "netIncomeGrowth": -0.4678821879382889,
@@ -224,9 +284,31 @@
       },
       "analyst": {
         "targetConsensus": 462.77,
-        "targetHigh": 840.0,
-        "targetLow": 360.0,
-        "targetMedian": 450.0
+        "targetHigh": 840,
+        "targetLow": 360,
+        "targetMedian": 450
+      },
+      "insider": {
+        "score": null,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "radar": {
+        "score": 17,
+        "max": 50,
+        "components": {
+          "analyst": 13,
+          "growth": 0,
+          "valuation": 2,
+          "momentum": 2,
+          "insider": null
+        }
       }
     }
   ]
