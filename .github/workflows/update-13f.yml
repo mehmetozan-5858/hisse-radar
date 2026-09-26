@@ -35,107 +35,285 @@ jobs:
           import xml.etree.ElementTree as ET
           from datetime import datetime, timezone
 
-          CONTACT = os.environ.get("SEC_CONTACT_EMAIL", "").strip()
+          CONTACT = os.environ.get(
+              "SEC_CONTACT_EMAIL",
+              ""
+          ).strip()
 
           HEADERS = {
-              "User-Agent": f"HisseRadar/1.0 {CONTACT}",
-              "Accept": "application/json,text/xml,application/xml,text/html",
-              "Accept-Encoding": "identity",
+              "User-Agent":
+                  f"HisseRadar/1.0 {CONTACT}",
+              "Accept":
+                  "application/json,text/xml,application/xml,text/html",
+              "Accept-Encoding":
+                  "identity",
           }
+
+          # ==============================================
+          # 20 HİSSELİ GENEL RADAR EVRENİ
+          # ==============================================
 
           SYMBOLS = {
               "AAPL": ["037833100"],
               "MSFT": ["594918104"],
               "NVDA": ["67066G104"],
               "AMZN": ["023135106"],
-              "GOOGL": ["02079K107", "02079K305"],
+              "GOOGL": [
+                  "02079K107",
+                  "02079K305"
+              ],
               "META": ["30303M102"],
               "TSLA": ["88160R101"],
+              "AMD": ["007903107"],
+              "AVGO": ["11135F101"],
+              "ORCL": ["68389X105"],
+              "NFLX": ["64110L106"],
+              "JPM": ["46647P104"],
+              "V": ["92826C839"],
+              "MA": ["57636Q104"],
+              "COST": ["22160K105"],
+              "WMT": ["931142103"],
+              "CRM": ["79466L302"],
+              "PLTR": ["69608A108"],
+              "QCOM": ["747525103"],
+              "INTC": ["458140100"],
           }
 
+          # ==============================================
+          # BÜYÜK KURUMSAL YATIRIMCILAR
+          # ==============================================
+
           MANAGERS = [
-              ("Berkshire Hathaway", "0001067983"),
-              ("BlackRock", "0001364742"),
-              ("Vanguard Group", "0000102909"),
-              ("State Street", "0000093751"),
-              ("JPMorgan Chase", "0000019617"),
-              ("Goldman Sachs", "0000886982"),
-              ("Morgan Stanley", "0000895421"),
-              ("Bank of America", "0000070858"),
-              ("Citigroup", "0000831001"),
-              ("Wells Fargo", "0000072971"),
+              (
+                  "Berkshire Hathaway",
+                  "0001067983"
+              ),
+              (
+                  "BlackRock",
+                  "0001364742"
+              ),
+              (
+                  "Vanguard Group",
+                  "0000102909"
+              ),
+              (
+                  "State Street",
+                  "0000093751"
+              ),
+              (
+                  "JPMorgan Chase",
+                  "0000019617"
+              ),
+              (
+                  "Goldman Sachs",
+                  "0000886982"
+              ),
+              (
+                  "Morgan Stanley",
+                  "0000895421"
+              ),
+              (
+                  "Bank of America",
+                  "0000070858"
+              ),
+              (
+                  "Citigroup",
+                  "0000831001"
+              ),
+              (
+                  "Wells Fargo",
+                  "0000072971"
+              ),
           ]
 
           MAX_REPORT_AGE_DAYS = 240
+
           MIN_QUARTER_DAYS = 70
+
           MAX_QUARTER_DAYS = 120
+
           MAX_ABS_CHANGE_PCT = 100.0
 
-          # Yeni güvenlik filtresi:
-          # Önceki çeyrek 0 iken yeni çeyrekte dev pozisyon
-          # görünüyorsa otomatik puan vermiyoruz.
           ZERO_TO_LARGE_SHARES = 10_000_000
 
+          LARGE_POSITION_CHANGE_PCT = 15.0
+
+          # ==============================================
+          # HTTP
+          # ==============================================
+
           def get(url, tries=4):
+
               last = None
+
               for attempt in range(tries):
+
                   try:
-                      req = urllib.request.Request(url, headers=HEADERS)
-                      with urllib.request.urlopen(req, timeout=30) as r:
+
+                      req = urllib.request.Request(
+                          url,
+                          headers=HEADERS
+                      )
+
+                      with urllib.request.urlopen(
+                          req,
+                          timeout=30
+                      ) as r:
+
                           data = r.read()
+
                       time.sleep(0.5)
+
                       return data
+
                   except urllib.error.HTTPError as e:
+
                       last = e
-                      if e.code in (403, 429):
-                          time.sleep(2 * (attempt + 1))
+
+                      if e.code in (
+                          403,
+                          429
+                      ):
+
+                          time.sleep(
+                              2 * (
+                                  attempt + 1
+                              )
+                          )
+
                           continue
+
                       raise
+
                   except Exception as e:
+
                       last = e
-                      time.sleep(2 * (attempt + 1))
+
+                      time.sleep(
+                          2 * (
+                              attempt + 1
+                          )
+                      )
+
               raise last
 
           def get_json(url):
-              return json.loads(get(url).decode("utf-8"))
+
+              return json.loads(
+                  get(url).decode(
+                      "utf-8"
+                  )
+              )
+
+          # ==============================================
+          # XML YARDIMCILARI
+          # ==============================================
 
           def clean_tag(tag):
-              return tag.split("}")[-1]
 
-          def child_text(node, wanted):
+              return tag.split(
+                  "}"
+              )[-1]
+
+          def child_text(
+              node,
+              wanted
+          ):
+
               for item in node.iter():
-                  if clean_tag(item.tag) == wanted:
-                      return (item.text or "").strip()
+
+                  if (
+                      clean_tag(
+                          item.tag
+                      )
+                      == wanted
+                  ):
+
+                      return (
+                          item.text or ""
+                      ).strip()
+
               return ""
 
           def parse_date(value):
+
               return datetime.strptime(
-                  value, "%Y-%m-%d"
-              ).replace(tzinfo=timezone.utc)
+                  value,
+                  "%Y-%m-%d"
+              ).replace(
+                  tzinfo=timezone.utc
+              )
+
+          # ==============================================
+          # SON İKİ 13F
+          # ==============================================
 
           def recent_13f_filings(cik):
-              data = get_json(
-                  f"https://data.sec.gov/submissions/CIK{cik}.json"
-              )
-              recent = data.get("filings", {}).get("recent", {})
 
-              forms = recent.get("form", [])
-              accessions = recent.get("accessionNumber", [])
-              filing_dates = recent.get("filingDate", [])
-              report_dates = recent.get("reportDate", [])
-              primary_docs = recent.get("primaryDocument", [])
+              data = get_json(
+                  "https://data.sec.gov/submissions/CIK"
+                  + cik
+                  + ".json"
+              )
+
+              recent = (
+                  data
+                  .get(
+                      "filings",
+                      {}
+                  )
+                  .get(
+                      "recent",
+                      {}
+                  )
+              )
+
+              forms = recent.get(
+                  "form",
+                  []
+              )
+
+              accessions = recent.get(
+                  "accessionNumber",
+                  []
+              )
+
+              filing_dates = recent.get(
+                  "filingDate",
+                  []
+              )
+
+              report_dates = recent.get(
+                  "reportDate",
+                  []
+              )
+
+              primary_docs = recent.get(
+                  "primaryDocument",
+                  []
+              )
 
               rows = []
 
-              for i, form in enumerate(forms):
+              for i, form in enumerate(
+                  forms
+              ):
+
                   if form != "13F-HR":
                       continue
 
                   rows.append({
-                      "accession": accessions[i],
-                      "filingDate": filing_dates[i],
-                      "reportDate": report_dates[i],
-                      "primaryDocument": primary_docs[i],
+                      "accession":
+                          accessions[i],
+
+                      "filingDate":
+                          filing_dates[i],
+
+                      "reportDate":
+                          report_dates[i],
+
+                      "primaryDocument":
+                          primary_docs[i],
                   })
 
                   if len(rows) >= 2:
@@ -143,31 +321,85 @@ jobs:
 
               return rows
 
-          def filing_base(cik, accession):
-              cik_nozero = str(int(cik))
-              accession_clean = accession.replace("-", "")
-              return (
-                  "https://www.sec.gov/Archives/edgar/data/"
-                  f"{cik_nozero}/{accession_clean}"
+          # ==============================================
+          # SEC DOSYA ADRESİ
+          # ==============================================
+
+          def filing_base(
+              cik,
+              accession
+          ):
+
+              cik_nozero = str(
+                  int(cik)
               )
 
-          def locate_info_table(cik, accession):
-              base = filing_base(cik, accession)
-              index = get_json(f"{base}/index.json")
+              accession_clean = (
+                  accession.replace(
+                      "-",
+                      ""
+                  )
+              )
 
-              items = index.get("directory", {}).get("item", [])
+              return (
+                  "https://www.sec.gov/Archives/edgar/data/"
+                  f"{cik_nozero}/"
+                  f"{accession_clean}"
+              )
+
+          # ==============================================
+          # 13F INFORMATION TABLE
+          # ==============================================
+
+          def locate_info_table(
+              cik,
+              accession
+          ):
+
+              base = filing_base(
+                  cik,
+                  accession
+              )
+
+              index = get_json(
+                  f"{base}/index.json"
+              )
+
+              items = (
+                  index
+                  .get(
+                      "directory",
+                      {}
+                  )
+                  .get(
+                      "item",
+                      []
+                  )
+              )
+
               names = [
-                  item.get("name", "")
+                  item.get(
+                      "name",
+                      ""
+                  )
                   for item in items
-                  if item.get("name")
+                  if item.get(
+                      "name"
+                  )
               ]
 
               preferred = []
 
               for name in names:
+
                   low = name.lower()
 
-                  if not low.endswith((".xml", ".txt")):
+                  if not low.endswith(
+                      (
+                          ".xml",
+                          ".txt"
+                      )
+                  ):
                       continue
 
                   if "primary_doc" in low:
@@ -175,49 +407,112 @@ jobs:
 
                   if (
                       "infotable" in low
-                      or "informationtable" in low
+                      or "informationtable"
+                      in low
                       or "form13f" in low
                       or "13f" in low
                   ):
-                      preferred.append(name)
 
-              candidates = preferred + [
-                  n for n in names
-                  if n.lower().endswith(".xml")
-                  and n not in preferred
-                  and "primary_doc" not in n.lower()
-              ]
+                      preferred.append(
+                          name
+                      )
+
+              candidates = (
+                  preferred
+                  + [
+                      n
+                      for n in names
+                      if n.lower().endswith(
+                          ".xml"
+                      )
+                      and n not in preferred
+                      and "primary_doc"
+                      not in n.lower()
+                  ]
+              )
 
               for name in candidates:
-                  try:
-                      raw = get(f"{base}/{name}")
-                      text = raw.decode("utf-8", errors="ignore")
 
-                      if "<infoTable" in text or ":infoTable" in text:
-                          return name, raw
+                  try:
+
+                      raw = get(
+                          f"{base}/{name}"
+                      )
+
+                      text = raw.decode(
+                          "utf-8",
+                          errors="ignore"
+                      )
+
+                      if (
+                          "<infoTable"
+                          in text
+                          or ":infoTable"
+                          in text
+                      ):
+
+                          return (
+                              name,
+                              raw
+                          )
+
                   except Exception:
+
                       pass
 
-              return None, None
+              return (
+                  None,
+                  None
+              )
+
+          # ==============================================
+          # HOLDING PARSE
+          # ==============================================
 
           def parse_holdings(raw):
-              root = ET.fromstring(raw)
+
+              root = ET.fromstring(
+                  raw
+              )
+
               result = {}
 
               for node in root.iter():
-                  if clean_tag(node.tag) != "infoTable":
+
+                  if (
+                      clean_tag(
+                          node.tag
+                      )
+                      != "infoTable"
+                  ):
                       continue
 
-                  cusip = child_text(node, "cusip").upper().strip()
+                  cusip = (
+                      child_text(
+                          node,
+                          "cusip"
+                      )
+                      .upper()
+                      .strip()
+                  )
 
                   if not cusip:
                       continue
 
                   try:
+
                       shares = float(
-                          child_text(node, "sshPrnamt").replace(",", "")
+                          child_text(
+                              node,
+                              "sshPrnamt"
+                          ).replace(
+                              ",",
+                              ""
+                          )
                       )
+
                   except Exception:
+
                       shares = 0.0
 
                   if cusip not in result:
@@ -227,268 +522,763 @@ jobs:
 
               return result
 
-          def symbol_shares(holdings, cusips):
+          def symbol_shares(
+              holdings,
+              cusips
+          ):
+
               return sum(
-                  float(holdings.get(cusip, 0) or 0)
+                  float(
+                      holdings.get(
+                          cusip,
+                          0
+                      ) or 0
+                  )
                   for cusip in cusips
               )
 
-          def manager_data(name, cik):
+          # ==============================================
+          # KURUM YÜKLE
+          # ==============================================
+
+          def manager_data(
+              name,
+              cik
+          ):
+
               out = {
-                  "manager": name,
-                  "cik": cik,
-                  "status": "unavailable",
-                  "eligible": False,
-                  "latest": None,
-                  "previous": None,
-                  "positions": {},
-                  "error": None,
+
+                  "manager":
+                      name,
+
+                  "cik":
+                      cik,
+
+                  "status":
+                      "unavailable",
+
+                  "eligible":
+                      False,
+
+                  "latest":
+                      None,
+
+                  "previous":
+                      None,
+
+                  "positions":
+                      {},
+
+                  "error":
+                      None,
               }
 
               try:
-                  filings = recent_13f_filings(cik)
+
+                  filings = (
+                      recent_13f_filings(
+                          cik
+                      )
+                  )
 
                   if len(filings) < 2:
-                      out["status"] = "not_enough_filings"
+
+                      out[
+                          "status"
+                      ] = (
+                          "not_enough_filings"
+                      )
+
                       return out
 
                   latest = filings[0]
+
                   previous = filings[1]
 
-                  out["latest"] = latest
-                  out["previous"] = previous
+                  out[
+                      "latest"
+                  ] = latest
 
-                  latest_date = parse_date(latest["reportDate"])
-                  previous_date = parse_date(previous["reportDate"])
+                  out[
+                      "previous"
+                  ] = previous
 
-                  now = datetime.now(timezone.utc)
-                  age_days = (now - latest_date).days
-                  gap_days = (latest_date - previous_date).days
+                  latest_date = parse_date(
+                      latest[
+                          "reportDate"
+                      ]
+                  )
 
-                  latest["ageDays"] = age_days
-                  out["quarterGapDays"] = gap_days
+                  previous_date = parse_date(
+                      previous[
+                          "reportDate"
+                      ]
+                  )
 
-                  if age_days > MAX_REPORT_AGE_DAYS:
-                      out["status"] = "stale"
+                  now = datetime.now(
+                      timezone.utc
+                  )
+
+                  age_days = (
+                      now
+                      - latest_date
+                  ).days
+
+                  gap_days = (
+                      latest_date
+                      - previous_date
+                  ).days
+
+                  latest[
+                      "ageDays"
+                  ] = age_days
+
+                  out[
+                      "quarterGapDays"
+                  ] = gap_days
+
+                  if (
+                      age_days
+                      > MAX_REPORT_AGE_DAYS
+                  ):
+
+                      out[
+                          "status"
+                      ] = "stale"
+
                       return out
 
                   if not (
-                      MIN_QUARTER_DAYS <= gap_days <= MAX_QUARTER_DAYS
+                      MIN_QUARTER_DAYS
+                      <= gap_days
+                      <= MAX_QUARTER_DAYS
                   ):
-                      out["status"] = "non_comparable_periods"
+
+                      out[
+                          "status"
+                      ] = (
+                          "non_comparable_periods"
+                      )
+
                       return out
 
-                  latest_file, latest_raw = locate_info_table(
-                      cik, latest["accession"]
-                  )
-                  previous_file, previous_raw = locate_info_table(
-                      cik, previous["accession"]
+                  latest_file, latest_raw = (
+                      locate_info_table(
+                          cik,
+                          latest[
+                              "accession"
+                          ]
+                      )
                   )
 
-                  if not latest_raw or not previous_raw:
-                      out["status"] = "information_table_missing"
+                  previous_file, previous_raw = (
+                      locate_info_table(
+                          cik,
+                          previous[
+                              "accession"
+                          ]
+                      )
+                  )
+
+                  if (
+                      not latest_raw
+                      or not previous_raw
+                  ):
+
+                      out[
+                          "status"
+                      ] = (
+                          "information_table_missing"
+                      )
+
                       return out
 
-                  latest["infoTable"] = latest_file
-                  previous["infoTable"] = previous_file
+                  latest[
+                      "infoTable"
+                  ] = latest_file
 
-                  latest["sourceUrl"] = (
-                      f"{filing_base(cik, latest['accessession'])}/"
-                      f"{latest_file}"
-                  ) if False else (
+                  previous[
+                      "infoTable"
+                  ] = previous_file
+
+                  latest[
+                      "sourceUrl"
+                  ] = (
                       f"{filing_base(cik, latest['accession'])}/"
                       f"{latest_file}"
                   )
 
-                  previous["sourceUrl"] = (
+                  previous[
+                      "sourceUrl"
+                  ] = (
                       f"{filing_base(cik, previous['accession'])}/"
                       f"{previous_file}"
                   )
 
-                  latest_holdings = parse_holdings(latest_raw)
-                  previous_holdings = parse_holdings(previous_raw)
-
-                  for symbol, cusips in SYMBOLS.items():
-                      latest_shares = symbol_shares(
-                          latest_holdings, cusips
+                  latest_holdings = (
+                      parse_holdings(
+                          latest_raw
                       )
-                      previous_shares = symbol_shares(
-                          previous_holdings, cusips
+                  )
+
+                  previous_holdings = (
+                      parse_holdings(
+                          previous_raw
+                      )
+                  )
+
+                  for symbol, cusips in (
+                      SYMBOLS.items()
+                  ):
+
+                      latest_shares = (
+                          symbol_shares(
+                              latest_holdings,
+                              cusips
+                          )
                       )
 
-                      change = latest_shares - previous_shares
+                      previous_shares = (
+                          symbol_shares(
+                              previous_holdings,
+                              cusips
+                          )
+                      )
+
+                      change = (
+                          latest_shares
+                          - previous_shares
+                      )
 
                       if previous_shares > 0:
+
                           change_pct = (
-                              change / previous_shares
+                              change
+                              / previous_shares
                           ) * 100.0
+
                       elif latest_shares > 0:
+
                           change_pct = None
+
                       else:
+
                           change_pct = 0.0
 
                       anomaly = False
+
                       anomaly_reason = None
 
                       if (
                           change_pct is not None
-                          and abs(change_pct) > MAX_ABS_CHANGE_PCT
+                          and abs(
+                              change_pct
+                          )
+                          > MAX_ABS_CHANGE_PCT
                       ):
-                          anomaly = True
-                          anomaly_reason = "share_change_over_100pct"
 
-                      # 0 -> çok büyük pozisyon:
-                      # Yeni alım olabilir ama veri eşleşme riski de vardır.
-                      # Doğrulanmadan puanlamaya dahil etmiyoruz.
+                          anomaly = True
+
+                          anomaly_reason = (
+                              "share_change_over_100pct"
+                          )
+
                       if (
                           previous_shares == 0
-                          and latest_shares >= ZERO_TO_LARGE_SHARES
+                          and latest_shares
+                          >= ZERO_TO_LARGE_SHARES
                       ):
-                          anomaly = True
-                          anomaly_reason = "zero_to_large_position"
 
-                      out["positions"][symbol] = {
-                          "latestShares": latest_shares,
-                          "previousShares": previous_shares,
-                          "shareChange": change,
-                          "shareChangePct": change_pct,
-                          "anomaly": anomaly,
-                          "anomalyReason": anomaly_reason,
+                          anomaly = True
+
+                          anomaly_reason = (
+                              "zero_to_large_position"
+                          )
+
+                      out[
+                          "positions"
+                      ][symbol] = {
+
+                          "latestShares":
+                              latest_shares,
+
+                          "previousShares":
+                              previous_shares,
+
+                          "shareChange":
+                              change,
+
+                          "shareChangePct":
+                              change_pct,
+
+                          "anomaly":
+                              anomaly,
+
+                          "anomalyReason":
+                              anomaly_reason,
                       }
 
-                  out["eligible"] = True
-                  out["status"] = "ok"
+                  out[
+                      "eligible"
+                  ] = True
+
+                  out[
+                      "status"
+                  ] = "ok"
 
               except Exception as e:
-                  out["status"] = "error"
-                  out["error"] = str(e)[:300]
+
+                  out[
+                      "status"
+                  ] = "error"
+
+                  out[
+                      "error"
+                  ] = str(e)[
+                      :300
+                  ]
 
               return out
+
+          # ==============================================
+          # KURUMLARI TARA
+          # ==============================================
 
           managers = []
 
           for name, cik in MANAGERS:
-              print("13F:", name)
-              managers.append(manager_data(name, cik))
+
+              print(
+                  "13F:",
+                  name
+              )
+
+              managers.append(
+                  manager_data(
+                      name,
+                      cik
+                  )
+              )
+
+          # ==============================================
+          # HİSSELERİ HESAPLA
+          # ==============================================
 
           stocks = {}
 
           for symbol in SYMBOLS:
+
               increases = 0
+
               decreases = 0
+
               unchanged = 0
+
               anomalies = 0
+
               valid = 0
+
               details = []
 
               for manager in managers:
-                  if not manager.get("eligible"):
+
+                  if not manager.get(
+                      "eligible"
+                  ):
                       continue
 
-                  pos = manager.get("positions", {}).get(symbol)
+                  pos = (
+                      manager
+                      .get(
+                          "positions",
+                          {}
+                      )
+                      .get(
+                          symbol
+                      )
+                  )
 
                   if not pos:
                       continue
 
-                  latest_shares = pos["latestShares"]
-                  previous_shares = pos["previousShares"]
+                  latest_shares = pos[
+                      "latestShares"
+                  ]
 
-                  if latest_shares == 0 and previous_shares == 0:
+                  previous_shares = pos[
+                      "previousShares"
+                  ]
+
+                  if (
+                      latest_shares == 0
+                      and previous_shares == 0
+                  ):
                       continue
 
-                  if pos.get("anomaly"):
+                  if pos.get(
+                      "anomaly"
+                  ):
+
                       anomalies += 1
+
                       continue
 
                   valid += 1
-                  change = pos["shareChange"]
+
+                  change = pos[
+                      "shareChange"
+                  ]
 
                   if change > 0:
-                      direction = "increase"
+
+                      direction = (
+                          "increase"
+                      )
+
                       increases += 1
+
                   elif change < 0:
-                      direction = "decrease"
+
+                      direction = (
+                          "decrease"
+                      )
+
                       decreases += 1
+
                   else:
-                      direction = "unchanged"
+
+                      direction = (
+                          "unchanged"
+                      )
+
                       unchanged += 1
 
                   details.append({
-                      "manager": manager["manager"],
-                      "direction": direction,
-                      "latestShares": latest_shares,
-                      "previousShares": previous_shares,
-                      "shareChange": change,
-                      "shareChangePct": pos["shareChangePct"],
+
+                      "manager":
+                          manager[
+                              "manager"
+                          ],
+
+                      "direction":
+                          direction,
+
+                      "latestShares":
+                          latest_shares,
+
+                      "previousShares":
+                          previous_shares,
+
+                      "shareChange":
+                          change,
+
+                      "shareChangePct":
+                          pos[
+                              "shareChangePct"
+                          ],
                   })
 
+              # ==========================================
+              # 13F PUANI
+              # ==========================================
+
               if valid == 0:
+
                   score = None
-                  status = "unavailable"
+
+                  status = (
+                      "unavailable"
+                  )
+
               else:
+
                   raw_score = (
                       5
                       + increases * 1.5
                       - decreases * 1.5
                   )
 
-                  score = int(round(
-                      max(0, min(10, raw_score))
-                  ))
+                  score = int(
+                      round(
+                          max(
+                              0,
+                              min(
+                                  10,
+                                  raw_score
+                              )
+                          )
+                      )
+                  )
+
                   status = "ok"
 
+              # ==========================================
+              # NET HAREKET
+              # ==========================================
+
+              net_share_change = sum(
+                  item[
+                      "shareChange"
+                  ]
+                  for item in details
+              )
+
+              # ==========================================
+              # EN BÜYÜK ARTIŞ / AZALIŞ
+              # ==========================================
+
+              sorted_increases = sorted(
+                  [
+                      item
+                      for item in details
+                      if item[
+                          "direction"
+                      ] == "increase"
+                  ],
+                  key=lambda x:
+                      x[
+                          "shareChange"
+                      ],
+                  reverse=True
+              )
+
+              sorted_decreases = sorted(
+                  [
+                      item
+                      for item in details
+                      if item[
+                          "direction"
+                      ] == "decrease"
+                  ],
+                  key=lambda x:
+                      x[
+                          "shareChange"
+                      ]
+              )
+
+              largest_increase = (
+                  sorted_increases[0]
+                  if sorted_increases
+                  else None
+              )
+
+              largest_decrease = (
+                  sorted_decreases[0]
+                  if sorted_decreases
+                  else None
+              )
+
+              # ==========================================
+              # OTOMATİK UYARILAR
+              # ==========================================
+
+              flags = []
+
+              if anomalies > 0:
+
+                  flags.append(
+                      "anomaly_filtered"
+                  )
+
+              if (
+                  increases >= 3
+                  and decreases == 0
+              ):
+
+                  flags.append(
+                      "broad_institutional_accumulation"
+                  )
+
+              if (
+                  decreases >= 3
+                  and increases == 0
+              ):
+
+                  flags.append(
+                      "broad_institutional_reduction"
+                  )
+
+              if any(
+                  item.get(
+                      "shareChangePct"
+                  ) is not None
+                  and abs(
+                      item[
+                          "shareChangePct"
+                      ]
+                  )
+                  >= LARGE_POSITION_CHANGE_PCT
+                  for item in details
+              ):
+
+                  flags.append(
+                      "large_manager_move"
+                  )
+
               stocks[symbol] = {
-                  "status": status,
-                  "score": score,
-                  "maxScore": 10,
-                  "increases": increases,
-                  "decreases": decreases,
-                  "unchanged": unchanged,
-                  "anomaliesExcluded": anomalies,
-                  "validManagers": valid,
-                  "managers": details,
+
+                  "status":
+                      status,
+
+                  "score":
+                      score,
+
+                  "maxScore":
+                      10,
+
+                  "increases":
+                      increases,
+
+                  "decreases":
+                      decreases,
+
+                  "unchanged":
+                      unchanged,
+
+                  "anomaliesExcluded":
+                      anomalies,
+
+                  "validManagers":
+                      valid,
+
+                  "netShareChange":
+                      net_share_change,
+
+                  "largestIncrease":
+                      largest_increase,
+
+                  "largestDecrease":
+                      largest_decrease,
+
+                  "flags":
+                      flags,
+
+                  "managers":
+                      details,
               }
 
+          # ==============================================
+          # ÇIKIŞ DOSYASI
+          # ==============================================
+
           output = {
-              "updated_at": datetime.now(timezone.utc).isoformat(),
-              "version": "0.4.4",
-              "source": "SEC EDGAR Form 13F-HR",
-              "max_score": 10,
+
+              "updated_at":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+
+              "version":
+                  "0.6.0",
+
+              "source":
+                  "SEC EDGAR Form 13F-HR",
+
+              "max_score":
+                  10,
+
+              "universe_size":
+                  len(
+                      SYMBOLS
+                  ),
+
               "method": {
-                  "maxReportAgeDays": MAX_REPORT_AGE_DAYS,
+
+                  "maxReportAgeDays":
+                      MAX_REPORT_AGE_DAYS,
+
                   "quarterGapDays": [
                       MIN_QUARTER_DAYS,
-                      MAX_QUARTER_DAYS,
+                      MAX_QUARTER_DAYS
                   ],
-                  "maxAbsChangePct": MAX_ABS_CHANGE_PCT,
-                  "zeroToLargeShares": ZERO_TO_LARGE_SHARES,
-                  "zeroPositionsExcluded": True,
-                  "staleManagersExcluded": True,
-                  "anomaliesExcluded": True,
+
+                  "maxAbsChangePct":
+                      MAX_ABS_CHANGE_PCT,
+
+                  "zeroToLargeShares":
+                      ZERO_TO_LARGE_SHARES,
+
+                  "largePositionChangePct":
+                      LARGE_POSITION_CHANGE_PCT,
+
+                  "zeroPositionsExcluded":
+                      True,
+
+                  "staleManagersExcluded":
+                      True,
+
+                  "anomaliesExcluded":
+                      True,
+
+                  "broadInstitutionalFlags":
+                      True
               },
-              "note": (
-                  "13F gerçek zamanlı değildir. Eski, "
-                  "karşılaştırılamayan ve şüpheli değişimler "
-                  "puanlamadan çıkarılır."
-              ),
+
+              "note":
+                  (
+                      "13F gerçek zamanlı değildir. "
+                      "Eski, karşılaştırılamayan ve "
+                      "şüpheli değişimler puanlamadan "
+                      "çıkarılır."
+                  ),
+
               "managers": [
+
                   {
-                      "manager": m["manager"],
-                      "cik": m["cik"],
-                      "status": m["status"],
-                      "eligible": m["eligible"],
-                      "latest": m["latest"],
-                      "previous": m["previous"],
-                      "error": m["error"],
+                      "manager":
+                          m[
+                              "manager"
+                          ],
+
+                      "cik":
+                          m[
+                              "cik"
+                          ],
+
+                      "status":
+                          m[
+                              "status"
+                          ],
+
+                      "eligible":
+                          m[
+                              "eligible"
+                          ],
+
+                      "latest":
+                          m[
+                              "latest"
+                          ],
+
+                      "previous":
+                          m[
+                              "previous"
+                          ],
+
+                      "error":
+                          m[
+                              "error"
+                          ],
                   }
+
                   for m in managers
               ],
-              "stocks": stocks,
+
+              "stocks":
+                  stocks
           }
 
-          os.makedirs("data", exist_ok=True)
+          os.makedirs(
+              "data",
+              exist_ok=True
+          )
 
-          with open("data/13f.json", "w", encoding="utf-8") as f:
+          with open(
+              "data/13f.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
+
               json.dump(
                   output,
                   f,
@@ -496,18 +1286,26 @@ jobs:
                   indent=2
               )
 
-          print(json.dumps(stocks, ensure_ascii=False, indent=2))
+          print(
+              json.dumps(
+                  stocks,
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
+
           PY
 
       - name: Commit updated 13F data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add data/13f.json
 
           if git diff --cached --quiet; then
             echo "No changes"
           else
-            git commit -m "Add 13F anomaly safety filter v0.4.4"
+            git commit -m "Expand institutional radar to 20 stocks v0.6.0"
             git push
           fi
