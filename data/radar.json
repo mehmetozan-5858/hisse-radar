@@ -1,8 +1,12 @@
 {
-  "updated_at": "2026-09-26T14:28:00.020953+00:00",
-  "score_version": "0.6.0",
+  "updated_at": "2026-09-26T14:37:27.316745+00:00",
+  "score_version": "0.6.1",
   "current_score_max": 80,
   "universe_size": 20,
+  "quote_status": {
+    "fresh": 0,
+    "cached": 20
+  },
   "stocks": [
     {
       "symbol": "AAPL",
@@ -34,7 +38,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -45,6 +50,27 @@
         "decreases": 1,
         "unchanged": 1,
         "anomaliesExcluded": 1,
+        "netShareChange": 38745950.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 136313005.0,
+          "previousShares": 122662993.0,
+          "shareChange": 13650012.0,
+          "shareChangePct": 11.128060441179679
+        },
+        "largestDecrease": {
+          "manager": "Morgan Stanley",
+          "direction": "decrease",
+          "latestShares": 242614238.0,
+          "previousShares": 244474722.0,
+          "shareChange": -1860484.0,
+          "shareChangePct": -0.7610128297845042
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "Berkshire Hathaway",
@@ -105,6 +131,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -148,7 +180,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -159,6 +192,20 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 21126815.0,
+        "largestIncrease": {
+          "manager": "State Street",
+          "direction": "increase",
+          "latestShares": 315653206.0,
+          "previousShares": 306708289.0,
+          "shareChange": 8944917.0,
+          "shareChangePct": 2.9164249290960638
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -211,6 +258,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -254,7 +307,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -265,6 +319,20 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 60667236.0,
+        "largestIncrease": {
+          "manager": "State Street",
+          "direction": "increase",
+          "latestShares": 1009783437.0,
+          "previousShares": 993885601.0,
+          "shareChange": 15897836.0,
+          "shareChangePct": 1.5995639723529913
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -317,6 +385,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -360,7 +434,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -371,6 +446,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 29071851.0,
+        "largestIncrease": {
+          "manager": "Bank of America",
+          "direction": "increase",
+          "latestShares": 93223020.0,
+          "previousShares": 84181341.0,
+          "shareChange": 9041679.0,
+          "shareChangePct": 10.740716282958713
+        },
+        "largestDecrease": {
+          "manager": "Wells Fargo",
+          "direction": "decrease",
+          "latestShares": 36984451.0,
+          "previousShares": 38171848.0,
+          "shareChange": -1187397.0,
+          "shareChangePct": -3.1106615535092774
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -423,6 +519,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -466,7 +568,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -477,6 +580,21 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 83150661.0,
+        "largestIncrease": {
+          "manager": "Berkshire Hathaway",
+          "direction": "increase",
+          "latestShares": 105979600.0,
+          "previousShares": 57835013.0,
+          "shareChange": 48144587.0,
+          "shareChangePct": 83.24470680070566
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "Berkshire Hathaway",
@@ -537,6 +655,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -580,7 +704,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -591,6 +716,21 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 11775504.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 25199352.0,
+          "previousShares": 20648830.0,
+          "shareChange": 4550522.0,
+          "shareChangePct": 22.037674773824957
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -643,6 +783,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -686,7 +832,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 5,
@@ -697,6 +844,26 @@
         "decreases": 3,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 3288125.0,
+        "largestIncrease": {
+          "manager": "State Street",
+          "direction": "increase",
+          "latestShares": 117456756.0,
+          "previousShares": 114695458.0,
+          "shareChange": 2761298.0,
+          "shareChangePct": 2.407504227412388
+        },
+        "largestDecrease": {
+          "manager": "Bank of America",
+          "direction": "decrease",
+          "latestShares": 18117418.0,
+          "previousShares": 18962828.0,
+          "shareChange": -845410.0,
+          "shareChangePct": -4.458248527065688
+        },
+        "flags": [
+          "anomaly_filtered"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -749,6 +916,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 25,
         "max": 80,
@@ -792,7 +965,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -803,6 +977,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 3350331.0,
+        "largestIncrease": {
+          "manager": "Bank of America",
+          "direction": "increase",
+          "latestShares": 12088320.0,
+          "previousShares": 10161481.0,
+          "shareChange": 1926839.0,
+          "shareChangePct": 18.96218671274394
+        },
+        "largestDecrease": {
+          "manager": "State Street",
+          "direction": "decrease",
+          "latestShares": 74361687.0,
+          "previousShares": 74771220.0,
+          "shareChange": -409533.0,
+          "shareChangePct": -0.5477147490705648
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -855,6 +1050,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -898,7 +1099,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -909,6 +1111,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 17840242.0,
+        "largestIncrease": {
+          "manager": "State Street",
+          "direction": "increase",
+          "latestShares": 196900541.0,
+          "previousShares": 191380232.0,
+          "shareChange": 5520309.0,
+          "shareChangePct": 2.884471892582929
+        },
+        "largestDecrease": {
+          "manager": "Wells Fargo",
+          "direction": "decrease",
+          "latestShares": 25220194.0,
+          "previousShares": 26192540.0,
+          "shareChange": -972346.0,
+          "shareChangePct": -3.7123012888402576
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -961,6 +1184,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1004,7 +1233,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -1015,6 +1245,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 22941926.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 27871708.0,
+          "previousShares": 17171737.0,
+          "shareChange": 10699971.0,
+          "shareChangePct": 62.31152387204626
+        },
+        "largestDecrease": {
+          "manager": "Citigroup",
+          "direction": "decrease",
+          "latestShares": 9303778.0,
+          "previousShares": 9769196.0,
+          "shareChange": -465418.0,
+          "shareChangePct": -4.76413821567302
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1067,6 +1318,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1110,7 +1367,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -1121,6 +1379,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 4854882.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 46437361.0,
+          "previousShares": 33077208.0,
+          "shareChange": 13360153.0,
+          "shareChangePct": 40.39081230797956
+        },
+        "largestDecrease": {
+          "manager": "Bank of America",
+          "direction": "decrease",
+          "latestShares": 37457348.0,
+          "previousShares": 57942812.0,
+          "shareChange": -20485464.0,
+          "shareChangePct": -35.35462517766656
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1173,6 +1452,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1216,7 +1501,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": null,
@@ -1227,8 +1513,18 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 0,
+        "netShareChange": 0,
+        "largestIncrease": null,
+        "largestDecrease": null,
+        "flags": [],
         "managers": [],
         "source": "SEC EDGAR Form 13F-HR"
+      },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 20,
@@ -1273,7 +1569,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -1284,6 +1581,27 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 7238005.0,
+        "largestIncrease": {
+          "manager": "Wells Fargo",
+          "direction": "increase",
+          "latestShares": 13865337.0,
+          "previousShares": 8260175.0,
+          "shareChange": 5605162.0,
+          "shareChangePct": 67.85766645379789
+        },
+        "largestDecrease": {
+          "manager": "Morgan Stanley",
+          "direction": "decrease",
+          "latestShares": 45960354.0,
+          "previousShares": 45979950.0,
+          "shareChange": -19596.0,
+          "shareChangePct": -0.04261857614025243
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1336,6 +1654,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1379,7 +1703,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 8,
@@ -1390,6 +1715,27 @@
         "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 1173082.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 9030363.0,
+          "previousShares": 8462960.0,
+          "shareChange": 567403.0,
+          "shareChangePct": 6.704545454545455
+        },
+        "largestDecrease": {
+          "manager": "Bank of America",
+          "direction": "decrease",
+          "latestShares": 4827969.0,
+          "previousShares": 5090085.0,
+          "shareChange": -262116.0,
+          "shareChangePct": -5.149540724761964
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1442,6 +1788,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 28,
         "max": 80,
@@ -1485,7 +1837,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -1496,6 +1849,26 @@
         "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 0,
+        "netShareChange": 4917545.0,
+        "largestIncrease": {
+          "manager": "JPMorgan Chase",
+          "direction": "increase",
+          "latestShares": 4224191.0,
+          "previousShares": 0.0,
+          "shareChange": 4224191.0,
+          "shareChangePct": null
+        },
+        "largestDecrease": {
+          "manager": "Bank of America",
+          "direction": "decrease",
+          "latestShares": 7249774.0,
+          "previousShares": 7515031.0,
+          "shareChange": -265257.0,
+          "shareChangePct": -3.529686038553933
+        },
+        "flags": [
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1556,6 +1929,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1599,7 +1978,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 8,
@@ -1610,6 +1990,27 @@
         "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 8974608.0,
+        "largestIncrease": {
+          "manager": "Citigroup",
+          "direction": "increase",
+          "latestShares": 11931613.0,
+          "previousShares": 9350979.0,
+          "shareChange": 2580634.0,
+          "shareChangePct": 27.597474018495816
+        },
+        "largestDecrease": {
+          "manager": "Wells Fargo",
+          "direction": "decrease",
+          "latestShares": 29004162.0,
+          "previousShares": 29392450.0,
+          "shareChange": -388288.0,
+          "shareChangePct": -1.3210467313885028
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1662,6 +2063,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 28,
         "max": 80,
@@ -1705,7 +2112,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 2,
@@ -1716,6 +2124,27 @@
         "decreases": 4,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": -12941263.0,
+        "largestIncrease": {
+          "manager": "Citigroup",
+          "direction": "increase",
+          "latestShares": 4808001.0,
+          "previousShares": 3245817.0,
+          "shareChange": 1562184.0,
+          "shareChangePct": 48.12914591303207
+        },
+        "largestDecrease": {
+          "manager": "Morgan Stanley",
+          "direction": "decrease",
+          "latestShares": 23311316.0,
+          "previousShares": 31675603.0,
+          "shareChange": -8364287.0,
+          "shareChangePct": -26.4060860972402
+        },
+        "flags": [
+          "anomaly_filtered",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1768,6 +2197,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 22,
         "max": 80,
@@ -1811,7 +2246,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -1822,6 +2258,21 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 15984186.0,
+        "largestIncrease": {
+          "manager": "Goldman Sachs",
+          "direction": "increase",
+          "latestShares": 29194848.0,
+          "previousShares": 19352152.0,
+          "shareChange": 9842696.0,
+          "shareChangePct": 50.860989516824795
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1874,6 +2325,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 30,
         "max": 80,
@@ -1917,7 +2374,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 6,
@@ -1928,6 +2386,26 @@
         "decreases": 3,
         "unchanged": 0,
         "anomaliesExcluded": 0,
+        "netShareChange": 6516220.0,
+        "largestIncrease": {
+          "manager": "JPMorgan Chase",
+          "direction": "increase",
+          "latestShares": 8270471.0,
+          "previousShares": 0.0,
+          "shareChange": 8270471.0,
+          "shareChangePct": null
+        },
+        "largestDecrease": {
+          "manager": "Morgan Stanley",
+          "direction": "decrease",
+          "latestShares": 17100302.0,
+          "previousShares": 19991313.0,
+          "shareChange": -2891011.0,
+          "shareChangePct": -14.46133628141383
+        },
+        "flags": [
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -1988,6 +2466,12 @@
         ],
         "source": "SEC EDGAR Form 13F-HR"
       },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
+      },
       "radar": {
         "score": 26,
         "max": 80,
@@ -2031,7 +2515,8 @@
         "sellValue": 0,
         "transactions": [],
         "source": "SEC EDGAR",
-        "lookbackDays": 90
+        "lookbackDays": 90,
+        "fresh": true
       },
       "institutional": {
         "score": 10,
@@ -2042,6 +2527,21 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
+        "netShareChange": 27595973.0,
+        "largestIncrease": {
+          "manager": "Bank of America",
+          "direction": "increase",
+          "latestShares": 31724362.0,
+          "previousShares": 23381848.0,
+          "shareChange": 8342514.0,
+          "shareChangePct": 35.67944672294508
+        },
+        "largestDecrease": null,
+        "flags": [
+          "anomaly_filtered",
+          "broad_institutional_accumulation",
+          "large_manager_move"
+        ],
         "managers": [
           {
             "manager": "State Street",
@@ -2093,6 +2593,12 @@
           }
         ],
         "source": "SEC EDGAR Form 13F-HR"
+      },
+      "freshness": {
+        "quote": false,
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 30,
