@@ -21,23 +21,71 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Veri klasorunu olustur
-        run: mkdir -p data
-
-      - name: Radar verisini olustur
+      - name: Radar verisini guncelle
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           python - <<'PY'
+          import os
           import json
+          import urllib.request
           from datetime import datetime, timezone
 
-          data = {
+          api_key = os.environ["FMP_API_KEY"]
+
+          symbols = [
+              "AAPL",
+              "MSFT",
+              "NVDA",
+              "AMZN",
+              "GOOGL",
+              "META",
+              "TSLA"
+          ]
+
+          results = []
+
+          for symbol in symbols:
+              url = (
+                  "https://financialmodelingprep.com/"
+                  "stable/quote?symbol="
+                  + symbol
+                  + "&apikey="
+                  + api_key
+              )
+
+              try:
+                  with urllib.request.urlopen(url, timeout=20) as response:
+                      data = json.load(response)
+
+                  if data:
+                      q = data[0]
+                      results.append({
+                          "symbol": symbol,
+                          "name": q.get("name"),
+                          "price": q.get("price"),
+                          "change": q.get("change"),
+                          "changePercentage": q.get("changePercentage"),
+                          "volume": q.get("volume"),
+                          "marketCap": q.get("marketCap")
+                      })
+
+              except Exception as e:
+                  print(symbol, "ERROR:", e)
+
+          output = {
               "updated_at": datetime.now(timezone.utc).isoformat(),
               "status": "ok",
-              "message": "Hisse Radar veri sistemi calisiyor"
+              "source": "FMP",
+              "stocks": results
           }
 
+          os.makedirs("data", exist_ok=True)
+
           with open("data/radar.json", "w", encoding="utf-8") as f:
-              json.dump(data, f, ensure_ascii=False, indent=2)
+              json.dump(output, f, ensure_ascii=False, indent=2)
+
+          print("Stocks fetched:", len(results))
           PY
 
       - name: Degisiklikleri kaydet
@@ -46,5 +94,5 @@ jobs:
           git config user.email "actions@github.com"
           git add data/radar.json
           git diff --cached --quiet && exit 0
-          git commit -m "Radar verisini guncelle"
+          git commit -m "Gercek piyasa verisini guncelle"
           git push
