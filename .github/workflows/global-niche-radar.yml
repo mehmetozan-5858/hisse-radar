@@ -3,13 +3,13 @@ name: Global Niche Radar
 on:
   workflow_dispatch:
   schedule:
-    - cron: "35 5,17 * * *"
+    - cron: "47 */8 * * *"
 
 permissions:
   contents: write
 
 jobs:
-  niche-radar:
+  update:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,9 +21,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Global Niche Radar verisini üret
-        env:
-          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+      - name: Global Niş verilerini güncelle
         run: |
           python <<'PY'
           import json
@@ -33,309 +31,530 @@ jobs:
           from urllib.request import Request, urlopen
           from urllib.parse import quote
 
-          API_KEY = os.environ.get("FMP_API_KEY", "").strip()
+          # =========================================================
+          # GLOBAL NİŞ EVRENİ
+          # =========================================================
 
-          # ============================================
-          # GLOBAL NICHE RADAR V2
-          # Niş aday puanı + canlı piyasa veri katmanı
-          # ============================================
-
-          UNIVERSE = [
-              # ABD
-              {"symbol": "RKLB", "market": "NASDAQ", "country": "USA",
-               "sector": "Space", "size": "small"},
-              {"symbol": "IONQ", "market": "NYSE", "country": "USA",
-               "sector": "Quantum", "size": "small"},
-              {"symbol": "SOUN", "market": "NASDAQ", "country": "USA",
-               "sector": "AI", "size": "small"},
-              {"symbol": "QBTS", "market": "NYSE", "country": "USA",
-               "sector": "Quantum", "size": "micro"},
-              {"symbol": "LUNR", "market": "NASDAQ", "country": "USA",
-               "sector": "Space", "size": "small"},
-
-              # Kanada
-              {"symbol": "PNG.V", "market": "TSXV", "country": "Canada",
-               "sector": "Robotics", "size": "micro"},
-              {"symbol": "FLT.V", "market": "TSXV", "country": "Canada",
-               "sector": "Drones", "size": "micro"},
-
-              # İngiltere
-              {"symbol": "HE1.L", "market": "LSE-AIM", "country": "UK",
-               "sector": "Helium", "size": "micro"},
-              {"symbol": "BMN.L", "market": "LSE-AIM", "country": "UK",
-               "sector": "Critical Minerals", "size": "micro"},
-
-              # Avustralya
-              {"symbol": "DRO.AX", "market": "ASX", "country": "Australia",
-               "sector": "Defense / Drones", "size": "small"},
-              {"symbol": "LTR.AX", "market": "ASX", "country": "Australia",
-               "sector": "Lithium", "size": "small"},
-
-              # Avrupa
-              {"symbol": "ALQGC.PA", "market": "Euronext", "country": "France",
-               "sector": "Quantum", "size": "micro"},
-
-              # Türkiye
-              {"symbol": "MIATK.IS", "market": "BIST", "country": "Türkiye",
-               "sector": "Technology / AI", "size": "small"},
-              {"symbol": "PAPIL.IS", "market": "BIST", "country": "Türkiye",
-               "sector": "Biometrics / Defense", "size": "micro"},
+          CANDIDATES = [
+              {
+                  "symbol": "RKLB",
+                  "market": "NASDAQ",
+                  "country": "USA",
+                  "theme": "Space",
+                  "size": "small",
+                  "score": 68
+              },
+              {
+                  "symbol": "IONQ",
+                  "market": "NYSE",
+                  "country": "USA",
+                  "theme": "Quantum",
+                  "size": "small",
+                  "score": 69
+              },
+              {
+                  "symbol": "SOUN",
+                  "market": "NASDAQ",
+                  "country": "USA",
+                  "theme": "AI",
+                  "size": "small",
+                  "score": 67
+              },
+              {
+                  "symbol": "QBTS",
+                  "market": "NYSE",
+                  "country": "USA",
+                  "theme": "Quantum",
+                  "size": "micro",
+                  "score": 75
+              },
+              {
+                  "symbol": "LUNR",
+                  "market": "NASDAQ",
+                  "country": "USA",
+                  "theme": "Space",
+                  "size": "small",
+                  "score": 68
+              },
+              {
+                  "symbol": "PNG.V",
+                  "market": "TSXV",
+                  "country": "Canada",
+                  "theme": "Robotics",
+                  "size": "micro",
+                  "score": 73
+              },
+              {
+                  "symbol": "FLT.V",
+                  "market": "TSXV",
+                  "country": "Canada",
+                  "theme": "Drones",
+                  "size": "micro",
+                  "score": 73
+              },
+              {
+                  "symbol": "HE1.L",
+                  "market": "LSE-AIM",
+                  "country": "UK",
+                  "theme": "Helium",
+                  "size": "micro",
+                  "score": 70
+              },
+              {
+                  "symbol": "BMN.L",
+                  "market": "LSE-AIM",
+                  "country": "UK",
+                  "theme": "Critical Minerals",
+                  "size": "micro",
+                  "score": 71
+              },
+              {
+                  "symbol": "DRO.AX",
+                  "market": "ASX",
+                  "country": "Australia",
+                  "theme": "Defense / Drones",
+                  "size": "small",
+                  "score": 68
+              },
+              {
+                  "symbol": "LTR.AX",
+                  "market": "ASX",
+                  "country": "Australia",
+                  "theme": "Lithium",
+                  "size": "small",
+                  "score": 63
+              },
+              {
+                  "symbol": "ALQGC.PA",
+                  "market": "Euronext",
+                  "country": "France",
+                  "theme": "Quantum",
+                  "size": "micro",
+                  "score": 75
+              },
+              {
+                  "symbol": "MIATK.IS",
+                  "market": "BIST",
+                  "country": "Türkiye",
+                  "theme": "Technology / AI",
+                  "size": "small",
+                  "score": 67
+              },
+              {
+                  "symbol": "PAPIL.IS",
+                  "market": "BIST",
+                  "country": "Türkiye",
+                  "theme": "Biometrics / Defense",
+                  "size": "micro",
+                  "score": 72
+              }
           ]
 
-          SECTOR_WEIGHT = {
-              "AI": 18,
-              "Quantum": 20,
-              "Space": 19,
-              "Robotics": 18,
-              "Drones": 18,
-              "Defense / Drones": 19,
-              "Biometrics / Defense": 17,
-              "Technology / AI": 18,
-              "Helium": 15,
-              "Critical Minerals": 16,
-              "Lithium": 14,
+          # =========================================================
+          # ÖNCEKİ VERİ
+          # =========================================================
+
+          previous_map = {}
+
+          try:
+              with open(
+                  "data/global-niche.json",
+                  "r",
+                  encoding="utf-8"
+              ) as f:
+                  previous_file = json.load(f)
+
+              old_candidates = (
+                  previous_file.get("candidates")
+                  or previous_file.get("stocks")
+                  or []
+              )
+
+              previous_map = {
+                  x.get("symbol"): x
+                  for x in old_candidates
+                  if x.get("symbol")
+              }
+
+              print(
+                  "Previous Global Niche loaded:",
+                  len(previous_map)
+              )
+
+          except Exception as e:
+              print(
+                  "Previous Global Niche unavailable:",
+                  repr(e)
+              )
+
+          # =========================================================
+          # YAHOO FINANCE
+          # =========================================================
+
+          HEADERS = {
+              "User-Agent":
+                  "Mozilla/5.0 (compatible; HisseRadar/2.0)",
+              "Accept": "application/json"
           }
 
-          SIZE_WEIGHT = {
-              "micro": 20,
-              "small": 14,
-              "mid": 8,
-              "large": 2,
-          }
+          def get_json(url):
+              req = Request(
+                  url,
+                  headers=HEADERS
+              )
 
-          # Bazı borsalarda FMP sembolü farklı olabileceği için
-          # ileride burada ayrı eşleştirme yapabiliriz.
-          FMP_SYMBOLS = {
-              "RKLB": "RKLB",
-              "IONQ": "IONQ",
-              "SOUN": "SOUN",
-              "QBTS": "QBTS",
-              "LUNR": "LUNR",
-              "PNG.V": "PNG.V",
-              "FLT.V": "FLT.V",
-              "HE1.L": "HE1.L",
-              "BMN.L": "BMN.L",
-              "DRO.AX": "DRO.AX",
-              "LTR.AX": "LTR.AX",
-              "ALQGC.PA": "ALQGC.PA",
-              "MIATK.IS": "MIATK.IS",
-              "PAPIL.IS": "PAPIL.IS",
-          }
+              with urlopen(
+                  req,
+                  timeout=30
+              ) as response:
+                  raw = response.read()
 
-          def safe_float(value):
-              try:
-                  if value is None:
-                      return None
-                  return float(value)
-              except (TypeError, ValueError):
-                  return None
+              return json.loads(
+                  raw.decode("utf-8")
+              )
 
-          def safe_int(value):
-              try:
-                  if value is None:
-                      return None
-                  return int(float(value))
-              except (TypeError, ValueError):
-                  return None
-
-          def fetch_quote(symbol):
-              if not API_KEY:
-                  return None
-
-              fmp_symbol = FMP_SYMBOLS.get(symbol, symbol)
-
-              # FMP stable API quote endpoint.
+          def yahoo_quote(symbol):
               url = (
-                  "https://financialmodelingprep.com/stable/quote"
-                  "?symbol=" + quote(fmp_symbol) +
-                  "&apikey=" + quote(API_KEY)
+                  "https://query1.finance.yahoo.com/"
+                  "v8/finance/chart/"
+                  + quote(symbol)
+                  + "?interval=1d&range=5d"
               )
 
               try:
-                  req = Request(
-                      url,
-                      headers={
-                          "User-Agent": "HisseRadar/2.0",
-                          "Accept": "application/json"
-                      }
+                  data = get_json(url)
+
+                  result = (
+                      data.get("chart", {})
+                          .get("result", [])
                   )
 
-                  with urlopen(req, timeout=20) as response:
-                      data = json.loads(
-                          response.read().decode("utf-8")
+                  if not result:
+                      return None
+
+                  item = result[0]
+                  meta = item.get("meta", {})
+
+                  quote_data = (
+                      item.get("indicators", {})
+                          .get("quote", [{}])[0]
+                  )
+
+                  closes = quote_data.get(
+                      "close",
+                      []
+                  )
+
+                  volumes = quote_data.get(
+                      "volume",
+                      []
+                  )
+
+                  valid = []
+
+                  for i, value in enumerate(closes):
+                      if value is not None:
+                          valid.append(
+                              (i, float(value))
+                          )
+
+                  if not valid:
+                      return None
+
+                  last_index, price = valid[-1]
+
+                  previous_close = (
+                      meta.get("chartPreviousClose")
+                  )
+
+                  if len(valid) >= 2:
+                      previous_close = valid[-2][1]
+
+                  change = None
+                  change_pct = None
+
+                  if previous_close not in (
+                      None,
+                      0
+                  ):
+                      previous_close = float(
+                          previous_close
                       )
 
-                  if isinstance(data, list) and data:
-                      return data[0]
+                      change = (
+                          price
+                          - previous_close
+                      )
 
-                  if isinstance(data, dict):
-                      # Bazı hata cevapları dict olarak dönebilir.
-                      if "price" in data:
-                          return data
+                      change_pct = (
+                          change
+                          / previous_close
+                          * 100
+                      )
 
-                  return None
+                  volume = None
 
-              except Exception as exc:
-                  print(
-                      f"Fiyat alınamadı: {symbol} -> {exc}"
+                  if last_index < len(volumes):
+                      volume = volumes[last_index]
+
+                  day_low = meta.get(
+                      "regularMarketDayLow"
                   )
+
+                  day_high = meta.get(
+                      "regularMarketDayHigh"
+                  )
+
+                  return {
+                      "name":
+                          meta.get("longName")
+                          or meta.get("shortName"),
+
+                      "price":
+                          round(price, 4),
+
+                      "change":
+                          round(change, 4)
+                          if change is not None
+                          else None,
+
+                      "changePct":
+                          round(change_pct, 4)
+                          if change_pct is not None
+                          else None,
+
+                      "volume": volume,
+
+                      "marketCap": None,
+
+                      "dayLow": day_low,
+
+                      "dayHigh": day_high,
+
+                      "currency":
+                          meta.get("currency"),
+
+                      "exchange":
+                          meta.get("exchangeName"),
+
+                      "marketDataAvailable": True,
+
+                      "quoteSource":
+                          "Yahoo Finance chart"
+                  }
+
+              except Exception as e:
+                  print(
+                      "Yahoo error:",
+                      symbol,
+                      repr(e)
+                  )
+
                   return None
 
-          results = []
+          # =========================================================
+          # ADAYLARI GÜNCELLE
+          # =========================================================
 
-          for stock in UNIVERSE:
-              score = 35
-              score += SECTOR_WEIGHT.get(
-                  stock["sector"], 10
-              )
-              score += SIZE_WEIGHT.get(
-                  stock["size"], 8
+          output_candidates = []
+
+          fresh_count = 0
+          cached_count = 0
+
+          for candidate in CANDIDATES:
+              symbol = candidate["symbol"]
+
+              print(
+                  "Global Niche processing:",
+                  symbol
               )
 
-              score = max(0, min(100, score))
+              old = previous_map.get(
+                  symbol,
+                  {}
+              )
+
+              q = yahoo_quote(symbol)
+
+              fresh = bool(
+                  q
+                  and q.get("price") is not None
+              )
+
+              if fresh:
+                  fresh_count += 1
+
+              else:
+                  cached_count += 1
+
+                  old_price = old.get("price")
+
+                  q = {
+                      "name":
+                          old.get("name"),
+
+                      "price":
+                          old_price,
+
+                      "change":
+                          old.get("change"),
+
+                      "changePct":
+                          old.get(
+                              "changePct",
+                              old.get(
+                                  "changePercentage"
+                              )
+                          ),
+
+                      "volume":
+                          old.get("volume"),
+
+                      "marketCap":
+                          old.get("marketCap"),
+
+                      "dayLow":
+                          old.get("dayLow"),
+
+                      "dayHigh":
+                          old.get("dayHigh"),
+
+                      "currency":
+                          old.get("currency"),
+
+                      "exchange":
+                          old.get("exchange"),
+
+                      "marketDataAvailable":
+                          old_price is not None,
+
+                      "quoteSource":
+                          "cache"
+                  }
+
+              score = candidate["score"]
 
               if score >= 75:
-                  level = "GÜÇLÜ İZLEME"
+                  signal = "GÜÇLÜ İZLEME"
               elif score >= 65:
-                  level = "GÜÇLENİYOR"
+                  signal = "ADAY"
               else:
-                  level = "NİŞ ADAY"
+                  signal = "İZLEME"
 
-              quote_data = fetch_quote(
-                  stock["symbol"]
-              )
+              item = {
+                  "symbol": symbol,
 
-              price = None
-              change_pct = None
-              volume = None
-              market_cap = None
-              day_low = None
-              day_high = None
+                  "name":
+                      q.get("name")
+                      or old.get("name"),
 
-              if quote_data:
-                  price = safe_float(
-                      quote_data.get("price")
-                  )
+                  "market":
+                      candidate["market"],
 
-                  change_pct = safe_float(
-                      quote_data.get(
-                          "changePercentage",
-                          quote_data.get(
-                              "changesPercentage"
-                          )
-                      )
-                  )
+                  "country":
+                      candidate["country"],
 
-                  volume = safe_int(
-                      quote_data.get("volume")
-                  )
+                  "theme":
+                      candidate["theme"],
 
-                  market_cap = safe_float(
-                      quote_data.get("marketCap")
-                  )
+                  "size":
+                      candidate["size"],
 
-                  day_low = safe_float(
-                      quote_data.get("dayLow")
-                  )
+                  "score": score,
 
-                  day_high = safe_float(
-                      quote_data.get("dayHigh")
-                  )
+                  "signal": signal,
 
-              # Hacim sinyali için henüz geçmiş ortalama
-              # hacim karşılaştırması yapmıyoruz.
-              # Ham hacmi güvenilir şekilde saklıyoruz.
-              volume_signal = (
-                  "VERİ VAR"
-                  if volume is not None
-                  else None
-              )
+                  "price":
+                      q.get("price"),
 
-              results.append({
-                  **stock,
-                  "nicheScore": score,
-                  "level": level,
+                  "change":
+                      q.get("change"),
 
-                  "price": price,
-                  "changePct": change_pct,
-                  "volume": volume,
-                  "volumeSignal": volume_signal,
+                  "changePct":
+                      q.get("changePct"),
 
-                  "marketCap": market_cap,
-                  "dayLow": day_low,
-                  "dayHigh": day_high,
+                  "volume":
+                      q.get("volume"),
 
-                  "catalyst": None,
+                  "marketCap":
+                      q.get("marketCap")
+                      or old.get("marketCap"),
 
-                  "risk": (
-                      "Yüksek"
-                      if stock["size"] == "micro"
-                      else "Orta-Yüksek"
-                  ),
+                  "dayLow":
+                      q.get("dayLow"),
 
-                  "scenario100": {
-                      "2x": 200,
-                      "5x": 500,
-                      "10x": 1000,
-                      "50x": 5000,
-                      "100x": 10000,
-                      "1000x": 100000
-                  },
+                  "dayHigh":
+                      q.get("dayHigh"),
+
+                  "currency":
+                      q.get("currency"),
+
+                  "exchange":
+                      q.get("exchange"),
 
                   "marketDataAvailable":
-                      price is not None,
+                      q.get(
+                          "marketDataAvailable",
+                          False
+                      ),
 
-                  "note": (
-                      "Global Niche Radar araştırma adayı. "
-                      "Piyasa verisi mevcutsa FMP üzerinden "
-                      "otomatik güncellenir."
-                  )
-              })
+                  "quoteSource":
+                      q.get("quoteSource"),
 
-              # API'ye arka arkaya çok sert yük bindirmemek için.
-              time.sleep(0.15)
+                  "fresh":
+                      fresh
+              }
 
-          results.sort(
-              key=lambda x: x["nicheScore"],
+              output_candidates.append(
+                  item
+              )
+
+              time.sleep(0.25)
+
+          # =========================================================
+          # PUANA GÖRE SIRALA
+          # =========================================================
+
+          output_candidates.sort(
+              key=lambda x: (
+                  x.get("score", 0),
+                  x.get("symbol", "")
+              ),
               reverse=True
           )
 
-          available_count = sum(
-              1 for x in results
-              if x["marketDataAvailable"]
-          )
+          # =========================================================
+          # JSON ÇIKIŞI
+          # =========================================================
 
-          payload = {
-              "version": "global-niche-v2",
+          output = {
+              "version":
+                  "global-niche-v3",
+
               "generatedAt":
                   datetime.now(
                       timezone.utc
                   ).isoformat(),
 
-              "description":
-                  "Global erken keşif radarı ve piyasa veri katmanı.",
-
-              "disclaimer": (
-                  "Niche Score bir getiri tahmini değildir. "
-                  "Yüksek riskli şirketleri araştırma amacıyla "
-                  "önceliklendirir."
-              ),
-
-              "markets": sorted(
-                  list(
-                      set(
-                          x["market"]
-                          for x in results
-                      )
-                  )
-              ),
-
-              "count": len(results),
+              "count":
+                  len(output_candidates),
 
               "marketDataCount":
-                  available_count,
+                  fresh_count,
 
-              "stocks": results
+              "quoteStatus": {
+                  "fresh":
+                      fresh_count,
+
+                  "cached":
+                      cached_count
+              },
+
+              "quoteProvider":
+                  "Yahoo Finance chart / cache fallback",
+
+              "candidates":
+                  output_candidates
           }
 
           os.makedirs(
@@ -349,39 +568,50 @@ jobs:
               encoding="utf-8"
           ) as f:
               json.dump(
-                  payload,
+                  output,
                   f,
                   ensure_ascii=False,
                   indent=2
               )
 
           print(
-              "Global Niche Radar V2 üretildi."
+              "================================"
           )
+
           print(
-              "Aday sayısı:",
-              len(results)
+              "Global Niche v3 tamamlandı"
           )
+
           print(
-              "Fiyat verisi bulunan:",
-              available_count
+              "Aday:",
+              len(output_candidates)
           )
+
           print(
-              "Fiyat verisi bulunamayan:",
-              len(results) - available_count
+              "Yeni fiyat:",
+              fresh_count
+          )
+
+          print(
+              "Cache:",
+              cached_count
+          )
+
+          print(
+              "================================"
           )
           PY
 
       - name: Değişiklikleri kaydet
         run: |
-          git config user.name "actions-user"
-          git config user.email "actions@users.noreply.github.com"
+          git config user.name "hisse-radar-bot"
+          git config user.email "actions@github.com"
 
           git add data/global-niche.json
 
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar V2"
+            git commit -m "Update Global Niche Radar v3 with independent quotes"
             git push
           fi
