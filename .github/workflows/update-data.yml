@@ -37,18 +37,12 @@ jobs:
           API_KEY = os.environ["FMP_API_KEY"]
 
           SYMBOLS = [
-              "AAPL",
-              "MSFT",
-              "NVDA",
-              "AMZN",
-              "GOOGL",
-              "META",
-              "TSLA"
+              "AAPL", "MSFT", "NVDA", "AMZN",
+              "GOOGL", "META", "TSLA"
           ]
 
           FMP_BASE = "https://financialmodelingprep.com/stable"
 
-          # SEC gzip istemiyoruz. urllib yanıtı doğrudan okuyacak.
           SEC_HEADERS = {
               "User-Agent": "HisseRadar/1.0 research application contact hisseradar@example.com",
               "Accept": "application/json,text/xml,application/xml,text/html"
@@ -57,28 +51,60 @@ jobs:
           def get_json(url, headers=None):
               req = Request(url, headers=headers or {})
               with urlopen(req, timeout=30) as response:
-                  raw = response.read()
-                  return json.loads(raw.decode("utf-8"))
+                  return json.loads(
+                      response.read().decode("utf-8")
+                  )
 
           def get_text(url, headers=None):
               req = Request(url, headers=headers or {})
               with urlopen(req, timeout=30) as response:
-                  return response.read().decode("utf-8", errors="ignore")
+                  return response.read().decode(
+                      "utf-8", errors="ignore"
+                  )
 
           def fmp(endpoint, params=None):
               p = dict(params or {})
               p["apikey"] = API_KEY
-              url = FMP_BASE + "/" + endpoint + "?" + urlencode(p)
-
+              url = (
+                  FMP_BASE + "/" + endpoint
+                  + "?" + urlencode(p)
+              )
               try:
                   return get_json(url)
               except Exception as e:
                   print("FMP error", endpoint, e)
                   return []
 
-          # ==================================================
+          # ==============================================
+          # 13F KURUMSAL VERİ
+          # ==============================================
+
+          institutional_data = {}
+
+          try:
+              with open(
+                  "data/13f.json",
+                  "r",
+                  encoding="utf-8"
+              ) as f:
+                  institutional_file = json.load(f)
+
+              institutional_data = (
+                  institutional_file.get("stocks", {})
+              )
+
+              print(
+                  "13F loaded:",
+                  institutional_file.get("version")
+              )
+
+          except Exception as e:
+              print("13F load error:", repr(e))
+              institutional_data = {}
+
+          # ==============================================
           # SEC ticker -> CIK
-          # ==================================================
+          # ==============================================
 
           CIK_MAP = {}
 
@@ -89,23 +115,25 @@ jobs:
               )
 
               for item in ticker_data.values():
-                  ticker = str(item.get("ticker", "")).upper()
-                  cik = str(item.get("cik_str", "")).zfill(10)
+                  ticker = str(
+                      item.get("ticker", "")
+                  ).upper()
+
+                  cik = str(
+                      item.get("cik_str", "")
+                  ).zfill(10)
 
                   if ticker and cik:
                       CIK_MAP[ticker] = cik
 
-              print("SEC ticker map loaded:", len(CIK_MAP))
-
           except Exception as e:
-              print("SEC TICKER MAP ERROR:", repr(e))
+              print("SEC ticker map error:", repr(e))
 
-          # ==================================================
+          # ==============================================
           # SEC FORM 4
-          # ==================================================
+          # ==============================================
 
           def sec_insider(symbol):
-
               result = {
                   "score": None,
                   "max": 20,
@@ -121,26 +149,29 @@ jobs:
               cik = CIK_MAP.get(symbol)
 
               if not cik:
-                  print(symbol, "CIK bulunamadı")
                   return result
 
               try:
                   submissions = get_json(
                       "https://data.sec.gov/submissions/CIK"
-                      + cik
-                      + ".json",
+                      + cik + ".json",
                       SEC_HEADERS
                   )
 
-                  recent = submissions.get("filings", {}).get(
-                      "recent",
-                      {}
-                  )
+                  recent = submissions.get(
+                      "filings", {}
+                  ).get("recent", {})
 
                   forms = recent.get("form", [])
-                  accessions = recent.get("accessionNumber", [])
-                  filing_dates = recent.get("filingDate", [])
-                  primary_docs = recent.get("primaryDocument", [])
+                  accessions = recent.get(
+                      "accessionNumber", []
+                  )
+                  filing_dates = recent.get(
+                      "filingDate", []
+                  )
+                  primary_docs = recent.get(
+                      "primaryDocument", []
+                  )
 
                   cutoff = (
                       datetime.now(timezone.utc)
@@ -150,7 +181,6 @@ jobs:
                   form4s = []
 
                   for i, form in enumerate(forms):
-
                       if str(form).strip() != "4":
                           continue
 
@@ -168,11 +198,12 @@ jobs:
                               dt = datetime.strptime(
                                   filing_date,
                                   "%Y-%m-%d"
-                              ).replace(tzinfo=timezone.utc)
+                              ).replace(
+                                  tzinfo=timezone.utc
+                              )
 
                               if dt < cutoff:
                                   continue
-
                           except Exception:
                               pass
 
@@ -186,34 +217,31 @@ jobs:
                           continue
 
                       form4s.append({
-                          "accession": accessions[i],
-                          "filingDate": filing_date,
-                          "primaryDocument": primary_doc
+                          "accession":
+                              accessions[i],
+                          "filingDate":
+                              filing_date,
+                          "primaryDocument":
+                              primary_doc
                       })
 
-                      # Son 20 Form 4 yeterli
                       if len(form4s) >= 20:
                           break
 
-                  print(
-                      symbol,
-                      "Form 4 sayısı:",
-                      len(form4s)
-                  )
-
                   for filing in form4s:
-
                       accession = filing["accession"]
-                      accession_clean = accession.replace("-", "")
+                      accession_clean = accession.replace(
+                          "-", ""
+                      )
                       cik_nozero = str(int(cik))
-                      primary_doc = filing["primaryDocument"]
+                      primary_doc = filing[
+                          "primaryDocument"
+                      ]
 
                       document_url = (
                           "https://www.sec.gov/Archives/edgar/data/"
-                          + cik_nozero
-                          + "/"
-                          + accession_clean
-                          + "/"
+                          + cik_nozero + "/"
+                          + accession_clean + "/"
                           + primary_doc
                       )
 
@@ -223,30 +251,24 @@ jobs:
                               SEC_HEADERS
                           )
 
-                          # XML başlangıcından önce HTML vb.
-                          # varsa ownershipDocument kısmını ayır.
                           start = text.lower().find(
                               "<ownershipdocument"
                           )
-
                           end = text.lower().find(
                               "</ownershipdocument>"
                           )
 
                           if start == -1 or end == -1:
-                              print(
-                                  symbol,
-                                  "ownershipDocument bulunamadı:",
-                                  document_url
-                              )
                               time.sleep(0.12)
                               continue
 
-                          end += len("</ownershipDocument>")
+                          end += len(
+                              "</ownershipDocument>"
+                          )
 
-                          xml_text = text[start:end]
-
-                          root = ET.fromstring(xml_text)
+                          root = ET.fromstring(
+                              text[start:end]
+                          )
 
                           owner_name = ""
 
@@ -267,7 +289,6 @@ jobs:
                           for tx in root.findall(
                               ".//nonDerivativeTransaction"
                           ):
-
                               code_node = tx.find(
                                   ".//transactionCoding/"
                                   "transactionCode"
@@ -299,9 +320,6 @@ jobs:
                                   .upper()
                               )
 
-                              # Sadece açık piyasa işlemleri:
-                              # P = Purchase
-                              # S = Sale
                               if code not in ("P", "S"):
                                   continue
 
@@ -339,13 +357,19 @@ jobs:
                                       else "SELL",
                                   "shares": shares,
                                   "price": price,
-                                  "value": round(value, 2),
+                                  "value": round(
+                                      value, 2
+                                  ),
                                   "transactionDate":
                                       transaction_date,
                                   "filingDate":
-                                      filing["filingDate"],
-                                  "accession": accession,
-                                  "sourceUrl": document_url
+                                      filing[
+                                          "filingDate"
+                                      ],
+                                  "accession":
+                                      accession,
+                                  "sourceUrl":
+                                      document_url
                               }
 
                               result[
@@ -354,30 +378,29 @@ jobs:
 
                               if code == "P":
                                   result["buys"] += 1
-                                  result["buyValue"] += value
-
-                              if code == "S":
+                                  result[
+                                      "buyValue"
+                                  ] += value
+                              else:
                                   result["sells"] += 1
-                                  result["sellValue"] += value
+                                  result[
+                                      "sellValue"
+                                  ] += value
 
-                          # SEC'ye yük bindirmemek için
                           time.sleep(0.15)
 
                       except Exception as e:
                           print(
                               symbol,
-                              "FORM4 DOCUMENT ERROR:",
+                              "Form4 error:",
                               repr(e)
                           )
 
                   buy_value = result["buyValue"]
                   sell_value = result["sellValue"]
 
-                  # Veri başarıyla SEC'den geldi.
-                  # Açık piyasa işlem yoksa nötr = 10.
                   if buy_value == 0 and sell_value == 0:
                       score = 10
-
                   else:
                       total = buy_value + sell_value
 
@@ -385,84 +408,67 @@ jobs:
                           balance = (
                               buy_value - sell_value
                           ) / total
-
                           score = round(
                               10 + balance * 10
                           )
                       else:
                           score = 10
 
-                  score = max(
-                      0,
-                      min(20, score)
+                  result["score"] = max(
+                      0, min(20, score)
                   )
-
-                  result["score"] = score
 
                   result["buyValue"] = round(
-                      result["buyValue"],
-                      2
+                      buy_value, 2
                   )
-
                   result["sellValue"] = round(
-                      result["sellValue"],
-                      2
+                      sell_value, 2
                   )
 
                   result["transactions"] = sorted(
                       result["transactions"],
                       key=lambda x: (
-                          x.get("transactionDate") or "",
-                          x.get("filingDate") or ""
+                          x.get(
+                              "transactionDate"
+                          ) or "",
+                          x.get(
+                              "filingDate"
+                          ) or ""
                       ),
                       reverse=True
                   )[:25]
-
-                  print(
-                      symbol,
-                      "SEC score:",
-                      score,
-                      "buys:",
-                      result["buys"],
-                      "sells:",
-                      result["sells"]
-                  )
 
                   return result
 
               except Exception as e:
                   print(
                       symbol,
-                      "SEC SUBMISSIONS ERROR:",
+                      "SEC submissions error:",
                       repr(e)
                   )
                   return result
 
-          # ==================================================
+          # ==============================================
           # RADAR
-          # ==================================================
+          # ==============================================
 
           stocks = []
 
           for symbol in SYMBOLS:
-
-              print("\nProcessing", symbol)
+              print("Processing", symbol)
 
               quote = fmp(
                   "quote",
                   {"symbol": symbol}
               )
-
               growth = fmp(
                   "financial-growth",
                   {"symbol": symbol}
               )
-
               ratios = fmp(
                   "ratios-ttm",
                   {"symbol": symbol}
               )
-
               targets = fmp(
                   "price-target-consensus",
                   {"symbol": symbol}
@@ -473,19 +479,16 @@ jobs:
                   if isinstance(quote, list) and quote
                   else {}
               )
-
               g = (
                   growth[0]
                   if isinstance(growth, list) and growth
                   else {}
               )
-
               r = (
                   ratios[0]
                   if isinstance(ratios, list) and ratios
                   else {}
               )
-
               t = (
                   targets[0]
                   if isinstance(targets, list) and targets
@@ -493,12 +496,11 @@ jobs:
               )
 
               price = q.get("price")
-              change_pct = q.get("changePercentage")
+              change_pct = q.get(
+                  "changePercentage"
+              )
 
-              # --------------------------
               # Analist /15
-              # --------------------------
-
               analyst_score = 0
 
               target = (
@@ -508,11 +510,9 @@ jobs:
 
               try:
                   if price and target:
-
                       upside = (
                           float(target)
-                          / float(price)
-                          - 1
+                          / float(price) - 1
                       ) * 100
 
                       if upside >= 30:
@@ -527,14 +527,10 @@ jobs:
                           analyst_score = 4
                       else:
                           analyst_score = 1
-
               except Exception:
                   pass
 
-              # --------------------------
               # Büyüme /15
-              # --------------------------
-
               growth_score = 0
               growth_values = []
 
@@ -553,10 +549,7 @@ jobs:
                       except Exception:
                           pass
 
-              avg_growth = None
-
               if growth_values:
-
                   avg_growth = (
                       sum(growth_values)
                       / len(growth_values)
@@ -573,27 +566,21 @@ jobs:
                   elif avg_growth >= 0:
                       growth_score = 4
 
-              # --------------------------
               # Değerleme /10
-              # --------------------------
-
               valuation_score = 5
 
               pe = r.get(
                   "priceToEarningsRatioTTM"
               )
-
               peg = r.get(
                   "priceToEarningsGrowthRatioTTM"
               )
 
               try:
-
                   if (
                       peg is not None
                       and float(peg) > 0
                   ):
-
                       p = float(peg)
 
                       if p <= 1:
@@ -608,7 +595,6 @@ jobs:
                           valuation_score = 2
 
                   elif pe is not None:
-
                       p = float(pe)
 
                       if 0 < p <= 20:
@@ -623,10 +609,7 @@ jobs:
               except Exception:
                   valuation_score = 5
 
-              # --------------------------
               # Momentum /10
-              # --------------------------
-
               momentum_score = 5
 
               try:
@@ -646,16 +629,66 @@ jobs:
                       momentum_score = 2
                   else:
                       momentum_score = 1
-
               except Exception:
                   pass
 
-              # --------------------------
               # SEC Insider /20
-              # --------------------------
-
               insider = sec_insider(symbol)
-              insider_score = insider.get("score")
+              insider_score = insider.get(
+                  "score"
+              )
+
+              # Kurumsal 13F /10
+              institutional = (
+                  institutional_data.get(
+                      symbol, {}
+                  )
+              )
+
+              institutional_score = (
+                  institutional.get("score")
+                  if institutional.get(
+                      "status"
+                  ) == "ok"
+                  else None
+              )
+
+              institutional_result = {
+                  "score":
+                      institutional_score,
+                  "max": 10,
+                  "status":
+                      institutional.get(
+                          "status",
+                          "unavailable"
+                      ),
+                  "validManagers":
+                      institutional.get(
+                          "validManagers", 0
+                      ),
+                  "increases":
+                      institutional.get(
+                          "increases", 0
+                      ),
+                  "decreases":
+                      institutional.get(
+                          "decreases", 0
+                      ),
+                  "unchanged":
+                      institutional.get(
+                          "unchanged", 0
+                      ),
+                  "anomaliesExcluded":
+                      institutional.get(
+                          "anomaliesExcluded", 0
+                      ),
+                  "managers":
+                      institutional.get(
+                          "managers", []
+                      ),
+                  "source":
+                      "SEC EDGAR Form 13F-HR"
+              }
 
               base_score = (
                   analyst_score
@@ -664,33 +697,37 @@ jobs:
                   + momentum_score
               )
 
-              # SEC isteği başarısızsa puanı
-              # uydurma: mevcut 50 üzerinden kal.
-              if insider_score is None:
-                  radar_score = base_score
-                  radar_max = 50
+              radar_score = base_score
+              radar_max = 50
 
-              else:
-                  radar_score = (
-                      base_score
-                      + insider_score
-                  )
-                  radar_max = 70
+              if insider_score is not None:
+                  radar_score += insider_score
+                  radar_max += 20
+
+              if institutional_score is not None:
+                  radar_score += institutional_score
+                  radar_max += 10
 
               stocks.append({
                   "symbol": symbol,
                   "name": q.get("name"),
                   "price": price,
                   "change": q.get("change"),
-                  "changePercentage": change_pct,
+                  "changePercentage":
+                      change_pct,
                   "volume": q.get("volume"),
-                  "marketCap": q.get("marketCap"),
+                  "marketCap":
+                      q.get("marketCap"),
 
                   "fundamentals": {
                       "revenueGrowth":
-                          g.get("revenueGrowth"),
+                          g.get(
+                              "revenueGrowth"
+                          ),
                       "netIncomeGrowth":
-                          g.get("netIncomeGrowth"),
+                          g.get(
+                              "netIncomeGrowth"
+                          ),
                       "epsGrowth":
                           g.get("epsgrowth"),
                       "pe": pe,
@@ -699,7 +736,9 @@ jobs:
 
                   "analyst": {
                       "targetConsensus":
-                          t.get("targetConsensus"),
+                          t.get(
+                              "targetConsensus"
+                          ),
                       "targetHigh":
                           t.get("targetHigh"),
                       "targetLow":
@@ -709,6 +748,9 @@ jobs:
                   },
 
                   "insider": insider,
+
+                  "institutional":
+                      institutional_result,
 
                   "radar": {
                       "score": radar_score,
@@ -723,7 +765,9 @@ jobs:
                           "momentum":
                               momentum_score,
                           "insider":
-                              insider_score
+                              insider_score,
+                          "institutional":
+                              institutional_score
                       }
                   }
               })
@@ -733,22 +777,18 @@ jobs:
                   datetime.now(
                       timezone.utc
                   ).isoformat(),
-              "score_version": "0.3.1",
-              "current_score_max": 70,
+              "score_version": "0.5.0",
+              "current_score_max": 80,
               "stocks": stocks
           }
 
-          os.makedirs(
-              "data",
-              exist_ok=True
-          )
+          os.makedirs("data", exist_ok=True)
 
           with open(
               "data/radar.json",
               "w",
               encoding="utf-8"
           ) as f:
-
               json.dump(
                   output,
                   f,
@@ -756,7 +796,7 @@ jobs:
                   indent=2
               )
 
-          print("\nRadar update complete")
+          print("Radar v0.5.0 update complete")
           PY
 
       - name: Değişiklikleri kaydet
@@ -765,5 +805,5 @@ jobs:
           git config user.email "actions@github.com"
           git add data/radar.json
           git diff --cached --quiet && exit 0
-          git commit -m "SEC Form 4 baglantisini duzelt"
+          git commit -m "13F kurumsal verisini radar puanina ekle v0.5.0"
           git push
