@@ -1,0 +1,112 @@
+{
+  "updated_at": "2026-09-26T13:03:42.022058+00:00",
+  "version": "0.4",
+  "source": "SEC EDGAR Form 13F-HR",
+  "max_score": 10,
+  "note": "13F verileri gerçek zamanlı değildir. Son iki bildirilen çeyrek karşılaştırılır.",
+  "managers": [
+    {
+      "manager": "Berkshire Hathaway",
+      "cik": "0001067983",
+      "status": "error",
+      "latest": null,
+      "previous": null,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "manager": "BlackRock",
+      "cik": "0001364742",
+      "status": "error",
+      "latest": null,
+      "previous": null,
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "manager": "Vanguard Group",
+      "cik": "0000102909",
+      "status": "error",
+      "latest": null,
+      "previous": null,
+      "error": "HTTP Error 403: Forbidden"
+    }
+  ],
+  "stocks": {
+    "AAPL": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "MSFT": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "NVDA": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "AMZN": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "GOOGL": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "META": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    },
+    "TSLA": {
+      "status": "unavailable",
+      "score": null,
+      "maxScore": 10,
+      "increases": 0,
+      "decreases": 0,
+      "unchanged": 0,
+      "validManagers": 0,
+      "latestReportedValue": 0,
+      "managers": []
+    }
+  }
+}
