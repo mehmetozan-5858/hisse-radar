@@ -1,7 +1,9 @@
 {
-  "updated_at": "2026-09-26T11:22:06.289483+00:00",
+  "updated_at": "2026-09-26T11:50:44.104241+00:00",
   "status": "ok",
   "source": "FMP",
+  "score_version": "0.2",
+  "current_score_max": 50,
   "stocks": [
     {
       "symbol": "AAPL",
@@ -10,7 +12,30 @@
       "change": 5.15,
       "changePercentage": 1.5331,
       "volume": 29649787,
-      "marketCap": 5009416510920
+      "marketCap": 5009416510920,
+      "radar": {
+        "score": 31,
+        "max": 50,
+        "components": {
+          "analyst": 4,
+          "growth": 13,
+          "valuation": 6,
+          "momentum": 8
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.0642551178283274,
+        "netIncomeGrowth": 0.19495177946573355,
+        "epsGrowth": 0.22585924713584285,
+        "pe": 38.93493150684932,
+        "peg": 1.1896784627092833
+      },
+      "analyst": {
+        "targetConsensus": 342.13,
+        "targetHigh": 400.0,
+        "targetLow": 245.0,
+        "targetMedian": 362.0
+      }
     },
     {
       "symbol": "MSFT",
@@ -19,7 +44,30 @@
       "change": 18.24,
       "changePercentage": 3.66317,
       "volume": 37985485,
-      "marketCap": 3832846143500
+      "marketCap": 3832846143500,
+      "radar": {
+        "score": 40,
+        "max": 50,
+        "components": {
+          "analyst": 7,
+          "growth": 15,
+          "valuation": 8,
+          "momentum": 10
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.1778868679984666,
+        "netIncomeGrowth": 0.3134279990572708,
+        "epsGrowth": 0.3138686131386862,
+        "pe": 28.67611111111111,
+        "peg": 0.9108490977055925
+      },
+      "analyst": {
+        "targetConsensus": 556.42,
+        "targetHigh": 690.0,
+        "targetLow": 440.0,
+        "targetMedian": 550.0
+      }
     },
     {
       "symbol": "NVDA",
@@ -28,7 +76,30 @@
       "change": 0.49,
       "changePercentage": 0.21819,
       "volume": 87931936,
-      "marketCap": 5451420470000
+      "marketCap": 5451420470000,
+      "radar": {
+        "score": 44,
+        "max": 50,
+        "components": {
+          "analyst": 15,
+          "growth": 15,
+          "valuation": 8,
+          "momentum": 6
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.654735357900948,
+        "netIncomeGrowth": 0.6474615806805708,
+        "epsGrowth": 0.6599326599326597,
+        "pe": 28.310691823899365,
+        "peg": 0.22725589355238948
+      },
+      "analyst": {
+        "targetConsensus": 345.21,
+        "targetHigh": 515.0,
+        "targetLow": 270.0,
+        "targetMedian": 322.5
+      }
     },
     {
       "symbol": "AMZN",
@@ -37,7 +108,30 @@
       "change": 0.29,
       "changePercentage": 0.11629,
       "volume": 32976800,
-      "marketCap": 2685725157000
+      "marketCap": 2685725157000,
+      "radar": {
+        "score": 43,
+        "max": 50,
+        "components": {
+          "analyst": 15,
+          "growth": 13,
+          "valuation": 9,
+          "momentum": 6
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.12377754683294695,
+        "netIncomeGrowth": 0.3109303267620848,
+        "epsGrowth": 0.2879858657243816,
+        "pe": 19.815079365079363,
+        "peg": 0.22430267504632986
+      },
+      "analyst": {
+        "targetConsensus": 326.33,
+        "targetHigh": 390.0,
+        "targetLow": 200.0,
+        "targetMedian": 325.0
+      }
     },
     {
       "symbol": "GOOGL",
@@ -46,7 +140,30 @@
       "change": 1.56,
       "changePercentage": 0.45566,
       "volume": 21265244,
-      "marketCap": 4162158113480.9995
+      "marketCap": 4162158113480.9995,
+      "radar": {
+        "score": 43,
+        "max": 50,
+        "components": {
+          "analyst": 13,
+          "growth": 15,
+          "valuation": 9,
+          "momentum": 6
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.15090081081544376,
+        "netIncomeGrowth": 0.3201422321660441,
+        "epsGrowth": 0.3419434194341942,
+        "pe": 16.93545183714002,
+        "peg": 0.1506079581764422
+      },
+      "analyst": {
+        "targetConsensus": 431.57,
+        "targetHigh": 485.0,
+        "targetLow": 350.0,
+        "targetMedian": 425.0
+      }
     },
     {
       "symbol": "META",
@@ -55,7 +172,30 @@
       "change": -25.93,
       "changePercentage": -3.33466,
       "volume": 25649562,
-      "marketCap": 1914843755206
+      "marketCap": 1914843755206,
+      "radar": {
+        "score": 19,
+        "max": 50,
+        "components": {
+          "analyst": 4,
+          "growth": 8,
+          "valuation": 6,
+          "momentum": 1
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": 0.2216703849824621,
+        "netIncomeGrowth": -0.030500320718409236,
+        "epsGrowth": -0.02559934985778135,
+        "pe": 27.932367149758456,
+        "peg": -5.726135265700479
+      },
+      "analyst": {
+        "targetConsensus": 766.94,
+        "targetHigh": 950.0,
+        "targetLow": 595.0,
+        "targetMedian": 769.0
+      }
     },
     {
       "symbol": "TSLA",
@@ -64,7 +204,30 @@
       "change": -5.83,
       "changePercentage": -1.54257,
       "volume": 44753533,
-      "marketCap": 1469666080781
+      "marketCap": 1469666080781,
+      "radar": {
+        "score": 17,
+        "max": 50,
+        "components": {
+          "analyst": 13,
+          "growth": 0,
+          "valuation": 2,
+          "momentum": 2
+        }
+      },
+      "fundamentals": {
+        "revenueGrowth": -0.029306991503736307,
+        "netIncomeGrowth": -0.4678821879382889,
+        "epsGrowth": -0.47089947089947093,
+        "pe": 315.3474576271187,
+        "peg": -8.394460491764141
+      },
+      "analyst": {
+        "targetConsensus": 462.77,
+        "targetHigh": 840.0,
+        "targetLow": 360.0,
+        "targetMedian": 450.0
+      }
     }
   ]
 }
