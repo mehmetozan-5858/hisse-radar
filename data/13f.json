@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-26T13:03:42.022058+00:00",
-  "version": "0.4",
+  "updated_at": "2026-09-26T13:17:27.029553+00:00",
+  "version": "0.4.1",
   "source": "SEC EDGAR Form 13F-HR",
   "max_score": 10,
   "note": "13F verileri gerçek zamanlı değildir. Son iki bildirilen çeyrek karşılaştırılır.",
@@ -8,105 +8,358 @@
     {
       "manager": "Berkshire Hathaway",
       "cik": "0001067983",
-      "status": "error",
-      "latest": null,
-      "previous": null,
-      "error": "HTTP Error 403: Forbidden"
+      "status": "ok",
+      "latest": {
+        "accession": "0001193125-26-352200",
+        "filingDate": "2026-08-14",
+        "reportDate": "2026-06-30",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526352200/56757.xml"
+      },
+      "previous": {
+        "accession": "0001193125-26-226661",
+        "filingDate": "2026-05-15",
+        "reportDate": "2026-03-31",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526226661/53405.xml"
+      },
+      "error": null
     },
     {
       "manager": "BlackRock",
       "cik": "0001364742",
-      "status": "error",
-      "latest": null,
-      "previous": null,
-      "error": "HTTP Error 403: Forbidden"
+      "status": "ok",
+      "latest": {
+        "accession": "0001086364-24-008417",
+        "filingDate": "2024-08-13",
+        "reportDate": "2024-06-30",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1364742/000108636424008417/form13fInfoTable.xml"
+      },
+      "previous": {
+        "accession": "0001086364-24-007638",
+        "filingDate": "2024-05-10",
+        "reportDate": "2024-03-31",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1364742/000108636424007638/form13fInfoTable.xml"
+      },
+      "error": null
     },
     {
       "manager": "Vanguard Group",
       "cik": "0000102909",
-      "status": "error",
-      "latest": null,
-      "previous": null,
-      "error": "HTTP Error 403: Forbidden"
+      "status": "ok",
+      "latest": {
+        "accession": "0000102909-26-000031",
+        "filingDate": "2026-01-29",
+        "reportDate": "2025-12-31",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/102909/000010290926000031/13F_0000102909_20251231.xml"
+      },
+      "previous": {
+        "accession": "0000102909-25-000353",
+        "filingDate": "2025-11-07",
+        "reportDate": "2025-09-30",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/102909/000010290925000353/13F_0000102909_20250930.xml"
+      },
+      "error": null
     }
   ],
   "stocks": {
     "AAPL": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 8,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 2,
       "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 676063181398000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 227917808.0,
+          "previousShares": 227917808.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 65950296923000.0,
+          "previousValue": 57843260493000.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 1055756052.0,
+          "previousShares": 1041919406.0,
+          "shareChange": 13836646.0,
+          "shareChangePct": 1.3279958046966256,
+          "latestValue": 222363339623000.0,
+          "previousValue": 178668339739000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 1426283914.0,
+          "previousShares": 1399427162.0,
+          "shareChange": 26856752.0,
+          "shareChangePct": 1.919124676815441,
+          "latestValue": 387749544852000.0,
+          "previousValue": 356336138233000.0
+        }
+      ]
     },
     "MSFT": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 8,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 2,
       "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 594947554585000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 0.0,
+          "previousShares": 0.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 0.0,
+          "previousValue": 0.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 554281607.0,
+          "previousShares": 546416859.0,
+          "shareChange": 7864748.0,
+          "shareChangePct": 1.4393311389391081,
+          "latestValue": 247736163987000.0,
+          "previousValue": 229888501088000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 717942580.0,
+          "previousShares": 701986682.0,
+          "shareChange": 15955898.0,
+          "shareChangePct": 2.272963064561387,
+          "latestValue": 347211390598000.0,
+          "previousValue": 363594002112000.0
+        }
+      ]
     },
     "NVDA": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 8,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 2,
       "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 650217333437000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 0.0,
+          "previousShares": 0.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 0.0,
+          "previousValue": 0.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 1841354238.0,
+          "previousShares": 182909425.0,
+          "shareChange": 1658444813.0,
+          "shareChangePct": 906.7027644966901,
+          "latestValue": 227480902640000.0,
+          "previousValue": 165269640113000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 2266683275.0,
+          "previousShares": 2223533800.0,
+          "shareChange": 43149475.0,
+          "shareChangePct": 1.9405810246734274,
+          "latestValue": 422736430797000.0,
+          "previousValue": 414866936311000.0
+        }
+      ]
     },
     "AMZN": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 5,
       "maxScore": 10,
-      "increases": 0,
-      "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "increases": 1,
+      "decreases": 1,
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 320495691896000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 0.0,
+          "previousShares": 0.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 0.0,
+          "previousValue": 0.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 648695172.0,
+          "previousShares": 641239595.0,
+          "shareChange": 7455577.0,
+          "shareChangePct": 1.1626819457397979,
+          "latestValue": 125360342023000.0,
+          "previousValue": 115666798131000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "decrease",
+          "latestShares": 845400528.0,
+          "previousShares": 850338457.0,
+          "shareChange": -4937929.0,
+          "shareChangePct": -0.5807015970347911,
+          "latestValue": 195135349873000.0,
+          "previousValue": 186708815004000.0
+        }
+      ]
     },
     "GOOGL": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 10,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 3,
       "decreases": 0,
       "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "validManagers": 3,
+      "latestReportedValue": 477320622586000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "increase",
+          "latestShares": 105979600.0,
+          "previousShares": 57835013.0,
+          "shareChange": 48144587.0,
+          "shareChangePct": 83.24470680070566,
+          "latestValue": 37764088383000.0,
+          "previousValue": 16628526688000.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 776413627.0,
+          "previousShares": 771937562.0,
+          "shareChange": 4476065.0,
+          "shareChangePct": 0.5798480628929417,
+          "latestValue": 141875011591000.0,
+          "previousValue": 116982072526000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 949983104.0,
+          "previousShares": 929323175.0,
+          "shareChange": 20659929.0,
+          "shareChangePct": 2.2231156561870953,
+          "latestValue": 297681522612000.0,
+          "previousValue": 226104262343000.0
+        }
+      ]
     },
     "META": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 8,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 2,
       "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 213277408457000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 0.0,
+          "previousShares": 0.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 0.0,
+          "previousValue": 0.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 161164359.0,
+          "previousShares": 159275791.0,
+          "shareChange": 1888568.0,
+          "shareChangePct": 1.1857219406306387,
+          "latestValue": 81262293039000.0,
+          "previousValue": 77341138491000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 199995630.0,
+          "previousShares": 192726351.0,
+          "shareChange": 7269279.0,
+          "shareChangePct": 3.771813746424328,
+          "latestValue": 132015115418000.0,
+          "previousValue": 141534377648000.0
+        }
+      ]
     },
     "TSLA": {
-      "status": "unavailable",
-      "score": null,
+      "status": "ok",
+      "score": 8,
       "maxScore": 10,
-      "increases": 0,
+      "increases": 2,
       "decreases": 0,
-      "unchanged": 0,
-      "validManagers": 0,
-      "latestReportedValue": 0,
-      "managers": []
+      "unchanged": 1,
+      "validManagers": 3,
+      "latestReportedValue": 154057665182000.0,
+      "managers": [
+        {
+          "manager": "Berkshire Hathaway",
+          "direction": "unchanged",
+          "latestShares": 0.0,
+          "previousShares": 0.0,
+          "shareChange": 0.0,
+          "shareChangePct": 0.0,
+          "latestValue": 0.0,
+          "previousValue": 0.0
+        },
+        {
+          "manager": "BlackRock",
+          "direction": "increase",
+          "latestShares": 190084412.0,
+          "previousShares": 189295067.0,
+          "shareChange": 789345.0,
+          "shareChangePct": 0.4169918490268951,
+          "latestValue": 37613903389000.0,
+          "previousValue": 33276179812000.0
+        },
+        {
+          "manager": "Vanguard Group",
+          "direction": "increase",
+          "latestShares": 258925024.0,
+          "previousShares": 252386304.0,
+          "shareChange": 6538720.0,
+          "shareChangePct": 2.5907586490905623,
+          "latestValue": 116443761793000.0,
+          "previousValue": 112241237115000.0
+        }
+      ]
     }
   }
 }
