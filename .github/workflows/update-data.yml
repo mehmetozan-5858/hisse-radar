@@ -3,7 +3,7 @@ name: Update Radar Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 * * * *"
+    - cron: "17 */8 * * *"
 
 permissions:
   contents: write
@@ -37,7 +37,7 @@ jobs:
           API_KEY = os.environ["FMP_API_KEY"]
 
           # ==============================================
-          # RADAR HİSSE EVRENİ
+          # RADAR HİSSE EVRENİ - 20 HİSSE
           # ==============================================
 
           SYMBOLS = [
@@ -66,27 +66,59 @@ jobs:
           FMP_BASE = "https://financialmodelingprep.com/stable"
 
           SEC_HEADERS = {
-              "User-Agent": "HisseRadar/1.0 research application contact hisseradar@example.com",
-              "Accept": "application/json,text/xml,application/xml,text/html"
+              "User-Agent":
+                  "HisseRadar/1.0 research application contact hisseradar@example.com",
+              "Accept":
+                  "application/json,text/xml,application/xml,text/html"
           }
 
+          # ==============================================
+          # GENEL HTTP
+          # ==============================================
+
           def get_json(url, headers=None):
-              req = Request(url, headers=headers or {})
-              with urlopen(req, timeout=30) as response:
+              req = Request(
+                  url,
+                  headers=headers or {}
+              )
+
+              with urlopen(
+                  req,
+                  timeout=30
+              ) as response:
+
                   return json.loads(
-                      response.read().decode("utf-8")
+                      response.read().decode(
+                          "utf-8"
+                      )
                   )
 
           def get_text(url, headers=None):
-              req = Request(url, headers=headers or {})
-              with urlopen(req, timeout=30) as response:
+              req = Request(
+                  url,
+                  headers=headers or {}
+              )
+
+              with urlopen(
+                  req,
+                  timeout=30
+              ) as response:
+
                   return response.read().decode(
                       "utf-8",
                       errors="ignore"
                   )
 
+          # ==============================================
+          # FMP
+          # ==============================================
+
           def fmp(endpoint, params=None):
-              p = dict(params or {})
+
+              p = dict(
+                  params or {}
+              )
+
               p["apikey"] = API_KEY
 
               url = (
@@ -98,13 +130,19 @@ jobs:
               )
 
               try:
-                  return get_json(url)
-              except Exception as e:
-                  print(
-                      "FMP error",
-                      endpoint,
-                      e
+
+                  return get_json(
+                      url
                   )
+
+              except Exception as e:
+
+                  print(
+                      "FMP error:",
+                      endpoint,
+                      repr(e)
+                  )
+
                   return []
 
           # ==============================================
@@ -114,12 +152,16 @@ jobs:
           institutional_data = {}
 
           try:
+
               with open(
                   "data/13f.json",
                   "r",
                   encoding="utf-8"
               ) as f:
-                  institutional_file = json.load(f)
+
+                  institutional_file = json.load(
+                      f
+                  )
 
               institutional_data = (
                   institutional_file.get(
@@ -136,12 +178,11 @@ jobs:
               )
 
           except Exception as e:
+
               print(
                   "13F load error:",
                   repr(e)
               )
-
-              institutional_data = {}
 
           # ==============================================
           # SEC TICKER -> CIK
@@ -150,12 +191,14 @@ jobs:
           CIK_MAP = {}
 
           try:
+
               ticker_data = get_json(
                   "https://www.sec.gov/files/company_tickers.json",
                   SEC_HEADERS
               )
 
               for item in ticker_data.values():
+
                   ticker = str(
                       item.get(
                           "ticker",
@@ -168,12 +211,18 @@ jobs:
                           "cik_str",
                           ""
                       )
-                  ).zfill(10)
+                  ).zfill(
+                      10
+                  )
 
                   if ticker and cik:
-                      CIK_MAP[ticker] = cik
+
+                      CIK_MAP[
+                          ticker
+                      ] = cik
 
           except Exception as e:
+
               print(
                   "SEC ticker map error:",
                   repr(e)
@@ -197,7 +246,9 @@ jobs:
                   "lookbackDays": 90
               }
 
-              cik = CIK_MAP.get(symbol)
+              cik = CIK_MAP.get(
+                  symbol
+              )
 
               if not cik:
                   return result
@@ -211,12 +262,16 @@ jobs:
                       SEC_HEADERS
                   )
 
-                  recent = submissions.get(
-                      "filings",
-                      {}
-                  ).get(
-                      "recent",
-                      {}
+                  recent = (
+                      submissions
+                      .get(
+                          "filings",
+                          {}
+                      )
+                      .get(
+                          "recent",
+                          {}
+                      )
                   )
 
                   forms = recent.get(
@@ -243,22 +298,34 @@ jobs:
                       datetime.now(
                           timezone.utc
                       )
-                      - timedelta(days=90)
+                      - timedelta(
+                          days=90
+                      )
                   )
 
                   form4s = []
 
-                  for i, form in enumerate(forms):
+                  for i, form in enumerate(
+                      forms
+                  ):
 
-                      if str(form).strip() != "4":
+                      if str(
+                          form
+                      ).strip() != "4":
+
                           continue
 
-                      if i >= len(accessions):
+                      if i >= len(
+                          accessions
+                      ):
+
                           continue
 
                       filing_date = (
                           filing_dates[i]
-                          if i < len(filing_dates)
+                          if i < len(
+                              filing_dates
+                          )
                           else None
                       )
 
@@ -266,26 +333,34 @@ jobs:
 
                           try:
 
-                              dt = datetime.strptime(
-                                  filing_date,
-                                  "%Y-%m-%d"
-                              ).replace(
-                                  tzinfo=timezone.utc
+                              dt = (
+                                  datetime.strptime(
+                                      filing_date,
+                                      "%Y-%m-%d"
+                                  )
+                                  .replace(
+                                      tzinfo=timezone.utc
+                                  )
                               )
 
                               if dt < cutoff:
+
                                   continue
 
                           except Exception:
+
                               pass
 
                       primary_doc = (
                           primary_docs[i]
-                          if i < len(primary_docs)
+                          if i < len(
+                              primary_docs
+                          )
                           else None
                       )
 
                       if not primary_doc:
+
                           continue
 
                       form4s.append({
@@ -297,14 +372,19 @@ jobs:
                               primary_doc
                       })
 
-                      if len(form4s) >= 20:
+                      if len(
+                          form4s
+                      ) >= 20:
+
                           break
 
                   for filing in form4s:
 
-                      accession = filing[
-                          "accession"
-                      ]
+                      accession = (
+                          filing[
+                              "accession"
+                          ]
+                      )
 
                       accession_clean = (
                           accession.replace(
@@ -314,12 +394,16 @@ jobs:
                       )
 
                       cik_nozero = str(
-                          int(cik)
+                          int(
+                              cik
+                          )
                       )
 
-                      primary_doc = filing[
-                          "primaryDocument"
-                      ]
+                      primary_doc = (
+                          filing[
+                              "primaryDocument"
+                          ]
+                      )
 
                       document_url = (
                           "https://www.sec.gov/Archives/edgar/data/"
@@ -337,21 +421,27 @@ jobs:
                               SEC_HEADERS
                           )
 
-                          start = text.lower().find(
-                              "<ownershipdocument"
+                          start = (
+                              text.lower().find(
+                                  "<ownershipdocument"
+                              )
                           )
 
-                          end = text.lower().find(
-                              "</ownershipdocument>"
+                          end = (
+                              text.lower().find(
+                                  "</ownershipdocument>"
+                              )
                           )
 
                           if (
                               start == -1
                               or end == -1
                           ):
+
                               time.sleep(
                                   0.12
                               )
+
                               continue
 
                           end += len(
@@ -359,7 +449,9 @@ jobs:
                           )
 
                           root = ET.fromstring(
-                              text[start:end]
+                              text[
+                                  start:end
+                              ]
                           )
 
                           owner_name = ""
@@ -374,6 +466,7 @@ jobs:
                               owner_node is not None
                               and owner_node.text
                           ):
+
                               owner_name = (
                                   owner_node.text.strip()
                               )
@@ -405,6 +498,7 @@ jobs:
                                   code_node is None
                                   or not code_node.text
                               ):
+
                                   continue
 
                               code = (
@@ -417,9 +511,11 @@ jobs:
                                   "P",
                                   "S"
                               ):
+
                                   continue
 
                               try:
+
                                   shares = (
                                       float(
                                           shares_node.text
@@ -428,10 +524,13 @@ jobs:
                                       is not None
                                       else 0
                                   )
+
                               except Exception:
+
                                   shares = 0
 
                               try:
+
                                   price = (
                                       float(
                                           price_node.text
@@ -440,7 +539,9 @@ jobs:
                                       is not None
                                       else 0
                                   )
+
                               except Exception:
+
                                   price = 0
 
                               value = (
@@ -525,13 +626,17 @@ jobs:
                               repr(e)
                           )
 
-                  buy_value = result[
-                      "buyValue"
-                  ]
+                  buy_value = (
+                      result[
+                          "buyValue"
+                      ]
+                  )
 
-                  sell_value = result[
-                      "sellValue"
-                  ]
+                  sell_value = (
+                      result[
+                          "sellValue"
+                      ]
+                  )
 
                   if (
                       buy_value == 0
@@ -560,9 +665,12 @@ jobs:
                           )
 
                       else:
+
                           score = 10
 
-                  result["score"] = max(
+                  result[
+                      "score"
+                  ] = max(
                       0,
                       min(
                           20,
@@ -570,12 +678,16 @@ jobs:
                       )
                   )
 
-                  result["buyValue"] = round(
+                  result[
+                      "buyValue"
+                  ] = round(
                       buy_value,
                       2
                   )
 
-                  result["sellValue"] = round(
+                  result[
+                      "sellValue"
+                  ] = round(
                       sell_value,
                       2
                   )
@@ -618,35 +730,39 @@ jobs:
           for symbol in SYMBOLS:
 
               print(
-                  "Processing",
+                  "Processing:",
                   symbol
               )
 
               quote = fmp(
                   "quote",
                   {
-                      "symbol": symbol
+                      "symbol":
+                          symbol
                   }
               )
 
               growth = fmp(
                   "financial-growth",
                   {
-                      "symbol": symbol
+                      "symbol":
+                          symbol
                   }
               )
 
               ratios = fmp(
                   "ratios-ttm",
                   {
-                      "symbol": symbol
+                      "symbol":
+                          symbol
                   }
               )
 
               targets = fmp(
                   "price-target-consensus",
                   {
-                      "symbol": symbol
+                      "symbol":
+                          symbol
                   }
               )
 
@@ -726,8 +842,12 @@ jobs:
                   if price and target:
 
                       upside = (
-                          float(target)
-                          / float(price)
+                          float(
+                              target
+                          )
+                          / float(
+                              price
+                          )
                           - 1
                       ) * 100
 
@@ -750,6 +870,7 @@ jobs:
                           analyst_score = 1
 
               except Exception:
+
                   pass
 
               # ==========================================
@@ -773,10 +894,15 @@ jobs:
                   if value is not None:
 
                       try:
+
                           growth_values.append(
-                              float(value)
+                              float(
+                                  value
+                              )
                           )
+
                       except Exception:
+
                           pass
 
               if growth_values:
@@ -823,7 +949,9 @@ jobs:
 
                   if (
                       peg is not None
-                      and float(peg) > 0
+                      and float(
+                          peg
+                      ) > 0
                   ):
 
                       p = float(
@@ -851,9 +979,7 @@ jobs:
                           pe
                       )
 
-                      if (
-                          0 < p <= 20
-                      ):
+                      if 0 < p <= 20:
                           valuation_score = 9
 
                       elif p <= 30:
@@ -903,6 +1029,7 @@ jobs:
                       momentum_score = 1
 
               except Exception:
+
                   pass
 
               # ==========================================
@@ -913,8 +1040,10 @@ jobs:
                   symbol
               )
 
-              insider_score = insider.get(
-                  "score"
+              insider_score = (
+                  insider.get(
+                      "score"
+                  )
               )
 
               # ==========================================
@@ -1003,7 +1132,10 @@ jobs:
                   + momentum_score
               )
 
-              radar_score = base_score
+              radar_score = (
+                  base_score
+              )
+
               radar_max = 50
 
               if insider_score is not None:
@@ -1186,12 +1318,20 @@ jobs:
               )
 
           print(
+              "================================"
+          )
+
+          print(
               "Radar v0.6.0 update complete"
           )
 
           print(
               "Hisse sayısı:",
               len(SYMBOLS)
+          )
+
+          print(
+              "================================"
           )
 
           PY
@@ -1205,6 +1345,6 @@ jobs:
 
           git diff --cached --quiet && exit 0
 
-          git commit -m "Expand radar universe to 20 stocks v0.6.0"
+          git commit -m "Update 20-stock radar v0.6.0"
 
           git push
