@@ -24,22 +24,25 @@ jobs:
       - name: Global Niche verilerini güncelle
         run: |
           python <<'PY'
+          import csv
+          import io
           import json
           import time
           from datetime import datetime, timezone
           from urllib.request import Request, urlopen
           from urllib.parse import quote
 
-          # =========================================================
-          # GLOBAL NICHE RADAR v3
-          # FMP kullanılmaz.
-          # Fiyatlar Yahoo Finance chart endpoint'inden alınır.
-          # =========================================================
+          PATH = "data/global-niche.json"
+
+          # ---------------------------------------------------------
+          # ADAYLAR
+          # stooq = Stooq üzerinde denenecek sembol
+          # ---------------------------------------------------------
 
           CANDIDATES = [
               {
                   "symbol": "RKLB",
-                  "yahoo": "RKLB",
+                  "stooq": "RKLB.US",
                   "name": "Rocket Lab USA, Inc.",
                   "market": "NASDAQ",
                   "country": "USA",
@@ -49,7 +52,7 @@ jobs:
               },
               {
                   "symbol": "IONQ",
-                  "yahoo": "IONQ",
+                  "stooq": "IONQ.US",
                   "name": "IonQ, Inc.",
                   "market": "NYSE",
                   "country": "USA",
@@ -59,7 +62,7 @@ jobs:
               },
               {
                   "symbol": "SOUN",
-                  "yahoo": "SOUN",
+                  "stooq": "SOUN.US",
                   "name": "SoundHound AI, Inc.",
                   "market": "NASDAQ",
                   "country": "USA",
@@ -69,7 +72,7 @@ jobs:
               },
               {
                   "symbol": "QBTS",
-                  "yahoo": "QBTS",
+                  "stooq": "QBTS.US",
                   "name": "D-Wave Quantum Inc.",
                   "market": "NYSE",
                   "country": "USA",
@@ -79,7 +82,7 @@ jobs:
               },
               {
                   "symbol": "LUNR",
-                  "yahoo": "LUNR",
+                  "stooq": "LUNR.US",
                   "name": "Intuitive Machines, Inc.",
                   "market": "NASDAQ",
                   "country": "USA",
@@ -89,7 +92,7 @@ jobs:
               },
               {
                   "symbol": "PNG.V",
-                  "yahoo": "PNG.V",
+                  "stooq": None,
                   "name": "Kraken Robotics Inc.",
                   "market": "TSXV",
                   "country": "Canada",
@@ -99,7 +102,7 @@ jobs:
               },
               {
                   "symbol": "FLT.V",
-                  "yahoo": "FLT.V",
+                  "stooq": None,
                   "name": "Volatus Aerospace Inc.",
                   "market": "TSXV",
                   "country": "Canada",
@@ -109,7 +112,7 @@ jobs:
               },
               {
                   "symbol": "HE1.L",
-                  "yahoo": "HE1.L",
+                  "stooq": None,
                   "name": "Helium One Global Ltd",
                   "market": "LSE-AIM",
                   "country": "UK",
@@ -119,7 +122,7 @@ jobs:
               },
               {
                   "symbol": "BMN.L",
-                  "yahoo": "BMN.L",
+                  "stooq": None,
                   "name": "Bushveld Minerals Limited",
                   "market": "LSE-AIM",
                   "country": "UK",
@@ -129,7 +132,7 @@ jobs:
               },
               {
                   "symbol": "DRO.AX",
-                  "yahoo": "DRO.AX",
+                  "stooq": None,
                   "name": "DroneShield Limited",
                   "market": "ASX",
                   "country": "Australia",
@@ -139,7 +142,7 @@ jobs:
               },
               {
                   "symbol": "LTR.AX",
-                  "yahoo": "LTR.AX",
+                  "stooq": None,
                   "name": "Liontown Resources Limited",
                   "market": "ASX",
                   "country": "Australia",
@@ -149,7 +152,7 @@ jobs:
               },
               {
                   "symbol": "ALQGC.PA",
-                  "yahoo": "ALQGC.PA",
+                  "stooq": None,
                   "name": "Quantum Genomics",
                   "market": "Euronext",
                   "country": "France",
@@ -159,7 +162,7 @@ jobs:
               },
               {
                   "symbol": "MIATK.IS",
-                  "yahoo": "MIATK.IS",
+                  "stooq": None,
                   "name": "MIA Teknoloji A.S.",
                   "market": "BIST",
                   "country": "Türkiye",
@@ -169,7 +172,7 @@ jobs:
               },
               {
                   "symbol": "PAPIL.IS",
-                  "yahoo": "PAPIL.IS",
+                  "stooq": None,
                   "name": "Papilon Savunma",
                   "market": "BIST",
                   "country": "Türkiye",
@@ -180,332 +183,267 @@ jobs:
           ]
 
           HEADERS = {
-              "User-Agent": (
-                  "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) "
-                  "AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1"
-              ),
-              "Accept": "application/json,text/plain,*/*",
+              "User-Agent": "Mozilla/5.0",
+              "Accept": "text/csv,text/plain,*/*",
           }
 
-          def safe_float(value):
+          def number(value):
               try:
-                  if value is None:
+                  if value in (None, "", "N/D", "-"):
                       return None
                   return float(value)
               except Exception:
                   return None
 
-          def yahoo_quote(symbol):
-              encoded = quote(symbol, safe="")
-              url = (
-                  f"https://query1.finance.yahoo.com/v8/finance/chart/{encoded}"
-                  "?range=5d&interval=1d&includePrePost=false"
-              )
+          # ---------------------------------------------------------
+          # ESKİ DOSYA
+          # ---------------------------------------------------------
 
-              req = Request(url, headers=HEADERS)
-
-              with urlopen(req, timeout=15) as response:
-                  data = json.loads(response.read().decode("utf-8"))
-
-              chart = data.get("chart") or {}
-              error = chart.get("error")
-
-              if error:
-                  raise RuntimeError(str(error))
-
-              results = chart.get("result") or []
-
-              if not results:
-                  raise RuntimeError("Yahoo sonucu boş")
-
-              result = results[0]
-              meta = result.get("meta") or {}
-
-              price = safe_float(meta.get("regularMarketPrice"))
-
-              previous_close = safe_float(
-                  meta.get("chartPreviousClose")
-              )
-
-              if previous_close is None:
-                  previous_close = safe_float(
-                      meta.get("previousClose")
-                  )
-
-              indicators = result.get("indicators") or {}
-              quote_blocks = indicators.get("quote") or []
-
-              closes = []
-              volumes = []
-
-              if quote_blocks:
-                  block = quote_blocks[0] or {}
-
-                  for value in block.get("close") or []:
-                      number = safe_float(value)
-                      if number is not None:
-                          closes.append(number)
-
-                  for value in block.get("volume") or []:
-                      number = safe_float(value)
-                      if number is not None:
-                          volumes.append(number)
-
-              if price is None and closes:
-                  price = closes[-1]
-
-              if previous_close is None:
-                  if len(closes) >= 2:
-                      previous_close = closes[-2]
-
-              change = None
-              change_pct = None
-
-              if (
-                  price is not None
-                  and previous_close is not None
-                  and previous_close != 0
-              ):
-                  change = price - previous_close
-                  change_pct = (change / previous_close) * 100
-
-              volume = safe_float(meta.get("regularMarketVolume"))
-
-              if volume is None and volumes:
-                  volume = volumes[-1]
-
-              day_low = safe_float(meta.get("regularMarketDayLow"))
-              day_high = safe_float(meta.get("regularMarketDayHigh"))
-
-              currency = meta.get("currency")
-              exchange = meta.get("exchangeName")
-              short_name = meta.get("shortName")
-              long_name = meta.get("longName")
-
-              return {
-                  "price": price,
-                  "previousClose": previous_close,
-                  "change": change,
-                  "changePct": change_pct,
-                  "volume": volume,
-                  "dayLow": day_low,
-                  "dayHigh": day_high,
-                  "currency": currency,
-                  "exchange": exchange,
-                  "yahooName": long_name or short_name,
-              }
-
-          # Önceki dosyayı fallback olarak oku
           previous_map = {}
 
           try:
-              with open(
-                  "data/global-niche.json",
-                  "r",
-                  encoding="utf-8"
-              ) as f:
-                  previous_data = json.load(f)
+              with open(PATH, "r", encoding="utf-8") as f:
+                  old = json.load(f)
 
-              for item in previous_data.get("candidates", []):
+              for item in old.get("candidates", []):
                   symbol = item.get("symbol")
+
                   if symbol:
                       previous_map[symbol] = item
 
           except Exception as exc:
-              print("Önceki global-niche.json okunamadı:", exc)
+              print("Eski veri okunamadı:", exc)
+
+          # ---------------------------------------------------------
+          # STOOQ
+          # Her ABD hissesi için yalnızca tek günlük CSV.
+          # Yahoo ve FMP kullanılmıyor.
+          # ---------------------------------------------------------
+
+          def fetch_stooq(symbol):
+              s = symbol.lower()
+
+              url = (
+                  "https://stooq.com/q/l/"
+                  f"?s={quote(s)}&f=sd2t2ohlcv&h&e=csv"
+              )
+
+              req = Request(url, headers=HEADERS)
+
+              with urlopen(req, timeout=20) as response:
+                  text = response.read().decode(
+                      "utf-8",
+                      errors="replace"
+                  )
+
+              rows = list(
+                  csv.DictReader(io.StringIO(text))
+              )
+
+              if not rows:
+                  raise RuntimeError("CSV boş")
+
+              row = rows[0]
+
+              close = number(row.get("Close"))
+              open_price = number(row.get("Open"))
+              high = number(row.get("High"))
+              low = number(row.get("Low"))
+              volume = number(row.get("Volume"))
+
+              if close is None:
+                  raise RuntimeError(
+                      f"Fiyat yok: {row}"
+                  )
+
+              return {
+                  "price": close,
+                  "open": open_price,
+                  "dayHigh": high,
+                  "dayLow": low,
+                  "volume": volume,
+              }
+
+          # ---------------------------------------------------------
+          # VERİLERİ OLUŞTUR
+          # ---------------------------------------------------------
 
           output_candidates = []
-          fresh_count = 0
-          cached_count = 0
-          unavailable_count = 0
+
+          fresh = 0
+          cached = 0
+          unavailable = 0
 
           for candidate in CANDIDATES:
               symbol = candidate["symbol"]
-              yahoo_symbol = candidate["yahoo"]
+              previous = previous_map.get(symbol, {})
 
-              print(f"Yahoo fiyat isteği: {symbol}")
+              market = None
+              source = None
 
-              quote_data = None
+              stooq_symbol = candidate.get("stooq")
 
-              try:
-                  quote_data = yahoo_quote(yahoo_symbol)
+              if stooq_symbol:
+                  try:
+                      print(
+                          f"Stooq fiyat isteği: "
+                          f"{symbol} -> {stooq_symbol}"
+                      )
 
-                  if quote_data.get("price") is not None:
-                      fresh_count += 1
+                      market = fetch_stooq(
+                          stooq_symbol
+                      )
+
+                      source = "Stooq"
+                      fresh += 1
+
                       print(
                           f"  OK {symbol}: "
-                          f"{quote_data.get('price')} "
-                          f"{quote_data.get('currency') or ''}"
+                          f"{market['price']}"
                       )
-                  else:
-                      quote_data = None
 
-              except Exception as exc:
-                  print(f"  Yahoo hata {symbol}: {exc}")
+                  except Exception as exc:
+                      print(
+                          f"  Stooq hata {symbol}: "
+                          f"{exc}"
+                      )
 
-              previous = previous_map.get(symbol) or {}
+              if market is not None:
+                  price = market.get("price")
+                  open_price = market.get("open")
 
-              if quote_data is None:
-                  previous_price = previous.get("price")
+                  change = None
+                  change_pct = None
 
-                  if previous_price is not None:
-                      cached_count += 1
+                  if (
+                      price is not None
+                      and open_price is not None
+                      and open_price != 0
+                  ):
+                      change = price - open_price
+                      change_pct = (
+                          change / open_price
+                      ) * 100
 
-                      quote_data = {
-                          "price": previous.get("price"),
-                          "previousClose": previous.get(
-                              "previousClose"
-                          ),
-                          "change": previous.get("change"),
-                          "changePct": previous.get(
-                              "changePct",
-                              previous.get(
-                                  "changePercentage"
-                              )
-                          ),
-                          "volume": previous.get("volume"),
-                          "dayLow": previous.get("dayLow"),
-                          "dayHigh": previous.get("dayHigh"),
-                          "currency": previous.get("currency"),
-                          "exchange": previous.get("exchange"),
-                          "yahooName": None,
-                      }
+                  status = "fresh"
 
-                      market_data_status = "cached"
+                  item = {
+                      "symbol": symbol,
+                      "name": candidate["name"],
+                      "market": candidate["market"],
+                      "country": candidate["country"],
+                      "theme": candidate["theme"],
+                      "size": candidate["size"],
+                      "score": candidate["score"],
+                      "status": (
+                          "GÜÇLÜ İZLEME"
+                          if candidate["score"] >= 75
+                          else "ADAY"
+                      ),
+                      "price": round(price, 4),
+                      "previousClose": None,
+                      "change": (
+                          round(change, 4)
+                          if change is not None
+                          else None
+                      ),
+                      "changePct": (
+                          round(change_pct, 2)
+                          if change_pct is not None
+                          else None
+                      ),
+                      "changePercentage": (
+                          round(change_pct, 2)
+                          if change_pct is not None
+                          else None
+                      ),
+                      "volume": (
+                          int(market["volume"])
+                          if market.get("volume")
+                          is not None
+                          else None
+                      ),
+                      "marketCap": previous.get(
+                          "marketCap"
+                      ),
+                      "dayLow": market.get(
+                          "dayLow"
+                      ),
+                      "dayHigh": market.get(
+                          "dayHigh"
+                      ),
+                      "currency": "USD",
+                      "exchange": candidate[
+                          "market"
+                      ],
+                      "marketDataAvailable": True,
+                      "marketDataStatus": status,
+                      "quoteSource": source,
+                  }
 
-                  else:
-                      unavailable_count += 1
+              elif previous.get("price") is not None:
+                  cached += 1
 
-                      quote_data = {
-                          "price": None,
-                          "previousClose": None,
-                          "change": None,
-                          "changePct": None,
-                          "volume": None,
-                          "dayLow": None,
-                          "dayHigh": None,
-                          "currency": None,
-                          "exchange": None,
-                          "yahooName": None,
-                      }
+                  item = dict(previous)
 
-                      market_data_status = "unavailable"
+                  item.update({
+                      "symbol": symbol,
+                      "name": candidate["name"],
+                      "market": candidate["market"],
+                      "country": candidate["country"],
+                      "theme": candidate["theme"],
+                      "size": candidate["size"],
+                      "score": candidate["score"],
+                      "marketDataAvailable": True,
+                      "marketDataStatus": "cached",
+                      "quoteSource": (
+                          previous.get(
+                              "quoteSource"
+                          )
+                          or "previous cache"
+                      ),
+                  })
 
               else:
-                  market_data_status = "fresh"
+                  unavailable += 1
 
-              price = quote_data.get("price")
-              change_pct = quote_data.get("changePct")
-
-              item = {
-                  "symbol": symbol,
-                  "name": (
-                      quote_data.get("yahooName")
-                      or candidate["name"]
-                  ),
-                  "market": candidate["market"],
-                  "country": candidate["country"],
-                  "theme": candidate["theme"],
-                  "size": candidate["size"],
-                  "score": candidate["score"],
-                  "status": (
-                      "GÜÇLÜ İZLEME"
-                      if candidate["score"] >= 75
-                      else "ADAY"
-                  ),
-                  "price": round(price, 4)
-                  if price is not None
-                  else None,
-                  "previousClose": (
-                      round(
-                          quote_data["previousClose"],
-                          4
-                      )
-                      if quote_data.get(
-                          "previousClose"
-                      ) is not None
-                      else None
-                  ),
-                  "change": (
-                      round(
-                          quote_data["change"],
-                          4
-                      )
-                      if quote_data.get(
-                          "change"
-                      ) is not None
-                      else None
-                  ),
-                  "changePct": (
-                      round(change_pct, 2)
-                      if change_pct is not None
-                      else None
-                  ),
-                  "changePercentage": (
-                      round(change_pct, 2)
-                      if change_pct is not None
-                      else None
-                  ),
-                  "volume": (
-                      int(quote_data["volume"])
-                      if quote_data.get(
-                          "volume"
-                      ) is not None
-                      else None
-                  ),
-                  "marketCap": previous.get(
-                      "marketCap"
-                  ),
-                  "dayLow": (
-                      round(
-                          quote_data["dayLow"],
-                          4
-                      )
-                      if quote_data.get(
-                          "dayLow"
-                      ) is not None
-                      else None
-                  ),
-                  "dayHigh": (
-                      round(
-                          quote_data["dayHigh"],
-                          4
-                      )
-                      if quote_data.get(
-                          "dayHigh"
-                      ) is not None
-                      else None
-                  ),
-                  "currency": quote_data.get(
-                      "currency"
-                  ),
-                  "exchange": (
-                      quote_data.get("exchange")
-                      or candidate["market"]
-                  ),
-                  "marketDataAvailable": (
-                      price is not None
-                  ),
-                  "marketDataStatus": (
-                      market_data_status
-                  ),
-                  "quoteSource": (
-                      "Yahoo Finance chart"
-                      if market_data_status == "fresh"
-                      else (
-                          "previous cache"
-                          if market_data_status == "cached"
-                          else None
-                      )
-                  ),
-              }
+                  item = {
+                      "symbol": symbol,
+                      "name": candidate["name"],
+                      "market": candidate["market"],
+                      "country": candidate["country"],
+                      "theme": candidate["theme"],
+                      "size": candidate["size"],
+                      "score": candidate["score"],
+                      "status": (
+                          "GÜÇLÜ İZLEME"
+                          if candidate["score"] >= 75
+                          else "ADAY"
+                      ),
+                      "price": None,
+                      "previousClose": None,
+                      "change": None,
+                      "changePct": None,
+                      "changePercentage": None,
+                      "volume": None,
+                      "marketCap": None,
+                      "dayLow": None,
+                      "dayHigh": None,
+                      "currency": None,
+                      "exchange": candidate[
+                          "market"
+                      ],
+                      "marketDataAvailable": False,
+                      "marketDataStatus": (
+                          "unavailable"
+                      ),
+                      "quoteSource": None,
+                  }
 
               output_candidates.append(item)
 
-              # Yahoo'ya çok hızlı yüklenmeyelim
-              time.sleep(0.35)
+              time.sleep(0.25)
 
-          # Yüksek puanlılar üstte
           output_candidates.sort(
               key=lambda x: (
                   -x.get("score", 0),
@@ -514,25 +452,25 @@ jobs:
           )
 
           output = {
-              "version": "global-niche-v3",
+              "version": "global-niche-v4",
               "generatedAt": datetime.now(
                   timezone.utc
               ).isoformat(),
               "count": len(output_candidates),
-              "marketDataCount": fresh_count,
+              "marketDataCount": fresh,
               "quoteStatus": {
-                  "fresh": fresh_count,
-                  "cached": cached_count,
-                  "unavailable": unavailable_count,
+                  "fresh": fresh,
+                  "cached": cached,
+                  "unavailable": unavailable,
               },
               "quoteProvider": (
-                  "Yahoo Finance chart / cache fallback"
+                  "Stooq / previous cache"
               ),
               "candidates": output_candidates,
           }
 
           with open(
-              "data/global-niche.json",
+              PATH,
               "w",
               encoding="utf-8"
           ) as f:
@@ -544,26 +482,27 @@ jobs:
               )
 
           print()
-          print("===================================")
-          print("GLOBAL NICHE RADAR v3 TAMAMLANDI")
-          print("===================================")
           print(
-              "Toplam aday:",
-              len(output_candidates)
+              "=================================="
           )
-          print("Taze fiyat:", fresh_count)
-          print("Cache fiyat:", cached_count)
           print(
-              "Fiyat bulunamayan:",
-              unavailable_count
+              "GLOBAL NICHE RADAR v4 TAMAMLANDI"
           )
+          print(
+              "=================================="
+          )
+          print("Toplam aday:", len(output_candidates))
+          print("Taze fiyat:", fresh)
+          print("Cache fiyat:", cached)
+          print("Fiyat bulunamayan:", unavailable)
 
           for item in output_candidates:
               print(
                   item["symbol"],
-                  item["price"],
-                  item["currency"],
-                  item["marketDataStatus"]
+                  item.get("price"),
+                  item.get("currency"),
+                  item.get("marketDataStatus"),
+                  item.get("quoteSource"),
               )
           PY
 
@@ -577,6 +516,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Kaydedilecek değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar v3"
+            git commit -m "Update Global Niche Radar v4"
             git push
           fi
