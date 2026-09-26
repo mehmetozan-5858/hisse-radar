@@ -1,619 +1,742 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08111f">
-<link rel="manifest" href="manifest.webmanifest">
-<title>Hisse Radar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <link rel="manifest" href="manifest.webmanifest">
 
-<style>
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#07101d;color:#eef5ff}
-.wrap{max-width:760px;margin:auto;padding:22px}
-.hero,.stock,.detail{background:#101d31;border:1px solid #223655;border-radius:22px;padding:20px}
-.badge{color:#76d4ff;font-weight:800}
-.live{display:inline-block;margin-left:8px;padding:4px 8px;border-radius:999px;background:#123d2c;color:#7ff0b0;font-size:11px}
-.search{display:flex;gap:8px;margin:18px 0}
-.search input{flex:1;padding:14px;border-radius:14px;border:1px solid #30496d;background:#0b1627;color:white;font-size:16px}
-.search button{border:0;border-radius:14px;padding:0 18px;background:#35a7ff;color:#00162b;font-weight:800}
-.system,.metric,.scoreBox,.insiderBox{background:#0b1627;border:1px solid #203553}
-.system{padding:12px;border-radius:14px}
-.muted{color:#9fb1c8;font-size:13px}
-h2{margin-top:28px}
-.stock{margin:10px 0;cursor:pointer}
-.row{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.symbol,.price{font-size:20px;font-weight:800}
-.up{color:#63e69a}.down{color:#ff7b82}
-.detail{display:none;margin-top:25px}
-.detailTitle{font-size:27px;font-weight:800}
-.bigPrice{font-size:36px;font-weight:800}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
-.metric{border-radius:15px;padding:14px}
-.metric b{display:block;margin-top:5px;font-size:17px}
-.scoreBox{margin-top:18px;border-radius:18px;padding:17px}
-.score{font-size:48px;font-weight:800;color:#76d4ff;margin:5px 0}
-.bar{height:8px;background:#1b2a40;border-radius:99px;overflow:hidden;margin-top:7px}
-.fill{height:100%;background:#63e69a;border-radius:99px}
-.component{margin-top:13px}
-.componentLine{display:flex;justify-content:space-between;font-size:14px}
-.insiderBox{margin-top:18px;border-radius:16px;padding:15px}
-.insiderTitle{font-weight:800;margin-bottom:10px}
-.insiderGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.insiderStat{background:#101d31;border-radius:12px;padding:10px}
-.insiderStat b{display:block;margin-top:4px}
-.close{margin-top:18px;width:100%;padding:13px;border:0;border-radius:14px;background:#223655;color:white;font-weight:700}
-.foot{margin-top:25px;color:#8fa1b8;font-size:12px;line-height:1.5}
-</style>
+  <title>Hisse Radar</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #07111f;
+      color: #ffffff;
+    }
+
+    .app {
+      max-width: 760px;
+      margin: auto;
+      padding: 18px;
+      padding-bottom: 50px;
+    }
+
+    .header {
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .header p {
+      color: #94a3b8;
+      margin: 7px 0 0;
+      line-height: 1.4;
+    }
+
+    .status {
+      margin-top: 12px;
+      display: inline-block;
+      background: #0f2137;
+      border: 1px solid #1e3a5f;
+      padding: 8px 12px;
+      border-radius: 12px;
+      color: #9bd0ff;
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .card {
+      background: #0d1b2a;
+      border: 1px solid #1d3147;
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+    }
+
+    .symbol {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .name {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 3px;
+      min-height: 30px;
+    }
+
+    .price {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .change {
+      margin-top: 4px;
+      font-size: 13px;
+    }
+
+    .positive {
+      color: #35d07f;
+    }
+
+    .negative {
+      color: #ff6577;
+    }
+
+    .score {
+      margin-top: 14px;
+      font-size: 19px;
+      font-weight: 800;
+      color: #f4c95d;
+    }
+
+    .small {
+      color: #94a3b8;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .detail {
+      display: none;
+      margin-top: 18px;
+      background: #0d1b2a;
+      border: 1px solid #1d3147;
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .detail.active {
+      display: block;
+    }
+
+    .detail h2 {
+      margin: 0 0 4px;
+    }
+
+    .bigScore {
+      font-size: 31px;
+      font-weight: 900;
+      color: #f4c95d;
+      margin: 14px 0 18px;
+    }
+
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid #1c3045;
+      padding: 9px 0;
+      font-size: 14px;
+    }
+
+    .metric span:first-child {
+      color: #94a3b8;
+    }
+
+    .sectionTitle {
+      margin-top: 22px;
+      margin-bottom: 12px;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .component {
+      margin-bottom: 15px;
+    }
+
+    .componentTop {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .bar {
+      width: 100%;
+      height: 8px;
+      background: #17283a;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .fill {
+      height: 100%;
+      background: #4ea1ff;
+      border-radius: 99px;
+    }
+
+    .infoBox {
+      margin-top: 18px;
+      background: #0a1625;
+      border: 1px solid #1b344e;
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .infoBox h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+
+    .institutionalStats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .stat {
+      background: #101f30;
+      border-radius: 11px;
+      padding: 10px;
+    }
+
+    .statLabel {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+
+    .statValue {
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .note {
+      color: #8494a8;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .close {
+      width: 100%;
+      border: 0;
+      background: #18304a;
+      color: white;
+      padding: 12px;
+      border-radius: 12px;
+      margin-top: 18px;
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: 25px;
+      color: #718096;
+      font-size: 11px;
+      line-height: 1.55;
+      text-align: center;
+    }
+
+    @media (max-width: 420px) {
+      .app {
+        padding: 14px;
+      }
+
+      .grid {
+        gap: 9px;
+      }
+
+      .card {
+        padding: 13px;
+      }
+
+      .symbol {
+        font-size: 19px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
 
-<div class="hero">
-<div class="badge">
-HİSSE RADAR
-<span class="live" id="live">BAĞLANIYOR</span>
-</div>
+<div class="app">
 
-<h1>Canlı piyasa radarı</h1>
+  <div class="header">
+    <h1>📡 Hisse Radar</h1>
 
-<div class="search">
-<input id="ticker" placeholder="AAPL, NVDA, MSFT...">
-<button onclick="searchStock()">Bul</button>
-</div>
+    <p>
+      Finansal veriler, SEC içeriden işlemleri ve
+      kurumsal yatırımcı hareketlerini tek araştırma
+      puanında birleştirir.
+    </p>
 
-<div class="system">
-<b>⚡ Otomatik Veri Motoru</b>
-<div class="muted" id="engine">Kontrol ediliyor…</div>
-</div>
-</div>
+    <div class="status" id="status">
+      Veriler yükleniyor...
+    </div>
+  </div>
 
-<div id="detail" class="detail">
+  <div class="grid" id="cards"></div>
 
-<div class="row">
-<div>
-<div class="detailTitle" id="detailSymbol">—</div>
-<div class="muted" id="detailName">—</div>
-</div>
+  <div class="detail" id="detail"></div>
 
-<div style="text-align:right">
-<div class="bigPrice" id="detailPrice">—</div>
-<div id="detailChange">—</div>
-</div>
-</div>
-
-<div class="grid">
-
-<div class="metric">
-<span class="muted">Hacim</span>
-<b id="metricVolume">—</b>
-</div>
-
-<div class="metric">
-<span class="muted">Piyasa değeri</span>
-<b id="metricCap">—</b>
-</div>
-
-<div class="metric">
-<span class="muted">F/K</span>
-<b id="metricPE">—</b>
-</div>
-
-<div class="metric">
-<span class="muted">Analist hedefi</span>
-<b id="metricTarget">—</b>
-</div>
-
-</div>
-
-<div class="scoreBox">
-
-<div class="muted">🎯 RADAR PUANI</div>
-
-<div class="score" id="radarScore">—</div>
-
-<div class="muted" id="scoreInfo">
-Aktif veri kaynakları hesaplanıyor.
-</div>
-
-<div id="components"></div>
-
-</div>
-
-<div class="insiderBox">
-
-<div class="insiderTitle">
-🏛️ SEC Insider İşlemleri
-</div>
-
-<div class="muted">
-Son 90 gündeki SEC Form 4 açık piyasa işlemleri
-</div>
-
-<div class="insiderGrid" style="margin-top:12px">
-
-<div class="insiderStat">
-<span class="muted">Alış işlemi</span>
-<b id="insiderBuys">—</b>
-</div>
-
-<div class="insiderStat">
-<span class="muted">Satış işlemi</span>
-<b id="insiderSells">—</b>
-</div>
-
-<div class="insiderStat">
-<span class="muted">Toplam alış</span>
-<b id="insiderBuyValue">—</b>
-</div>
-
-<div class="insiderStat">
-<span class="muted">Toplam satış</span>
-<b id="insiderSellValue">—</b>
-</div>
-
-</div>
-
-<div class="muted" style="margin-top:12px">
-Kaynak: SEC EDGAR • İşlem tarihi ile bildirim tarihi farklı olabilir.
-</div>
-
-</div>
-
-<button class="close" onclick="closeDetail()">
-Radara dön
-</button>
-
-</div>
-
-<h2>📡 Radar Listesi</h2>
-
-<div id="stocks">
-<div class="muted">Piyasa verileri yükleniyor…</div>
-</div>
-
-<div class="foot">
-Radar puanı araştırma amaçlı bir veri göstergesidir; yatırım tavsiyesi değildir.
-Fiyatlar, analist hedefleri ve bildirim verileri gecikmeli olabilir.
-SEC Form 4 verilerinde yalnızca açık piyasa P/S işlemleri puanlamaya dahil edilir.
-Kalan veri kaynakları eklendikçe sistem 100 puana tamamlanacaktır.
-</div>
+  <div class="footer">
+    Hisse Radar bir araştırma aracıdır ve yatırım tavsiyesi değildir.
+    Veriler gecikmeli olabilir. SEC Form 4 bölümünde yalnızca açık
+    piyasa P/S işlemleri değerlendirilir. 13F bildirimleri dönemsel
+    ve gecikmeli kurumsal pozisyon verileridir.
+  </div>
 
 </div>
 
 <script>
+  let radarData = null;
 
-let market=[];
+  const money = value => {
+    if (value === null || value === undefined) return "-";
 
-function money(n){
- if(n==null)return "—";
+    const n = Number(value);
 
- return Number(n).toLocaleString(
-  "en-US",
-  {
-   minimumFractionDigits:2,
-   maximumFractionDigits:2
+    if (!Number.isFinite(n)) return "-";
+
+    if (Math.abs(n) >= 1e12)
+      return "$" + (n / 1e12).toFixed(2) + "T";
+
+    if (Math.abs(n) >= 1e9)
+      return "$" + (n / 1e9).toFixed(2) + "B";
+
+    if (Math.abs(n) >= 1e6)
+      return "$" + (n / 1e6).toFixed(2) + "M";
+
+    return "$" + n.toLocaleString(
+      "en-US",
+      { maximumFractionDigits: 2 }
+    );
+  };
+
+  const number = value => {
+    if (value === null || value === undefined) return "-";
+
+    const n = Number(value);
+
+    if (!Number.isFinite(n)) return "-";
+
+    return n.toLocaleString("en-US");
+  };
+
+  const pct = value => {
+    if (value === null || value === undefined) return "-";
+
+    const n = Number(value);
+
+    if (!Number.isFinite(n)) return "-";
+
+    return n.toFixed(2) + "%";
+  };
+
+  function component(label, score, max) {
+    const available =
+      score !== null &&
+      score !== undefined &&
+      Number.isFinite(Number(score));
+
+    const display = available
+      ? `${score}/${max}`
+      : `Veri yok`;
+
+    const width = available
+      ? Math.max(
+          0,
+          Math.min(
+            100,
+            Number(score) / max * 100
+          )
+        )
+      : 0;
+
+    return `
+      <div class="component">
+        <div class="componentTop">
+          <span>${label}</span>
+          <strong>${display}</strong>
+        </div>
+
+        <div class="bar">
+          <div
+            class="fill"
+            style="width:${width}%"
+          ></div>
+        </div>
+      </div>
+    `;
   }
- )+" $";
-}
 
-function compactMoney(n){
-
- if(n==null)return "—";
-
- n=Number(n);
-
- if(n>=1e9)
-  return (n/1e9).toFixed(2)+" B $";
-
- if(n>=1e6)
-  return (n/1e6).toFixed(2)+" M $";
-
- if(n>=1e3)
-  return (n/1e3).toFixed(2)+" K $";
-
- return money(n);
-}
-
-function pct(n){
-
- if(n==null)return "—";
-
- const x=Number(n);
-
- return (x>=0?"+":"")
-  +x.toFixed(2)
-  +"%";
-}
-
-function cap(n){
-
- if(!n)return "—";
-
- n=Number(n);
-
- if(n>=1e12)
-  return (n/1e12).toFixed(2)+" T $";
-
- if(n>=1e9)
-  return (n/1e9).toFixed(2)+" B $";
-
- if(n>=1e6)
-  return (n/1e6).toFixed(2)+" M $";
-
- return money(n);
-}
-
-function component(name,value,max){
-
- if(value==null)return "";
-
- const width=Math.max(
-  0,
-  Math.min(
-   100,
-   (value/max)*100
-  )
- );
-
- return `
- <div class="component">
-
-  <div class="componentLine">
-   <span>${name}</span>
-   <b>${value} / ${max}</b>
-  </div>
-
-  <div class="bar">
-   <div
-    class="fill"
-    style="width:${width}%">
-   </div>
-  </div>
-
- </div>`;
-}
-
-function render(){
-
- const box=document.getElementById("stocks");
-
- if(!market.length){
-
-  box.innerHTML=
-   '<div class="muted">Henüz hisse verisi bulunamadı.</div>';
-
-  return;
- }
-
- box.innerHTML=market.map(s=>{
-
-  const cls=
-   Number(s.changePercentage)>=0
-   ?"up"
-   :"down";
-
-  const radar=s.radar||{};
-
-  return `
-  <div
-   class="stock"
-   onclick="selectStock('${s.symbol}')">
-
-   <div class="row">
-
-    <div>
-     <div class="symbol">
-      ${s.symbol}
-     </div>
-
-     <div class="muted">
-      ${s.name||""}
-     </div>
-    </div>
-
-    <div style="text-align:right">
-
-     <div class="price">
-      ${money(s.price)}
-     </div>
-
-     <div class="${cls}">
-      ${pct(s.changePercentage)}
-     </div>
-
-    </div>
-
-   </div>
-
-   <div
-    class="row"
-    style="margin-top:12px">
-
-    <div class="muted">
-     Hacim:
-     ${Number(s.volume||0).toLocaleString("tr-TR")}
-    </div>
-
-    <div class="badge">
-     ${
-      radar.max
-      ?"🎯 "+radar.score+"/"+radar.max
-      :"Detay"
-     }
-    </div>
-
-   </div>
-
-  </div>`;
-
- }).join("");
-}
-
-function selectStock(symbol){
-
- const s=market.find(
-  x=>x.symbol===symbol
- );
-
- if(!s)return;
-
- const cls=
-  Number(s.changePercentage)>=0
-  ?"up"
-  :"down";
-
- const radar=s.radar||{};
- const c=radar.components||{};
- const fundamentals=s.fundamentals||{};
- const analyst=s.analyst||{};
- const insider=s.insider||{};
-
- document.getElementById(
-  "detailSymbol"
- ).textContent=s.symbol;
-
- document.getElementById(
-  "detailName"
- ).textContent=s.name||"";
-
- document.getElementById(
-  "detailPrice"
- ).textContent=money(s.price);
-
- const change=
-  document.getElementById(
-   "detailChange"
-  );
-
- change.textContent=
-  pct(s.changePercentage);
-
- change.className=cls;
-
- document.getElementById(
-  "metricVolume"
- ).textContent=
-  Number(
-   s.volume||0
-  ).toLocaleString("tr-TR");
-
- document.getElementById(
-  "metricCap"
- ).textContent=
-  cap(s.marketCap);
-
- document.getElementById(
-  "metricPE"
- ).textContent=
-  fundamentals.pe==null
-  ?"—"
-  :Number(
-    fundamentals.pe
-   ).toFixed(2);
-
- document.getElementById(
-  "metricTarget"
- ).textContent=
-  money(
-   analyst.targetConsensus
-  );
-
- document.getElementById(
-  "radarScore"
- ).textContent=
-  radar.max
-  ?radar.score+" / "+radar.max
-  :"—";
-
- document.getElementById(
-  "scoreInfo"
- ).textContent=
-  radar.max===70
-  ?"70 puanlık veri motoru aktif."
-  :"Mevcut veri kaynakları üzerinden hesaplandı.";
-
- document.getElementById(
-  "components"
- ).innerHTML=
-
-  component(
-   "Analist hedefleri",
-   c.analyst,
-   15
-  )
-
-  +component(
-   "Finansallar / büyüme",
-   c.growth,
-   15
-  )
-
-  +component(
-   "Değerleme",
-   c.valuation,
-   10
-  )
-
-  +component(
-   "Fiyat momentumu",
-   c.momentum,
-   10
-  )
-
-  +component(
-   "SEC Insider",
-   c.insider,
-   20
-  );
-
- document.getElementById(
-  "insiderBuys"
- ).textContent=
-  insider.buys==null
-  ?"—"
-  :insider.buys;
-
- document.getElementById(
-  "insiderSells"
- ).textContent=
-  insider.sells==null
-  ?"—"
-  :insider.sells;
-
- document.getElementById(
-  "insiderBuyValue"
- ).textContent=
-  insider.buyValue==null
-  ?"—"
-  :compactMoney(
-    insider.buyValue
-   );
-
- document.getElementById(
-  "insiderSellValue"
- ).textContent=
-  insider.sellValue==null
-  ?"—"
-  :compactMoney(
-    insider.sellValue
-   );
-
- const detail=
-  document.getElementById(
-   "detail"
-  );
-
- detail.style.display="block";
-
- detail.scrollIntoView({
-  behavior:"smooth",
-  block:"start"
- });
-}
-
-function closeDetail(){
-
- document.getElementById(
-  "detail"
- ).style.display="none";
-
- document.getElementById(
-  "stocks"
- ).scrollIntoView({
-  behavior:"smooth",
-  block:"start"
- });
-}
-
-function searchStock(){
-
- const input=
-  document.getElementById(
-   "ticker"
-  );
-
- const symbol=
-  input.value
-  .trim()
-  .toUpperCase();
-
- if(
-  market.find(
-   x=>x.symbol===symbol
-  )
- ){
-
-  input.blur();
-  selectStock(symbol);
-
- }else{
-
-  alert(
-   "Bu hisse henüz Radar listesinde yok."
-  );
- }
-}
-
-async function loadRadar(){
-
- try{
-
-  const response=
-   await fetch(
-    "data/radar.json?ts="
-    +Date.now(),
-    {
-     cache:"no-store"
+  function renderCards() {
+    const cards = document.getElementById("cards");
+
+    cards.innerHTML = "";
+
+    radarData.stocks.forEach((stock, index) => {
+      const change = Number(
+        stock.changePercentage || 0
+      );
+
+      const cls =
+        change >= 0
+          ? "positive"
+          : "negative";
+
+      const sign =
+        change > 0
+          ? "+"
+          : "";
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="symbol">
+          ${stock.symbol}
+        </div>
+
+        <div class="name">
+          ${stock.name || ""}
+        </div>
+
+        <div class="price">
+          ${money(stock.price)}
+        </div>
+
+        <div class="change ${cls}">
+          ${sign}${pct(change)}
+        </div>
+
+        <div class="score">
+          🎯 ${stock.radar.score}/${stock.radar.max}
+        </div>
+
+        <div class="small">
+          Hacim: ${number(stock.volume)}
+        </div>
+      `;
+
+      card.onclick = () => showDetail(index);
+
+      cards.appendChild(card);
+    });
+  }
+
+  function showDetail(index) {
+    const stock = radarData.stocks[index];
+    const detail = document.getElementById("detail");
+
+    const c = stock.radar.components || {};
+    const insider = stock.insider || {};
+    const inst = stock.institutional || {};
+
+    detail.innerHTML = `
+      <h2>
+        ${stock.symbol}
+        ${stock.name ? "• " + stock.name : ""}
+      </h2>
+
+      <div class="bigScore">
+        ${stock.radar.score}/${stock.radar.max}
+      </div>
+
+      <div class="metric">
+        <span>Fiyat</span>
+        <strong>${money(stock.price)}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Hacim</span>
+        <strong>${number(stock.volume)}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Piyasa değeri</span>
+        <strong>${money(stock.marketCap)}</strong>
+      </div>
+
+      <div class="metric">
+        <span>F/K</span>
+        <strong>
+          ${
+            stock.fundamentals?.pe != null
+              ? Number(
+                  stock.fundamentals.pe
+                ).toFixed(2)
+              : "-"
+          }
+        </strong>
+      </div>
+
+      <div class="metric">
+        <span>Analist hedefi</span>
+        <strong>
+          ${money(
+            stock.analyst?.targetConsensus
+          )}
+        </strong>
+      </div>
+
+      <div class="sectionTitle">
+        Radar bileşenleri
+      </div>
+
+      ${component(
+        "Analist hedefleri",
+        c.analyst,
+        15
+      )}
+
+      ${component(
+        "Finansallar / büyüme",
+        c.growth,
+        15
+      )}
+
+      ${component(
+        "Değerleme",
+        c.valuation,
+        10
+      )}
+
+      ${component(
+        "Fiyat momentumu",
+        c.momentum,
+        10
+      )}
+
+      ${component(
+        "SEC Insider",
+        c.insider,
+        20
+      )}
+
+      ${component(
+        "Kurumsal Yatırımcılar / 13F",
+        c.institutional,
+        10
+      )}
+
+      <div class="infoBox">
+        <h3>🏢 Kurumsal yatırımcılar</h3>
+
+        <div class="institutionalStats">
+
+          <div class="stat">
+            <div class="statLabel">
+              Geçerli kurum
+            </div>
+            <div class="statValue">
+              ${inst.validManagers ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Pozisyon artıran
+            </div>
+            <div class="statValue">
+              ${inst.increases ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Pozisyon azaltan
+            </div>
+            <div class="statValue">
+              ${inst.decreases ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Değişmeyen
+            </div>
+            <div class="statValue">
+              ${inst.unchanged ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Filtrelenen anomali
+            </div>
+            <div class="statValue">
+              ${inst.anomaliesExcluded ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              13F puanı
+            </div>
+            <div class="statValue">
+              ${
+                inst.score != null
+                  ? inst.score + "/10"
+                  : "Veri yok"
+              }
+            </div>
+          </div>
+
+        </div>
+
+        <div class="note">
+          Kaynak: SEC EDGAR Form 13F-HR.
+          Eski dönemler ve belirlenen anomaliler
+          puanlamadan çıkarılır. 13F bildirimleri
+          gerçek zamanlı değildir.
+        </div>
+      </div>
+
+      <div class="infoBox">
+        <h3>👤 SEC içeriden işlemler</h3>
+
+        <div class="institutionalStats">
+
+          <div class="stat">
+            <div class="statLabel">
+              Alış işlemi
+            </div>
+            <div class="statValue">
+              ${insider.buys ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Satış işlemi
+            </div>
+            <div class="statValue">
+              ${insider.sells ?? 0}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Toplam alış
+            </div>
+            <div class="statValue">
+              ${money(insider.buyValue)}
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="statLabel">
+              Toplam satış
+            </div>
+            <div class="statValue">
+              ${money(insider.sellValue)}
+            </div>
+          </div>
+
+        </div>
+
+        <div class="note">
+          Kaynak: SEC EDGAR. İşlem tarihi ile
+          bildirim tarihi farklı olabilir.
+          Yalnızca açık piyasa P (alış) ve
+          S (satış) işlemleri puanlanır.
+        </div>
+      </div>
+
+      <div class="infoBox">
+        <h3>📊 Puan sistemi</h3>
+
+        <div class="note" style="margin-top:0">
+          Bu hisse için kullanılabilir veri:
+          <strong>
+            ${stock.radar.max} puan
+          </strong>.
+
+          ${
+            stock.radar.max === 80
+              ? "80 puanlık veri motoru aktif."
+              : "Bazı veri kaynakları şu anda kullanılamıyor; eksik kaynak için puan uydurulmadı."
+          }
+        </div>
+      </div>
+
+      <button
+        class="close"
+        onclick="closeDetail()"
+      >
+        Kapat
+      </button>
+    `;
+
+    detail.classList.add("active");
+
+    detail.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+
+  function closeDetail() {
+    document
+      .getElementById("detail")
+      .classList.remove("active");
+  }
+
+  async function loadRadar() {
+    try {
+      const response = await fetch(
+        "data/radar.json?ts=" + Date.now(),
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "HTTP " + response.status
+        );
+      }
+
+      radarData = await response.json();
+
+      renderCards();
+
+      const date = new Date(
+        radarData.updated_at
+      );
+
+      document.getElementById(
+        "status"
+      ).textContent =
+        "● Veri motoru: "
+        + radarData.score_version
+        + " • "
+        + radarData.current_score_max
+        + " puan • Güncelleme: "
+        + date.toLocaleTimeString(
+            "tr-TR"
+          );
+
+    } catch (error) {
+      console.error(error);
+
+      document.getElementById(
+        "status"
+      ).textContent =
+        "Veriler yüklenemedi.";
     }
-   );
+  }
 
-  if(!response.ok)
-   throw new Error();
+  loadRadar();
 
-  const data=
-   await response.json();
-
-  market=data.stocks||[];
-
-  document.getElementById(
-   "live"
-  ).textContent=
-   "SİSTEM AKTİF";
-
-  document.getElementById(
-   "engine"
-  ).textContent=
-   market.length
-   +" hisse bağlı • Son güncelleme: "
-   +new Date(
-     data.updated_at
-    ).toLocaleString("tr-TR");
-
-  render();
-
- }catch(e){
-
-  document.getElementById(
-   "live"
-  ).textContent=
-   "BAĞLANTI HATASI";
-
-  document.getElementById(
-   "engine"
-  ).textContent=
-   "Piyasa veri dosyasına ulaşılamadı";
- }
-}
-
-loadRadar();
-
-if("serviceWorker" in navigator){
- navigator.serviceWorker.register(
-  "sw.js"
- );
-}
-
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register(
+      "sw.js"
+    );
+  }
 </script>
 
 </body>
