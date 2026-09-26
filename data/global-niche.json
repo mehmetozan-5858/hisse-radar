@@ -1,8 +1,8 @@
 {
-  "version": "global-niche-v9",
-  "scoreVersion": "2.0",
+  "version": "global-niche-v10",
+  "scoreVersion": "3.0",
   "scoreMax": 100,
-  "generatedAt": "2026-09-26T19:34:48.678293+00:00",
+  "generatedAt": "2026-09-26T19:43:28.435943+00:00",
   "count": 13,
   "marketDataCount": 13,
   "quoteStatus": {
@@ -17,6 +17,12 @@
     "volume": 20,
     "risk": 15,
     "theme": 10
+  },
+  "financialModel": {
+    "enabled": true,
+    "mode": "verified-data-only",
+    "maxFutureScore": 20,
+    "includedInScore": false
   },
   "candidates": [
     {
@@ -46,6 +52,16 @@
         "ma200": 0.0721,
         "drawdown52": 0.0
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "İZLEME",
       "price": 0.0721,
       "previousClose": 0.0721,
@@ -63,7 +79,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -93,6 +110,16 @@
         "ma200": 43.6342,
         "drawdown52": -44.6
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "İZLEME",
       "price": 45.48,
       "previousClose": 44.98,
@@ -110,7 +137,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -140,6 +168,16 @@
         "ma200": 0.6248,
         "drawdown52": -34.09
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 0.58,
       "previousClose": 0.62,
@@ -157,7 +195,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -187,6 +226,16 @@
         "ma200": 81.0911,
         "drawdown52": -50.78
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 73.95,
       "previousClose": 73.61,
@@ -204,7 +253,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -234,6 +284,16 @@
         "ma200": 20.1494,
         "drawdown52": -65.84
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 15.61,
       "previousClose": 15.7,
@@ -251,7 +311,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -281,6 +342,16 @@
         "ma200": 21.0584,
         "drawdown52": -61.12
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 17.41,
       "previousClose": 17.48,
@@ -298,7 +369,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -328,6 +400,16 @@
         "ma200": 37.9495,
         "drawdown52": -51.55
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 27.28,
       "previousClose": 24.8,
@@ -345,7 +427,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -375,6 +458,16 @@
         "ma200": 0.5022,
         "drawdown52": -53.75
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 0.37,
       "previousClose": 0.36,
@@ -392,7 +485,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -422,6 +516,16 @@
         "ma200": 7.9414,
         "drawdown52": -71.73
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 6.05,
       "previousClose": 6.1,
@@ -439,7 +543,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -469,6 +574,16 @@
         "ma200": 2.9663,
         "drawdown52": -75.61
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 1.61,
       "previousClose": 1.62,
@@ -486,7 +601,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -516,6 +632,16 @@
         "ma200": 7.1819,
         "drawdown52": -55.33
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 4.57,
       "previousClose": 4.56,
@@ -533,7 +659,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -563,6 +690,16 @@
         "ma200": 1.7154,
         "drawdown52": -64.39
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 0.94,
       "previousClose": 0.975,
@@ -580,7 +717,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     },
     {
@@ -610,6 +748,16 @@
         "ma200": 15.4757,
         "drawdown52": -59.67
       },
+      "financialQuality": {
+        "available": false,
+        "score": null,
+        "maxScore": 20,
+        "revenueGrowth": null,
+        "earningsGrowth": null,
+        "cash": null,
+        "debt": null,
+        "source": null
+      },
       "status": "ADAY",
       "price": 8.26,
       "previousClose": 8.15,
@@ -627,7 +775,8 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true,
-        "score": true
+        "score": true,
+        "financial": false
       }
     }
   ]
