@@ -12,6 +12,9 @@ jobs:
   update-13f:
     runs-on: ubuntu-latest
 
+    env:
+      SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
+
     steps:
       - name: Repository checkout
         uses: actions/checkout@v4
@@ -29,163 +32,228 @@ jobs:
           import re
           import time
           import urllib.request
+          import urllib.error
           import xml.etree.ElementTree as ET
           from datetime import datetime, timezone
 
-          # Hisse Radar - SEC 13F Motoru v0.4
-          #
-          # 13F gerçek zamanlı değildir.
-          # Kurumsal yatırım yöneticileri çeyrek sonundaki pozisyonlarını
-          # daha sonra SEC'e bildirir. Bu nedenle rapor dönemi ve filing
-          # tarihi ayrı ayrı saklanır.
-          #
-          # Bu ilk sürüm seçilmiş büyük 13F yöneticilerinin
-          # son iki 13F-HR bildirimini karşılaştırır.
+          CONTACT = os.environ.get("SEC_CONTACT_EMAIL", "").strip()
+
+          if not CONTACT:
+              raise RuntimeError("SEC_CONTACT_EMAIL secret bulunamadı.")
 
           SEC_HEADERS = {
-              "User-Agent": "HisseRadar/1.0 https://github.com/mehmetozan-5858/hisse-radar",
-              "Accept": "application/json,text/xml,application/xml,text/html"
+              "User-Agent": f"HisseRadar/1.0 {CONTACT}",
+              "Accept-Encoding": "identity",
+              "Accept": "application/json,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+              "Connection": "close"
           }
 
           SYMBOLS = {
-              "AAPL": {"cusips": ["037833100"]},
-              "MSFT": {"cusips": ["594918104"]},
-              "NVDA": {"cusips": ["67066G104"]},
-              "AMZN": {"cusips": ["023135106"]},
-              # Alphabet Class C + Class A
-              "GOOGL": {"cusips": ["02079K107", "02079K305"]},
-              "META": {"cusips": ["30303M102"]},
-              "TSLA": {"cusips": ["88160R101"]}
+              "AAPL": ["037833100"],
+              "MSFT": ["594918104"],
+              "NVDA": ["67066G104"],
+              "AMZN": ["023135106"],
+              "GOOGL": ["02079K107", "02079K305"],
+              "META": ["30303M102"],
+              "TSLA": ["88160R101"]
           }
 
-          # İlk kurumsal takip sepeti.
-          # Daha sonra listeyi genişletebiliriz.
           MANAGERS = {
               "Berkshire Hathaway": "0001067983",
               "BlackRock": "0001364742",
               "Vanguard Group": "0000102909"
           }
 
-          def request_bytes(url):
-              req = urllib.request.Request(url, headers=SEC_HEADERS)
-              with urllib.request.urlopen(req, timeout=30) as r:
-                  return r.read()
+          last_request = 0.0
 
-          def request_json(url):
-              return json.loads(request_bytes(url).decode("utf-8"))
+          def sec_request(url, retries=3):
+              global last_request
+
+              for attempt in range(retries):
+                  # SEC limitinin oldukça altında kal.
+                  elapsed = time.time() - last_request
+                  if elapsed < 0.5:
+                      time.sleep(0.5 - elapsed)
+
+                  req = urllib.request.Request(
+                      url,
+                      headers=SEC_HEADERS,
+                      method="GET"
+                  )
+
+                  try:
+                      with urllib.request.urlopen(req, timeout=40) as response:
+                          last_request = time.time()
+                          return response.read()
+
+                  except urllib.error.HTTPError as e:
+                      last_request = time.time()
+
+                      if e.code in (403, 429) and attempt < retries - 1:
+                          time.sleep(5 * (attempt + 1))
+                          continue
+
+                      raise
+
+                  except Exception:
+                      last_request = time.time()
+
+                      if attempt < retries - 1:
+                          time.sleep(3 * (attempt + 1))
+                          continue
+
+                      raise
+
+          def sec_json(url):
+              return json.loads(
+                  sec_request(url).decode("utf-8", errors="replace")
+              )
+
+          def normalize_cusip(value):
+              return re.sub(
+                  r"[^0-9A-Z]",
+                  "",
+                  (value or "").upper()
+              )
 
           def clean_tag(tag):
               return tag.split("}")[-1].lower()
 
-          def text_of(node, wanted):
+          def child_text(node, wanted):
               wanted = wanted.lower()
-              for el in node.iter():
-                  if clean_tag(el.tag) == wanted:
-                      return (el.text or "").strip()
+
+              for element in node.iter():
+                  if clean_tag(element.tag) == wanted:
+                      return (element.text or "").strip()
+
               return ""
 
-          def parse_number(value):
+          def number(value):
               try:
-                  return float(str(value).replace(",", "").strip())
+                  return float(
+                      str(value).replace(",", "").strip()
+                  )
               except Exception:
                   return 0.0
 
-          def normalize_cusip(value):
-              return re.sub(r"[^0-9A-Z]", "", (value or "").upper())
-
-          def get_recent_13f_filings(cik):
-              url = f"https://data.sec.gov/submissions/CIK{cik}.json"
-              data = request_json(url)
+          def recent_filings(cik):
+              data = sec_json(
+                  f"https://data.sec.gov/submissions/CIK{cik}.json"
+              )
 
               recent = data.get("filings", {}).get("recent", {})
+
               forms = recent.get("form", [])
               accessions = recent.get("accessionNumber", [])
               filing_dates = recent.get("filingDate", [])
               report_dates = recent.get("reportDate", [])
               primary_docs = recent.get("primaryDocument", [])
 
-              filings = []
+              output = []
 
               for i, form in enumerate(forms):
                   if form != "13F-HR":
                       continue
 
-                  filings.append({
+                  output.append({
                       "accession": accessions[i],
-                      "filingDate": filing_dates[i] if i < len(filing_dates) else None,
-                      "reportDate": report_dates[i] if i < len(report_dates) else None,
-                      "primaryDocument": primary_docs[i] if i < len(primary_docs) else None
+                      "filingDate":
+                          filing_dates[i]
+                          if i < len(filing_dates)
+                          else None,
+                      "reportDate":
+                          report_dates[i]
+                          if i < len(report_dates)
+                          else None,
+                      "primaryDocument":
+                          primary_docs[i]
+                          if i < len(primary_docs)
+                          else None
                   })
 
-                  if len(filings) >= 2:
+                  if len(output) == 2:
                       break
 
-              return filings
+              return output
 
-          def find_information_table(cik, accession):
+          def filing_directory(cik, accession):
               cik_plain = str(int(cik))
-              acc_plain = accession.replace("-", "")
-              index_url = (
-                  f"https://www.sec.gov/Archives/edgar/data/"
-                  f"{cik_plain}/{acc_plain}/{accession}-index.html"
+              accession_plain = accession.replace("-", "")
+
+              return (
+                  "https://www.sec.gov/Archives/edgar/data/"
+                  f"{cik_plain}/{accession_plain}/"
               )
 
-              html = request_bytes(index_url).decode("utf-8", errors="ignore")
+          def filing_index_json(cik, accession):
+              base = filing_directory(cik, accession)
+              return sec_json(base + "index.json")
 
-              links = re.findall(
-                  r'href=["\']([^"\']+)["\']',
-                  html,
-                  flags=re.I
+          def find_info_table(cik, filing):
+              accession = filing["accession"]
+              base = filing_directory(cik, accession)
+              index = filing_index_json(cik, accession)
+
+              items = (
+                  index.get("directory", {})
+                  .get("item", [])
               )
+
+              primary = (
+                  filing.get("primaryDocument") or ""
+              ).lower()
 
               candidates = []
 
-              for link in links:
-                  lower = link.lower()
+              for item in items:
+                  name = item.get("name", "")
+                  lower = name.lower()
 
                   if not lower.endswith((".xml", ".txt")):
                       continue
 
-                  # Primary 13F form XML yerine holdings information table'ı
-                  # bulmaya çalışıyoruz.
-                  if any(x in lower for x in [
-                      "infotable",
-                      "informationtable",
-                      "form13finfo",
-                      "13finfo"
-                  ]):
-                      candidates.insert(0, link)
-                  else:
-                      candidates.append(link)
+                  # Primary 13F cover formunu atla.
+                  if primary and lower == primary:
+                      continue
 
-              base = (
-                  f"https://www.sec.gov/Archives/edgar/data/"
-                  f"{cik_plain}/{acc_plain}/"
-              )
+                  priority = 10
 
-              # Öncelikli adayları dene.
-              for link in candidates:
-                  if link.startswith("http"):
-                      url = link
-                  elif link.startswith("/"):
-                      url = "https://www.sec.gov" + link
-                  else:
-                      url = base + link.split("/")[-1]
+                  if "infotable" in lower:
+                      priority = 0
+                  elif "informationtable" in lower:
+                      priority = 1
+                  elif "13finfo" in lower:
+                      priority = 2
+                  elif lower.endswith(".xml"):
+                      priority = 5
+
+                  candidates.append(
+                      (priority, name)
+                  )
+
+              candidates.sort()
+
+              for _, name in candidates:
+                  url = base + name
 
                   try:
-                      raw = request_bytes(url)
-                      text = raw.decode("utf-8", errors="ignore")
+                      raw = sec_request(url)
+                      text = raw.decode(
+                          "utf-8",
+                          errors="ignore"
+                      ).lower()
 
                       if (
-                          "infoTable" in text
-                          or "informationTable" in text
-                          or "<cusip>" in text.lower()
+                          "<cusip>" in text
+                          and (
+                              "infotable" in text
+                              or "informationtable" in text
+                          )
                       ):
                           return url, raw
-                  except Exception:
-                      pass
 
-                  time.sleep(0.12)
+                  except Exception:
+                      continue
 
               return None, None
 
@@ -198,122 +266,145 @@ jobs:
               try:
                   root = ET.fromstring(raw)
               except Exception:
-                  text = raw.decode("utf-8", errors="ignore")
-                  match = re.search(
-                      r"(<informationTable[\s\S]*?</informationTable>)",
-                      text,
-                      flags=re.I
+                  return holdings
+
+              for row in root.iter():
+                  if clean_tag(row.tag) != "infotable":
+                      continue
+
+                  cusip = normalize_cusip(
+                      child_text(row, "cusip")
                   )
-                  if not match:
-                      return holdings
-                  root = ET.fromstring(match.group(1))
 
-              rows = []
+                  shares = number(
+                      child_text(row, "sshprnamt")
+                  )
 
-              for node in root.iter():
-                  if clean_tag(node.tag) == "infotable":
-                      rows.append(node)
-
-              for row in rows:
-                  cusip = normalize_cusip(text_of(row, "cusip"))
-                  shares = parse_number(text_of(row, "sshprnamt"))
-                  value_thousands = parse_number(text_of(row, "value"))
+                  value_thousands = number(
+                      child_text(row, "value")
+                  )
 
                   if not cusip:
                       continue
 
-                  if cusip not in holdings:
-                      holdings[cusip] = {
+                  current = holdings.setdefault(
+                      cusip,
+                      {
                           "shares": 0.0,
                           "value": 0.0
                       }
+                  )
 
-                  holdings[cusip]["shares"] += shares
-                  # SEC 13F value alanı bin USD cinsindedir.
-                  holdings[cusip]["value"] += value_thousands * 1000
+                  current["shares"] += shares
+                  current["value"] += (
+                      value_thousands * 1000
+                  )
 
               return holdings
 
-          def get_manager_data(name, cik):
+          def manager_data(manager, cik):
               result = {
-                  "manager": name,
+                  "manager": manager,
                   "cik": cik,
                   "status": "error",
                   "latest": None,
                   "previous": None,
-                  "holdings": {}
+                  "holdings": {},
+                  "error": None
               }
 
               try:
-                  filings = get_recent_13f_filings(cik)
+                  filings = recent_filings(cik)
 
-                  if len(filings) < 1:
-                      result["status"] = "no_filings"
+                  if len(filings) < 2:
+                      result["status"] = "insufficient_filings"
                       return result
 
                   parsed = []
 
                   for filing in filings[:2]:
-                      time.sleep(0.15)
-
-                      source_url, raw = find_information_table(
+                      source_url, raw = find_info_table(
                           cik,
-                          filing["accession"]
+                          filing
                       )
 
-                      holding_data = parse_holdings(raw)
+                      if not raw:
+                          raise RuntimeError(
+                              "13F information table bulunamadı."
+                          )
+
+                      holdings = parse_holdings(raw)
+
+                      if not holdings:
+                          raise RuntimeError(
+                              "13F information table okunamadı."
+                          )
 
                       parsed.append({
                           **filing,
                           "sourceUrl": source_url,
-                          "holdings": holding_data
+                          "holdings": holdings
                       })
 
-                  latest = parsed[0] if parsed else None
-                  previous = parsed[1] if len(parsed) > 1 else None
+                  latest = parsed[0]
+                  previous = parsed[1]
 
                   result["latest"] = {
-                      k: v for k, v in latest.items()
+                      k: v
+                      for k, v in latest.items()
                       if k != "holdings"
-                  } if latest else None
+                  }
 
                   result["previous"] = {
-                      k: v for k, v in previous.items()
+                      k: v
+                      for k, v in previous.items()
                       if k != "holdings"
-                  } if previous else None
+                  }
 
-                  for symbol, meta in SYMBOLS.items():
-                      latest_shares = 0
-                      latest_value = 0
-                      previous_shares = 0
-                      previous_value = 0
+                  for symbol, cusips in SYMBOLS.items():
+                      latest_shares = 0.0
+                      previous_shares = 0.0
+                      latest_value = 0.0
+                      previous_value = 0.0
 
-                      for cusip in meta["cusips"]:
+                      for cusip in cusips:
                           c = normalize_cusip(cusip)
 
-                          if latest:
-                              h = latest["holdings"].get(c, {})
-                              latest_shares += h.get("shares", 0)
-                              latest_value += h.get("value", 0)
+                          lh = latest["holdings"].get(c, {})
+                          ph = previous["holdings"].get(c, {})
 
-                          if previous:
-                              h = previous["holdings"].get(c, {})
-                              previous_shares += h.get("shares", 0)
-                              previous_value += h.get("value", 0)
+                          latest_shares += lh.get(
+                              "shares", 0.0
+                          )
+                          previous_shares += ph.get(
+                              "shares", 0.0
+                          )
+                          latest_value += lh.get(
+                              "value", 0.0
+                          )
+                          previous_value += ph.get(
+                              "value", 0.0
+                          )
 
-                      change = latest_shares - previous_shares
+                      share_change = (
+                          latest_shares
+                          - previous_shares
+                      )
 
                       if previous_shares > 0:
-                          change_pct = (change / previous_shares) * 100
+                          change_pct = (
+                              share_change
+                              / previous_shares
+                          ) * 100
                       elif latest_shares > 0:
                           change_pct = None
                       else:
-                          change_pct = 0
+                          change_pct = 0.0
 
                       result["holdings"][symbol] = {
                           "latestShares": latest_shares,
                           "previousShares": previous_shares,
-                          "shareChange": change,
+                          "shareChange": share_change,
                           "shareChangePct": change_pct,
                           "latestValue": latest_value,
                           "previousValue": previous_value
@@ -326,12 +417,13 @@ jobs:
                   result["error"] = str(e)
                   return result
 
-          managers_output = []
+          managers = []
 
           for name, cik in MANAGERS.items():
               print(f"13F okunuyor: {name}")
-              managers_output.append(get_manager_data(name, cik))
-              time.sleep(0.25)
+              managers.append(
+                  manager_data(name, cik)
+              )
 
           stocks = {}
 
@@ -339,58 +431,58 @@ jobs:
               increases = 0
               decreases = 0
               unchanged = 0
-              valid_managers = 0
-              total_latest_value = 0
-              manager_details = []
+              valid = 0
+              reported_value = 0.0
+              details = []
 
-              for manager in managers_output:
+              for manager in managers:
                   if manager["status"] != "ok":
                       continue
 
-                  h = manager["holdings"].get(symbol)
+                  holding = manager["holdings"].get(
+                      symbol
+                  )
 
-                  if not h:
+                  if holding is None:
                       continue
 
-                  valid_managers += 1
-                  total_latest_value += h["latestValue"]
+                  valid += 1
+                  reported_value += holding[
+                      "latestValue"
+                  ]
 
-                  if h["shareChange"] > 0:
+                  change = holding["shareChange"]
+
+                  if change > 0:
                       direction = "increase"
                       increases += 1
-                  elif h["shareChange"] < 0:
+                  elif change < 0:
                       direction = "decrease"
                       decreases += 1
                   else:
                       direction = "unchanged"
                       unchanged += 1
 
-                  manager_details.append({
+                  details.append({
                       "manager": manager["manager"],
                       "direction": direction,
-                      **h
+                      **holding
                   })
 
-              # 13F /10:
-              # 5 = nötr başlangıç.
-              # Artıran yönetici başına +1.5
-              # Azaltan yönetici başına -1.5
-              # 0-10 aralığına sıkıştırılır.
-              #
-              # Veri alınamazsa puan UYDURULMAZ: None.
-              if valid_managers == 0:
+              if valid == 0:
                   score = None
                   status = "unavailable"
               else:
-                  score = round(
-                      max(
-                          0,
-                          min(
-                              10,
-                              5 + (increases * 1.5) - (decreases * 1.5)
-                          )
-                      )
+                  raw_score = (
+                      5
+                      + increases * 1.5
+                      - decreases * 1.5
                   )
+
+                  score = round(
+                      max(0, min(10, raw_score))
+                  )
+
                   status = "ok"
 
               stocks[symbol] = {
@@ -400,15 +492,19 @@ jobs:
                   "increases": increases,
                   "decreases": decreases,
                   "unchanged": unchanged,
-                  "validManagers": valid_managers,
-                  "latestReportedValue": total_latest_value,
-                  "managers": manager_details
+                  "validManagers": valid,
+                  "latestReportedValue": reported_value,
+                  "managers": details
               }
 
           output = {
-              "updated_at": datetime.now(timezone.utc).isoformat(),
-              "version": "0.4",
-              "source": "SEC EDGAR Form 13F-HR",
+              "updated_at":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+              "version": "0.4.1",
+              "source":
+                  "SEC EDGAR Form 13F-HR",
               "max_score": 10,
               "note": (
                   "13F verileri gerçek zamanlı değildir. "
@@ -419,27 +515,37 @@ jobs:
                       "manager": x["manager"],
                       "cik": x["cik"],
                       "status": x["status"],
-                      "latest": x.get("latest"),
-                      "previous": x.get("previous"),
-                      "error": x.get("error")
+                      "latest": x["latest"],
+                      "previous": x["previous"],
+                      "error": x["error"]
                   }
-                  for x in managers_output
+                  for x in managers
               ],
               "stocks": stocks
           }
 
           os.makedirs("data", exist_ok=True)
 
-          with open("data/13f.json", "w", encoding="utf-8") as f:
+          with open(
+              "data/13f.json",
+              "w",
+              encoding="utf-8"
+          ) as file:
               json.dump(
                   output,
-                  f,
+                  file,
                   ensure_ascii=False,
                   indent=2
               )
 
           print("data/13f.json oluşturuldu.")
-          print(json.dumps(stocks, indent=2))
+          print(
+              json.dumps(
+                  stocks,
+                  ensure_ascii=False,
+                  indent=2
+              )
+          )
           PY
 
       - name: 13F verisini kaydet
@@ -452,6 +558,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "13F verisinde değişiklik yok."
           else
-            git commit -m "Update SEC 13F institutional data"
+            git commit -m "Update SEC 13F institutional data v0.4.1"
             git push
           fi
