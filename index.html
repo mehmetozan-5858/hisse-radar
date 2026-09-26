@@ -5,36 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#07111f">
   <link rel="manifest" href="manifest.webmanifest">
-
   <title>Hisse Radar</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #07111f;
-      color: #ffffff;
+      color: #fff;
     }
 
     .app {
       max-width: 760px;
       margin: auto;
-      padding: 18px;
-      padding-bottom: 50px;
+      padding: 18px 18px 50px;
     }
 
-    .header {
-      margin-bottom: 16px;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 30px;
-    }
+    .header { margin-bottom: 16px; }
+    .header h1 { margin: 0; font-size: 30px; }
 
     .header p {
       color: #94a3b8;
@@ -72,30 +62,18 @@
       border-radius: 11px;
       font-weight: 800;
       font-size: 14px;
-      cursor: pointer;
     }
 
     .tab.active {
       background: #18304a;
-      color: #ffffff;
+      color: #fff;
     }
 
-    .panel {
-      display: none;
-    }
+    .panel { display: none; }
+    .panel.active { display: block; }
 
-    .panel.active {
-      display: block;
-    }
-
-    .panelTitle {
-      margin: 5px 0 13px;
-    }
-
-    .panelTitle h2 {
-      margin: 0;
-      font-size: 20px;
-    }
+    .panelTitle { margin: 5px 0 13px; }
+    .panelTitle h2 { margin: 0; font-size: 20px; }
 
     .panelTitle p {
       color: #8494a8;
@@ -118,10 +96,7 @@
       cursor: pointer;
     }
 
-    .symbol {
-      font-size: 21px;
-      font-weight: 800;
-    }
+    .symbol { font-size: 21px; font-weight: 800; }
 
     .name {
       color: #94a3b8;
@@ -136,18 +111,9 @@
       margin-top: 12px;
     }
 
-    .change {
-      margin-top: 4px;
-      font-size: 13px;
-    }
-
-    .positive {
-      color: #35d07f;
-    }
-
-    .negative {
-      color: #ff6577;
-    }
+    .change { margin-top: 4px; font-size: 13px; }
+    .positive { color: #35d07f; }
+    .negative { color: #ff6577; }
 
     .score {
       margin-top: 14px;
@@ -171,13 +137,8 @@
       padding: 18px;
     }
 
-    .detail.active {
-      display: block;
-    }
-
-    .detail h2 {
-      margin: 0 0 4px;
-    }
+    .detail.active { display: block; }
+    .detail h2 { margin: 0 0 4px; }
 
     .bigScore {
       font-size: 31px;
@@ -195,9 +156,7 @@
       font-size: 14px;
     }
 
-    .metric span:first-child {
-      color: #94a3b8;
-    }
+    .metric span:first-child { color: #94a3b8; }
 
     .sectionTitle {
       margin-top: 22px;
@@ -206,9 +165,7 @@
       font-weight: 800;
     }
 
-    .component {
-      margin-bottom: 15px;
-    }
+    .component { margin-bottom: 15px; }
 
     .componentTop {
       display: flex;
@@ -256,10 +213,7 @@
       padding: 10px;
     }
 
-    .statLabel {
-      color: #94a3b8;
-      font-size: 11px;
-    }
+    .statLabel { color: #94a3b8; font-size: 11px; }
 
     .statValue {
       font-weight: 800;
@@ -283,7 +237,6 @@
       border-radius: 12px;
       margin-top: 18px;
       font-weight: 700;
-      cursor: pointer;
     }
 
     .loadingBox {
@@ -303,72 +256,39 @@
       text-align: center;
     }
 
-    @media (max-width: 420px) {
-      .app {
-        padding: 14px;
-      }
-
-      .grid {
-        gap: 9px;
-      }
-
-      .card {
-        padding: 13px;
-      }
-
-      .symbol {
-        font-size: 19px;
-      }
-
-      .tabs {
-        gap: 5px;
-      }
-
-      .tab {
-        font-size: 13px;
-      }
+    @media (max-width:420px) {
+      .app { padding: 14px; }
+      .grid { gap: 9px; }
+      .card { padding: 13px; }
+      .symbol { font-size: 19px; }
+      .tabs { gap: 5px; }
+      .tab { font-size: 13px; }
     }
   </style>
 </head>
 
 <body>
-
 <div class="app">
 
   <div class="header">
     <h1>📡 Hisse Radar</h1>
-
     <p>
       Finansal veriler, SEC içeriden işlemleri, kurumsal yatırımcı
-      hareketleri ve global niş fırsatlarını tek araştırma panelinde
-      birleştirir.
+      hareketleri ve global niş fırsatlarını tek araştırma panelinde birleştirir.
     </p>
-
-    <div class="status" id="status">
-      Veriler yükleniyor...
-    </div>
+    <div class="status" id="status">Veriler yükleniyor...</div>
   </div>
 
   <div class="tabs">
-    <button
-      class="tab active"
-      id="tabRadar"
-      onclick="switchTab('radar')"
-    >
+    <button class="tab active" id="tabRadar" onclick="switchTab('radar')">
       📊 Hisse Radar
     </button>
-
-    <button
-      class="tab"
-      id="tabNiche"
-      onclick="switchTab('niche')"
-    >
+    <button class="tab" id="tabNiche" onclick="switchTab('niche')">
       🌍 Global Niş
     </button>
   </div>
 
   <div class="panel active" id="radarPanel">
-
     <div class="panelTitle">
       <h2>Hisse Radar</h2>
       <p>
@@ -376,890 +296,456 @@
         ve 13F kurumsal hareketlerine göre araştırma puanı.
       </p>
     </div>
-
     <div class="grid" id="cards">
-      <div class="loadingBox">
-        Hisse verileri yükleniyor...
-      </div>
+      <div class="loadingBox">Hisse verileri yükleniyor...</div>
     </div>
-
     <div class="detail" id="detail"></div>
-
   </div>
 
   <div class="panel" id="nichePanel">
-
     <div class="panelTitle">
       <h2>🌍 Global Niche Radar</h2>
       <p>
-        Global hisse evreninde radar dışında kalan potansiyel
-        fırsatları tarayan ikinci araştırma motoru.
+        Global hisse evreninde radar dışında kalan potansiyel fırsatları
+        tarayan ikinci araştırma motoru.
       </p>
     </div>
-
     <div class="grid" id="nicheCards">
-      <div class="loadingBox">
-        Global Niche verileri yükleniyor...
-      </div>
+      <div class="loadingBox">Global Niche verileri yükleniyor...</div>
     </div>
-
     <div class="detail" id="nicheDetail"></div>
-
   </div>
 
   <div class="footer">
     Hisse Radar bir araştırma aracıdır ve yatırım tavsiyesi değildir.
-    Veriler gecikmeli olabilir. SEC Form 4 bölümünde yalnızca açık
-    piyasa P/S işlemleri değerlendirilir. 13F bildirimleri dönemsel
-    ve gecikmeli kurumsal pozisyon verileridir. Global Niche Radar
-    sonuçları da yalnızca araştırma amaçlıdır.
+    Veriler gecikmeli olabilir. Global Niche Radar sonuçları yalnızca
+    araştırma amaçlıdır.
   </div>
 
 </div>
 
 <script>
-  let radarData = null;
-  let nicheData = null;
+let radarData = null;
+let nicheData = null;
 
-  const money = value => {
-    if (value === null || value === undefined) return "-";
+const money = value => {
+  if (value == null) return "-";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "-";
+  if (Math.abs(n) >= 1e12) return "$" + (n/1e12).toFixed(2) + "T";
+  if (Math.abs(n) >= 1e9) return "$" + (n/1e9).toFixed(2) + "B";
+  if (Math.abs(n) >= 1e6) return "$" + (n/1e6).toFixed(2) + "M";
+  return "$" + n.toLocaleString("en-US",{maximumFractionDigits:2});
+};
 
-    const n = Number(value);
+const nicheMoney = (value,currency) => {
+  if (value == null) return "-";
+  const n = Number(value);
+  if (!Number.isFinite(n)) return "-";
 
-    if (!Number.isFinite(n)) return "-";
+  const c = String(currency || "USD");
+  let symbol = "$";
 
-    if (Math.abs(n) >= 1e12)
-      return "$" + (n / 1e12).toFixed(2) + "T";
+  if (c === "TRY") symbol = "₺";
+  else if (c === "EUR") symbol = "€";
+  else if (c === "CAD") symbol = "C$";
+  else if (c === "AUD") symbol = "A$";
+  else if (c === "GBP") symbol = "£";
+  else if (c === "GBp" || c === "GBX") symbol = "p";
 
-    if (Math.abs(n) >= 1e9)
-      return "$" + (n / 1e9).toFixed(2) + "B";
+  const formatted = n.toLocaleString("en-US",{
+    minimumFractionDigits:2,
+    maximumFractionDigits:4
+  });
 
-    if (Math.abs(n) >= 1e6)
-      return "$" + (n / 1e6).toFixed(2) + "M";
+  return symbol === "p" ? formatted + "p" : symbol + formatted;
+};
 
-    return "$" + n.toLocaleString(
-      "en-US",
-      { maximumFractionDigits: 2 }
-    );
-  };
+const number = value => {
+  if (value == null) return "-";
+  const n = Number(value);
+  return Number.isFinite(n) ? n.toLocaleString("en-US") : "-";
+};
 
-  const currencySymbol = currency => {
-    const code = String(currency || "USD").toUpperCase();
+const pct = value => {
+  if (value == null) return "-";
+  const n = Number(value);
+  return Number.isFinite(n) ? n.toFixed(2) + "%" : "-";
+};
 
-    if (code === "TRY") return "₺";
-    if (code === "EUR") return "€";
-    if (code === "CAD") return "C$";
-    if (code === "AUD") return "A$";
-    if (code === "GBP") return "£";
-    if (code === "GBPENCE" || code === "GBPENNY" || code === "GBX")
-      return "p";
+function component(label,score,max) {
+  const ok = score != null && Number.isFinite(Number(score));
+  const display = ok ? `${score}/${max}` : "Veri yok";
+  const width = ok
+    ? Math.max(0,Math.min(100,Number(score)/max*100))
+    : 0;
 
-    if (
-      String(currency || "").toLowerCase() === "gbp"
-    ) return "p";
+  return `
+    <div class="component">
+      <div class="componentTop">
+        <span>${label}</span>
+        <strong>${display}</strong>
+      </div>
+      <div class="bar">
+        <div class="fill" style="width:${width}%"></div>
+      </div>
+    </div>
+  `;
+}
 
-    return "$";
-  };
+function switchTab(tab) {
+  const radarPanel=document.getElementById("radarPanel");
+  const nichePanel=document.getElementById("nichePanel");
+  const tabRadar=document.getElementById("tabRadar");
+  const tabNiche=document.getElementById("tabNiche");
 
-  const nicheMoney = (value, currency) => {
-    if (value === null || value === undefined) return "-";
-
-    const n = Number(value);
-
-    if (!Number.isFinite(n)) return "-";
-
-    let symbol;
-
-    if (String(currency || "") === "GBp") {
-      symbol = "p";
-    } else {
-      symbol = currencySymbol(currency);
-    }
-
-    const formatted = n.toLocaleString(
-      "en-US",
-      {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 4
-      }
-    );
-
-    if (symbol === "p") {
-      return formatted + "p";
-    }
-
-    return symbol + formatted;
-  };
-
-  const number = value => {
-    if (value === null || value === undefined) return "-";
-
-    const n = Number(value);
-
-    if (!Number.isFinite(n)) return "-";
-
-    return n.toLocaleString("en-US");
-  };
-
-  const pct = value => {
-    if (value === null || value === undefined) return "-";
-
-    const n = Number(value);
-
-    if (!Number.isFinite(n)) return "-";
-
-    return n.toFixed(2) + "%";
-  };
-
-  function getScore(stock) {
-    if (stock?.radar?.score != null) {
-      return Number(stock.radar.score);
-    }
-
-    if (stock?.score != null) {
-      return Number(stock.score);
-    }
-
-    if (stock?.radarScore != null) {
-      return Number(stock.radarScore);
-    }
-
-    if (stock?.niche_score != null) {
-      return Number(stock.niche_score);
-    }
-
-    return null;
+  if(tab==="niche"){
+    radarPanel.classList.remove("active");
+    nichePanel.classList.add("active");
+    tabRadar.classList.remove("active");
+    tabNiche.classList.add("active");
+  } else {
+    nichePanel.classList.remove("active");
+    radarPanel.classList.add("active");
+    tabNiche.classList.remove("active");
+    tabRadar.classList.add("active");
   }
 
-  function getMaxScore(stock, fallback = 100) {
-    if (stock?.radar?.max != null) {
-      return Number(stock.radar.max);
-    }
+  window.scrollTo({top:0,behavior:"smooth"});
+}
 
-    if (stock?.max != null) {
-      return Number(stock.max);
-    }
+function renderCards(){
+  const cards=document.getElementById("cards");
+  cards.innerHTML="";
 
-    if (stock?.maxScore != null) {
-      return Number(stock.maxScore);
-    }
-
-    if (stock?.score_max != null) {
-      return Number(stock.score_max);
-    }
-
-    return fallback;
+  if(!radarData || !Array.isArray(radarData.stocks)){
+    cards.innerHTML='<div class="loadingBox">Hisse Radar verisi bulunamadı.</div>';
+    return;
   }
 
-  function component(label, score, max) {
-    const available =
-      score !== null &&
-      score !== undefined &&
-      Number.isFinite(Number(score));
+  radarData.stocks.forEach((stock,index)=>{
+    const change=Number(stock.changePercentage || 0);
+    const cls=change>=0?"positive":"negative";
+    const sign=change>0?"+":"";
 
-    const display = available
-      ? `${score}/${max}`
-      : "Veri yok";
+    const card=document.createElement("div");
+    card.className="card";
 
-    const width = available
-      ? Math.max(
-          0,
-          Math.min(
-            100,
-            Number(score) / max * 100
-          )
-        )
-      : 0;
-
-    return `
-      <div class="component">
-        <div class="componentTop">
-          <span>${label}</span>
-          <strong>${display}</strong>
-        </div>
-
-        <div class="bar">
-          <div
-            class="fill"
-            style="width:${width}%"
-          ></div>
-        </div>
+    card.innerHTML=`
+      <div class="symbol">${stock.symbol || "-"}</div>
+      <div class="name">${stock.name || ""}</div>
+      <div class="price">${money(stock.price)}</div>
+      <div class="change ${cls}">${sign}${pct(change)}</div>
+      <div class="score">
+        🎯 ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
       </div>
-    `;
-  }
-
-  function switchTab(tab) {
-    const radarPanel =
-      document.getElementById("radarPanel");
-
-    const nichePanel =
-      document.getElementById("nichePanel");
-
-    const tabRadar =
-      document.getElementById("tabRadar");
-
-    const tabNiche =
-      document.getElementById("tabNiche");
-
-    if (tab === "niche") {
-      radarPanel.classList.remove("active");
-      nichePanel.classList.add("active");
-
-      tabRadar.classList.remove("active");
-      tabNiche.classList.add("active");
-    } else {
-      nichePanel.classList.remove("active");
-      radarPanel.classList.add("active");
-
-      tabNiche.classList.remove("active");
-      tabRadar.classList.add("active");
-    }
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  }
-
-  function renderCards() {
-    const cards =
-      document.getElementById("cards");
-
-    cards.innerHTML = "";
-
-    if (
-      !radarData ||
-      !Array.isArray(radarData.stocks) ||
-      radarData.stocks.length === 0
-    ) {
-      cards.innerHTML = `
-        <div class="loadingBox">
-          Hisse Radar verisi bulunamadı.
-        </div>
-      `;
-      return;
-    }
-
-    radarData.stocks.forEach((stock, index) => {
-      const change = Number(
-        stock.changePercentage || 0
-      );
-
-      const cls =
-        change >= 0
-          ? "positive"
-          : "negative";
-
-      const sign =
-        change > 0
-          ? "+"
-          : "";
-
-      const card =
-        document.createElement("div");
-
-      card.className = "card";
-
-      card.innerHTML = `
-        <div class="symbol">
-          ${stock.symbol || "-"}
-        </div>
-
-        <div class="name">
-          ${stock.name || ""}
-        </div>
-
-        <div class="price">
-          ${money(stock.price)}
-        </div>
-
-        <div class="change ${cls}">
-          ${sign}${pct(change)}
-        </div>
-
-        <div class="score">
-          🎯 ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
-        </div>
-
-        <div class="small">
-          Hacim: ${number(stock.volume)}
-        </div>
-      `;
-
-      card.onclick = () =>
-        showDetail(index);
-
-      cards.appendChild(card);
-    });
-  }
-
-  function showDetail(index) {
-    const stock =
-      radarData.stocks[index];
-
-    const detail =
-      document.getElementById("detail");
-
-    const c =
-      stock.radar?.components || {};
-
-    const insider =
-      stock.insider || {};
-
-    const inst =
-      stock.institutional || {};
-
-    detail.innerHTML = `
-      <h2>
-        ${stock.symbol || ""}
-        ${stock.name ? "• " + stock.name : ""}
-      </h2>
-
-      <div class="bigScore">
-        ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
-      </div>
-
-      <div class="metric">
-        <span>Fiyat</span>
-        <strong>${money(stock.price)}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Hacim</span>
-        <strong>${number(stock.volume)}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Piyasa değeri</span>
-        <strong>${money(stock.marketCap)}</strong>
-      </div>
-
-      <div class="metric">
-        <span>F/K</span>
-        <strong>
-          ${
-            stock.fundamentals?.pe != null
-              ? Number(stock.fundamentals.pe).toFixed(2)
-              : "-"
-          }
-        </strong>
-      </div>
-
-      <div class="metric">
-        <span>Analist hedefi</span>
-        <strong>
-          ${money(stock.analyst?.targetConsensus)}
-        </strong>
-      </div>
-
-      <div class="sectionTitle">
-        Radar bileşenleri
-      </div>
-
-      ${component("Analist hedefleri", c.analyst, 15)}
-      ${component("Finansallar / büyüme", c.growth, 15)}
-      ${component("Değerleme", c.valuation, 10)}
-      ${component("Fiyat momentumu", c.momentum, 10)}
-      ${component("SEC Insider", c.insider, 20)}
-      ${component("Kurumsal Yatırımcılar / 13F", c.institutional, 10)}
-
-      <div class="infoBox">
-        <h3>🏢 Kurumsal yatırımcılar</h3>
-
-        <div class="institutionalStats">
-
-          <div class="stat">
-            <div class="statLabel">Geçerli kurum</div>
-            <div class="statValue">${inst.validManagers ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Pozisyon artıran</div>
-            <div class="statValue">${inst.increases ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Pozisyon azaltan</div>
-            <div class="statValue">${inst.decreases ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Değişmeyen</div>
-            <div class="statValue">${inst.unchanged ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Filtrelenen anomali</div>
-            <div class="statValue">${inst.anomaliesExcluded ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">13F puanı</div>
-            <div class="statValue">
-              ${
-                inst.score != null
-                  ? inst.score + "/10"
-                  : "Veri yok"
-              }
-            </div>
-          </div>
-
-        </div>
-
-        <div class="note">
-          Kaynak: SEC EDGAR Form 13F-HR.
-          Eski dönemler ve belirlenen anomaliler
-          puanlamadan çıkarılır. 13F bildirimleri
-          gerçek zamanlı değildir.
-        </div>
-      </div>
-
-      <div class="infoBox">
-        <h3>👤 SEC içeriden işlemler</h3>
-
-        <div class="institutionalStats">
-
-          <div class="stat">
-            <div class="statLabel">Alış işlemi</div>
-            <div class="statValue">${insider.buys ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Satış işlemi</div>
-            <div class="statValue">${insider.sells ?? 0}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Toplam alış</div>
-            <div class="statValue">${money(insider.buyValue)}</div>
-          </div>
-
-          <div class="stat">
-            <div class="statLabel">Toplam satış</div>
-            <div class="statValue">${money(insider.sellValue)}</div>
-          </div>
-
-        </div>
-
-        <div class="note">
-          Kaynak: SEC EDGAR. İşlem tarihi ile
-          bildirim tarihi farklı olabilir.
-          Yalnızca açık piyasa P (alış) ve
-          S (satış) işlemleri puanlanır.
-        </div>
-      </div>
-
-      <div class="infoBox">
-        <h3>📊 Puan sistemi</h3>
-
-        <div class="note" style="margin-top:0">
-          Bu hisse için kullanılabilir veri:
-          <strong>${stock.radar?.max ?? "-"} puan</strong>.
-
-          ${
-            stock.radar?.max === 80
-              ? "80 puanlık veri motoru aktif."
-              : "Bazı veri kaynakları şu anda kullanılamıyor; eksik kaynak için puan uydurulmadı."
-          }
-        </div>
-      </div>
-
-      <button
-        class="close"
-        onclick="closeDetail()"
-      >
-        Kapat
-      </button>
+      <div class="small">Hacim: ${number(stock.volume)}</div>
     `;
 
-    detail.classList.add("active");
+    card.onclick=()=>showDetail(index);
+    cards.appendChild(card);
+  });
+}
 
-    detail.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+function showDetail(index){
+  const stock=radarData.stocks[index];
+  const detail=document.getElementById("detail");
+  const c=stock.radar?.components || {};
+  const insider=stock.insider || {};
+  const inst=stock.institutional || {};
+
+  detail.innerHTML=`
+    <h2>${stock.symbol || ""}${stock.name?" • "+stock.name:""}</h2>
+
+    <div class="bigScore">
+      ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
+    </div>
+
+    <div class="metric"><span>Fiyat</span><strong>${money(stock.price)}</strong></div>
+    <div class="metric"><span>Hacim</span><strong>${number(stock.volume)}</strong></div>
+    <div class="metric"><span>Piyasa değeri</span><strong>${money(stock.marketCap)}</strong></div>
+
+    <div class="sectionTitle">Radar bileşenleri</div>
+
+    ${component("Analist hedefleri",c.analyst,15)}
+    ${component("Finansallar / büyüme",c.growth,15)}
+    ${component("Değerleme",c.valuation,10)}
+    ${component("Fiyat momentumu",c.momentum,10)}
+    ${component("SEC Insider",c.insider,20)}
+    ${component("Kurumsal Yatırımcılar / 13F",c.institutional,10)}
+
+    <div class="infoBox">
+      <h3>🏢 Kurumsal yatırımcılar</h3>
+      <div class="institutionalStats">
+        <div class="stat"><div class="statLabel">Geçerli kurum</div><div class="statValue">${inst.validManagers ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">Pozisyon artıran</div><div class="statValue">${inst.increases ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">Pozisyon azaltan</div><div class="statValue">${inst.decreases ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">13F puanı</div><div class="statValue">${inst.score != null ? inst.score+"/10":"Veri yok"}</div></div>
+      </div>
+    </div>
+
+    <div class="infoBox">
+      <h3>👤 SEC içeriden işlemler</h3>
+      <div class="institutionalStats">
+        <div class="stat"><div class="statLabel">Alış işlemi</div><div class="statValue">${insider.buys ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">Satış işlemi</div><div class="statValue">${insider.sells ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">Toplam alış</div><div class="statValue">${money(insider.buyValue)}</div></div>
+        <div class="stat"><div class="statLabel">Toplam satış</div><div class="statValue">${money(insider.sellValue)}</div></div>
+      </div>
+    </div>
+
+    <button class="close" onclick="closeDetail()">Kapat</button>
+  `;
+
+  detail.classList.add("active");
+  detail.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function closeDetail(){
+  document.getElementById("detail").classList.remove("active");
+}
+
+function getNicheStocks(){
+  if(!nicheData) return [];
+  if(Array.isArray(nicheData)) return nicheData;
+  if(Array.isArray(nicheData.candidates)) return nicheData.candidates;
+  if(Array.isArray(nicheData.stocks)) return nicheData.stocks;
+  if(Array.isArray(nicheData.results)) return nicheData.results;
+  return [];
+}
+
+function renderNicheCards(){
+  const cards=document.getElementById("nicheCards");
+  const stocks=getNicheStocks();
+  cards.innerHTML="";
+
+  if(!stocks.length){
+    cards.innerHTML='<div class="loadingBox">Global Niche adayı bulunamadı.</div>';
+    return;
   }
 
-  function closeDetail() {
-    document
-      .getElementById("detail")
-      .classList.remove("active");
-  }
+  stocks.forEach((stock,index)=>{
+    const change=Number(stock.changePercentage ?? 0);
+    const cls=change>=0?"positive":"negative";
+    const sign=change>0?"+":"";
 
-  function getNicheStocks() {
-    if (!nicheData) return [];
+    const card=document.createElement("div");
+    card.className="card";
 
-    if (Array.isArray(nicheData)) {
-      return nicheData;
-    }
-
-    if (Array.isArray(nicheData.stocks)) {
-      return nicheData.stocks;
-    }
-
-    if (Array.isArray(nicheData.results)) {
-      return nicheData.results;
-    }
-
-    if (Array.isArray(nicheData.candidates)) {
-      return nicheData.candidates;
-    }
-
-    if (Array.isArray(nicheData.opportunities)) {
-      return nicheData.opportunities;
-    }
-
-    return [];
-  }
-
-  function renderNicheCards() {
-    const cards =
-      document.getElementById("nicheCards");
-
-    const stocks =
-      getNicheStocks();
-
-    cards.innerHTML = "";
-
-    if (stocks.length === 0) {
-      cards.innerHTML = `
-        <div class="loadingBox">
-          Global Niche taraması tamamlandı ancak
-          gösterilecek aday bulunamadı.
-        </div>
-      `;
-      return;
-    }
-
-    stocks.forEach((stock, index) => {
-      const change = Number(
-        stock.changePercentage ??
-        stock.change_percent ??
-        0
-      );
-
-      const cls =
-        change >= 0
-          ? "positive"
-          : "negative";
-
-      const sign =
-        change > 0
-          ? "+"
-          : "";
-
-      const score =
-        getScore(stock);
-
-      const max =
-        getMaxScore(
-          stock,
-          nicheData?.current_score_max || 100
-        );
-
-      const card =
-        document.createElement("div");
-
-      card.className = "card";
-
-      card.innerHTML = `
-        <div class="symbol">
-          ${stock.symbol || stock.ticker || "-"}
-        </div>
-
-        <div class="name">
-          ${stock.name || stock.companyName || ""}
-        </div>
-
-        <div class="price">
-          ${nicheMoney(stock.price, stock.currency)}
-        </div>
-
-        <div class="change ${cls}">
-          ${sign}${pct(change)}
-        </div>
-
-        <div class="score">
-          🌍 ${
-            score != null
-              ? score + "/" + max
-              : "Aday"
-          }
-        </div>
-
-        <div class="small">
-          ${stock.theme || stock.sector || "Global Niche Radar"}
-        </div>
-      `;
-
-      card.onclick = () =>
-        showNicheDetail(index);
-
-      cards.appendChild(card);
-    });
-  }
-
-  function showNicheDetail(index) {
-    const stocks =
-      getNicheStocks();
-
-    const stock =
-      stocks[index];
-
-    const detail =
-      document.getElementById("nicheDetail");
-
-    const score =
-      getScore(stock);
-
-    const max =
-      getMaxScore(
-        stock,
-        nicheData?.current_score_max || 100
-      );
-
-    const change =
-      stock.changePercentage ??
-      stock.change_percent;
-
-    detail.innerHTML = `
-      <h2>
-        ${stock.symbol || stock.ticker || ""}
-        ${
-          stock.name || stock.companyName
-            ? "• " + (stock.name || stock.companyName)
-            : ""
-        }
-      </h2>
-
-      <div class="bigScore">
-        ${
-          score != null
-            ? score + "/" + max
-            : "Global Niche Adayı"
-        }
-      </div>
-
-      <div class="metric">
-        <span>Fiyat</span>
-        <strong>
-          ${nicheMoney(stock.price, stock.currency)}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <span>Para birimi</span>
-        <strong>${stock.currency || "-"}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Değişim</span>
-        <strong>${pct(change)}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Hacim</span>
-        <strong>${number(stock.volume)}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Gün içi düşük</span>
-        <strong>
-          ${nicheMoney(stock.dayLow, stock.currency)}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <span>Gün içi yüksek</span>
-        <strong>
-          ${nicheMoney(stock.dayHigh, stock.currency)}
-        </strong>
-      </div>
-
-      <div class="metric">
-        <span>Piyasa</span>
-        <strong>${stock.market || stock.exchange || "-"}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Ülke</span>
-        <strong>${stock.country || "-"}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Tema</span>
-        <strong>${stock.theme || stock.sector || "-"}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Şirket ölçeği</span>
-        <strong>${stock.size || "-"}</strong>
-      </div>
-
-      <div class="metric">
-        <span>Veri durumu</span>
-        <strong>
-          ${
-            stock.marketDataStatus === "fresh"
-              ? "Güncel"
-              : stock.marketDataStatus === "cached"
-                ? "Önbellek"
-                : "Veri yok"
-          }
-        </strong>
-      </div>
-
-      <div class="infoBox">
-        <h3>🌍 Neden radarda?</h3>
-
-        <div class="note" style="margin-top:0">
-          ${
-            stock.reason ||
-            stock.thesis ||
-            stock.summary ||
-            stock.description ||
-            (
-              (stock.theme || "Niş sektör")
-              + " alanında Global Niche Radar tarafından araştırma adayı olarak izlenmektedir."
-            )
-          }
-        </div>
-      </div>
-
-      <div class="infoBox">
-        <h3>🔎 Araştırma notu</h3>
-
-        <div class="note" style="margin-top:0">
-          Global Niche Radar yeni fırsatları keşfetmek için
-          kullanılan ayrı bir tarama motorudur. Buradaki sonuçlar
-          otomatik araştırma adaylarıdır; tek başına alım veya satım
-          sinyali değildir.
-        </div>
-      </div>
-
-      <button
-        class="close"
-        onclick="closeNicheDetail()"
-      >
-        Kapat
-      </button>
+    card.innerHTML=`
+      <div class="symbol">${stock.symbol || "-"}</div>
+      <div class="name">${stock.name || ""}</div>
+      <div class="price">${nicheMoney(stock.price,stock.currency)}</div>
+      <div class="change ${cls}">${sign}${pct(change)}</div>
+      <div class="score">🌍 ${stock.score ?? "-"}/100</div>
+      <div class="small">${stock.theme || "Global Niche Radar"}</div>
     `;
 
-    detail.classList.add("active");
+    card.onclick=()=>showNicheDetail(index);
+    cards.appendChild(card);
+  });
+}
 
-    detail.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
+function showNicheDetail(index){
+  const stock=getNicheStocks()[index];
+  const detail=document.getElementById("nicheDetail");
 
-  function closeNicheDetail() {
-    document
-      .getElementById("nicheDetail")
-      .classList.remove("active");
-  }
+  const c=stock.scoreComponents || {};
+  const m=stock.metrics || {};
 
-  async function loadRadar() {
-    try {
-      const response = await fetch(
-        "data/radar.json?ts=" + Date.now(),
-        { cache: "no-store" }
-      );
+  detail.innerHTML=`
+    <h2>
+      ${stock.symbol || ""}
+      ${stock.name ? "• "+stock.name : ""}
+    </h2>
 
-      if (!response.ok) {
-        throw new Error(
-          "Radar HTTP " + response.status
-        );
-      }
+    <div class="bigScore">${stock.score ?? "-"}/100</div>
 
-      radarData =
-        await response.json();
+    <div class="metric">
+      <span>Fiyat</span>
+      <strong>${nicheMoney(stock.price,stock.currency)}</strong>
+    </div>
 
-      renderCards();
+    <div class="metric">
+      <span>Para birimi</span>
+      <strong>${stock.currency || "-"}</strong>
+    </div>
 
-      const date =
-        radarData.updated_at
-          ? new Date(radarData.updated_at)
-          : null;
+    <div class="metric">
+      <span>Değişim</span>
+      <strong>${pct(stock.changePercentage)}</strong>
+    </div>
 
-      document.getElementById(
-        "status"
-      ).textContent =
-        "● Hisse Radar: "
-        + (radarData.score_version || "aktif")
-        + " • "
-        + (radarData.current_score_max || "-")
-        + " puan"
-        + (
-          date && !isNaN(date)
-            ? " • Güncelleme: "
-              + date.toLocaleTimeString("tr-TR")
-            : ""
-        );
+    <div class="metric">
+      <span>Hacim</span>
+      <strong>${number(stock.volume)}</strong>
+    </div>
 
-    } catch (error) {
-      console.error(error);
+    <div class="metric">
+      <span>Piyasa</span>
+      <strong>${stock.market || stock.exchange || "-"}</strong>
+    </div>
 
-      document.getElementById(
-        "status"
-      ).textContent =
-        "Hisse Radar verileri yüklenemedi.";
+    <div class="metric">
+      <span>Ülke</span>
+      <strong>${stock.country || "-"}</strong>
+    </div>
 
-      document.getElementById(
-        "cards"
-      ).innerHTML = `
-        <div class="loadingBox">
-          data/radar.json okunamadı.
+    <div class="metric">
+      <span>Tema</span>
+      <strong>${stock.theme || "-"}</strong>
+    </div>
+
+    <div class="metric">
+      <span>Durum</span>
+      <strong>${stock.status || "-"}</strong>
+    </div>
+
+    <div class="sectionTitle">
+      🧠 Otomatik puan kırılımı
+    </div>
+
+    ${component("Momentum",c.momentum,30)}
+    ${component("Trend gücü",c.trend,25)}
+    ${component("Hacim ilgisi",c.volume,20)}
+    ${component("Risk / volatilite",c.risk,15)}
+    ${component("Niş tema",c.theme,10)}
+
+    <div class="infoBox">
+      <h3>📈 Piyasa sinyalleri</h3>
+
+      <div class="institutionalStats">
+
+        <div class="stat">
+          <div class="statLabel">5 günlük</div>
+          <div class="statValue">${pct(m.return5d)}</div>
         </div>
-      `;
-    }
-  }
 
-  async function loadNiche() {
-    try {
-      const response = await fetch(
-        "data/global-niche.json?ts=" + Date.now(),
-        { cache: "no-store" }
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "Niche HTTP " + response.status
-        );
-      }
-
-      nicheData =
-        await response.json();
-
-      renderNicheCards();
-
-    } catch (error) {
-      console.error(error);
-
-      document.getElementById(
-        "nicheCards"
-      ).innerHTML = `
-        <div class="loadingBox">
-          Global Niche verileri yüklenemedi.
+        <div class="stat">
+          <div class="statLabel">20 günlük</div>
+          <div class="statValue">${pct(m.return20d)}</div>
         </div>
-      `;
-    }
-  }
 
-  async function startApp() {
-    await Promise.all([
-      loadRadar(),
-      loadNiche()
-    ]);
-  }
+        <div class="stat">
+          <div class="statLabel">60 günlük</div>
+          <div class="statValue">${pct(m.return60d)}</div>
+        </div>
 
-  startApp();
+        <div class="stat">
+          <div class="statLabel">Hacim oranı</div>
+          <div class="statValue">
+            ${m.volumeRatio != null ? Number(m.volumeRatio).toFixed(2)+"x":"-"}
+          </div>
+        </div>
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register(
-      "sw.js"
+        <div class="stat">
+          <div class="statLabel">20 günlük volatilite</div>
+          <div class="statValue">${pct(m.volatility20)}</div>
+        </div>
+
+        <div class="stat">
+          <div class="statLabel">Veri durumu</div>
+          <div class="statValue">
+            ${stock.marketDataStatus==="fresh"?"Güncel":stock.marketDataStatus==="cached"?"Önbellek":"Veri yok"}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="note">
+        Puan her radar çalışmasında fiyat geçmişi, momentum,
+        trend, hacim ve volatilite verileri kullanılarak yeniden hesaplanır.
+      </div>
+    </div>
+
+    <div class="infoBox">
+      <h3>🌍 Neden radarda?</h3>
+      <div class="note" style="margin-top:0">
+        ${stock.theme || "Niş sektör"} alanında Global Niche Radar
+        tarafından otomatik araştırma adayı olarak izlenmektedir.
+      </div>
+    </div>
+
+    <div class="infoBox">
+      <h3>🔎 Araştırma notu</h3>
+      <div class="note" style="margin-top:0">
+        Puan bir alım veya satım önerisi değildir. Global Niche Radar,
+        araştırılması gereken şirketleri ölçülebilir piyasa verilerine
+        göre sıralayan bir araştırma motorudur.
+      </div>
+    </div>
+
+    <button class="close" onclick="closeNicheDetail()">Kapat</button>
+  `;
+
+  detail.classList.add("active");
+  detail.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function closeNicheDetail(){
+  document.getElementById("nicheDetail").classList.remove("active");
+}
+
+async function loadRadar(){
+  try{
+    const response=await fetch(
+      "data/radar.json?ts="+Date.now(),
+      {cache:"no-store"}
     );
+
+    radarData=await response.json();
+    renderCards();
+
+    const date=radarData.updated_at
+      ? new Date(radarData.updated_at)
+      : null;
+
+    document.getElementById("status").textContent=
+      "● Hisse Radar: "
+      +(radarData.score_version || "aktif")
+      +" • "
+      +(radarData.current_score_max || "-")
+      +" puan"
+      +(date && !isNaN(date)
+        ? " • Güncelleme: "+date.toLocaleTimeString("tr-TR")
+        : "");
+
+  }catch(error){
+    console.error(error);
+    document.getElementById("status").textContent=
+      "Hisse Radar verileri yüklenemedi.";
   }
+}
+
+async function loadNiche(){
+  try{
+    const response=await fetch(
+      "data/global-niche.json?ts="+Date.now(),
+      {cache:"no-store"}
+    );
+
+    nicheData=await response.json();
+    renderNicheCards();
+
+  }catch(error){
+    console.error(error);
+    document.getElementById("nicheCards").innerHTML=
+      '<div class="loadingBox">Global Niche verileri yüklenemedi.</div>';
+  }
+}
+
+async function startApp(){
+  await Promise.all([
+    loadRadar(),
+    loadNiche()
+  ]);
+}
+
+startApp();
+
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js");
+}
 </script>
 
 </body>
