@@ -24,6 +24,7 @@ jobs:
       - name: Radar verilerini güncelle
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
         run: |
           python <<'PY'
           import os
@@ -36,9 +37,10 @@ jobs:
 
           API_KEY = os.environ["FMP_API_KEY"]
 
-          # ==============================================
-          # RADAR HİSSE EVRENİ - 20 HİSSE
-          # ==============================================
+          SEC_CONTACT_EMAIL = os.environ.get(
+              "SEC_CONTACT_EMAIL",
+              ""
+          ).strip()
 
           SYMBOLS = [
               "AAPL",
@@ -67,16 +69,55 @@ jobs:
 
           SEC_HEADERS = {
               "User-Agent":
-                  "HisseRadar/1.0 research application contact hisseradar@example.com",
+                  f"HisseRadar/1.0 {SEC_CONTACT_EMAIL}",
               "Accept":
-                  "application/json,text/xml,application/xml,text/html"
+                  "application/json,text/xml,application/xml,text/html",
+              "Accept-Encoding":
+                  "identity"
           }
 
           # ==============================================
-          # GENEL HTTP
+          # ESKİ RADAR VERİSİNİ YEDEK OLARAK YÜKLE
+          # ==============================================
+
+          previous_stocks = {}
+
+          try:
+              with open(
+                  "data/radar.json",
+                  "r",
+                  encoding="utf-8"
+              ) as f:
+
+                  previous_file = json.load(f)
+
+              previous_stocks = {
+                  item.get("symbol"): item
+                  for item in previous_file.get(
+                      "stocks",
+                      []
+                  )
+                  if item.get("symbol")
+              }
+
+              print(
+                  "Previous radar loaded:",
+                  len(previous_stocks)
+              )
+
+          except Exception as e:
+
+              print(
+                  "Previous radar unavailable:",
+                  repr(e)
+              )
+
+          # ==============================================
+          # HTTP
           # ==============================================
 
           def get_json(url, headers=None):
+
               req = Request(
                   url,
                   headers=headers or {}
@@ -87,13 +128,14 @@ jobs:
                   timeout=30
               ) as response:
 
-                  return json.loads(
-                      response.read().decode(
-                          "utf-8"
-                      )
-                  )
+                  raw = response.read()
+
+              return json.loads(
+                  raw.decode("utf-8")
+              )
 
           def get_text(url, headers=None):
+
               req = Request(
                   url,
                   headers=headers or {}
@@ -115,9 +157,7 @@ jobs:
 
           def fmp(endpoint, params=None):
 
-              p = dict(
-                  params or {}
-              )
+              p = dict(params or {})
 
               p["apikey"] = API_KEY
 
@@ -131,9 +171,22 @@ jobs:
 
               try:
 
-                  return get_json(
-                      url
-                  )
+                  data = get_json(url)
+
+                  if isinstance(data, dict):
+
+                      if data.get("Error Message"):
+                          print(
+                              "FMP API error:",
+                              endpoint,
+                              data.get(
+                                  "Error Message"
+                              )
+                          )
+
+                          return []
+
+                  return data
 
               except Exception as e:
 
@@ -144,6 +197,45 @@ jobs:
                   )
 
                   return []
+
+          # ==============================================
+          # TOPLU FİYAT VERİSİ
+          # ==============================================
+
+          batch_quotes = fmp(
+              "batch-quote",
+              {
+                  "symbols":
+                      ",".join(SYMBOLS)
+              }
+          )
+
+          QUOTE_MAP = {}
+
+          if isinstance(
+              batch_quotes,
+              list
+          ):
+
+              for item in batch_quotes:
+
+                  symbol_key = str(
+                      item.get(
+                          "symbol",
+                          ""
+                      )
+                  ).upper()
+
+                  if symbol_key:
+
+                      QUOTE_MAP[
+                          symbol_key
+                      ] = item
+
+          print(
+              "Batch quote count:",
+              len(QUOTE_MAP)
+          )
 
           # ==============================================
           # 13F KURUMSAL VERİ
@@ -159,9 +251,7 @@ jobs:
                   encoding="utf-8"
               ) as f:
 
-                  institutional_file = json.load(
-                      f
-                  )
+                  institutional_file = json.load(f)
 
               institutional_data = (
                   institutional_file.get(
@@ -211,15 +301,18 @@ jobs:
                           "cik_str",
                           ""
                       )
-                  ).zfill(
-                      10
-                  )
+                  ).zfill(10)
 
                   if ticker and cik:
 
                       CIK_MAP[
                           ticker
                       ] = cik
+
+              print(
+                  "SEC ticker map:",
+                  len(CIK_MAP)
+              )
 
           except Exception as e:
 
@@ -234,6 +327,14 @@ jobs:
 
           def sec_insider(symbol):
 
+              previous = previous_stocks.get(
+                  symbol,
+                  {}
+              ).get(
+                  "insider",
+                  {}
+              )
+
               result = {
                   "score": None,
                   "max": 20,
@@ -243,7 +344,8 @@ jobs:
                   "sellValue": 0,
                   "transactions": [],
                   "source": "SEC EDGAR",
-                  "lookbackDays": 90
+                  "lookbackDays": 90,
+                  "fresh": False
               }
 
               cik = CIK_MAP.get(
@@ -251,6 +353,12 @@ jobs:
               )
 
               if not cik:
+
+                  if previous:
+                      previous = dict(previous)
+                      previous["fresh"] = False
+                      return previous
+
                   return result
 
               try:
@@ -344,11 +452,9 @@ jobs:
                               )
 
                               if dt < cutoff:
-
                                   continue
 
                           except Exception:
-
                               pass
 
                       primary_doc = (
@@ -360,7 +466,6 @@ jobs:
                       )
 
                       if not primary_doc:
-
                           continue
 
                       form4s.append({
@@ -380,11 +485,9 @@ jobs:
 
                   for filing in form4s:
 
-                      accession = (
-                          filing[
-                              "accession"
-                          ]
-                      )
+                      accession = filing[
+                          "accession"
+                      ]
 
                       accession_clean = (
                           accession.replace(
@@ -394,16 +497,12 @@ jobs:
                       )
 
                       cik_nozero = str(
-                          int(
-                              cik
-                          )
+                          int(cik)
                       )
 
-                      primary_doc = (
-                          filing[
-                              "primaryDocument"
-                          ]
-                      )
+                      primary_doc = filing[
+                          "primaryDocument"
+                      ]
 
                       document_url = (
                           "https://www.sec.gov/Archives/edgar/data/"
@@ -438,9 +537,7 @@ jobs:
                               or end == -1
                           ):
 
-                              time.sleep(
-                                  0.12
-                              )
+                              time.sleep(0.12)
 
                               continue
 
@@ -545,7 +642,8 @@ jobs:
                                   price = 0
 
                               value = (
-                                  shares * price
+                                  shares
+                                  * price
                               )
 
                               transaction_date = (
@@ -622,21 +720,17 @@ jobs:
 
                           print(
                               symbol,
-                              "Form4 error:",
+                              "Form4 document error:",
                               repr(e)
                           )
 
-                  buy_value = (
-                      result[
-                          "buyValue"
-                      ]
-                  )
+                  buy_value = result[
+                      "buyValue"
+                  ]
 
-                  sell_value = (
-                      result[
-                          "sellValue"
-                      ]
-                  )
+                  sell_value = result[
+                      "sellValue"
+                  ]
 
                   if (
                       buy_value == 0
@@ -668,9 +762,7 @@ jobs:
 
                           score = 10
 
-                  result[
-                      "score"
-                  ] = max(
+                  result["score"] = max(
                       0,
                       min(
                           20,
@@ -678,16 +770,12 @@ jobs:
                       )
                   )
 
-                  result[
-                      "buyValue"
-                  ] = round(
+                  result["buyValue"] = round(
                       buy_value,
                       2
                   )
 
-                  result[
-                      "sellValue"
-                  ] = round(
+                  result["sellValue"] = round(
                       sell_value,
                       2
                   )
@@ -709,6 +797,10 @@ jobs:
                       reverse=True
                   )[:25]
 
+                  result[
+                      "fresh"
+                  ] = True
+
                   return result
 
               except Exception as e:
@@ -719,13 +811,59 @@ jobs:
                       repr(e)
                   )
 
+                  if previous:
+
+                      previous = dict(
+                          previous
+                      )
+
+                      previous[
+                          "fresh"
+                      ] = False
+
+                      return previous
+
                   return result
+
+          # ==============================================
+          # PUAN YARDIMCILARI
+          # ==============================================
+
+          def previous_component(
+              symbol,
+              component,
+              default
+          ):
+
+              return (
+                  previous_stocks
+                  .get(
+                      symbol,
+                      {}
+                  )
+                  .get(
+                      "radar",
+                      {}
+                  )
+                  .get(
+                      "components",
+                      {}
+                  )
+                  .get(
+                      component,
+                      default
+                  )
+              )
 
           # ==============================================
           # RADAR
           # ==============================================
 
           stocks = []
+
+          fresh_quote_count = 0
+
+          cached_quote_count = 0
 
           for symbol in SYMBOLS:
 
@@ -734,13 +872,90 @@ jobs:
                   symbol
               )
 
-              quote = fmp(
-                  "quote",
-                  {
-                      "symbol":
-                          symbol
-                  }
+              previous_stock = (
+                  previous_stocks.get(
+                      symbol,
+                      {}
+                  )
               )
+
+              previous_fundamentals = (
+                  previous_stock.get(
+                      "fundamentals",
+                      {}
+                  )
+              )
+
+              previous_analyst = (
+                  previous_stock.get(
+                      "analyst",
+                      {}
+                  )
+              )
+
+              # ==========================================
+              # FİYAT
+              # ==========================================
+
+              q = QUOTE_MAP.get(
+                  symbol,
+                  {}
+              )
+
+              quote_fresh = bool(
+                  q.get(
+                      "price"
+                  ) is not None
+              )
+
+              if quote_fresh:
+
+                  fresh_quote_count += 1
+
+              else:
+
+                  cached_quote_count += 1
+
+                  q = {
+                      "symbol":
+                          symbol,
+                      "name":
+                          previous_stock.get(
+                              "name"
+                          ),
+                      "price":
+                          previous_stock.get(
+                              "price"
+                          ),
+                      "change":
+                          previous_stock.get(
+                              "change"
+                          ),
+                      "changePercentage":
+                          previous_stock.get(
+                              "changePercentage"
+                          ),
+                      "volume":
+                          previous_stock.get(
+                              "volume"
+                          ),
+                      "marketCap":
+                          previous_stock.get(
+                              "marketCap"
+                          )
+                  }
+
+              price = q.get(
+                  "price"
+              )
+
+              change_pct = q.get(
+                  "changePercentage"
+              )
+
+              # ==========================================
+              # FMP TEMEL VERİLER
+              # ==========================================
 
               growth = fmp(
                   "financial-growth",
@@ -764,18 +979,6 @@ jobs:
                       "symbol":
                           symbol
                   }
-              )
-
-              q = (
-                  quote[0]
-                  if (
-                      isinstance(
-                          quote,
-                          list
-                      )
-                      and quote
-                  )
-                  else {}
               )
 
               g = (
@@ -814,19 +1017,21 @@ jobs:
                   else {}
               )
 
-              price = q.get(
-                  "price"
-              )
+              growth_fresh = bool(g)
 
-              change_pct = q.get(
-                  "changePercentage"
-              )
+              ratios_fresh = bool(r)
+
+              targets_fresh = bool(t)
 
               # ==========================================
               # ANALİST /15
               # ==========================================
 
-              analyst_score = 0
+              analyst_score = previous_component(
+                  symbol,
+                  "analyst",
+                  0
+              )
 
               target = (
                   t.get(
@@ -837,17 +1042,16 @@ jobs:
                   )
               )
 
-              try:
+              if (
+                  price is not None
+                  and target is not None
+              ):
 
-                  if price and target:
+                  try:
 
                       upside = (
-                          float(
-                              target
-                          )
-                          / float(
-                              price
-                          )
+                          float(target)
+                          / float(price)
                           - 1
                       ) * 100
 
@@ -869,15 +1073,18 @@ jobs:
                       else:
                           analyst_score = 1
 
-              except Exception:
-
-                  pass
+                  except Exception:
+                      pass
 
               # ==========================================
               # BÜYÜME /15
               # ==========================================
 
-              growth_score = 0
+              growth_score = previous_component(
+                  symbol,
+                  "growth",
+                  0
+              )
 
               growth_values = []
 
@@ -902,7 +1109,6 @@ jobs:
                           )
 
                       except Exception:
-
                           pass
 
               if growth_values:
@@ -931,11 +1137,18 @@ jobs:
                   elif avg_growth >= 0:
                       growth_score = 4
 
+                  else:
+                      growth_score = 0
+
               # ==========================================
               # DEĞERLEME /10
               # ==========================================
 
-              valuation_score = 5
+              valuation_score = previous_component(
+                  symbol,
+                  "valuation",
+                  5
+              )
 
               pe = r.get(
                   "priceToEarningsRatioTTM"
@@ -945,92 +1158,101 @@ jobs:
                   "priceToEarningsGrowthRatioTTM"
               )
 
-              try:
+              if (
+                  pe is not None
+                  or peg is not None
+              ):
 
-                  if (
-                      peg is not None
-                      and float(
-                          peg
-                      ) > 0
-                  ):
+                  try:
 
-                      p = float(
-                          peg
-                      )
+                      if (
+                          peg is not None
+                          and float(
+                              peg
+                          ) > 0
+                      ):
 
-                      if p <= 1:
-                          valuation_score = 10
+                          p = float(
+                              peg
+                          )
 
-                      elif p <= 1.5:
-                          valuation_score = 8
+                          if p <= 1:
+                              valuation_score = 10
 
-                      elif p <= 2:
-                          valuation_score = 6
+                          elif p <= 1.5:
+                              valuation_score = 8
 
-                      elif p <= 3:
-                          valuation_score = 4
+                          elif p <= 2:
+                              valuation_score = 6
 
-                      else:
-                          valuation_score = 2
+                          elif p <= 3:
+                              valuation_score = 4
 
-                  elif pe is not None:
+                          else:
+                              valuation_score = 2
 
-                      p = float(
-                          pe
-                      )
+                      elif pe is not None:
 
-                      if 0 < p <= 20:
-                          valuation_score = 9
+                          p = float(
+                              pe
+                          )
 
-                      elif p <= 30:
-                          valuation_score = 7
+                          if 0 < p <= 20:
+                              valuation_score = 9
 
-                      elif p <= 40:
-                          valuation_score = 5
+                          elif 20 < p <= 30:
+                              valuation_score = 7
 
-                      elif p > 40:
-                          valuation_score = 2
+                          elif 30 < p <= 40:
+                              valuation_score = 5
 
-              except Exception:
+                          elif p > 40:
+                              valuation_score = 2
 
-                  valuation_score = 5
+                  except Exception:
+                      pass
 
               # ==========================================
               # MOMENTUM /10
               # ==========================================
 
-              momentum_score = 5
+              momentum_score = previous_component(
+                  symbol,
+                  "momentum",
+                  5
+              )
 
-              try:
+              if change_pct is not None:
 
-                  cp = float(
-                      change_pct
-                  )
+                  try:
 
-                  if cp >= 4:
-                      momentum_score = 10
+                      cp = float(
+                          change_pct
+                      )
 
-                  elif cp >= 2:
-                      momentum_score = 9
+                      if cp >= 4:
+                          momentum_score = 10
 
-                  elif cp >= 1:
-                      momentum_score = 8
+                      elif cp >= 2:
+                          momentum_score = 9
 
-                  elif cp >= 0:
-                      momentum_score = 6
+                      elif cp >= 1:
+                          momentum_score = 8
 
-                  elif cp >= -1:
-                      momentum_score = 4
+                      elif cp >= 0:
+                          momentum_score = 6
 
-                  elif cp >= -2:
-                      momentum_score = 2
+                      elif cp >= -1:
+                          momentum_score = 4
 
-                  else:
-                      momentum_score = 1
+                      elif cp >= -2:
+                          momentum_score = 2
 
-              except Exception:
+                      else:
+                          momentum_score = 1
 
-                  pass
+                  except Exception:
+                      pass
 
               # ==========================================
               # SEC INSIDER /20
@@ -1040,10 +1262,8 @@ jobs:
                   symbol
               )
 
-              insider_score = (
-                  insider.get(
-                      "score"
-                  )
+              insider_score = insider.get(
+                  "score"
               )
 
               # ==========================================
@@ -1111,6 +1331,28 @@ jobs:
                           0
                       ),
 
+                  "netShareChange":
+                      institutional.get(
+                          "netShareChange",
+                          0
+                      ),
+
+                  "largestIncrease":
+                      institutional.get(
+                          "largestIncrease"
+                      ),
+
+                  "largestDecrease":
+                      institutional.get(
+                          "largestDecrease"
+                      ),
+
+                  "flags":
+                      institutional.get(
+                          "flags",
+                          []
+                      ),
+
                   "managers":
                       institutional.get(
                           "managers",
@@ -1119,6 +1361,86 @@ jobs:
 
                   "source":
                       "SEC EDGAR Form 13F-HR"
+              }
+
+              # ==========================================
+              # TEMEL VERİ FALLBACK
+              # ==========================================
+
+              fundamentals = {
+
+                  "revenueGrowth":
+                      g.get(
+                          "revenueGrowth",
+                          previous_fundamentals.get(
+                              "revenueGrowth"
+                          )
+                      ),
+
+                  "netIncomeGrowth":
+                      g.get(
+                          "netIncomeGrowth",
+                          previous_fundamentals.get(
+                              "netIncomeGrowth"
+                          )
+                      ),
+
+                  "epsGrowth":
+                      g.get(
+                          "epsgrowth",
+                          previous_fundamentals.get(
+                              "epsGrowth"
+                          )
+                      ),
+
+                  "pe":
+                      pe
+                      if pe is not None
+                      else previous_fundamentals.get(
+                          "pe"
+                      ),
+
+                  "peg":
+                      peg
+                      if peg is not None
+                      else previous_fundamentals.get(
+                          "peg"
+                      )
+              }
+
+              analyst = {
+
+                  "targetConsensus":
+                      t.get(
+                          "targetConsensus",
+                          previous_analyst.get(
+                              "targetConsensus"
+                          )
+                      ),
+
+                  "targetHigh":
+                      t.get(
+                          "targetHigh",
+                          previous_analyst.get(
+                              "targetHigh"
+                          )
+                      ),
+
+                  "targetLow":
+                      t.get(
+                          "targetLow",
+                          previous_analyst.get(
+                              "targetLow"
+                          )
+                      ),
+
+                  "targetMedian":
+                      t.get(
+                          "targetMedian",
+                          previous_analyst.get(
+                              "targetMedian"
+                          )
+                      )
               }
 
               # ==========================================
@@ -1132,17 +1454,13 @@ jobs:
                   + momentum_score
               )
 
-              radar_score = (
-                  base_score
-              )
+              radar_score = base_score
 
               radar_max = 50
 
               if insider_score is not None:
 
-                  radar_score += (
-                      insider_score
-                  )
+                  radar_score += insider_score
 
                   radar_max += 20
 
@@ -1154,10 +1472,6 @@ jobs:
 
                   radar_max += 10
 
-              # ==========================================
-              # SONUÇ
-              # ==========================================
-
               stocks.append({
 
                   "symbol":
@@ -1166,10 +1480,15 @@ jobs:
                   "name":
                       q.get(
                           "name"
+                      )
+                      or previous_stock.get(
+                          "name"
                       ),
 
                   "price":
-                      price,
+                      q.get(
+                          "price"
+                      ),
 
                   "change":
                       q.get(
@@ -1177,7 +1496,9 @@ jobs:
                       ),
 
                   "changePercentage":
-                      change_pct,
+                      q.get(
+                          "changePercentage"
+                      ),
 
                   "volume":
                       q.get(
@@ -1189,58 +1510,32 @@ jobs:
                           "marketCap"
                       ),
 
-                  "fundamentals": {
+                  "fundamentals":
+                      fundamentals,
 
-                      "revenueGrowth":
-                          g.get(
-                              "revenueGrowth"
-                          ),
-
-                      "netIncomeGrowth":
-                          g.get(
-                              "netIncomeGrowth"
-                          ),
-
-                      "epsGrowth":
-                          g.get(
-                              "epsgrowth"
-                          ),
-
-                      "pe":
-                          pe,
-
-                      "peg":
-                          peg
-                  },
-
-                  "analyst": {
-
-                      "targetConsensus":
-                          t.get(
-                              "targetConsensus"
-                          ),
-
-                      "targetHigh":
-                          t.get(
-                              "targetHigh"
-                          ),
-
-                      "targetLow":
-                          t.get(
-                              "targetLow"
-                          ),
-
-                      "targetMedian":
-                          t.get(
-                              "targetMedian"
-                          )
-                  },
+                  "analyst":
+                      analyst,
 
                   "insider":
                       insider,
 
                   "institutional":
                       institutional_result,
+
+                  "freshness": {
+
+                      "quote":
+                          quote_fresh,
+
+                      "growth":
+                          growth_fresh,
+
+                      "ratios":
+                          ratios_fresh,
+
+                      "analyst":
+                          targets_fresh
+                  },
 
                   "radar": {
 
@@ -1274,7 +1569,7 @@ jobs:
               })
 
           # ==============================================
-          # RADAR JSON
+          # ÇIKIŞ
           # ==============================================
 
           output = {
@@ -1285,15 +1580,22 @@ jobs:
                   ).isoformat(),
 
               "score_version":
-                  "0.6.0",
+                  "0.6.1",
 
               "current_score_max":
                   80,
 
               "universe_size":
-                  len(
-                      SYMBOLS
-                  ),
+                  len(SYMBOLS),
+
+              "quote_status": {
+
+                  "fresh":
+                      fresh_quote_count,
+
+                  "cached":
+                      cached_quote_count
+              },
 
               "stocks":
                   stocks
@@ -1322,12 +1624,22 @@ jobs:
           )
 
           print(
-              "Radar v0.6.0 update complete"
+              "Radar v0.6.1 tamamlandı"
           )
 
           print(
               "Hisse sayısı:",
               len(SYMBOLS)
+          )
+
+          print(
+              "Yeni fiyat:",
+              fresh_quote_count
+          )
+
+          print(
+              "Önbellekten korunan:",
+              cached_quote_count
           )
 
           print(
@@ -1345,6 +1657,6 @@ jobs:
 
           git diff --cached --quiet && exit 0
 
-          git commit -m "Update 20-stock radar v0.6.0"
+          git commit -m "Make 20-stock radar resilient v0.6.1"
 
           git push
