@@ -1,12 +1,12 @@
 {
-  "version": "global-niche-v6",
-  "generatedAt": "2026-09-26T18:13:20.197431+00:00",
-  "count": 14,
-  "marketDataCount": 12,
+  "version": "global-niche-v7",
+  "generatedAt": "2026-09-26T18:44:07.505533+00:00",
+  "count": 13,
+  "marketDataCount": 13,
   "quoteStatus": {
-    "fresh": 12,
+    "fresh": 13,
     "cached": 0,
-    "unavailable": 2
+    "unavailable": 0
   },
   "quoteProvider": "Yahoo Finance chart / cache fallback",
   "candidates": [
@@ -65,30 +65,30 @@
       }
     },
     {
-      "symbol": "FLT.V",
+      "symbol": "FLT.TO",
       "name": "Volatus Aerospace Inc.",
-      "market": "TSXV",
+      "market": "TSX",
       "country": "Canada",
       "theme": "Drones",
       "size": "micro",
       "score": 73,
       "status": "ADAY",
-      "price": null,
-      "previousClose": null,
-      "change": null,
-      "changePct": null,
-      "changePercentage": null,
-      "volume": null,
+      "price": 0.58,
+      "previousClose": 0.62,
+      "change": -0.04,
+      "changePct": -6.4516,
+      "changePercentage": -6.4516,
+      "volume": 1252200,
       "marketCap": null,
-      "dayLow": null,
-      "dayHigh": null,
-      "currency": null,
-      "exchange": "TSXV",
-      "marketDataAvailable": false,
-      "marketDataStatus": "unavailable",
-      "quoteSource": null,
+      "dayLow": 0.57,
+      "dayHigh": 0.62,
+      "currency": "CAD",
+      "exchange": "TOR",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": false
+        "quote": true
       }
     },
     {
@@ -143,33 +143,6 @@
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
         "quote": true
-      }
-    },
-    {
-      "symbol": "BMN.L",
-      "name": "Bushveld Minerals Limited",
-      "market": "LSE-AIM",
-      "country": "UK",
-      "theme": "Critical Minerals",
-      "size": "micro",
-      "score": 71,
-      "status": "ADAY",
-      "price": null,
-      "previousClose": null,
-      "change": null,
-      "changePct": null,
-      "changePercentage": null,
-      "volume": null,
-      "marketCap": null,
-      "dayLow": null,
-      "dayHigh": null,
-      "currency": null,
-      "exchange": "LSE-AIM",
-      "marketDataAvailable": false,
-      "marketDataStatus": "unavailable",
-      "quoteSource": null,
-      "freshness": {
-        "quote": false
       }
     },
     {
