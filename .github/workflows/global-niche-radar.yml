@@ -1,4 +1,4 @@
-name: Global Niche Radar V9
+name: Global Niche Radar V10
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Global Niche V9 verilerini güncelle
+      - name: Global Niche V10 verilerini güncelle
         run: |
           python <<'PY'
           import os
@@ -51,7 +51,7 @@ jobs:
           ]
 
           HEADERS = {
-              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/4.0)",
+              "User-Agent": "Mozilla/5.0 (compatible; HisseRadar/5.0)",
               "Accept": "application/json"
           }
 
@@ -132,19 +132,23 @@ jobs:
                   rows = []
 
                   for i, close_value in enumerate(closes_raw):
+
                       if close_value is None:
                           continue
 
                       rows.append({
                           "close": float(close_value),
+
                           "volume":
                               volumes_raw[i]
                               if i < len(volumes_raw)
                               else None,
+
                           "high":
                               highs_raw[i]
                               if i < len(highs_raw)
                               else None,
+
                           "low":
                               lows_raw[i]
                               if i < len(lows_raw)
@@ -176,6 +180,7 @@ jobs:
                       ) * 100
 
                   def past_return(days):
+
                       if len(closes) <= days:
                           return None
 
@@ -202,7 +207,10 @@ jobs:
                       else None
                   )
 
-                  avg_volume20 = average(volumes[-20:])
+                  avg_volume20 = average(
+                      volumes[-20:]
+                  )
+
                   current_volume = last["volume"]
 
                   volume_ratio = None
@@ -219,6 +227,7 @@ jobs:
                   returns = []
 
                   for i in range(1, len(closes)):
+
                       if closes[i-1] != 0:
                           returns.append(
                               (
@@ -231,8 +240,10 @@ jobs:
                   volatility20 = None
 
                   if len(returns) >= 5:
-                      volatility20 = statistics.pstdev(
-                          returns[-20:]
+                      volatility20 = (
+                          statistics.pstdev(
+                              returns[-20:]
+                          )
                       )
 
                   high52 = max(closes)
@@ -250,7 +261,8 @@ jobs:
                           meta.get("longName")
                           or meta.get("shortName"),
 
-                      "price": round(price, 4),
+                      "price":
+                          round(price, 4),
 
                       "previousClose":
                           round(float(previous_close), 4)
@@ -279,29 +291,57 @@ jobs:
                           if last["high"] is not None
                           else None,
 
-                      "currency": meta.get("currency"),
-                      "exchangeName": meta.get("exchangeName"),
+                      "currency":
+                          meta.get("currency"),
 
-                      "return5d": past_return(5),
-                      "return20d": past_return(20),
-                      "return60d": past_return(60),
-                      "return120d": past_return(120),
+                      "exchangeName":
+                          meta.get("exchangeName"),
+
+                      "marketCap":
+                          meta.get("marketCap"),
+
+                      "return5d":
+                          past_return(5),
+
+                      "return20d":
+                          past_return(20),
+
+                      "return60d":
+                          past_return(60),
+
+                      "return120d":
+                          past_return(120),
 
                       "ma20": ma20,
                       "ma50": ma50,
                       "ma200": ma200,
 
-                      "avgVolume20": avg_volume20,
-                      "volumeRatio": volume_ratio,
-                      "volatility20": volatility20,
+                      "avgVolume20":
+                          avg_volume20,
 
-                      "high52": high52,
-                      "low52": low52,
-                      "drawdown52": drawdown52
+                      "volumeRatio":
+                          volume_ratio,
+
+                      "volatility20":
+                          volatility20,
+
+                      "high52":
+                          high52,
+
+                      "low52":
+                          low52,
+
+                      "drawdown52":
+                          drawdown52
                   }
 
               except Exception as e:
-                  print("Yahoo error:", symbol, repr(e))
+                  print(
+                      "Yahoo chart error:",
+                      symbol,
+                      repr(e)
+                  )
+
                   return None
 
           def calculate_score(data, candidate):
@@ -314,24 +354,23 @@ jobs:
                   "theme": 0
               }
 
-              # =========================
-              # MOMENTUM — 30
-              # =========================
+              # MOMENTUM 30
 
-              periods = [
+              momentum_rules = [
                   ("return5d", 10),
                   ("return20d", 10),
                   ("return60d", 10)
               ]
 
-              for field, max_points in periods:
+              for field, maximum in momentum_rules:
+
                   value = data.get(field)
 
                   if value is None:
                       continue
 
                   if value >= 20:
-                      points = max_points
+                      points = 10
 
                   elif value >= 10:
                       points = 9
@@ -351,11 +390,12 @@ jobs:
                   else:
                       points = 0
 
-                  components["momentum"] += points
+                  components["momentum"] += min(
+                      maximum,
+                      points
+                  )
 
-              # =========================
-              # TREND — 25
-              # =========================
+              # TREND 25
 
               price = data.get("price")
               ma20 = data.get("ma20")
@@ -364,27 +404,28 @@ jobs:
               high52 = data.get("high52")
 
               if price is not None and ma20 is not None:
+
                   components["trend"] += (
                       6 if price > ma20 else 2
                   )
 
               if ma20 is not None and ma50 is not None:
+
                   components["trend"] += (
                       6 if ma20 > ma50 else 2
                   )
 
-              if (
-                  price is not None
-                  and ma200 is not None
-              ):
+              if price is not None and ma200 is not None:
+
                   components["trend"] += (
                       6 if price > ma200 else 1
                   )
 
-              elif ma200 is None:
+              else:
                   components["trend"] += 3
 
               if price is not None and high52 not in (None, 0):
+
                   ratio = price / high52
 
                   if ratio >= 0.95:
@@ -399,9 +440,7 @@ jobs:
                   elif ratio >= 0.50:
                       components["trend"] += 2
 
-              # =========================
-              # HACİM — 20
-              # =========================
+              # HACİM 20
 
               vr = data.get("volumeRatio")
 
@@ -432,9 +471,7 @@ jobs:
               else:
                   components["volume"] = 3
 
-              # =========================
-              # RİSK / VOLATİLİTE — 15
-              # =========================
+              # RİSK 15
 
               vol = data.get("volatility20")
               drawdown = data.get("drawdown52")
@@ -482,16 +519,14 @@ jobs:
                   risk_points
               )
 
-              # =========================
-              # NİŞ TEMA — 10
-              # =========================
+              # TEMA 10
 
               theme = candidate.get(
                   "theme",
                   ""
               ).lower()
 
-              premium_terms = [
+              premium = [
                   "quantum",
                   "ai",
                   "space",
@@ -502,34 +537,37 @@ jobs:
                   "technology"
               ]
 
-              secondary_terms = [
+              secondary = [
                   "lithium",
                   "helium"
               ]
 
               if any(
                   term in theme
-                  for term in premium_terms
+                  for term in premium
               ):
                   components["theme"] = 10
 
               elif any(
                   term in theme
-                  for term in secondary_terms
+                  for term in secondary
               ):
                   components["theme"] = 8
 
               else:
                   components["theme"] = 6
 
-              total = sum(components.values())
-
-              total = max(
-                  0,
-                  min(100, round(total))
+              total = sum(
+                  components.values()
               )
 
-              return total, components
+              return (
+                  max(
+                      0,
+                      min(100, round(total))
+                  ),
+                  components
+              )
 
           output_candidates = []
 
@@ -628,8 +666,16 @@ jobs:
                       or candidate["market"]
                   )
 
+                  market_cap = (
+                      data.get("marketCap")
+                      or previous.get("marketCap")
+                  )
+
                   status_data = "fresh"
-                  quote_source = "Yahoo Finance chart"
+
+                  quote_source = (
+                      "Yahoo Finance chart"
+                  )
 
               elif previous.get("price") is not None:
 
@@ -651,17 +697,31 @@ jobs:
                   )
 
                   data = {
-                      "price": previous.get("price"),
-                      "previousClose": previous.get("previousClose"),
-                      "change": previous.get("change"),
+                      "price":
+                          previous.get("price"),
+
+                      "previousClose":
+                          previous.get("previousClose"),
+
+                      "change":
+                          previous.get("change"),
+
                       "changePercentage":
                           previous.get("changePercentage")
                           if previous.get("changePercentage") is not None
                           else previous.get("changePct"),
-                      "volume": previous.get("volume"),
-                      "dayLow": previous.get("dayLow"),
-                      "dayHigh": previous.get("dayHigh"),
-                      "currency": previous.get("currency")
+
+                      "volume":
+                          previous.get("volume"),
+
+                      "dayLow":
+                          previous.get("dayLow"),
+
+                      "dayHigh":
+                          previous.get("dayHigh"),
+
+                      "currency":
+                          previous.get("currency")
                   }
 
                   name = (
@@ -672,6 +732,10 @@ jobs:
                   exchange = (
                       previous.get("exchange")
                       or candidate["market"]
+                  )
+
+                  market_cap = (
+                      previous.get("marketCap")
                   )
 
                   status_data = "cached"
@@ -692,9 +756,60 @@ jobs:
 
                   name = candidate["name"]
                   exchange = candidate["market"]
+                  market_cap = None
 
                   status_data = "unavailable"
                   quote_source = None
+
+              # Finansal kalite alanı.
+              # Veri kaynağı bağlanana kadar puan üretmez.
+
+              previous_financial = (
+                  previous.get(
+                      "financialQuality",
+                      {}
+                  )
+              )
+
+              financial_quality = {
+                  "available":
+                      previous_financial.get(
+                          "available",
+                          False
+                      ),
+
+                  "score":
+                      previous_financial.get(
+                          "score"
+                      ),
+
+                  "maxScore": 20,
+
+                  "revenueGrowth":
+                      previous_financial.get(
+                          "revenueGrowth"
+                      ),
+
+                  "earningsGrowth":
+                      previous_financial.get(
+                          "earningsGrowth"
+                      ),
+
+                  "cash":
+                      previous_financial.get(
+                          "cash"
+                      ),
+
+                  "debt":
+                      previous_financial.get(
+                          "debt"
+                      ),
+
+                  "source":
+                      previous_financial.get(
+                          "source"
+                      )
+              }
 
               if score >= 85:
                   status = "ÇOK GÜÇLÜ İZLEME"
@@ -711,34 +826,69 @@ jobs:
               output_candidates.append({
                   "symbol": symbol,
                   "name": name,
-                  "market": candidate["market"],
-                  "country": candidate["country"],
-                  "theme": candidate["theme"],
-                  "size": candidate["size"],
+
+                  "market":
+                      candidate["market"],
+
+                  "country":
+                      candidate["country"],
+
+                  "theme":
+                      candidate["theme"],
+
+                  "size":
+                      candidate["size"],
 
                   "score": score,
-                  "scoreComponents": components,
-                  "metrics": metrics,
-                  "status": status,
 
-                  "price": data.get("price"),
-                  "previousClose": data.get("previousClose"),
-                  "change": data.get("change"),
+                  "scoreComponents":
+                      components,
+
+                  "metrics":
+                      metrics,
+
+                  "financialQuality":
+                      financial_quality,
+
+                  "status":
+                      status,
+
+                  "price":
+                      data.get("price"),
+
+                  "previousClose":
+                      data.get("previousClose"),
+
+                  "change":
+                      data.get("change"),
 
                   "changePct":
-                      data.get("changePercentage"),
+                      data.get(
+                          "changePercentage"
+                      ),
 
                   "changePercentage":
-                      data.get("changePercentage"),
+                      data.get(
+                          "changePercentage"
+                      ),
 
-                  "volume": data.get("volume"),
-                  "marketCap": previous.get("marketCap"),
+                  "volume":
+                      data.get("volume"),
 
-                  "dayLow": data.get("dayLow"),
-                  "dayHigh": data.get("dayHigh"),
+                  "marketCap":
+                      market_cap,
 
-                  "currency": data.get("currency"),
-                  "exchange": exchange,
+                  "dayLow":
+                      data.get("dayLow"),
+
+                  "dayHigh":
+                      data.get("dayHigh"),
+
+                  "currency":
+                      data.get("currency"),
+
+                  "exchange":
+                      exchange,
 
                   "marketDataAvailable":
                       data.get("price") is not None,
@@ -751,7 +901,11 @@ jobs:
 
                   "freshness": {
                       "quote": fresh,
-                      "score": fresh
+                      "score": fresh,
+                      "financial":
+                          financial_quality[
+                              "available"
+                          ]
                   }
               })
 
@@ -766,10 +920,10 @@ jobs:
 
           output = {
               "version":
-                  "global-niche-v9",
+                  "global-niche-v10",
 
               "scoreVersion":
-                  "2.0",
+                  "3.0",
 
               "scoreMax":
                   100,
@@ -786,8 +940,12 @@ jobs:
                   fresh_count,
 
               "quoteStatus": {
-                  "fresh": fresh_count,
-                  "cached": cached_count,
+                  "fresh":
+                      fresh_count,
+
+                  "cached":
+                      cached_count,
+
                   "unavailable":
                       unavailable_count
               },
@@ -801,6 +959,14 @@ jobs:
                   "volume": 20,
                   "risk": 15,
                   "theme": 10
+              },
+
+              "financialModel": {
+                  "enabled": True,
+                  "mode":
+                      "verified-data-only",
+                  "maxFutureScore": 20,
+                  "includedInScore": False
               },
 
               "candidates":
@@ -817,6 +983,7 @@ jobs:
               "w",
               encoding="utf-8"
           ) as f:
+
               json.dump(
                   output,
                   f,
@@ -825,7 +992,7 @@ jobs:
               )
 
           print("================================")
-          print("GLOBAL NICHE RADAR V9 TAMAMLANDI")
+          print("GLOBAL NICHE RADAR V10 TAMAMLANDI")
           print("Aday sayısı:", len(CANDIDATES))
           print("Yeni veri:", fresh_count)
           print("Önbellekten:", cached_count)
@@ -833,6 +1000,7 @@ jobs:
           print("================================")
 
           for item in output_candidates:
+
               print(
                   item["symbol"],
                   "price:",
@@ -840,7 +1008,9 @@ jobs:
                   item["currency"],
                   "score:",
                   item["score"],
-                  item["status"]
+                  item["status"],
+                  "financial:",
+                  item["financialQuality"]["available"]
               )
 
           PY
@@ -855,6 +1025,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar V9"
+            git commit -m "Update Global Niche Radar V10"
             git push
           fi
