@@ -1,6 +1,8 @@
 {
-  "version": "global-niche-v7",
-  "generatedAt": "2026-09-26T18:44:07.505533+00:00",
+  "version": "global-niche-v8-auto-score",
+  "scoreVersion": "1.0",
+  "scoreMax": 100,
+  "generatedAt": "2026-09-26T19:08:03.575959+00:00",
   "count": 13,
   "marketDataCount": 13,
   "quoteStatus": {
@@ -9,169 +11,14 @@
     "unavailable": 0
   },
   "quoteProvider": "Yahoo Finance chart / cache fallback",
+  "scoreModel": {
+    "momentum": 30,
+    "trend": 25,
+    "volume": 20,
+    "risk": 15,
+    "theme": 10
+  },
   "candidates": [
-    {
-      "symbol": "ALQGC.PA",
-      "name": "Quantum Genomics Société Anonyme",
-      "market": "Euronext",
-      "country": "France",
-      "theme": "Quantum",
-      "size": "micro",
-      "score": 75,
-      "status": "GÜÇLÜ İZLEME",
-      "price": 0.0721,
-      "previousClose": 0.0721,
-      "change": 0.0,
-      "changePct": 0.0,
-      "changePercentage": 0.0,
-      "volume": 0,
-      "marketCap": null,
-      "dayLow": 0.0721,
-      "dayHigh": 0.0721,
-      "currency": "EUR",
-      "exchange": "PAR",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
-    {
-      "symbol": "QBTS",
-      "name": "D-Wave Quantum Inc.",
-      "market": "NYSE",
-      "country": "USA",
-      "theme": "Quantum",
-      "size": "micro",
-      "score": 75,
-      "status": "GÜÇLÜ İZLEME",
-      "price": 17.41,
-      "previousClose": 17.48,
-      "change": -0.07,
-      "changePct": -0.4005,
-      "changePercentage": -0.4005,
-      "volume": 14474000,
-      "marketCap": null,
-      "dayLow": 17.23,
-      "dayHigh": 18.0,
-      "currency": "USD",
-      "exchange": "NMS",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
-    {
-      "symbol": "FLT.TO",
-      "name": "Volatus Aerospace Inc.",
-      "market": "TSX",
-      "country": "Canada",
-      "theme": "Drones",
-      "size": "micro",
-      "score": 73,
-      "status": "ADAY",
-      "price": 0.58,
-      "previousClose": 0.62,
-      "change": -0.04,
-      "changePct": -6.4516,
-      "changePercentage": -6.4516,
-      "volume": 1252200,
-      "marketCap": null,
-      "dayLow": 0.57,
-      "dayHigh": 0.62,
-      "currency": "CAD",
-      "exchange": "TOR",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
-    {
-      "symbol": "PNG.V",
-      "name": "Kraken Robotics Inc.",
-      "market": "TSXV",
-      "country": "Canada",
-      "theme": "Robotics",
-      "size": "micro",
-      "score": 73,
-      "status": "ADAY",
-      "price": 4.57,
-      "previousClose": 4.56,
-      "change": 0.01,
-      "changePct": 0.2193,
-      "changePercentage": 0.2193,
-      "volume": 912500,
-      "marketCap": null,
-      "dayLow": 4.45,
-      "dayHigh": 4.6,
-      "currency": "CAD",
-      "exchange": "VAN",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
-    {
-      "symbol": "PAPIL.IS",
-      "name": "Papilon Savunma Teknoloji ve Ticaret A.S.",
-      "market": "BIST",
-      "country": "Türkiye",
-      "theme": "Biometrics / Defense",
-      "size": "micro",
-      "score": 72,
-      "status": "ADAY",
-      "price": 8.26,
-      "previousClose": 8.15,
-      "change": 0.11,
-      "changePct": 1.3497,
-      "changePercentage": 1.3497,
-      "volume": 4153994,
-      "marketCap": null,
-      "dayLow": 8.1,
-      "dayHigh": 8.43,
-      "currency": "TRY",
-      "exchange": "IST",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
-    {
-      "symbol": "HE1.L",
-      "name": "Helium One Global Limited",
-      "market": "LSE-AIM",
-      "country": "UK",
-      "theme": "Helium",
-      "size": "micro",
-      "score": 70,
-      "status": "ADAY",
-      "price": 0.37,
-      "previousClose": 0.36,
-      "change": 0.01,
-      "changePct": 2.7778,
-      "changePercentage": 2.7778,
-      "volume": 23872273,
-      "marketCap": null,
-      "dayLow": 0.35,
-      "dayHigh": 0.37,
-      "currency": "GBp",
-      "exchange": "LSE",
-      "marketDataAvailable": true,
-      "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true
-      }
-    },
     {
       "symbol": "IONQ",
       "name": "IonQ, Inc.",
@@ -179,8 +26,24 @@
       "country": "USA",
       "theme": "Quantum",
       "size": "small",
-      "score": 69,
-      "status": "ADAY",
+      "score": 70,
+      "scoreComponents": {
+        "momentum": 19,
+        "trend": 15,
+        "volume": 14,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 16.23,
+        "return20d": 7.11,
+        "return60d": -11.52,
+        "volumeRatio": 1.14,
+        "volatility20": 3.92,
+        "ma20": 39.489,
+        "ma50": 39.6654
+      },
+      "status": "İZLEME",
       "price": 45.48,
       "previousClose": 44.98,
       "change": 0.5,
@@ -196,34 +59,140 @@
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
       }
     },
     {
-      "symbol": "DRO.AX",
-      "name": "DroneShield Limited",
-      "market": "ASX",
-      "country": "Australia",
-      "theme": "Defense / Drones",
-      "size": "small",
+      "symbol": "ALQGC.PA",
+      "name": "Quantum Genomics Société Anonyme",
+      "market": "Euronext",
+      "country": "France",
+      "theme": "Quantum",
+      "size": "micro",
       "score": 68,
-      "status": "ADAY",
-      "price": 1.61,
-      "previousClose": 1.62,
-      "change": -0.01,
-      "changePct": -0.6173,
-      "changePercentage": -0.6173,
-      "volume": 6343828,
+      "scoreComponents": {
+        "momentum": 18,
+        "trend": 20,
+        "volume": 5,
+        "risk": 15,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 0.0,
+        "return20d": 0.0,
+        "return60d": 0.0,
+        "volumeRatio": null,
+        "volatility20": 0.0,
+        "ma20": 0.0721,
+        "ma50": 0.0721
+      },
+      "status": "İZLEME",
+      "price": 0.0721,
+      "previousClose": 0.0721,
+      "change": 0.0,
+      "changePct": 0.0,
+      "changePercentage": 0.0,
+      "volume": 0,
       "marketCap": null,
-      "dayLow": 1.585,
-      "dayHigh": 1.635,
-      "currency": "AUD",
-      "exchange": "ASX",
+      "dayLow": 0.0721,
+      "dayHigh": 0.0721,
+      "currency": "EUR",
+      "exchange": "PAR",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "FLT.TO",
+      "name": "Volatus Aerospace Inc.",
+      "market": "TSX",
+      "country": "Canada",
+      "theme": "Drones",
+      "size": "micro",
+      "score": 63,
+      "scoreComponents": {
+        "momentum": 14,
+        "trend": 20,
+        "volume": 10,
+        "risk": 9,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": -3.33,
+        "return20d": 16.0,
+        "return60d": -7.94,
+        "volumeRatio": 0.94,
+        "volatility20": 5.09,
+        "ma20": 0.5715,
+        "ma50": 0.5307
+      },
+      "status": "İZLEME",
+      "price": 0.58,
+      "previousClose": 0.62,
+      "change": -0.04,
+      "changePct": -6.4516,
+      "changePercentage": -6.4516,
+      "volume": 1252200,
+      "marketCap": null,
+      "dayLow": 0.57,
+      "dayHigh": 0.62,
+      "currency": "CAD",
+      "exchange": "TOR",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "RKLB",
+      "name": "Rocket Lab Corporation",
+      "market": "NASDAQ",
+      "country": "USA",
+      "theme": "Space",
+      "size": "small",
+      "score": 63,
+      "scoreComponents": {
+        "momentum": 18,
+        "trend": 13,
+        "volume": 10,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 14.53,
+        "return20d": 9.51,
+        "return60d": -26.1,
+        "volumeRatio": 0.93,
+        "volatility20": 3.36,
+        "ma20": 65.89,
+        "ma50": 69.4858
+      },
+      "status": "İZLEME",
+      "price": 73.95,
+      "previousClose": 73.61,
+      "change": 0.34,
+      "changePct": 0.4619,
+      "changePercentage": 0.4619,
+      "volume": 18802600,
+      "marketCap": null,
+      "dayLow": 72.78,
+      "dayHigh": 75.32,
+      "currency": "USD",
+      "exchange": "NMS",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
       }
     },
     {
@@ -233,7 +202,23 @@
       "country": "USA",
       "theme": "Space",
       "size": "small",
-      "score": 68,
+      "score": 55,
+      "scoreComponents": {
+        "momentum": 13,
+        "trend": 13,
+        "volume": 10,
+        "risk": 9,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 12.14,
+        "return20d": -3.52,
+        "return60d": -22.72,
+        "volumeRatio": 0.94,
+        "volatility20": 4.61,
+        "ma20": 14.9125,
+        "ma50": 15.2158
+      },
       "status": "ADAY",
       "price": 15.61,
       "previousClose": 15.7,
@@ -250,34 +235,52 @@
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
       }
     },
     {
-      "symbol": "RKLB",
-      "name": "Rocket Lab Corporation",
-      "market": "NASDAQ",
+      "symbol": "QBTS",
+      "name": "D-Wave Quantum Inc.",
+      "market": "NYSE",
       "country": "USA",
-      "theme": "Space",
-      "size": "small",
-      "score": 68,
+      "theme": "Quantum",
+      "size": "micro",
+      "score": 54,
+      "scoreComponents": {
+        "momentum": 9,
+        "trend": 13,
+        "volume": 10,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 1.75,
+        "return20d": -2.74,
+        "return60d": -25.91,
+        "volumeRatio": 0.9,
+        "volatility20": 3.53,
+        "ma20": 17.007,
+        "ma50": 18.2076
+      },
       "status": "ADAY",
-      "price": 73.95,
-      "previousClose": 73.61,
-      "change": 0.34,
-      "changePct": 0.4619,
-      "changePercentage": 0.4619,
-      "volume": 18802600,
+      "price": 17.41,
+      "previousClose": 17.48,
+      "change": -0.07,
+      "changePct": -0.4005,
+      "changePercentage": -0.4005,
+      "volume": 14474000,
       "marketCap": null,
-      "dayLow": 72.78,
-      "dayHigh": 75.32,
+      "dayLow": 17.23,
+      "dayHigh": 18.0,
       "currency": "USD",
       "exchange": "NMS",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
       }
     },
     {
@@ -287,7 +290,23 @@
       "country": "Türkiye",
       "theme": "Technology / AI",
       "size": "small",
-      "score": 67,
+      "score": 49,
+      "scoreComponents": {
+        "momentum": 11,
+        "trend": 8,
+        "volume": 14,
+        "risk": 6,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 7.83,
+        "return20d": -7.9,
+        "return60d": -24.05,
+        "volumeRatio": 1.26,
+        "volatility20": 7.87,
+        "ma20": 30.06,
+        "ma50": 30.6752
+      },
       "status": "ADAY",
       "price": 27.28,
       "previousClose": 24.8,
@@ -304,7 +323,8 @@
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
       }
     },
     {
@@ -314,7 +334,23 @@
       "country": "USA",
       "theme": "AI",
       "size": "small",
-      "score": 67,
+      "score": 47,
+      "scoreComponents": {
+        "momentum": 9,
+        "trend": 10,
+        "volume": 6,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": 2.02,
+        "return20d": -16.2,
+        "return60d": -9.43,
+        "volumeRatio": 0.56,
+        "volatility20": 2.24,
+        "ma20": 6.395,
+        "ma50": 6.6315
+      },
       "status": "ADAY",
       "price": 6.05,
       "previousClose": 6.1,
@@ -331,7 +367,184 @@
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "HE1.L",
+      "name": "Helium One Global Limited",
+      "market": "LSE-AIM",
+      "country": "UK",
+      "theme": "Helium",
+      "size": "micro",
+      "score": 46,
+      "scoreComponents": {
+        "momentum": 9,
+        "trend": 8,
+        "volume": 10,
+        "risk": 12,
+        "theme": 7
+      },
+      "metrics": {
+        "return5d": 0.0,
+        "return20d": -5.13,
+        "return60d": -15.72,
+        "volumeRatio": 1.03,
+        "volatility20": 2.45,
+        "ma20": 0.3777,
+        "ma50": 0.3908
+      },
+      "status": "ADAY",
+      "price": 0.37,
+      "previousClose": 0.36,
+      "change": 0.01,
+      "changePct": 2.7778,
+      "changePercentage": 2.7778,
+      "volume": 23872273,
+      "marketCap": null,
+      "dayLow": 0.35,
+      "dayHigh": 0.37,
+      "currency": "GBp",
+      "exchange": "LSE",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "DRO.AX",
+      "name": "DroneShield Limited",
+      "market": "ASX",
+      "country": "Australia",
+      "theme": "Defense / Drones",
+      "size": "small",
+      "score": 39,
+      "scoreComponents": {
+        "momentum": 3,
+        "trend": 8,
+        "volume": 6,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": -6.4,
+        "return20d": -8.0,
+        "return60d": -33.2,
+        "volumeRatio": 0.73,
+        "volatility20": 2.47,
+        "ma20": 1.6868,
+        "ma50": 1.8604
+      },
+      "status": "ADAY",
+      "price": 1.61,
+      "previousClose": 1.62,
+      "change": -0.01,
+      "changePct": -0.6173,
+      "changePercentage": -0.6173,
+      "volume": 6343828,
+      "marketCap": null,
+      "dayLow": 1.585,
+      "dayHigh": 1.635,
+      "currency": "AUD",
+      "exchange": "ASX",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "PNG.V",
+      "name": "Kraken Robotics Inc.",
+      "market": "TSXV",
+      "country": "Canada",
+      "theme": "Robotics",
+      "size": "micro",
+      "score": 39,
+      "scoreComponents": {
+        "momentum": 3,
+        "trend": 8,
+        "volume": 6,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": -1.08,
+        "return20d": -15.37,
+        "return60d": -27.92,
+        "volumeRatio": 0.7,
+        "volatility20": 2.69,
+        "ma20": 4.823,
+        "ma50": 5.53
+      },
+      "status": "ADAY",
+      "price": 4.57,
+      "previousClose": 4.56,
+      "change": 0.01,
+      "changePct": 0.2193,
+      "changePercentage": 0.2193,
+      "volume": 912500,
+      "marketCap": null,
+      "dayLow": 4.45,
+      "dayHigh": 4.6,
+      "currency": "CAD",
+      "exchange": "VAN",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
+      }
+    },
+    {
+      "symbol": "PAPIL.IS",
+      "name": "Papilon Savunma Teknoloji ve Ticaret A.S.",
+      "market": "BIST",
+      "country": "Türkiye",
+      "theme": "Biometrics / Defense",
+      "size": "micro",
+      "score": 36,
+      "scoreComponents": {
+        "momentum": 0,
+        "trend": 8,
+        "volume": 6,
+        "risk": 12,
+        "theme": 10
+      },
+      "metrics": {
+        "return5d": -14.67,
+        "return20d": -39.62,
+        "return60d": -45.59,
+        "volumeRatio": 0.58,
+        "volatility20": 3.39,
+        "ma20": 11.4715,
+        "ma50": 12.0676
+      },
+      "status": "ADAY",
+      "price": 8.26,
+      "previousClose": 8.15,
+      "change": 0.11,
+      "changePct": 1.3497,
+      "changePercentage": 1.3497,
+      "volume": 4153994,
+      "marketCap": null,
+      "dayLow": 8.1,
+      "dayHigh": 8.43,
+      "currency": "TRY",
+      "exchange": "IST",
+      "marketDataAvailable": true,
+      "marketDataStatus": "fresh",
+      "quoteSource": "Yahoo Finance chart",
+      "freshness": {
+        "quote": true,
+        "score": true
       }
     },
     {
@@ -341,7 +554,23 @@
       "country": "Australia",
       "theme": "Lithium",
       "size": "small",
-      "score": 63,
+      "score": 33,
+      "scoreComponents": {
+        "momentum": 0,
+        "trend": 8,
+        "volume": 6,
+        "risk": 12,
+        "theme": 7
+      },
+      "metrics": {
+        "return5d": -7.84,
+        "return20d": -21.34,
+        "return60d": -44.87,
+        "volumeRatio": 0.77,
+        "volatility20": 3.59,
+        "ma20": 1.1095,
+        "ma50": 1.1506
+      },
       "status": "ADAY",
       "price": 0.94,
       "previousClose": 0.975,
@@ -358,7 +587,8 @@
       "marketDataStatus": "fresh",
       "quoteSource": "Yahoo Finance chart",
       "freshness": {
-        "quote": true
+        "quote": true,
+        "score": true
       }
     }
   ]
