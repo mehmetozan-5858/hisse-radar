@@ -1,8 +1,8 @@
 {
-  "version": "global-niche-v11",
-  "scoreVersion": "3.1",
+  "version": "global-niche-v12",
+  "scoreVersion": "3.2",
   "scoreMax": 100,
-  "generatedAt": "2026-09-26T19:49:47.322942+00:00",
+  "generatedAt": "2026-09-26T19:55:04.593387+00:00",
   "count": 13,
   "marketDataCount": 13,
   "financialDataCount": 0,
@@ -12,7 +12,7 @@
     "unavailable": 0
   },
   "quoteProvider": "Yahoo Finance chart / cache fallback",
-  "financialProvider": "SEC Companyfacts for supported U.S. issuers",
+  "financialProvider": "FMP Stable API",
   "scoreModel": {
     "momentum": 30,
     "trend": 25,
@@ -60,8 +60,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "İZLEME",
@@ -78,12 +78,7 @@
       "exchange": "PAR",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "IONQ",
@@ -118,8 +113,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC ticker mapping unavailable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "İZLEME",
@@ -136,12 +131,7 @@
       "exchange": "NYQ",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "FLT.TO",
@@ -176,8 +166,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -194,12 +184,7 @@
       "exchange": "TOR",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "RKLB",
@@ -234,8 +219,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC ticker mapping unavailable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -252,12 +237,7 @@
       "exchange": "NMS",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "LUNR",
@@ -292,8 +272,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC ticker mapping unavailable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -310,12 +290,7 @@
       "exchange": "NGM",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "QBTS",
@@ -350,8 +325,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC ticker mapping unavailable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -368,12 +343,7 @@
       "exchange": "NMS",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "MIATK.IS",
@@ -408,8 +378,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -426,12 +396,7 @@
       "exchange": "IST",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "HE1.L",
@@ -466,8 +431,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -484,12 +449,7 @@
       "exchange": "LSE",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "SOUN",
@@ -524,8 +484,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC ticker mapping unavailable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -542,12 +502,7 @@
       "exchange": "NGM",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "DRO.AX",
@@ -582,8 +537,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -600,12 +555,7 @@
       "exchange": "ASX",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "PNG.V",
@@ -640,8 +590,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -658,12 +608,7 @@
       "exchange": "VAN",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "LTR.AX",
@@ -698,8 +643,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -716,12 +661,7 @@
       "exchange": "ASX",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     },
     {
       "symbol": "PAPIL.IS",
@@ -756,8 +696,8 @@
         "score": null,
         "maxScore": 20,
         "coverage": 0,
-        "source": null,
-        "reason": "SEC coverage not applicable"
+        "source": "FMP Stable API",
+        "reason": "No financial statements returned"
       },
       "researchConfidence": "MEDIUM",
       "status": "ADAY",
@@ -774,12 +714,7 @@
       "exchange": "IST",
       "marketDataAvailable": true,
       "marketDataStatus": "fresh",
-      "quoteSource": "Yahoo Finance chart",
-      "freshness": {
-        "quote": true,
-        "score": true,
-        "financial": false
-      }
+      "quoteSource": "Yahoo Finance chart"
     }
   ]
 }
