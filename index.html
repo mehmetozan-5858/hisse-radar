@@ -1,4 +1,4 @@
-<!doctype html> 
+<!doctype html>
 <html lang="tr">
 <head>
 <meta charset="utf-8">
@@ -8,222 +8,145 @@
 <title>Hisse Radar</title>
 
 <style>
-body{
- margin:0;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
- background:#07101d;
- color:#eef5ff
-}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#07101d;color:#eef5ff}
 .wrap{max-width:760px;margin:auto;padding:22px}
-.hero{
- padding:24px;
- border-radius:24px;
- background:#101d31;
- border:1px solid #223655
-}
-.badge{color:#76d4ff;font-weight:700}
-.live{
- display:inline-block;
- margin-left:8px;
- padding:4px 8px;
- border-radius:999px;
- background:#123d2c;
- color:#7ff0b0;
- font-size:11px
-}
-.search{display:flex;gap:8px;margin:20px 0}
-.search input{
- flex:1;padding:15px;border-radius:14px;
- border:1px solid #30496d;
- background:#0b1627;color:white;font-size:16px
-}
-.search button{
- padding:0 18px;border:0;border-radius:14px;
- background:#35a7ff;color:#00162b;font-weight:800
-}
-.score{font-size:64px;font-weight:800}
-.grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:12px
-}
-.card{
- background:#0d192b;
- border:1px solid #203553;
- border-radius:18px;
- padding:16px
-}
-.card b{display:block;margin-bottom:8px}
+.hero,.stock{background:#101d31;border:1px solid #223655;border-radius:22px;padding:20px}
+.badge{color:#76d4ff;font-weight:800}
+.live{display:inline-block;margin-left:8px;padding:4px 8px;border-radius:999px;background:#123d2c;color:#7ff0b0;font-size:11px}
+.search{display:flex;gap:8px;margin:18px 0}
+.search input{flex:1;padding:14px;border-radius:14px;border:1px solid #30496d;background:#0b1627;color:white;font-size:16px}
+.search button{border:0;border-radius:14px;padding:0 18px;background:#35a7ff;color:#00162b;font-weight:800}
+.system{padding:12px;border-radius:14px;background:#0b1627;border:1px solid #203553}
 .muted{color:#9fb1c8;font-size:13px}
-.bar{
- height:8px;background:#1b2a40;
- border-radius:10px;overflow:hidden
-}
-.bar i{
- display:block;height:100%;
- background:#35a7ff
-}
-.system{
- margin-top:14px;
- padding:12px;
- border-radius:14px;
- background:#0b1627;
- border:1px solid #203553
-}
-.foot{
- margin-top:22px;color:#8fa1b8;
- font-size:12px;line-height:1.5
-}
-@media(max-width:520px){
- .grid{grid-template-columns:1fr}
- .score{font-size:54px}
-}
+h2{margin-top:28px}
+.stock{margin:10px 0;cursor:pointer}
+.row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.symbol,.price{font-size:20px;font-weight:800}
+.up{color:#63e69a}.down{color:#ff7b82}
+.score{margin-top:25px;font-size:60px;font-weight:800}
+.foot{margin-top:25px;color:#8fa1b8;font-size:12px;line-height:1.5}
 </style>
 </head>
 
 <body>
-
 <div class="wrap">
-
 <div class="hero">
-
-<div class="badge">
-HİSSE RADAR
-<span class="live" id="live">BAĞLANIYOR</span>
-</div>
-
-<h1>Piyasa araştırma paneli</h1>
+<div class="badge">HİSSE RADAR <span class="live" id="live">BAĞLANIYOR</span></div>
+<h1>Canlı piyasa radarı</h1>
 
 <div class="search">
-<input id="ticker" value="AAPL" placeholder="AAPL, NVDA, MSFT...">
-<button onclick="scan()">Tara</button>
-</div>
-
-<div class="muted" id="status">
-Veri motoru kontrol ediliyor…
+<input id="ticker" placeholder="AAPL, NVDA, MSFT...">
+<button onclick="searchStock()">Bul</button>
 </div>
 
 <div class="system">
 <b>⚡ Otomatik Veri Motoru</b>
-<div class="muted" id="engine">
-Kontrol ediliyor…
+<div class="muted" id="engine">Kontrol ediliyor…</div>
 </div>
 </div>
 
+<h2>📡 Radar Listesi</h2>
+<div id="stocks"><div class="muted">Piyasa verileri yükleniyor…</div></div>
+
+<div id="detail" style="display:none">
+<div class="score" id="score">—</div>
+<div class="muted">Radar puanı • sinyal sistemi hazırlanıyor</div>
+<h2 id="selected"></h2>
 </div>
-
-<div style="display:flex;align-items:end;gap:14px;margin:24px 0">
-
-<div>
-<div class="muted">Radar Puanı</div>
-<div class="score" id="score">--</div>
-</div>
-
-<div class="muted" id="name">Sembol seç</div>
-
-</div>
-
-<div class="grid" id="grid"></div>
 
 <div class="foot">
-Araştırma amaçlıdır; yatırım tavsiyesi değildir.
-Kongre ve kurumsal bildirimler işlem tarihinden sonra açıklanabilir.
-Her sinyalde kaynak ve tarih gösterilecek.
+Veriler araştırma amaçlıdır; yatırım tavsiyesi değildir.
+Fiyatlar veri sağlayıcısının son mevcut verileridir ve gecikmeli olabilir.
+Radar puanı sonraki aşamada gerçek sinyallerle hesaplanacaktır.
 </div>
-
 </div>
 
 <script>
+let market=[];
 
-const cats=[
- ['Insider işlemleri',20],
- ['Kongre işlemleri',15],
- ['Kurumsal hareket',10],
- ['Analist revizyonları',15],
- ['Finansal büyüme',15],
- ['Değerleme',10],
- ['Alternatif veri',5],
- ['Momentum',10]
-];
-
-function cards(){
-
- document.getElementById('grid').innerHTML=
- cats.map(c=>`
- <div class="card">
- <b>${c[0]} <span class="muted">/${c[1]}</span></b>
-
- <div class="bar">
- <i style="width:0%"></i>
- </div>
-
- <p class="muted">
- Gerçek piyasa veri kaynağı bağlandığında
- puan, gerekçe, tarih ve kaynak burada görünecek.
- </p>
-
- </div>
- `).join('');
-
+function money(n){
+ if(n==null)return "—";
+ return Number(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2})+" $";
 }
 
-async function engine(){
+function pct(n){
+ if(n==null)return "—";
+ let x=Number(n);
+ return (x>=0?"+":"")+x.toFixed(2)+"%";
+}
 
- try{
-
-  const r=await fetch(
-   'data/radar.json?ts='+Date.now(),
-   {cache:'no-store'}
-  );
-
-  if(!r.ok) throw new Error();
-
-  const d=await r.json();
-
-  document.getElementById('live').textContent='SİSTEM AKTİF';
-
-  document.getElementById('engine').textContent=
-  'Çalışıyor • Son otomatik güncelleme: '+
-  new Date(d.updated_at).toLocaleString('tr-TR');
-
-  document.getElementById('status').textContent=
-  'Arka plan veri motoru aktif • Piyasa veri bağlantısı hazırlanıyor';
-
- }catch(e){
-
-  document.getElementById('live').textContent='KONTROL GEREKİYOR';
-
-  document.getElementById('engine').textContent=
-  'Veri dosyasına ulaşılamadı';
-
+function render(){
+ const box=document.getElementById("stocks");
+ if(!market.length){
+  box.innerHTML='<div class="muted">Henüz hisse verisi bulunamadı.</div>';
+  return;
  }
 
+ box.innerHTML=market.map(s=>{
+  const cls=Number(s.changePercentage)>=0?"up":"down";
+  return `
+  <div class="stock" onclick="selectStock('${s.symbol}')">
+   <div class="row">
+    <div>
+     <div class="symbol">${s.symbol}</div>
+     <div class="muted">${s.name||""}</div>
+    </div>
+    <div style="text-align:right">
+     <div class="price">${money(s.price)}</div>
+     <div class="${cls}">${pct(s.changePercentage)}</div>
+    </div>
+   </div>
+   <div class="muted" style="margin-top:10px">
+    Hacim: ${Number(s.volume||0).toLocaleString("tr-TR")}
+   </div>
+  </div>`;
+ }).join("");
 }
 
-function scan(){
-
- let t=document.getElementById('ticker')
- .value.trim().toUpperCase();
-
- if(!t)return;
-
- document.getElementById('name').textContent=
- t+' • piyasa verisi bekleniyor';
-
- document.getElementById('score').textContent='—';
-
- cards();
-
+function selectStock(symbol){
+ const s=market.find(x=>x.symbol===symbol);
+ if(!s)return;
+ document.getElementById("detail").style.display="block";
+ document.getElementById("selected").textContent=s.symbol+" • "+(s.name||"");
+ document.getElementById("score").textContent="—";
 }
 
-scan();
-engine();
-
-if('serviceWorker' in navigator){
- navigator.serviceWorker.register('sw.js');
+function searchStock(){
+ const t=document.getElementById("ticker").value.trim().toUpperCase();
+ const s=market.find(x=>x.symbol===t);
+ if(s){
+  selectStock(t);
+  document.getElementById("detail").scrollIntoView({behavior:"smooth"});
+ }else{
+  alert("Bu hisse henüz Radar listesinde yok.");
+ }
 }
 
+async function loadRadar(){
+ try{
+  const r=await fetch("data/radar.json?ts="+Date.now(),{cache:"no-store"});
+  if(!r.ok)throw new Error();
+
+  const d=await r.json();
+  market=d.stocks||[];
+
+  document.getElementById("live").textContent="SİSTEM AKTİF";
+  document.getElementById("engine").textContent=
+   market.length+" hisse bağlı • Son güncelleme: "+
+   new Date(d.updated_at).toLocaleString("tr-TR");
+
+  render();
+ }catch(e){
+  document.getElementById("live").textContent="BAĞLANTI HATASI";
+  document.getElementById("engine").textContent="Piyasa veri dosyasına ulaşılamadı";
+ }
+}
+
+loadRadar();
+
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("sw.js");
+}
 </script>
-
 </body>
 </html>
