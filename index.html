@@ -443,6 +443,54 @@
     );
   };
 
+  const currencySymbol = currency => {
+    const code = String(currency || "USD").toUpperCase();
+
+    if (code === "TRY") return "₺";
+    if (code === "EUR") return "€";
+    if (code === "CAD") return "C$";
+    if (code === "AUD") return "A$";
+    if (code === "GBP") return "£";
+    if (code === "GBPENCE" || code === "GBPENNY" || code === "GBX")
+      return "p";
+
+    if (
+      String(currency || "").toLowerCase() === "gbp"
+    ) return "p";
+
+    return "$";
+  };
+
+  const nicheMoney = (value, currency) => {
+    if (value === null || value === undefined) return "-";
+
+    const n = Number(value);
+
+    if (!Number.isFinite(n)) return "-";
+
+    let symbol;
+
+    if (String(currency || "") === "GBp") {
+      symbol = "p";
+    } else {
+      symbol = currencySymbol(currency);
+    }
+
+    const formatted = n.toLocaleString(
+      "en-US",
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 4
+      }
+    );
+
+    if (symbol === "p") {
+      return formatted + "p";
+    }
+
+    return symbol + formatted;
+  };
+
   const number = value => {
     if (value === null || value === undefined) return "-";
 
@@ -691,9 +739,7 @@
         <strong>
           ${
             stock.fundamentals?.pe != null
-              ? Number(
-                  stock.fundamentals.pe
-                ).toFixed(2)
+              ? Number(stock.fundamentals.pe).toFixed(2)
               : "-"
           }
         </strong>
@@ -702,9 +748,7 @@
       <div class="metric">
         <span>Analist hedefi</span>
         <strong>
-          ${money(
-            stock.analyst?.targetConsensus
-          )}
+          ${money(stock.analyst?.targetConsensus)}
         </strong>
       </div>
 
@@ -712,41 +756,12 @@
         Radar bileşenleri
       </div>
 
-      ${component(
-        "Analist hedefleri",
-        c.analyst,
-        15
-      )}
-
-      ${component(
-        "Finansallar / büyüme",
-        c.growth,
-        15
-      )}
-
-      ${component(
-        "Değerleme",
-        c.valuation,
-        10
-      )}
-
-      ${component(
-        "Fiyat momentumu",
-        c.momentum,
-        10
-      )}
-
-      ${component(
-        "SEC Insider",
-        c.insider,
-        20
-      )}
-
-      ${component(
-        "Kurumsal Yatırımcılar / 13F",
-        c.institutional,
-        10
-      )}
+      ${component("Analist hedefleri", c.analyst, 15)}
+      ${component("Finansallar / büyüme", c.growth, 15)}
+      ${component("Değerleme", c.valuation, 10)}
+      ${component("Fiyat momentumu", c.momentum, 10)}
+      ${component("SEC Insider", c.insider, 20)}
+      ${component("Kurumsal Yatırımcılar / 13F", c.institutional, 10)}
 
       <div class="infoBox">
         <h3>🏢 Kurumsal yatırımcılar</h3>
@@ -754,54 +769,32 @@
         <div class="institutionalStats">
 
           <div class="stat">
-            <div class="statLabel">
-              Geçerli kurum
-            </div>
-            <div class="statValue">
-              ${inst.validManagers ?? 0}
-            </div>
+            <div class="statLabel">Geçerli kurum</div>
+            <div class="statValue">${inst.validManagers ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Pozisyon artıran
-            </div>
-            <div class="statValue">
-              ${inst.increases ?? 0}
-            </div>
+            <div class="statLabel">Pozisyon artıran</div>
+            <div class="statValue">${inst.increases ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Pozisyon azaltan
-            </div>
-            <div class="statValue">
-              ${inst.decreases ?? 0}
-            </div>
+            <div class="statLabel">Pozisyon azaltan</div>
+            <div class="statValue">${inst.decreases ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Değişmeyen
-            </div>
-            <div class="statValue">
-              ${inst.unchanged ?? 0}
-            </div>
+            <div class="statLabel">Değişmeyen</div>
+            <div class="statValue">${inst.unchanged ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Filtrelenen anomali
-            </div>
-            <div class="statValue">
-              ${inst.anomaliesExcluded ?? 0}
-            </div>
+            <div class="statLabel">Filtrelenen anomali</div>
+            <div class="statValue">${inst.anomaliesExcluded ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              13F puanı
-            </div>
+            <div class="statLabel">13F puanı</div>
             <div class="statValue">
               ${
                 inst.score != null
@@ -827,39 +820,23 @@
         <div class="institutionalStats">
 
           <div class="stat">
-            <div class="statLabel">
-              Alış işlemi
-            </div>
-            <div class="statValue">
-              ${insider.buys ?? 0}
-            </div>
+            <div class="statLabel">Alış işlemi</div>
+            <div class="statValue">${insider.buys ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Satış işlemi
-            </div>
-            <div class="statValue">
-              ${insider.sells ?? 0}
-            </div>
+            <div class="statLabel">Satış işlemi</div>
+            <div class="statValue">${insider.sells ?? 0}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Toplam alış
-            </div>
-            <div class="statValue">
-              ${money(insider.buyValue)}
-            </div>
+            <div class="statLabel">Toplam alış</div>
+            <div class="statValue">${money(insider.buyValue)}</div>
           </div>
 
           <div class="stat">
-            <div class="statLabel">
-              Toplam satış
-            </div>
-            <div class="statValue">
-              ${money(insider.sellValue)}
-            </div>
+            <div class="statLabel">Toplam satış</div>
+            <div class="statValue">${money(insider.sellValue)}</div>
           </div>
 
         </div>
@@ -877,9 +854,7 @@
 
         <div class="note" style="margin-top:0">
           Bu hisse için kullanılabilir veri:
-          <strong>
-            ${stock.radar?.max ?? "-"} puan
-          </strong>.
+          <strong>${stock.radar?.max ?? "-"} puan</strong>.
 
           ${
             stock.radar?.max === 80
@@ -960,7 +935,6 @@
       const change = Number(
         stock.changePercentage ??
         stock.change_percent ??
-        stock.change ??
         0
       );
 
@@ -998,7 +972,7 @@
         </div>
 
         <div class="price">
-          ${money(stock.price)}
+          ${nicheMoney(stock.price, stock.currency)}
         </div>
 
         <div class="change ${cls}">
@@ -1014,11 +988,7 @@
         </div>
 
         <div class="small">
-          ${
-            stock.sector
-              ? stock.sector
-              : "Global Niche Radar"
-          }
+          ${stock.theme || stock.sector || "Global Niche Radar"}
         </div>
       `;
 
@@ -1050,8 +1020,7 @@
 
     const change =
       stock.changePercentage ??
-      stock.change_percent ??
-      stock.change;
+      stock.change_percent;
 
     detail.innerHTML = `
       <h2>
@@ -1073,44 +1042,70 @@
 
       <div class="metric">
         <span>Fiyat</span>
-        <strong>${money(stock.price)}</strong>
+        <strong>
+          ${nicheMoney(stock.price, stock.currency)}
+        </strong>
+      </div>
+
+      <div class="metric">
+        <span>Para birimi</span>
+        <strong>${stock.currency || "-"}</strong>
       </div>
 
       <div class="metric">
         <span>Değişim</span>
-        <strong>
-          ${pct(change)}
-        </strong>
+        <strong>${pct(change)}</strong>
       </div>
 
       <div class="metric">
         <span>Hacim</span>
+        <strong>${number(stock.volume)}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Gün içi düşük</span>
         <strong>
-          ${number(stock.volume)}
+          ${nicheMoney(stock.dayLow, stock.currency)}
         </strong>
       </div>
 
       <div class="metric">
-        <span>Piyasa değeri</span>
+        <span>Gün içi yüksek</span>
         <strong>
-          ${money(
-            stock.marketCap ??
-            stock.market_cap
-          )}
+          ${nicheMoney(stock.dayHigh, stock.currency)}
         </strong>
       </div>
 
       <div class="metric">
-        <span>Sektör</span>
-        <strong>
-          ${stock.sector || "-"}
-        </strong>
+        <span>Piyasa</span>
+        <strong>${stock.market || stock.exchange || "-"}</strong>
       </div>
 
       <div class="metric">
-        <span>Endüstri</span>
+        <span>Ülke</span>
+        <strong>${stock.country || "-"}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Tema</span>
+        <strong>${stock.theme || stock.sector || "-"}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Şirket ölçeği</span>
+        <strong>${stock.size || "-"}</strong>
+      </div>
+
+      <div class="metric">
+        <span>Veri durumu</span>
         <strong>
-          ${stock.industry || "-"}
+          ${
+            stock.marketDataStatus === "fresh"
+              ? "Güncel"
+              : stock.marketDataStatus === "cached"
+                ? "Önbellek"
+                : "Veri yok"
+          }
         </strong>
       </div>
 
@@ -1123,7 +1118,10 @@
             stock.thesis ||
             stock.summary ||
             stock.description ||
-            "Bu şirket Global Niche Radar taramasında aday olarak belirlenmiştir."
+            (
+              (stock.theme || "Niş sektör")
+              + " alanında Global Niche Radar tarafından araştırma adayı olarak izlenmektedir."
+            )
           }
         </div>
       </div>
