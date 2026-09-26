@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-09-26T13:30:32.299770+00:00",
-  "version": "0.4.3",
+  "updated_at": "2026-09-26T13:48:12.189899+00:00",
+  "version": "0.4.4",
   "source": "SEC EDGAR Form 13F-HR",
   "max_score": 10,
   "method": {
@@ -10,11 +10,12 @@
       120
     ],
     "maxAbsChangePct": 100.0,
+    "zeroToLargeShares": 10000000,
     "zeroPositionsExcluded": true,
     "staleManagersExcluded": true,
     "anomaliesExcluded": true
   },
-  "note": "13F gerçek zamanlı değildir. Eski, karşılaştırılamayan ve anormal veriler puanlamadan çıkarılır.",
+  "note": "13F gerçek zamanlı değildir. Eski, karşılaştırılamayan ve şüpheli değişimler puanlamadan çıkarılır.",
   "managers": [
     {
       "manager": "Berkshire Hathaway",
@@ -254,11 +255,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 6,
+      "increases": 5,
       "decreases": 1,
       "unchanged": 1,
-      "anomaliesExcluded": 0,
-      "validManagers": 8,
+      "anomaliesExcluded": 1,
+      "validManagers": 7,
       "managers": [
         {
           "manager": "Berkshire Hathaway",
@@ -266,9 +267,7 @@
           "latestShares": 227917808.0,
           "previousShares": 227917808.0,
           "shareChange": 0.0,
-          "shareChangePct": 0.0,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 0.0
         },
         {
           "manager": "State Street",
@@ -276,19 +275,7 @@
           "latestShares": 615129929.0,
           "previousShares": 602341409.0,
           "shareChange": 12788520.0,
-          "shareChangePct": 2.1231347884966683,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 228762008.0,
-          "previousShares": 0.0,
-          "shareChange": 228762008.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 2.1231347884966683
         },
         {
           "manager": "Goldman Sachs",
@@ -296,9 +283,7 @@
           "latestShares": 136313005.0,
           "previousShares": 122662993.0,
           "shareChange": 13650012.0,
-          "shareChangePct": 11.128060441179679,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 11.128060441179679
         },
         {
           "manager": "Morgan Stanley",
@@ -306,9 +291,7 @@
           "latestShares": 242614238.0,
           "previousShares": 244474722.0,
           "shareChange": -1860484.0,
-          "shareChangePct": -0.7610128297845042,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": -0.7610128297845042
         },
         {
           "manager": "Bank of America",
@@ -316,9 +299,7 @@
           "latestShares": 127820329.0,
           "previousShares": 120727964.0,
           "shareChange": 7092365.0,
-          "shareChangePct": 5.874666286925869,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 5.874666286925869
         },
         {
           "manager": "Citigroup",
@@ -326,9 +307,7 @@
           "latestShares": 41801559.0,
           "previousShares": 35451675.0,
           "shareChange": 6349884.0,
-          "shareChangePct": 17.911379363598474,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 17.911379363598474
         },
         {
           "manager": "Wells Fargo",
@@ -336,9 +315,7 @@
           "latestShares": 62526739.0,
           "previousShares": 61801086.0,
           "shareChange": 725653.0,
-          "shareChangePct": 1.1741751593167795,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 1.1741751593167795
         }
       ]
     },
@@ -346,11 +323,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 7,
+      "increases": 6,
       "decreases": 0,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 7,
+      "anomaliesExcluded": 1,
+      "validManagers": 6,
       "managers": [
         {
           "manager": "State Street",
@@ -358,19 +335,7 @@
           "latestShares": 315653206.0,
           "previousShares": 306708289.0,
           "shareChange": 8944917.0,
-          "shareChangePct": 2.9164249290960638,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 135173516.0,
-          "previousShares": 0.0,
-          "shareChange": 135173516.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 2.9164249290960638
         },
         {
           "manager": "Goldman Sachs",
@@ -378,9 +343,7 @@
           "latestShares": 74111383.0,
           "previousShares": 70334366.0,
           "shareChange": 3777017.0,
-          "shareChangePct": 5.370087504591995,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 5.370087504591995
         },
         {
           "manager": "Morgan Stanley",
@@ -388,9 +351,7 @@
           "latestShares": 127674661.0,
           "previousShares": 124881288.0,
           "shareChange": 2793373.0,
-          "shareChangePct": 2.2368227015723927,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 2.2368227015723927
         },
         {
           "manager": "Bank of America",
@@ -398,9 +359,7 @@
           "latestShares": 73289286.0,
           "previousShares": 70765459.0,
           "shareChange": 2523827.0,
-          "shareChangePct": 3.5664673636893953,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.5664673636893953
         },
         {
           "manager": "Citigroup",
@@ -408,9 +367,7 @@
           "latestShares": 25921344.0,
           "previousShares": 23355035.0,
           "shareChange": 2566309.0,
-          "shareChangePct": 10.988247288004493,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 10.988247288004493
         },
         {
           "manager": "Wells Fargo",
@@ -418,9 +375,7 @@
           "latestShares": 34348586.0,
           "previousShares": 33827214.0,
           "shareChange": 521372.0,
-          "shareChangePct": 1.5412797518589618,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 1.5412797518589618
         }
       ]
     },
@@ -428,11 +383,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 7,
+      "increases": 6,
       "decreases": 0,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 7,
+      "anomaliesExcluded": 1,
+      "validManagers": 6,
       "managers": [
         {
           "manager": "State Street",
@@ -440,19 +395,7 @@
           "latestShares": 1009783437.0,
           "previousShares": 993885601.0,
           "shareChange": 15897836.0,
-          "shareChangePct": 1.5995639723529913,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 449404578.0,
-          "previousShares": 0.0,
-          "shareChange": 449404578.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 1.5995639723529913
         },
         {
           "manager": "Goldman Sachs",
@@ -460,9 +403,7 @@
           "latestShares": 234923265.0,
           "previousShares": 220573465.0,
           "shareChange": 14349800.0,
-          "shareChangePct": 6.505678278209938,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 6.505678278209938
         },
         {
           "manager": "Morgan Stanley",
@@ -470,9 +411,7 @@
           "latestShares": 356420089.0,
           "previousShares": 342954346.0,
           "shareChange": 13465743.0,
-          "shareChangePct": 3.926395205967152,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.926395205967152
         },
         {
           "manager": "Bank of America",
@@ -480,9 +419,7 @@
           "latestShares": 195366864.0,
           "previousShares": 191200989.0,
           "shareChange": 4165875.0,
-          "shareChangePct": 2.1787936463027395,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 2.1787936463027395
         },
         {
           "manager": "Citigroup",
@@ -490,9 +427,7 @@
           "latestShares": 88144167.0,
           "previousShares": 77530523.0,
           "shareChange": 10613644.0,
-          "shareChangePct": 13.689632920443476,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 13.689632920443476
         },
         {
           "manager": "Wells Fargo",
@@ -500,9 +435,7 @@
           "latestShares": 62609153.0,
           "previousShares": 60434815.0,
           "shareChange": 2174338.0,
-          "shareChangePct": 3.5978235392960167,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.5978235392960167
         }
       ]
     },
@@ -510,11 +443,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 6,
+      "increases": 5,
       "decreases": 1,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 7,
+      "anomaliesExcluded": 1,
+      "validManagers": 6,
       "managers": [
         {
           "manager": "State Street",
@@ -522,19 +455,7 @@
           "latestShares": 397186958.0,
           "previousShares": 390450321.0,
           "shareChange": 6736637.0,
-          "shareChangePct": 1.7253506112497214,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 167979147.0,
-          "previousShares": 0.0,
-          "shareChange": 167979147.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 1.7253506112497214
         },
         {
           "manager": "Goldman Sachs",
@@ -542,9 +463,7 @@
           "latestShares": 79903283.0,
           "previousShares": 76670911.0,
           "shareChange": 3232372.0,
-          "shareChangePct": 4.2159039951931705,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 4.2159039951931705
         },
         {
           "manager": "Morgan Stanley",
@@ -552,9 +471,7 @@
           "latestShares": 179376541.0,
           "previousShares": 173925856.0,
           "shareChange": 5450685.0,
-          "shareChangePct": 3.1339129933619527,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.1339129933619527
         },
         {
           "manager": "Bank of America",
@@ -562,9 +479,7 @@
           "latestShares": 93223020.0,
           "previousShares": 84181341.0,
           "shareChange": 9041679.0,
-          "shareChangePct": 10.740716282958713,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 10.740716282958713
         },
         {
           "manager": "Citigroup",
@@ -572,9 +487,7 @@
           "latestShares": 28602778.0,
           "previousShares": 22804903.0,
           "shareChange": 5797875.0,
-          "shareChangePct": 25.423809081757547,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 25.423809081757547
         },
         {
           "manager": "Wells Fargo",
@@ -582,9 +495,7 @@
           "latestShares": 36984451.0,
           "previousShares": 38171848.0,
           "shareChange": -1187397.0,
-          "shareChangePct": -3.1106615535092774,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": -3.1106615535092774
         }
       ]
     },
@@ -592,11 +503,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 8,
+      "increases": 7,
       "decreases": 0,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 8,
+      "anomaliesExcluded": 1,
+      "validManagers": 7,
       "managers": [
         {
           "manager": "Berkshire Hathaway",
@@ -604,9 +515,7 @@
           "latestShares": 105979600.0,
           "previousShares": 57835013.0,
           "shareChange": 48144587.0,
-          "shareChangePct": 83.24470680070566,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 83.24470680070566
         },
         {
           "manager": "State Street",
@@ -614,19 +523,7 @@
           "latestShares": 429900701.0,
           "previousShares": 411973884.0,
           "shareChange": 17926817.0,
-          "shareChangePct": 4.3514450056741945,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 229752730.0,
-          "previousShares": 0.0,
-          "shareChange": 229752730.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 4.3514450056741945
         },
         {
           "manager": "Goldman Sachs",
@@ -634,9 +531,7 @@
           "latestShares": 102212981.0,
           "previousShares": 97052720.0,
           "shareChange": 5160261.0,
-          "shareChangePct": 5.316966902112584,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 5.316966902112584
         },
         {
           "manager": "Morgan Stanley",
@@ -644,9 +539,7 @@
           "latestShares": 192936450.0,
           "previousShares": 192623163.0,
           "shareChange": 313287.0,
-          "shareChangePct": 0.16264243361012612,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 0.16264243361012612
         },
         {
           "manager": "Bank of America",
@@ -654,9 +547,7 @@
           "latestShares": 105004835.0,
           "previousShares": 101093542.0,
           "shareChange": 3911293.0,
-          "shareChangePct": 3.868984034608264,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.868984034608264
         },
         {
           "manager": "Citigroup",
@@ -664,9 +555,7 @@
           "latestShares": 29218694.0,
           "previousShares": 27835111.0,
           "shareChange": 1383583.0,
-          "shareChangePct": 4.970639420119431,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 4.970639420119431
         },
         {
           "manager": "Wells Fargo",
@@ -674,9 +563,7 @@
           "latestShares": 52298609.0,
           "previousShares": 45987776.0,
           "shareChange": 6310833.0,
-          "shareChangePct": 13.722848871839332,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 13.722848871839332
         }
       ]
     },
@@ -684,11 +571,11 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 7,
+      "increases": 6,
       "decreases": 0,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 7,
+      "anomaliesExcluded": 1,
+      "validManagers": 6,
       "managers": [
         {
           "manager": "State Street",
@@ -696,19 +583,7 @@
           "latestShares": 92033963.0,
           "previousShares": 88523840.0,
           "shareChange": 3510123.0,
-          "shareChangePct": 3.9651725456103124,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 45944387.0,
-          "previousShares": 0.0,
-          "shareChange": 45944387.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.9651725456103124
         },
         {
           "manager": "Goldman Sachs",
@@ -716,9 +591,7 @@
           "latestShares": 25199352.0,
           "previousShares": 20648830.0,
           "shareChange": 4550522.0,
-          "shareChangePct": 22.037674773824957,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 22.037674773824957
         },
         {
           "manager": "Morgan Stanley",
@@ -726,9 +599,7 @@
           "latestShares": 39435817.0,
           "previousShares": 38078962.0,
           "shareChange": 1356855.0,
-          "shareChangePct": 3.5632667718200928,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 3.5632667718200928
         },
         {
           "manager": "Bank of America",
@@ -736,9 +607,7 @@
           "latestShares": 22090012.0,
           "previousShares": 21038035.0,
           "shareChange": 1051977.0,
-          "shareChangePct": 5.000357685496768,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 5.000357685496768
         },
         {
           "manager": "Citigroup",
@@ -746,9 +615,7 @@
           "latestShares": 6608160.0,
           "previousShares": 6261407.0,
           "shareChange": 346753.0,
-          "shareChangePct": 5.537940593863328,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 5.537940593863328
         },
         {
           "manager": "Wells Fargo",
@@ -756,21 +623,19 @@
           "latestShares": 10854393.0,
           "previousShares": 9895119.0,
           "shareChange": 959274.0,
-          "shareChangePct": 9.694416004496762,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 9.694416004496762
         }
       ]
     },
     "TSLA": {
       "status": "ok",
-      "score": 6,
+      "score": 5,
       "maxScore": 10,
-      "increases": 4,
+      "increases": 3,
       "decreases": 3,
       "unchanged": 0,
-      "anomaliesExcluded": 0,
-      "validManagers": 7,
+      "anomaliesExcluded": 1,
+      "validManagers": 6,
       "managers": [
         {
           "manager": "State Street",
@@ -778,19 +643,7 @@
           "latestShares": 117456756.0,
           "previousShares": 114695458.0,
           "shareChange": 2761298.0,
-          "shareChangePct": 2.407504227412388,
-          "anomaly": false,
-          "anomalyReason": null
-        },
-        {
-          "manager": "JPMorgan Chase",
-          "direction": "increase",
-          "latestShares": 41972287.0,
-          "previousShares": 0.0,
-          "shareChange": 41972287.0,
-          "shareChangePct": null,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 2.407504227412388
         },
         {
           "manager": "Goldman Sachs",
@@ -798,9 +651,7 @@
           "latestShares": 35714469.0,
           "previousShares": 34135394.0,
           "shareChange": 1579075.0,
-          "shareChangePct": 4.625917017392563,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 4.625917017392563
         },
         {
           "manager": "Morgan Stanley",
@@ -808,9 +659,7 @@
           "latestShares": 38872087.0,
           "previousShares": 39177400.0,
           "shareChange": -305313.0,
-          "shareChangePct": -0.7793089893663183,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": -0.7793089893663183
         },
         {
           "manager": "Bank of America",
@@ -818,9 +667,7 @@
           "latestShares": 18117418.0,
           "previousShares": 18962828.0,
           "shareChange": -845410.0,
-          "shareChangePct": -4.458248527065688,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": -4.458248527065688
         },
         {
           "manager": "Citigroup",
@@ -828,9 +675,7 @@
           "latestShares": 14987170.0,
           "previousShares": 15269429.0,
           "shareChange": -282259.0,
-          "shareChangePct": -1.8485236088395969,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": -1.8485236088395969
         },
         {
           "manager": "Wells Fargo",
@@ -838,9 +683,7 @@
           "latestShares": 4608450.0,
           "previousShares": 4227716.0,
           "shareChange": 380734.0,
-          "shareChangePct": 9.005666416571028,
-          "anomaly": false,
-          "anomalyReason": null
+          "shareChangePct": 9.005666416571028
         }
       ]
     }
