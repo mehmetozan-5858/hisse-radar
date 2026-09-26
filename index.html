@@ -16,7 +16,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 .search{display:flex;gap:8px;margin:18px 0}
 .search input{flex:1;padding:14px;border-radius:14px;border:1px solid #30496d;background:#0b1627;color:white;font-size:16px}
 .search button{border:0;border-radius:14px;padding:0 18px;background:#35a7ff;color:#00162b;font-weight:800}
-.system,.metric,.scoreBox{background:#0b1627;border:1px solid #203553}
+.system,.metric,.scoreBox,.insiderBox{background:#0b1627;border:1px solid #203553}
 .system{padding:12px;border-radius:14px}
 .muted{color:#9fb1c8;font-size:13px}
 h2{margin-top:28px}
@@ -36,6 +36,11 @@ h2{margin-top:28px}
 .fill{height:100%;background:#63e69a;border-radius:99px}
 .component{margin-top:13px}
 .componentLine{display:flex;justify-content:space-between;font-size:14px}
+.insiderBox{margin-top:18px;border-radius:16px;padding:15px}
+.insiderTitle{font-weight:800;margin-bottom:10px}
+.insiderGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.insiderStat{background:#101d31;border-radius:12px;padding:10px}
+.insiderStat b{display:block;margin-top:4px}
 .close{margin-top:18px;width:100%;padding:13px;border:0;border-radius:14px;background:#223655;color:white;font-weight:700}
 .foot{margin-top:25px;color:#8fa1b8;font-size:12px;line-height:1.5}
 </style>
@@ -45,7 +50,11 @@ h2{margin-top:28px}
 <div class="wrap">
 
 <div class="hero">
-<div class="badge">HİSSE RADAR <span class="live" id="live">BAĞLANIYOR</span></div>
+<div class="badge">
+HİSSE RADAR
+<span class="live" id="live">BAĞLANIYOR</span>
+</div>
+
 <h1>Canlı piyasa radarı</h1>
 
 <div class="search">
@@ -74,6 +83,7 @@ h2{margin-top:28px}
 </div>
 
 <div class="grid">
+
 <div class="metric">
 <span class="muted">Hacim</span>
 <b id="metricVolume">—</b>
@@ -93,201 +103,505 @@ h2{margin-top:28px}
 <span class="muted">Analist hedefi</span>
 <b id="metricTarget">—</b>
 </div>
+
 </div>
 
 <div class="scoreBox">
-<div class="muted">🎯 RADAR TEMEL PUANI</div>
+
+<div class="muted">🎯 RADAR PUANI</div>
+
 <div class="score" id="radarScore">—</div>
-<div class="muted">
-Şimdilik 50 puanlık gerçek veri motoru aktif.
+
+<div class="muted" id="scoreInfo">
+Aktif veri kaynakları hesaplanıyor.
 </div>
 
 <div id="components"></div>
+
 </div>
 
-<button class="close" onclick="closeDetail()">Radara dön</button>
+<div class="insiderBox">
+
+<div class="insiderTitle">
+🏛️ SEC Insider İşlemleri
+</div>
+
+<div class="muted">
+Son 90 gündeki SEC Form 4 açık piyasa işlemleri
+</div>
+
+<div class="insiderGrid" style="margin-top:12px">
+
+<div class="insiderStat">
+<span class="muted">Alış işlemi</span>
+<b id="insiderBuys">—</b>
+</div>
+
+<div class="insiderStat">
+<span class="muted">Satış işlemi</span>
+<b id="insiderSells">—</b>
+</div>
+
+<div class="insiderStat">
+<span class="muted">Toplam alış</span>
+<b id="insiderBuyValue">—</b>
+</div>
+
+<div class="insiderStat">
+<span class="muted">Toplam satış</span>
+<b id="insiderSellValue">—</b>
+</div>
+
+</div>
+
+<div class="muted" style="margin-top:12px">
+Kaynak: SEC EDGAR • İşlem tarihi ile bildirim tarihi farklı olabilir.
+</div>
+
+</div>
+
+<button class="close" onclick="closeDetail()">
+Radara dön
+</button>
+
 </div>
 
 <h2>📡 Radar Listesi</h2>
+
 <div id="stocks">
 <div class="muted">Piyasa verileri yükleniyor…</div>
 </div>
 
 <div class="foot">
 Radar puanı araştırma amaçlı bir veri göstergesidir; yatırım tavsiyesi değildir.
-Fiyatlar ve analist verileri gecikmeli olabilir.
-Kalan sinyal kaynakları eklendikçe sistem 100 puana tamamlanacaktır.
+Fiyatlar, analist hedefleri ve bildirim verileri gecikmeli olabilir.
+SEC Form 4 verilerinde yalnızca açık piyasa P/S işlemleri puanlamaya dahil edilir.
+Kalan veri kaynakları eklendikçe sistem 100 puana tamamlanacaktır.
 </div>
 
 </div>
 
 <script>
+
 let market=[];
 
 function money(n){
  if(n==null)return "—";
- return Number(n).toLocaleString("en-US",{
-  minimumFractionDigits:2,
-  maximumFractionDigits:2
- })+" $";
+
+ return Number(n).toLocaleString(
+  "en-US",
+  {
+   minimumFractionDigits:2,
+   maximumFractionDigits:2
+  }
+ )+" $";
+}
+
+function compactMoney(n){
+
+ if(n==null)return "—";
+
+ n=Number(n);
+
+ if(n>=1e9)
+  return (n/1e9).toFixed(2)+" B $";
+
+ if(n>=1e6)
+  return (n/1e6).toFixed(2)+" M $";
+
+ if(n>=1e3)
+  return (n/1e3).toFixed(2)+" K $";
+
+ return money(n);
 }
 
 function pct(n){
+
  if(n==null)return "—";
+
  const x=Number(n);
- return (x>=0?"+":"")+x.toFixed(2)+"%";
+
+ return (x>=0?"+":"")
+  +x.toFixed(2)
+  +"%";
 }
 
 function cap(n){
+
  if(!n)return "—";
+
  n=Number(n);
- if(n>=1e12)return (n/1e12).toFixed(2)+" T $";
- if(n>=1e9)return (n/1e9).toFixed(2)+" B $";
- if(n>=1e6)return (n/1e6).toFixed(2)+" M $";
+
+ if(n>=1e12)
+  return (n/1e12).toFixed(2)+" T $";
+
+ if(n>=1e9)
+  return (n/1e9).toFixed(2)+" B $";
+
+ if(n>=1e6)
+  return (n/1e6).toFixed(2)+" M $";
+
  return money(n);
 }
 
 function component(name,value,max){
+
  if(value==null)return "";
- const width=Math.max(0,Math.min(100,(value/max)*100));
+
+ const width=Math.max(
+  0,
+  Math.min(
+   100,
+   (value/max)*100
+  )
+ );
 
  return `
  <div class="component">
+
   <div class="componentLine">
    <span>${name}</span>
    <b>${value} / ${max}</b>
   </div>
+
   <div class="bar">
-   <div class="fill" style="width:${width}%"></div>
+   <div
+    class="fill"
+    style="width:${width}%">
+   </div>
   </div>
+
  </div>`;
 }
 
 function render(){
+
  const box=document.getElementById("stocks");
 
  if(!market.length){
-  box.innerHTML='<div class="muted">Henüz hisse verisi bulunamadı.</div>';
+
+  box.innerHTML=
+   '<div class="muted">Henüz hisse verisi bulunamadı.</div>';
+
   return;
  }
 
  box.innerHTML=market.map(s=>{
-  const cls=Number(s.changePercentage)>=0?"up":"down";
+
+  const cls=
+   Number(s.changePercentage)>=0
+   ?"up"
+   :"down";
+
   const radar=s.radar||{};
 
   return `
-  <div class="stock" onclick="selectStock('${s.symbol}')">
+  <div
+   class="stock"
+   onclick="selectStock('${s.symbol}')">
+
    <div class="row">
+
     <div>
-     <div class="symbol">${s.symbol}</div>
-     <div class="muted">${s.name||""}</div>
+     <div class="symbol">
+      ${s.symbol}
+     </div>
+
+     <div class="muted">
+      ${s.name||""}
+     </div>
     </div>
 
     <div style="text-align:right">
-     <div class="price">${money(s.price)}</div>
-     <div class="${cls}">${pct(s.changePercentage)}</div>
+
+     <div class="price">
+      ${money(s.price)}
+     </div>
+
+     <div class="${cls}">
+      ${pct(s.changePercentage)}
+     </div>
+
     </div>
+
    </div>
 
-   <div class="row" style="margin-top:12px">
+   <div
+    class="row"
+    style="margin-top:12px">
+
     <div class="muted">
-     Hacim: ${Number(s.volume||0).toLocaleString("tr-TR")}
+     Hacim:
+     ${Number(s.volume||0).toLocaleString("tr-TR")}
     </div>
+
     <div class="badge">
-     ${radar.max ? "🎯 "+radar.score+"/"+radar.max : "Detay"}
+     ${
+      radar.max
+      ?"🎯 "+radar.score+"/"+radar.max
+      :"Detay"
+     }
     </div>
+
    </div>
+
   </div>`;
+
  }).join("");
 }
 
 function selectStock(symbol){
- const s=market.find(x=>x.symbol===symbol);
+
+ const s=market.find(
+  x=>x.symbol===symbol
+ );
+
  if(!s)return;
 
- const cls=Number(s.changePercentage)>=0?"up":"down";
+ const cls=
+  Number(s.changePercentage)>=0
+  ?"up"
+  :"down";
+
  const radar=s.radar||{};
  const c=radar.components||{};
  const fundamentals=s.fundamentals||{};
  const analyst=s.analyst||{};
+ const insider=s.insider||{};
 
- document.getElementById("detailSymbol").textContent=s.symbol;
- document.getElementById("detailName").textContent=s.name||"";
- document.getElementById("detailPrice").textContent=money(s.price);
+ document.getElementById(
+  "detailSymbol"
+ ).textContent=s.symbol;
 
- const change=document.getElementById("detailChange");
- change.textContent=pct(s.changePercentage);
+ document.getElementById(
+  "detailName"
+ ).textContent=s.name||"";
+
+ document.getElementById(
+  "detailPrice"
+ ).textContent=money(s.price);
+
+ const change=
+  document.getElementById(
+   "detailChange"
+  );
+
+ change.textContent=
+  pct(s.changePercentage);
+
  change.className=cls;
 
- document.getElementById("metricVolume").textContent=
-  Number(s.volume||0).toLocaleString("tr-TR");
+ document.getElementById(
+  "metricVolume"
+ ).textContent=
+  Number(
+   s.volume||0
+  ).toLocaleString("tr-TR");
 
- document.getElementById("metricCap").textContent=
+ document.getElementById(
+  "metricCap"
+ ).textContent=
   cap(s.marketCap);
 
- document.getElementById("metricPE").textContent=
-  fundamentals.pe==null ? "—" : Number(fundamentals.pe).toFixed(2);
+ document.getElementById(
+  "metricPE"
+ ).textContent=
+  fundamentals.pe==null
+  ?"—"
+  :Number(
+    fundamentals.pe
+   ).toFixed(2);
 
- document.getElementById("metricTarget").textContent=
-  money(analyst.targetConsensus);
+ document.getElementById(
+  "metricTarget"
+ ).textContent=
+  money(
+   analyst.targetConsensus
+  );
 
- document.getElementById("radarScore").textContent=
-  radar.max ? radar.score+" / "+radar.max : "—";
+ document.getElementById(
+  "radarScore"
+ ).textContent=
+  radar.max
+  ?radar.score+" / "+radar.max
+  :"—";
 
- document.getElementById("components").innerHTML=
-  component("Analist hedefleri",c.analyst,15)+
-  component("Finansallar / büyüme",c.growth,15)+
-  component("Değerleme",c.valuation,10)+
-  component("Fiyat momentumu",c.momentum,10);
+ document.getElementById(
+  "scoreInfo"
+ ).textContent=
+  radar.max===70
+  ?"70 puanlık veri motoru aktif."
+  :"Mevcut veri kaynakları üzerinden hesaplandı.";
 
- const detail=document.getElementById("detail");
+ document.getElementById(
+  "components"
+ ).innerHTML=
+
+  component(
+   "Analist hedefleri",
+   c.analyst,
+   15
+  )
+
+  +component(
+   "Finansallar / büyüme",
+   c.growth,
+   15
+  )
+
+  +component(
+   "Değerleme",
+   c.valuation,
+   10
+  )
+
+  +component(
+   "Fiyat momentumu",
+   c.momentum,
+   10
+  )
+
+  +component(
+   "SEC Insider",
+   c.insider,
+   20
+  );
+
+ document.getElementById(
+  "insiderBuys"
+ ).textContent=
+  insider.buys==null
+  ?"—"
+  :insider.buys;
+
+ document.getElementById(
+  "insiderSells"
+ ).textContent=
+  insider.sells==null
+  ?"—"
+  :insider.sells;
+
+ document.getElementById(
+  "insiderBuyValue"
+ ).textContent=
+  insider.buyValue==null
+  ?"—"
+  :compactMoney(
+    insider.buyValue
+   );
+
+ document.getElementById(
+  "insiderSellValue"
+ ).textContent=
+  insider.sellValue==null
+  ?"—"
+  :compactMoney(
+    insider.sellValue
+   );
+
+ const detail=
+  document.getElementById(
+   "detail"
+  );
+
  detail.style.display="block";
- detail.scrollIntoView({behavior:"smooth",block:"start"});
+
+ detail.scrollIntoView({
+  behavior:"smooth",
+  block:"start"
+ });
 }
 
 function closeDetail(){
- document.getElementById("detail").style.display="none";
- document.getElementById("stocks").scrollIntoView({
+
+ document.getElementById(
+  "detail"
+ ).style.display="none";
+
+ document.getElementById(
+  "stocks"
+ ).scrollIntoView({
   behavior:"smooth",
   block:"start"
  });
 }
 
 function searchStock(){
- const input=document.getElementById("ticker");
- const symbol=input.value.trim().toUpperCase();
 
- if(market.find(x=>x.symbol===symbol)){
+ const input=
+  document.getElementById(
+   "ticker"
+  );
+
+ const symbol=
+  input.value
+  .trim()
+  .toUpperCase();
+
+ if(
+  market.find(
+   x=>x.symbol===symbol
+  )
+ ){
+
   input.blur();
   selectStock(symbol);
+
  }else{
-  alert("Bu hisse henüz Radar listesinde yok.");
+
+  alert(
+   "Bu hisse henüz Radar listesinde yok."
+  );
  }
 }
 
 async function loadRadar(){
+
  try{
-  const r=await fetch("data/radar.json?ts="+Date.now(),{
-   cache:"no-store"
-  });
 
-  if(!r.ok)throw new Error();
+  const response=
+   await fetch(
+    "data/radar.json?ts="
+    +Date.now(),
+    {
+     cache:"no-store"
+    }
+   );
 
-  const d=await r.json();
-  market=d.stocks||[];
+  if(!response.ok)
+   throw new Error();
 
-  document.getElementById("live").textContent="SİSTEM AKTİF";
+  const data=
+   await response.json();
 
-  document.getElementById("engine").textContent=
-   market.length+
-   " hisse bağlı • Son güncelleme: "+
-   new Date(d.updated_at).toLocaleString("tr-TR");
+  market=data.stocks||[];
+
+  document.getElementById(
+   "live"
+  ).textContent=
+   "SİSTEM AKTİF";
+
+  document.getElementById(
+   "engine"
+  ).textContent=
+   market.length
+   +" hisse bağlı • Son güncelleme: "
+   +new Date(
+     data.updated_at
+    ).toLocaleString("tr-TR");
 
   render();
 
  }catch(e){
-  document.getElementById("live").textContent="BAĞLANTI HATASI";
-  document.getElementById("engine").textContent=
+
+  document.getElementById(
+   "live"
+  ).textContent=
+   "BAĞLANTI HATASI";
+
+  document.getElementById(
+   "engine"
+  ).textContent=
    "Piyasa veri dosyasına ulaşılamadı";
  }
 }
@@ -295,8 +609,12 @@ async function loadRadar(){
 loadRadar();
 
 if("serviceWorker" in navigator){
- navigator.serviceWorker.register("sw.js");
+ navigator.serviceWorker.register(
+  "sw.js"
+ );
 }
+
 </script>
+
 </body>
 </html>
