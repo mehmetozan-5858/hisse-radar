@@ -16,7 +16,8 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
 .search{display:flex;gap:8px;margin:18px 0}
 .search input{flex:1;padding:14px;border-radius:14px;border:1px solid #30496d;background:#0b1627;color:white;font-size:16px}
 .search button{border:0;border-radius:14px;padding:0 18px;background:#35a7ff;color:#00162b;font-weight:800}
-.system{padding:12px;border-radius:14px;background:#0b1627;border:1px solid #203553}
+.system,.metric,.scoreBox{background:#0b1627;border:1px solid #203553}
+.system{padding:12px;border-radius:14px}
 .muted{color:#9fb1c8;font-size:13px}
 h2{margin-top:28px}
 .stock{margin:10px 0;cursor:pointer}
@@ -25,12 +26,16 @@ h2{margin-top:28px}
 .up{color:#63e69a}.down{color:#ff7b82}
 .detail{display:none;margin-top:25px}
 .detailTitle{font-size:27px;font-weight:800}
-.bigPrice{font-size:38px;font-weight:800;margin-top:12px}
+.bigPrice{font-size:36px;font-weight:800}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
-.metric{background:#0b1627;border:1px solid #203553;border-radius:15px;padding:14px}
+.metric{border-radius:15px;padding:14px}
 .metric b{display:block;margin-top:5px;font-size:17px}
-.scoreBox{margin-top:18px;background:#0b1627;border:1px solid #203553;border-radius:18px;padding:17px}
-.score{font-size:46px;font-weight:800;color:#76d4ff}
+.scoreBox{margin-top:18px;border-radius:18px;padding:17px}
+.score{font-size:48px;font-weight:800;color:#76d4ff;margin:5px 0}
+.bar{height:8px;background:#1b2a40;border-radius:99px;overflow:hidden;margin-top:7px}
+.fill{height:100%;background:#63e69a;border-radius:99px}
+.component{margin-top:13px}
+.componentLine{display:flex;justify-content:space-between;font-size:14px}
 .close{margin-top:18px;width:100%;padding:13px;border:0;border-radius:14px;background:#223655;color:white;font-weight:700}
 .foot{margin-top:25px;color:#8fa1b8;font-size:12px;line-height:1.5}
 </style>
@@ -55,11 +60,13 @@ h2{margin-top:28px}
 </div>
 
 <div id="detail" class="detail">
+
 <div class="row">
 <div>
 <div class="detailTitle" id="detailSymbol">—</div>
 <div class="muted" id="detailName">—</div>
 </div>
+
 <div style="text-align:right">
 <div class="bigPrice" id="detailPrice">—</div>
 <div id="detailChange">—</div>
@@ -67,11 +74,6 @@ h2{margin-top:28px}
 </div>
 
 <div class="grid">
-<div class="metric">
-<span class="muted">Günlük değişim</span>
-<b id="metricChange">—</b>
-</div>
-
 <div class="metric">
 <span class="muted">Hacim</span>
 <b id="metricVolume">—</b>
@@ -83,17 +85,24 @@ h2{margin-top:28px}
 </div>
 
 <div class="metric">
-<span class="muted">Veri kaynağı</span>
-<b>FMP</b>
+<span class="muted">F/K</span>
+<b id="metricPE">—</b>
+</div>
+
+<div class="metric">
+<span class="muted">Analist hedefi</span>
+<b id="metricTarget">—</b>
 </div>
 </div>
 
 <div class="scoreBox">
-<div class="muted">🎯 RADAR PUANI</div>
-<div class="score">— / 100</div>
+<div class="muted">🎯 RADAR TEMEL PUANI</div>
+<div class="score" id="radarScore">—</div>
 <div class="muted">
-Gerçek sinyal puanlaması bir sonraki aşamada bağlanacak.
+Şimdilik 50 puanlık gerçek veri motoru aktif.
 </div>
+
+<div id="components"></div>
 </div>
 
 <button class="close" onclick="closeDetail()">Radara dön</button>
@@ -105,9 +114,9 @@ Gerçek sinyal puanlaması bir sonraki aşamada bağlanacak.
 </div>
 
 <div class="foot">
-Veriler araştırma amaçlıdır; yatırım tavsiyesi değildir.
-Fiyatlar veri sağlayıcısının son mevcut verileridir ve gecikmeli olabilir.
-Radar puanı gerçek sinyal kaynakları bağlandıkça hesaplanacaktır.
+Radar puanı araştırma amaçlı bir veri göstergesidir; yatırım tavsiyesi değildir.
+Fiyatlar ve analist verileri gecikmeli olabilir.
+Kalan sinyal kaynakları eklendikçe sistem 100 puana tamamlanacaktır.
 </div>
 
 </div>
@@ -138,6 +147,22 @@ function cap(n){
  return money(n);
 }
 
+function component(name,value,max){
+ if(value==null)return "";
+ const width=Math.max(0,Math.min(100,(value/max)*100));
+
+ return `
+ <div class="component">
+  <div class="componentLine">
+   <span>${name}</span>
+   <b>${value} / ${max}</b>
+  </div>
+  <div class="bar">
+   <div class="fill" style="width:${width}%"></div>
+  </div>
+ </div>`;
+}
+
 function render(){
  const box=document.getElementById("stocks");
 
@@ -148,6 +173,7 @@ function render(){
 
  box.innerHTML=market.map(s=>{
   const cls=Number(s.changePercentage)>=0?"up":"down";
+  const radar=s.radar||{};
 
   return `
   <div class="stock" onclick="selectStock('${s.symbol}')">
@@ -163,9 +189,13 @@ function render(){
     </div>
    </div>
 
-   <div class="muted" style="margin-top:10px">
-    Hacim: ${Number(s.volume||0).toLocaleString("tr-TR")}
-    • Detay için dokun
+   <div class="row" style="margin-top:12px">
+    <div class="muted">
+     Hacim: ${Number(s.volume||0).toLocaleString("tr-TR")}
+    </div>
+    <div class="badge">
+     ${radar.max ? "🎯 "+radar.score+"/"+radar.max : "Detay"}
+    </div>
    </div>
   </div>`;
  }).join("");
@@ -176,6 +206,10 @@ function selectStock(symbol){
  if(!s)return;
 
  const cls=Number(s.changePercentage)>=0?"up":"down";
+ const radar=s.radar||{};
+ const c=radar.components||{};
+ const fundamentals=s.fundamentals||{};
+ const analyst=s.analyst||{};
 
  document.getElementById("detailSymbol").textContent=s.symbol;
  document.getElementById("detailName").textContent=s.name||"";
@@ -185,14 +219,26 @@ function selectStock(symbol){
  change.textContent=pct(s.changePercentage);
  change.className=cls;
 
- document.getElementById("metricChange").textContent=
-  money(s.change)+" • "+pct(s.changePercentage);
-
  document.getElementById("metricVolume").textContent=
   Number(s.volume||0).toLocaleString("tr-TR");
 
  document.getElementById("metricCap").textContent=
   cap(s.marketCap);
+
+ document.getElementById("metricPE").textContent=
+  fundamentals.pe==null ? "—" : Number(fundamentals.pe).toFixed(2);
+
+ document.getElementById("metricTarget").textContent=
+  money(analyst.targetConsensus);
+
+ document.getElementById("radarScore").textContent=
+  radar.max ? radar.score+" / "+radar.max : "—";
+
+ document.getElementById("components").innerHTML=
+  component("Analist hedefleri",c.analyst,15)+
+  component("Finansallar / büyüme",c.growth,15)+
+  component("Değerleme",c.valuation,10)+
+  component("Fiyat momentumu",c.momentum,10);
 
  const detail=document.getElementById("detail");
  detail.style.display="block";
@@ -209,13 +255,11 @@ function closeDetail(){
 
 function searchStock(){
  const input=document.getElementById("ticker");
- const t=input.value.trim().toUpperCase();
+ const symbol=input.value.trim().toUpperCase();
 
- const s=market.find(x=>x.symbol===t);
-
- if(s){
+ if(market.find(x=>x.symbol===symbol)){
   input.blur();
-  selectStock(t);
+  selectStock(symbol);
  }else{
   alert("Bu hisse henüz Radar listesinde yok.");
  }
