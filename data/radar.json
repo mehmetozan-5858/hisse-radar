@@ -1,21 +1,27 @@
 {
-  "updated_at": "2026-09-26T16:31:34.027840+00:00",
-  "score_version": "0.6.1",
+  "updated_at": "2026-09-26T16:47:44.666838+00:00",
+  "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
+  "quote_provider": "Yahoo Finance chart / cache fallback",
+  "fmp_refresh_symbols": [
+    "COST",
+    "WMT"
+  ],
   "quote_status": {
-    "fresh": 0,
-    "cached": 20
+    "fresh": 20,
+    "cached": 0
   },
   "stocks": [
     {
       "symbol": "AAPL",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Apple Inc.",
+      "price": 341.07,
+      "change": 5.15,
+      "changePercentage": 1.5331,
+      "volume": 29950100,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -132,19 +138,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 33,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 8,
           "insider": 10,
           "institutional": 10
         }
@@ -152,12 +158,13 @@
     },
     {
       "symbol": "MSFT",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Microsoft Corporation",
+      "price": 516.17,
+      "change": 18.24,
+      "changePercentage": 3.6632,
+      "volume": 38154200,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -259,19 +266,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 34,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -279,12 +286,13 @@
     },
     {
       "symbol": "NVDA",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "NVIDIA Corporation",
+      "price": 225.07,
+      "change": 0.49,
+      "changePercentage": 0.2182,
+      "volume": 89808400,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -386,19 +394,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -406,12 +414,13 @@
     },
     {
       "symbol": "AMZN",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Amazon.com, Inc.",
+      "price": 249.67,
+      "change": 0.29,
+      "changePercentage": 0.1163,
+      "volume": 34216300,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -520,19 +529,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -540,12 +549,13 @@
     },
     {
       "symbol": "GOOGL",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Alphabet Inc.",
+      "price": 343.92,
+      "change": 1.56,
+      "changePercentage": 0.4557,
+      "volume": 21854700,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -656,19 +666,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -676,12 +686,13 @@
     },
     {
       "symbol": "META",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Meta Platforms, Inc.",
+      "price": 751.66,
+      "change": -25.9301,
+      "changePercentage": -3.3347,
+      "volume": 25753100,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -784,19 +795,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 26,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 1,
           "insider": 10,
           "institutional": 10
         }
@@ -804,12 +815,13 @@
     },
     {
       "symbol": "TSLA",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Tesla, Inc.",
+      "price": 372.11,
+      "change": -5.83,
+      "changePercentage": -1.5426,
+      "volume": 45925500,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -917,19 +929,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 25,
+        "score": 22,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 2,
           "insider": 10,
           "institutional": 5
         }
@@ -937,12 +949,13 @@
     },
     {
       "symbol": "AMD",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Advanced Micro Devices, Inc.",
+      "price": 630.63,
+      "change": 1.37,
+      "changePercentage": 0.2177,
+      "volume": 17594900,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1051,19 +1064,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -1071,12 +1084,13 @@
     },
     {
       "symbol": "AVGO",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Broadcom Inc.",
+      "price": 352.81,
+      "change": 2.45,
+      "changePercentage": 0.6993,
+      "volume": 16220900,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1185,19 +1199,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -1205,12 +1219,13 @@
     },
     {
       "symbol": "ORCL",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Oracle Corporation",
+      "price": 137.1,
+      "change": -2.44,
+      "changePercentage": -1.7486,
+      "volume": 23549400,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1319,19 +1334,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 27,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 2,
           "insider": 10,
           "institutional": 10
         }
@@ -1339,12 +1354,13 @@
     },
     {
       "symbol": "NFLX",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Netflix, Inc.",
+      "price": 71.15,
+      "change": -0.57,
+      "changePercentage": -0.7948,
+      "volume": 23175700,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1453,19 +1469,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
@@ -1473,12 +1489,13 @@
     },
     {
       "symbol": "JPM",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "JPMorgan Chase & Co.",
+      "price": 343.06,
+      "change": 4.5,
+      "changePercentage": 1.3292,
+      "volume": 11460300,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1521,19 +1538,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 20,
+        "score": 23,
         "max": 70,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 8,
           "insider": 10,
           "institutional": null
         }
@@ -1541,12 +1558,13 @@
     },
     {
       "symbol": "V",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Visa Inc.",
+      "price": 367.38,
+      "change": -0.6,
+      "changePercentage": -0.1631,
+      "volume": 4576700,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1655,19 +1673,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
@@ -1675,12 +1693,13 @@
     },
     {
       "symbol": "MA",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Mastercard Incorporated",
+      "price": 567.65,
+      "change": 1.57,
+      "changePercentage": 0.2773,
+      "volume": 2373100,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1789,19 +1808,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 28,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 8
         }
@@ -1809,12 +1828,13 @@
     },
     {
       "symbol": "COST",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Costco Wholesale Corporation",
+      "price": 922.77,
+      "change": 26.29,
+      "changePercentage": 2.9326,
+      "volume": 4629300,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -1930,19 +1950,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 34,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -1950,12 +1970,13 @@
     },
     {
       "symbol": "WMT",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Walmart Inc.",
+      "price": 107.98,
+      "change": 0.39,
+      "changePercentage": 0.3625,
+      "volume": 19614100,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -2064,19 +2085,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 28,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 6,
           "insider": 10,
           "institutional": 8
         }
@@ -2084,12 +2105,13 @@
     },
     {
       "symbol": "CRM",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Salesforce, Inc.",
+      "price": 234.02,
+      "change": -4.2,
+      "changePercentage": -1.7631,
+      "volume": 8735500,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -2198,19 +2220,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 22,
+        "score": 19,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 2,
           "insider": 10,
           "institutional": 2
         }
@@ -2218,12 +2240,13 @@
     },
     {
       "symbol": "PLTR",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Palantir Technologies Inc.",
+      "price": 189.67,
+      "change": -2.92,
+      "changePercentage": -1.5162,
+      "volume": 17779900,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -2326,19 +2349,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 27,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 2,
           "insider": 10,
           "institutional": 10
         }
@@ -2346,12 +2369,13 @@
     },
     {
       "symbol": "QCOM",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "QUALCOMM Incorporated",
+      "price": 201.97,
+      "change": 7.71,
+      "changePercentage": 3.9689,
+      "volume": 17805500,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -2467,19 +2491,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 26,
+        "score": 30,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 9,
           "insider": 10,
           "institutional": 6
         }
@@ -2487,12 +2511,13 @@
     },
     {
       "symbol": "INTC",
-      "name": null,
-      "price": null,
-      "change": null,
-      "changePercentage": null,
-      "volume": null,
+      "name": "Intel Corporation",
+      "price": 123.0,
+      "change": -4.39,
+      "changePercentage": -3.4461,
+      "volume": 97481700,
       "marketCap": null,
+      "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": null,
         "netIncomeGrowth": null,
@@ -2595,19 +2620,19 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "freshness": {
-        "quote": false,
+        "quote": true,
         "growth": false,
         "ratios": false,
         "analyst": false
       },
       "radar": {
-        "score": 30,
+        "score": 26,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 5,
+          "momentum": 1,
           "insider": 10,
           "institutional": 10
         }
