@@ -3,7 +3,6 @@ name: Global Niche Radar
 on:
   workflow_dispatch:
   schedule:
-    # Günde 2 kez çalışır; mevcut FMP kotasını kullanmaz.
     - cron: "35 5,17 * * *"
 
 permissions:
@@ -23,21 +22,24 @@ jobs:
           python-version: "3.12"
 
       - name: Global Niche Radar verisini üret
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
         run: |
           python <<'PY'
           import json
           import os
+          import time
           from datetime import datetime, timezone
+          from urllib.request import Request, urlopen
+          from urllib.parse import quote
+
+          API_KEY = os.environ.get("FMP_API_KEY", "").strip()
 
           # ============================================
-          # GLOBAL NICHE RADAR V1
-          # FMP API KULLANMAZ.
-          # Mevcut radar ve FMP kotasından bağımsızdır.
+          # GLOBAL NICHE RADAR V2
+          # Niş aday puanı + canlı piyasa veri katmanı
           # ============================================
 
-          # V1 başlangıç evreni.
-          # Sonraki sürümde bunu otomatik global taramaya
-          # dönüştüreceğiz.
           UNIVERSE = [
               # ABD
               {"symbol": "RKLB", "market": "NASDAQ", "country": "USA",
@@ -80,8 +82,6 @@ jobs:
                "sector": "Biometrics / Defense", "size": "micro"},
           ]
 
-          # V1'de skor yalnızca aday önceliklendirme skorudur.
-          # Yatırım tavsiyesi veya gelecek getiri tahmini değildir.
           SECTOR_WEIGHT = {
               "AI": 18,
               "Quantum": 20,
@@ -103,14 +103,95 @@ jobs:
               "large": 2,
           }
 
+          # Bazı borsalarda FMP sembolü farklı olabileceği için
+          # ileride burada ayrı eşleştirme yapabiliriz.
+          FMP_SYMBOLS = {
+              "RKLB": "RKLB",
+              "IONQ": "IONQ",
+              "SOUN": "SOUN",
+              "QBTS": "QBTS",
+              "LUNR": "LUNR",
+              "PNG.V": "PNG.V",
+              "FLT.V": "FLT.V",
+              "HE1.L": "HE1.L",
+              "BMN.L": "BMN.L",
+              "DRO.AX": "DRO.AX",
+              "LTR.AX": "LTR.AX",
+              "ALQGC.PA": "ALQGC.PA",
+              "MIATK.IS": "MIATK.IS",
+              "PAPIL.IS": "PAPIL.IS",
+          }
+
+          def safe_float(value):
+              try:
+                  if value is None:
+                      return None
+                  return float(value)
+              except (TypeError, ValueError):
+                  return None
+
+          def safe_int(value):
+              try:
+                  if value is None:
+                      return None
+                  return int(float(value))
+              except (TypeError, ValueError):
+                  return None
+
+          def fetch_quote(symbol):
+              if not API_KEY:
+                  return None
+
+              fmp_symbol = FMP_SYMBOLS.get(symbol, symbol)
+
+              # FMP stable API quote endpoint.
+              url = (
+                  "https://financialmodelingprep.com/stable/quote"
+                  "?symbol=" + quote(fmp_symbol) +
+                  "&apikey=" + quote(API_KEY)
+              )
+
+              try:
+                  req = Request(
+                      url,
+                      headers={
+                          "User-Agent": "HisseRadar/2.0",
+                          "Accept": "application/json"
+                      }
+                  )
+
+                  with urlopen(req, timeout=20) as response:
+                      data = json.loads(
+                          response.read().decode("utf-8")
+                      )
+
+                  if isinstance(data, list) and data:
+                      return data[0]
+
+                  if isinstance(data, dict):
+                      # Bazı hata cevapları dict olarak dönebilir.
+                      if "price" in data:
+                          return data
+
+                  return None
+
+              except Exception as exc:
+                  print(
+                      f"Fiyat alınamadı: {symbol} -> {exc}"
+                  )
+                  return None
+
           results = []
 
           for stock in UNIVERSE:
               score = 35
-              score += SECTOR_WEIGHT.get(stock["sector"], 10)
-              score += SIZE_WEIGHT.get(stock["size"], 8)
+              score += SECTOR_WEIGHT.get(
+                  stock["sector"], 10
+              )
+              score += SIZE_WEIGHT.get(
+                  stock["size"], 8
+              )
 
-              # V1 puanını 0-100 aralığında tut.
               score = max(0, min(100, score))
 
               if score >= 75:
@@ -120,15 +201,78 @@ jobs:
               else:
                   level = "NİŞ ADAY"
 
+              quote_data = fetch_quote(
+                  stock["symbol"]
+              )
+
+              price = None
+              change_pct = None
+              volume = None
+              market_cap = None
+              day_low = None
+              day_high = None
+
+              if quote_data:
+                  price = safe_float(
+                      quote_data.get("price")
+                  )
+
+                  change_pct = safe_float(
+                      quote_data.get(
+                          "changePercentage",
+                          quote_data.get(
+                              "changesPercentage"
+                          )
+                      )
+                  )
+
+                  volume = safe_int(
+                      quote_data.get("volume")
+                  )
+
+                  market_cap = safe_float(
+                      quote_data.get("marketCap")
+                  )
+
+                  day_low = safe_float(
+                      quote_data.get("dayLow")
+                  )
+
+                  day_high = safe_float(
+                      quote_data.get("dayHigh")
+                  )
+
+              # Hacim sinyali için henüz geçmiş ortalama
+              # hacim karşılaştırması yapmıyoruz.
+              # Ham hacmi güvenilir şekilde saklıyoruz.
+              volume_signal = (
+                  "VERİ VAR"
+                  if volume is not None
+                  else None
+              )
+
               results.append({
                   **stock,
                   "nicheScore": score,
                   "level": level,
-                  "price": None,
-                  "changePct": None,
-                  "volumeSignal": None,
+
+                  "price": price,
+                  "changePct": change_pct,
+                  "volume": volume,
+                  "volumeSignal": volume_signal,
+
+                  "marketCap": market_cap,
+                  "dayLow": day_low,
+                  "dayHigh": day_high,
+
                   "catalyst": None,
-                  "risk": "Yüksek" if stock["size"] == "micro" else "Orta-Yüksek",
+
+                  "risk": (
+                      "Yüksek"
+                      if stock["size"] == "micro"
+                      else "Orta-Yüksek"
+                  ),
+
                   "scenario100": {
                       "2x": 200,
                       "5x": 500,
@@ -137,32 +281,95 @@ jobs:
                       "100x": 10000,
                       "1000x": 100000
                   },
-                  "note": "V1 keşif adayı. Finansal ve piyasa verileri sonraki katmanda doğrulanacak."
+
+                  "marketDataAvailable":
+                      price is not None,
+
+                  "note": (
+                      "Global Niche Radar araştırma adayı. "
+                      "Piyasa verisi mevcutsa FMP üzerinden "
+                      "otomatik güncellenir."
+                  )
               })
 
-          results.sort(key=lambda x: x["nicheScore"], reverse=True)
+              # API'ye arka arkaya çok sert yük bindirmemek için.
+              time.sleep(0.15)
+
+          results.sort(
+              key=lambda x: x["nicheScore"],
+              reverse=True
+          )
+
+          available_count = sum(
+              1 for x in results
+              if x["marketDataAvailable"]
+          )
 
           payload = {
-              "version": "global-niche-v1",
-              "generatedAt": datetime.now(timezone.utc).isoformat(),
-              "description": "Global erken keşif radarının ilk sürümü.",
+              "version": "global-niche-v2",
+              "generatedAt":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+
+              "description":
+                  "Global erken keşif radarı ve piyasa veri katmanı.",
+
               "disclaimer": (
                   "Niche Score bir getiri tahmini değildir. "
-                  "Yüksek riskli şirketleri araştırma amacıyla önceliklendirir."
+                  "Yüksek riskli şirketleri araştırma amacıyla "
+                  "önceliklendirir."
               ),
-              "markets": sorted(list(set(x["market"] for x in results))),
+
+              "markets": sorted(
+                  list(
+                      set(
+                          x["market"]
+                          for x in results
+                      )
+                  )
+              ),
+
               "count": len(results),
+
+              "marketDataCount":
+                  available_count,
+
               "stocks": results
           }
 
-          os.makedirs("data", exist_ok=True)
+          os.makedirs(
+              "data",
+              exist_ok=True
+          )
 
-          with open("data/global-niche.json", "w", encoding="utf-8") as f:
-              json.dump(payload, f, ensure_ascii=False, indent=2)
+          with open(
+              "data/global-niche.json",
+              "w",
+              encoding="utf-8"
+          ) as f:
+              json.dump(
+                  payload,
+                  f,
+                  ensure_ascii=False,
+                  indent=2
+              )
 
-          print("Global Niche Radar üretildi.")
-          print("Aday sayısı:", len(results))
-          print("FMP API çağrısı: 0")
+          print(
+              "Global Niche Radar V2 üretildi."
+          )
+          print(
+              "Aday sayısı:",
+              len(results)
+          )
+          print(
+              "Fiyat verisi bulunan:",
+              available_count
+          )
+          print(
+              "Fiyat verisi bulunamayan:",
+              len(results) - available_count
+          )
           PY
 
       - name: Değişiklikleri kaydet
@@ -175,6 +382,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
           else
-            git commit -m "Update Global Niche Radar"
+            git commit -m "Update Global Niche Radar V2"
             git push
           fi
