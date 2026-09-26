@@ -9,24 +9,24 @@ permissions:
   contents: write
 
 jobs:
-  update-13f:
+  update:
     runs-on: ubuntu-latest
 
     env:
       SEC_CONTACT_EMAIL: ${{ secrets.SEC_CONTACT_EMAIL }}
 
     steps:
-      - name: Repository checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Python kurulumu
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: SEC 13F verisini güncelle
+      - name: Build 13F data
         run: |
-          python <<'PY'
+          python - <<'PY'
           import json
           import os
           import re
@@ -34,28 +34,17 @@ jobs:
           import urllib.request
           import urllib.error
           import xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
 
-          from datetime import datetime, timezone, date
-
-          CONTACT = os.environ.get(
-              "SEC_CONTACT_EMAIL", ""
-          ).strip()
-
-          if not CONTACT:
-              raise RuntimeError(
-                  "SEC_CONTACT_EMAIL secret bulunamadı."
-              )
+          CONTACT = os.environ.get("SEC_CONTACT_EMAIL", "").strip()
 
           HEADERS = {
               "User-Agent": f"HisseRadar/1.0 {CONTACT}",
+              "Accept": "application/json,text/xml,application/xml,text/html",
               "Accept-Encoding": "identity",
-              "Accept": (
-                  "application/json,text/html,"
-                  "application/xml;q=0.9,*/*;q=0.8"
-              ),
-              "Connection": "close"
           }
 
+          # Test hisseleri. Genel sembol desteğine sonraki aşamada geçilecek.
           SYMBOLS = {
               "AAPL": ["037833100"],
               "MSFT": ["594918104"],
@@ -63,456 +52,348 @@ jobs:
               "AMZN": ["023135106"],
               "GOOGL": ["02079K107", "02079K305"],
               "META": ["30303M102"],
-              "TSLA": ["88160R101"]
+              "TSLA": ["88160R101"],
           }
 
-          MANAGERS = {
-              "Berkshire Hathaway": "0001067983",
-              "BlackRock": "0001364742",
-              "Vanguard Group": "0000102909"
-          }
+          # Daha geniş kurum havuzu.
+          # Güncel olmayan veya karşılaştırılamayan kurumlar otomatik elenir.
+          MANAGERS = [
+              ("Berkshire Hathaway", "0001067983"),
+              ("BlackRock", "0001364742"),
+              ("Vanguard Group", "0000102909"),
+              ("State Street", "0000093751"),
+              ("JPMorgan Chase", "0000019617"),
+              ("Goldman Sachs", "0000886982"),
+              ("Morgan Stanley", "0000895421"),
+              ("Bank of America", "0000070858"),
+              ("Citigroup", "0000831001"),
+              ("Wells Fargo", "0000072971"),
+          ]
 
-          # Bir yöneticinin son raporu bundan daha eskiyse
-          # puana dahil edilmez.
           MAX_REPORT_AGE_DAYS = 240
-
-          # Aynı yöneticinin ardışık iki raporu arasındaki
-          # makul çeyreklik gün farkı.
           MIN_QUARTER_DAYS = 70
           MAX_QUARTER_DAYS = 120
-
-          # %100'ü aşan ham hisse değişimini otomatik olarak
-          # puanlamak yerine anomaly olarak işaretliyoruz.
-          # Split / CUSIP / veri yapısı değişikliklerine karşı koruma.
           MAX_ABS_CHANGE_PCT = 100.0
 
-          last_request = 0.0
+          def get(url, tries=4):
+              last = None
 
-          def sec_request(url, retries=3):
-              global last_request
-
-              for attempt in range(retries):
-                  elapsed = time.time() - last_request
-
-                  if elapsed < 0.5:
-                      time.sleep(0.5 - elapsed)
-
-                  req = urllib.request.Request(
-                      url,
-                      headers=HEADERS,
-                      method="GET"
-                  )
-
+              for attempt in range(tries):
                   try:
-                      with urllib.request.urlopen(
-                          req,
-                          timeout=40
-                      ) as response:
-                          last_request = time.time()
-                          return response.read()
+                      req = urllib.request.Request(url, headers=HEADERS)
+
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          data = r.read()
+
+                      time.sleep(0.5)
+                      return data
 
                   except urllib.error.HTTPError as e:
-                      last_request = time.time()
+                      last = e
 
-                      if (
-                          e.code in (403, 429)
-                          and attempt < retries - 1
-                      ):
-                          time.sleep(5 * (attempt + 1))
+                      if e.code in (403, 429):
+                          time.sleep(2 * (attempt + 1))
                           continue
 
                       raise
 
-                  except Exception:
-                      last_request = time.time()
+                  except Exception as e:
+                      last = e
+                      time.sleep(2 * (attempt + 1))
 
-                      if attempt < retries - 1:
-                          time.sleep(3 * (attempt + 1))
-                          continue
+              raise last
 
-                      raise
 
-          def sec_json(url):
-              raw = sec_request(url)
-              return json.loads(
-                  raw.decode("utf-8", errors="replace")
-              )
+          def get_json(url):
+              return json.loads(get(url).decode("utf-8"))
 
-          def normalize_cusip(value):
-              return re.sub(
-                  r"[^0-9A-Z]",
-                  "",
-                  (value or "").upper()
-              )
 
-          def tag_name(tag):
-              return tag.split("}")[-1].lower()
+          def clean_tag(tag):
+              return tag.split("}")[-1]
+
 
           def child_text(node, wanted):
-              wanted = wanted.lower()
-
-              for element in node.iter():
-                  if tag_name(element.tag) == wanted:
-                      return (element.text or "").strip()
+              for item in node.iter():
+                  if clean_tag(item.tag) == wanted:
+                      return (item.text or "").strip()
 
               return ""
 
-          def number(value):
-              try:
-                  return float(
-                      str(value).replace(",", "").strip()
-                  )
-              except Exception:
-                  return 0.0
 
           def parse_date(value):
-              if not value:
-                  return None
+              return datetime.strptime(value, "%Y-%m-%d").replace(
+                  tzinfo=timezone.utc
+              )
 
-              try:
-                  return datetime.strptime(
-                      value,
-                      "%Y-%m-%d"
-                  ).date()
-              except Exception:
-                  return None
 
           def recent_13f_filings(cik):
-              data = sec_json(
-                  f"https://data.sec.gov/submissions/"
-                  f"CIK{cik}.json"
-              )
+              url = f"https://data.sec.gov/submissions/CIK{cik}.json"
+              data = get_json(url)
 
-              recent = (
-                  data.get("filings", {})
-                  .get("recent", {})
-              )
+              recent = data.get("filings", {}).get("recent", {})
 
               forms = recent.get("form", [])
-              accessions = recent.get(
-                  "accessionNumber", []
-              )
-              filing_dates = recent.get(
-                  "filingDate", []
-              )
-              report_dates = recent.get(
-                  "reportDate", []
-              )
-              primary_docs = recent.get(
-                  "primaryDocument", []
-              )
+              accessions = recent.get("accessionNumber", [])
+              filing_dates = recent.get("filingDate", [])
+              report_dates = recent.get("reportDate", [])
+              primary_docs = recent.get("primaryDocument", [])
 
-              filings = []
+              rows = []
 
               for i, form in enumerate(forms):
                   if form != "13F-HR":
                       continue
 
-                  filings.append({
+                  if i >= len(accessions):
+                      continue
+
+                  rows.append({
                       "accession": accessions[i],
-                      "filingDate": (
+                      "filingDate":
                           filing_dates[i]
                           if i < len(filing_dates)
-                          else None
-                      ),
-                      "reportDate": (
+                          else None,
+                      "reportDate":
                           report_dates[i]
                           if i < len(report_dates)
-                          else None
-                      ),
-                      "primaryDocument": (
+                          else None,
+                      "primaryDocument":
                           primary_docs[i]
                           if i < len(primary_docs)
-                          else None
-                      )
+                          else None,
                   })
 
-                  if len(filings) >= 2:
+                  if len(rows) >= 2:
                       break
 
-              return filings
+              return rows
+
 
           def filing_base(cik, accession):
-              cik_plain = str(int(cik))
-              accession_plain = accession.replace(
-                  "-", ""
-              )
+              cik_nozero = str(int(cik))
+              accession_clean = accession.replace("-", "")
 
               return (
-                  "https://www.sec.gov/Archives/"
-                  f"edgar/data/{cik_plain}/"
-                  f"{accession_plain}/"
+                  "https://www.sec.gov/Archives/edgar/data/"
+                  f"{cik_nozero}/{accession_clean}"
               )
 
-          def information_table(cik, filing):
-              base = filing_base(
-                  cik,
-                  filing["accession"]
-              )
 
-              index = sec_json(base + "index.json")
+          def locate_info_table(cik, accession):
+              base = filing_base(cik, accession)
 
-              items = (
-                  index.get("directory", {})
-                  .get("item", [])
-              )
+              index = get_json(f"{base}/index.json")
 
-              primary = (
-                  filing.get("primaryDocument") or ""
-              ).split("/")[-1].lower()
+              items = index.get("directory", {}).get("item", [])
 
-              candidates = []
+              names = []
 
               for item in items:
                   name = item.get("name", "")
-                  lower = name.lower()
 
-                  if not lower.endswith(
-                      (".xml", ".txt")
+                  if name:
+                      names.append(name)
+
+              preferred = []
+
+              for name in names:
+                  low = name.lower()
+
+                  if not low.endswith((".xml", ".txt")):
+                      continue
+
+                  if "primary_doc" in low:
+                      continue
+
+                  if (
+                      "infotable" in low
+                      or "informationtable" in low
+                      or "form13f" in low
+                      or "13f" in low
                   ):
-                      continue
+                      preferred.append(name)
 
-                  if primary and lower == primary:
-                      continue
+              candidates = preferred + [
+                  n for n in names
+                  if n.lower().endswith(".xml")
+                  and n not in preferred
+                  and "primary_doc" not in n.lower()
+              ]
 
-                  priority = 20
-
-                  if "infotable" in lower:
-                      priority = 0
-                  elif "informationtable" in lower:
-                      priority = 1
-                  elif "13finfo" in lower:
-                      priority = 2
-                  elif lower.endswith(".xml"):
-                      priority = 10
-
-                  candidates.append(
-                      (priority, name)
-                  )
-
-              candidates.sort()
-
-              for _, name in candidates:
-                  url = base + name
-
+              for name in candidates:
                   try:
-                      raw = sec_request(url)
+                      raw = get(f"{base}/{name}")
 
-                      text = raw.decode(
-                          "utf-8",
-                          errors="ignore"
-                      ).lower()
+                      text = raw.decode("utf-8", errors="ignore")
 
                       if (
-                          "<cusip>" in text
-                          and (
-                              "infotable" in text
-                              or "informationtable" in text
-                          )
+                          "<infoTable" in text
+                          or ":infoTable" in text
                       ):
-                          return url, raw
+                          return name, raw
 
                   except Exception:
-                      continue
+                      pass
 
               return None, None
 
+
           def parse_holdings(raw):
-              holdings = {}
+              root = ET.fromstring(raw)
 
-              if not raw:
-                  return holdings
+              result = {}
 
-              try:
-                  root = ET.fromstring(raw)
-              except Exception:
-                  return holdings
-
-              for row in root.iter():
-                  if tag_name(row.tag) != "infotable":
+              for node in root.iter():
+                  if clean_tag(node.tag) != "infoTable":
                       continue
 
-                  cusip = normalize_cusip(
-                      child_text(row, "cusip")
-                  )
-
-                  shares = number(
-                      child_text(row, "sshprnamt")
-                  )
-
-                  value_thousands = number(
-                      child_text(row, "value")
-                  )
+                  cusip = child_text(node, "cusip").upper().strip()
 
                   if not cusip:
                       continue
 
-                  item = holdings.setdefault(
-                      cusip,
-                      {
+                  shares_text = child_text(node, "sshPrnamt")
+                  value_text = child_text(node, "value")
+
+                  try:
+                      shares = float(
+                          shares_text.replace(",", "")
+                      )
+                  except Exception:
+                      shares = 0.0
+
+                  try:
+                      reported_value = float(
+                          value_text.replace(",", "")
+                      )
+                  except Exception:
+                      reported_value = 0.0
+
+                  if cusip not in result:
+                      result[cusip] = {
                           "shares": 0.0,
-                          "value": 0.0
+                          "reportedValue": 0.0,
                       }
+
+                  result[cusip]["shares"] += shares
+                  result[cusip]["reportedValue"] += reported_value
+
+              return result
+
+
+          def symbol_position(holdings, cusips):
+              shares = 0.0
+              reported_value = 0.0
+
+              for cusip in cusips:
+                  row = holdings.get(cusip, {})
+
+                  shares += float(row.get("shares", 0) or 0)
+                  reported_value += float(
+                      row.get("reportedValue", 0) or 0
                   )
 
-                  item["shares"] += shares
-                  item["value"] += (
-                      value_thousands * 1000
-                  )
+              return shares, reported_value
 
-              return holdings
 
           def manager_data(name, cik):
-              result = {
+              out = {
                   "manager": name,
                   "cik": cik,
-                  "status": "error",
+                  "status": "unavailable",
                   "eligible": False,
                   "latest": None,
                   "previous": None,
-                  "holdings": {},
-                  "error": None
+                  "positions": {},
+                  "error": None,
               }
 
               try:
                   filings = recent_13f_filings(cik)
 
                   if len(filings) < 2:
-                      result["status"] = (
-                          "insufficient_filings"
-                      )
-                      return result
+                      out["status"] = "not_enough_filings"
+                      return out
 
-                  latest_filing = filings[0]
-                  previous_filing = filings[1]
+                  latest = filings[0]
+                  previous = filings[1]
 
-                  latest_date = parse_date(
-                      latest_filing["reportDate"]
-                  )
-                  previous_date = parse_date(
-                      previous_filing["reportDate"]
-                  )
+                  out["latest"] = latest
+                  out["previous"] = previous
 
-                  if not latest_date or not previous_date:
-                      result["status"] = (
-                          "invalid_report_dates"
-                      )
-                      return result
+                  if (
+                      not latest.get("reportDate")
+                      or not previous.get("reportDate")
+                  ):
+                      out["status"] = "missing_report_date"
+                      return out
 
-                  age_days = (
-                      date.today() - latest_date
-                  ).days
+                  latest_date = parse_date(latest["reportDate"])
+                  previous_date = parse_date(previous["reportDate"])
 
-                  quarter_gap = (
-                      latest_date - previous_date
-                  ).days
+                  now = datetime.now(timezone.utc)
+
+                  age_days = (now - latest_date).days
+                  gap_days = (latest_date - previous_date).days
+
+                  out["latest"]["ageDays"] = age_days
+                  out["quarterGapDays"] = gap_days
 
                   if age_days > MAX_REPORT_AGE_DAYS:
-                      result["status"] = "stale"
-                      result["latest"] = latest_filing
-                      result["previous"] = previous_filing
-                      return result
+                      out["status"] = "stale"
+                      return out
 
                   if not (
                       MIN_QUARTER_DAYS
-                      <= quarter_gap
+                      <= gap_days
                       <= MAX_QUARTER_DAYS
                   ):
-                      result["status"] = (
-                          "non_comparable_periods"
-                      )
-                      result["latest"] = latest_filing
-                      result["previous"] = previous_filing
-                      return result
+                      out["status"] = "non_comparable_periods"
+                      return out
 
-                  parsed = []
+                  latest_file, latest_raw = locate_info_table(
+                      cik, latest["accession"]
+                  )
 
-                  for filing in (
-                      latest_filing,
-                      previous_filing
-                  ):
-                      source_url, raw = (
-                          information_table(
-                              cik,
-                              filing
-                          )
-                      )
+                  previous_file, previous_raw = locate_info_table(
+                      cik, previous["accession"]
+                  )
 
-                      if not raw:
-                          raise RuntimeError(
-                              "13F information table "
-                              "bulunamadı."
-                          )
+                  if not latest_raw or not previous_raw:
+                      out["status"] = "information_table_missing"
+                      return out
 
-                      holdings = parse_holdings(raw)
+                  latest["infoTable"] = latest_file
+                  previous["infoTable"] = previous_file
 
-                      if not holdings:
-                          raise RuntimeError(
-                              "13F information table "
-                              "okunamadı."
-                          )
+                  latest["sourceUrl"] = (
+                      f"{filing_base(cik, latest['accession'])}/"
+                      f"{latest_file}"
+                  )
 
-                      parsed.append({
-                          **filing,
-                          "sourceUrl": source_url,
-                          "holdings": holdings
-                      })
+                  previous["sourceUrl"] = (
+                      f"{filing_base(cik, previous['accession'])}/"
+                      f"{previous_file}"
+                  )
 
-                  latest = parsed[0]
-                  previous = parsed[1]
-
-                  result["latest"] = {
-                      k: v
-                      for k, v in latest.items()
-                      if k != "holdings"
-                  }
-
-                  result["previous"] = {
-                      k: v
-                      for k, v in previous.items()
-                      if k != "holdings"
-                  }
+                  latest_holdings = parse_holdings(latest_raw)
+                  previous_holdings = parse_holdings(previous_raw)
 
                   for symbol, cusips in SYMBOLS.items():
-                      latest_shares = 0.0
-                      previous_shares = 0.0
-                      latest_value = 0.0
-                      previous_value = 0.0
-
-                      for cusip in cusips:
-                          c = normalize_cusip(cusip)
-
-                          lh = latest[
-                              "holdings"
-                          ].get(c, {})
-
-                          ph = previous[
-                              "holdings"
-                          ].get(c, {})
-
-                          latest_shares += lh.get(
-                              "shares", 0.0
-                          )
-                          previous_shares += ph.get(
-                              "shares", 0.0
-                          )
-                          latest_value += lh.get(
-                              "value", 0.0
-                          )
-                          previous_value += ph.get(
-                              "value", 0.0
-                          )
-
-                      change = (
-                          latest_shares
-                          - previous_shares
+                      latest_shares, latest_value = symbol_position(
+                          latest_holdings, cusips
                       )
+
+                      previous_shares, previous_value = symbol_position(
+                          previous_holdings, cusips
+                      )
+
+                      change = latest_shares - previous_shares
 
                       if previous_shares > 0:
                           change_pct = (
-                              change
-                              / previous_shares
-                          ) * 100
+                              change / previous_shares
+                          ) * 100.0
                       elif latest_shares > 0:
                           change_pct = None
                       else:
@@ -523,55 +404,40 @@ jobs:
 
                       if (
                           change_pct is not None
-                          and abs(change_pct)
-                          > MAX_ABS_CHANGE_PCT
+                          and abs(change_pct) > MAX_ABS_CHANGE_PCT
                       ):
                           anomaly = True
                           anomaly_reason = (
                               "share_change_over_100pct"
                           )
 
-                      result["holdings"][symbol] = {
-                          "latestShares":
-                              latest_shares,
-                          "previousShares":
-                              previous_shares,
-                          "shareChange":
-                              change,
-                          "shareChangePct":
-                              change_pct,
-                          "latestValue":
-                              latest_value,
-                          "previousValue":
-                              previous_value,
-                          "anomaly":
-                              anomaly,
-                          "anomalyReason":
-                              anomaly_reason
+                      out["positions"][symbol] = {
+                          "latestShares": latest_shares,
+                          "previousShares": previous_shares,
+                          "shareChange": change,
+                          "shareChangePct": change_pct,
+                          "latestReportedValue": latest_value,
+                          "previousReportedValue": previous_value,
+                          "anomaly": anomaly,
+                          "anomalyReason": anomaly_reason,
                       }
 
-                  result["eligible"] = True
-                  result["status"] = "ok"
+                  out["eligible"] = True
+                  out["status"] = "ok"
 
-                  return result
+              except Exception as e:
+                  out["status"] = "error"
+                  out["error"] = str(e)[:300]
 
-              except Exception as exc:
-                  result["error"] = str(exc)
-                  return result
+              return out
+
 
           managers = []
 
-          for manager_name, cik in MANAGERS.items():
-              print(
-                  f"13F okunuyor: {manager_name}"
-              )
+          for name, cik in MANAGERS:
+              print("13F:", name)
+              managers.append(manager_data(name, cik))
 
-              managers.append(
-                  manager_data(
-                      manager_name,
-                      cik
-                  )
-              )
 
           stocks = {}
 
@@ -580,46 +446,35 @@ jobs:
               decreases = 0
               unchanged = 0
               anomalies = 0
-              valid_managers = 0
+              valid = 0
               details = []
 
               for manager in managers:
-                  if not manager["eligible"]:
+                  if not manager.get("eligible"):
                       continue
 
-                  holding = manager[
-                      "holdings"
-                  ].get(symbol)
+                  pos = manager.get(
+                      "positions", {}
+                  ).get(symbol)
 
-                  if holding is None:
+                  if not pos:
                       continue
 
-                  if holding["anomaly"]:
+                  latest_shares = pos["latestShares"]
+                  previous_shares = pos["previousShares"]
+
+                  # Kurum iki dönemde de bu hisseyi taşımıyorsa
+                  # puanlamaya dahil etme.
+                  if latest_shares == 0 and previous_shares == 0:
+                      continue
+
+                  if pos.get("anomaly"):
                       anomalies += 1
-
-                      details.append({
-                          "manager":
-                              manager["manager"],
-                          "direction":
-                              "anomaly",
-                          **holding
-                      })
-
                       continue
 
-                  # Yöneticinin iki dönemde de bu hisseyi
-                  # hiç tutmaması sinyal değildir.
-                  if (
-                      holding["latestShares"] == 0
-                      and holding["previousShares"] == 0
-                  ):
-                      continue
+                  valid += 1
 
-                  valid_managers += 1
-
-                  change = holding[
-                      "shareChange"
-                  ]
+                  change = pos["shareChange"]
 
                   if change > 0:
                       direction = "increase"
@@ -632,29 +487,31 @@ jobs:
                       unchanged += 1
 
                   details.append({
-                      "manager":
-                          manager["manager"],
-                      "direction":
-                          direction,
-                      **holding
+                      "manager": manager["manager"],
+                      "direction": direction,
+                      "latestShares": latest_shares,
+                      "previousShares": previous_shares,
+                      "shareChange": change,
+                      "shareChangePct": pos["shareChangePct"],
+                      "anomaly": False,
+                      "anomalyReason": None,
                   })
 
-              if valid_managers == 0:
+              if valid == 0:
                   score = None
                   status = "unavailable"
               else:
+                  # Nötr merkez 5/10.
+                  # Artıran kurum +1.5, azaltan -1.5.
                   raw_score = (
                       5
                       + increases * 1.5
                       - decreases * 1.5
                   )
 
-                  score = round(
-                      max(
-                          0,
-                          min(10, raw_score)
-                      )
-                  )
+                  score = int(round(
+                      max(0, min(10, raw_score))
+                  ))
 
                   status = "ok"
 
@@ -666,31 +523,33 @@ jobs:
                   "decreases": decreases,
                   "unchanged": unchanged,
                   "anomaliesExcluded": anomalies,
-                  "validManagers": valid_managers,
-                  "managers": details
+                  "validManagers": valid,
+                  "managers": details,
               }
 
+
           output = {
-              "updated_at": datetime.now(
-                  timezone.utc
-              ).isoformat(),
-              "version": "0.4.2",
+              "updated_at":
+                  datetime.now(timezone.utc).isoformat(),
+              "version": "0.4.3",
               "source": "SEC EDGAR Form 13F-HR",
               "max_score": 10,
               "method": {
-                  "maxReportAgeDays":
-                      MAX_REPORT_AGE_DAYS,
+                  "maxReportAgeDays": MAX_REPORT_AGE_DAYS,
                   "quarterGapDays": [
                       MIN_QUARTER_DAYS,
-                      MAX_QUARTER_DAYS
+                      MAX_QUARTER_DAYS,
                   ],
                   "maxAbsChangePct":
-                      MAX_ABS_CHANGE_PCT
+                      MAX_ABS_CHANGE_PCT,
+                  "zeroPositionsExcluded": True,
+                  "staleManagersExcluded": True,
+                  "anomaliesExcluded": True,
               },
               "note": (
                   "13F gerçek zamanlı değildir. "
-                  "Eski yöneticiler ve anormal hisse "
-                  "değişimleri puandan çıkarılır."
+                  "Eski, karşılaştırılamayan ve anormal "
+                  "veriler puanlamadan çıkarılır."
               ),
               "managers": [
                   {
@@ -700,11 +559,11 @@ jobs:
                       "eligible": m["eligible"],
                       "latest": m["latest"],
                       "previous": m["previous"],
-                      "error": m["error"]
+                      "error": m["error"],
                   }
                   for m in managers
               ],
-              "stocks": stocks
+              "stocks": stocks,
           }
 
           os.makedirs("data", exist_ok=True)
@@ -713,33 +572,32 @@ jobs:
               "data/13f.json",
               "w",
               encoding="utf-8"
-          ) as file:
+          ) as f:
               json.dump(
                   output,
-                  file,
+                  f,
                   ensure_ascii=False,
                   indent=2
               )
 
           print(
               json.dumps(
-                  output,
+                  stocks,
                   ensure_ascii=False,
                   indent=2
               )
           )
           PY
 
-      - name: 13F verisini kaydet
+      - name: Commit updated 13F data
         run: |
-          git config user.name "hisse-radar-bot"
-          git config user.email "actions@users.noreply.github.com"
-
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/13f.json
 
           if git diff --cached --quiet; then
-            echo "13F verisinde değişiklik yok."
+            echo "No changes"
           else
-            git commit -m "Improve SEC 13F scoring v0.4.2"
+            git commit -m "Expand SEC 13F manager coverage v0.4.3"
             git push
           fi
