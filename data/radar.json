@@ -1,7 +1,8 @@
 {
-  "updated_at": "2026-09-26T13:57:04.694492+00:00",
-  "score_version": "0.5.0",
+  "updated_at": "2026-09-26T14:15:22.444860+00:00",
+  "score_version": "0.6.0",
   "current_score_max": 80,
+  "universe_size": 20,
   "stocks": [
     {
       "symbol": "AAPL",
@@ -667,14 +668,14 @@
         "revenueGrowth": -0.029306991503736307,
         "netIncomeGrowth": -0.4678821879382889,
         "epsGrowth": -0.47089947089947093,
-        "pe": 315.3474576271187,
-        "peg": -8.394460491764141
+        "pe": null,
+        "peg": null
       },
       "analyst": {
-        "targetConsensus": 462.77,
-        "targetHigh": 840,
-        "targetLow": 360,
-        "targetMedian": 450
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
       },
       "insider": {
         "score": 10,
@@ -749,15 +750,1360 @@
         "source": "SEC EDGAR Form 13F-HR"
       },
       "radar": {
-        "score": 32,
+        "score": 22,
         "max": 80,
         "components": {
-          "analyst": 13,
+          "analyst": 0,
           "growth": 0,
-          "valuation": 2,
+          "valuation": 5,
           "momentum": 2,
           "insider": 10,
           "institutional": 5
+        }
+      }
+    },
+    {
+      "symbol": "AMD",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 5,
+        "decreases": 1,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "decrease",
+            "latestShares": 74361687.0,
+            "previousShares": 74771220.0,
+            "shareChange": -409533.0,
+            "shareChangePct": -0.5477147490705648
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 19545274.0,
+            "previousShares": 19296596.0,
+            "shareChange": 248678.0,
+            "shareChangePct": 1.2887143411200608
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 24286371.0,
+            "previousShares": 23781608.0,
+            "shareChange": 504763.0,
+            "shareChangePct": 2.1224931468048753
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 12088320.0,
+            "previousShares": 10161481.0,
+            "shareChange": 1926839.0,
+            "shareChangePct": 18.96218671274394
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 8235837.0,
+            "previousShares": 8117176.0,
+            "shareChange": 118661.0,
+            "shareChangePct": 1.4618507717462328
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 5663233.0,
+            "previousShares": 4702310.0,
+            "shareChange": 960923.0,
+            "shareChangePct": 20.435126565454002
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "AVGO",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 5,
+        "decreases": 1,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 196900541.0,
+            "previousShares": 191380232.0,
+            "shareChange": 5520309.0,
+            "shareChangePct": 2.884471892582929
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 42906384.0,
+            "previousShares": 38608951.0,
+            "shareChange": 4297433.0,
+            "shareChangePct": 11.130665010815756
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 79037987.0,
+            "previousShares": 75935152.0,
+            "shareChange": 3102835.0,
+            "shareChangePct": 4.086164204952141
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 61423013.0,
+            "previousShares": 58737097.0,
+            "shareChange": 2685916.0,
+            "shareChangePct": 4.5727762133017915
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 17665760.0,
+            "previousShares": 14459665.0,
+            "shareChange": 3206095.0,
+            "shareChangePct": 22.17267827435836
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "decrease",
+            "latestShares": 25220194.0,
+            "previousShares": 26192540.0,
+            "shareChange": -972346.0,
+            "shareChangePct": -3.7123012888402576
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "ORCL",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 5,
+        "decreases": 1,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 78645193.0,
+            "previousShares": 76303175.0,
+            "shareChange": 2342018.0,
+            "shareChangePct": 3.0693585162085326
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 27871708.0,
+            "previousShares": 17171737.0,
+            "shareChange": 10699971.0,
+            "shareChangePct": 62.31152387204626
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 30551196.0,
+            "previousShares": 29132672.0,
+            "shareChange": 1418524.0,
+            "shareChangePct": 4.869186046511628
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 23954012.0,
+            "previousShares": 15383679.0,
+            "shareChange": 8570333.0,
+            "shareChangePct": 55.71055532294973
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "decrease",
+            "latestShares": 9303778.0,
+            "previousShares": 9769196.0,
+            "shareChange": -465418.0,
+            "shareChangePct": -4.76413821567302
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 8587619.0,
+            "previousShares": 8211121.0,
+            "shareChange": 376498.0,
+            "shareChangePct": 4.585220458936119
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "NFLX",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 5,
+        "decreases": 1,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 180129582.0,
+            "previousShares": 171654762.0,
+            "shareChange": 8474820.0,
+            "shareChangePct": 4.937130727547191
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 46437361.0,
+            "previousShares": 33077208.0,
+            "shareChange": 13360153.0,
+            "shareChangePct": 40.39081230797956
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 99723374.0,
+            "previousShares": 99018124.0,
+            "shareChange": 705250.0,
+            "shareChangePct": 0.7122433464806908
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "decrease",
+            "latestShares": 37457348.0,
+            "previousShares": 57942812.0,
+            "shareChange": -20485464.0,
+            "shareChangePct": -35.35462517766656
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 15381798.0,
+            "previousShares": 12885752.0,
+            "shareChange": 2496046.0,
+            "shareChangePct": 19.370588538410484
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 14837821.0,
+            "previousShares": 14533744.0,
+            "shareChange": 304077.0,
+            "shareChangePct": 2.092213816343538
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "JPM",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": null,
+        "max": 10,
+        "status": "unavailable",
+        "validManagers": 0,
+        "increases": 0,
+        "decreases": 0,
+        "unchanged": 0,
+        "anomaliesExcluded": 0,
+        "managers": [],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 20,
+        "max": 70,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": null
+        }
+      }
+    },
+    {
+      "symbol": "V",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 5,
+        "decreases": 1,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 82872209.0,
+            "previousShares": 82306015.0,
+            "shareChange": 566194.0,
+            "shareChangePct": 0.6879132709802558
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 17313879.0,
+            "previousShares": 17226020.0,
+            "shareChange": 87859.0,
+            "shareChangePct": 0.5100365609699744
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "decrease",
+            "latestShares": 45960354.0,
+            "previousShares": 45979950.0,
+            "shareChange": -19596.0,
+            "shareChangePct": -0.04261857614025243
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 23172097.0,
+            "previousShares": 22881733.0,
+            "shareChange": 290364.0,
+            "shareChangePct": 1.2689773104161297
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 7268969.0,
+            "previousShares": 6560947.0,
+            "shareChange": 708022.0,
+            "shareChangePct": 10.79146044008586
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 13865337.0,
+            "previousShares": 8260175.0,
+            "shareChange": 5605162.0,
+            "shareChangePct": 67.85766645379789
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "MA",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 8,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 4,
+        "decreases": 2,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 36964305.0,
+            "previousShares": 36478022.0,
+            "shareChange": 486283.0,
+            "shareChangePct": 1.3330848914998736
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 9030363.0,
+            "previousShares": 8462960.0,
+            "shareChange": 567403.0,
+            "shareChangePct": 6.704545454545455
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "decrease",
+            "latestShares": 15001503.0,
+            "previousShares": 15162577.0,
+            "shareChange": -161074.0,
+            "shareChangePct": -1.0623128245284426
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "decrease",
+            "latestShares": 4827969.0,
+            "previousShares": 5090085.0,
+            "shareChange": -262116.0,
+            "shareChangePct": -5.149540724761964
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 934262.0,
+            "previousShares": 768929.0,
+            "shareChange": 165333.0,
+            "shareChangePct": 21.501725126767234
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 4358377.0,
+            "previousShares": 3981124.0,
+            "shareChange": 377253.0,
+            "shareChangePct": 9.476042444294626
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 28,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 8
+        }
+      }
+    },
+    {
+      "symbol": "COST",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 7,
+        "increases": 5,
+        "decreases": 2,
+        "unchanged": 0,
+        "anomaliesExcluded": 0,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 18384951.0,
+            "previousShares": 18152232.0,
+            "shareChange": 232719.0,
+            "shareChangePct": 1.2820406878889605
+          },
+          {
+            "manager": "JPMorgan Chase",
+            "direction": "increase",
+            "latestShares": 4224191.0,
+            "previousShares": 0.0,
+            "shareChange": 4224191.0,
+            "shareChangePct": null
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 3615434.0,
+            "previousShares": 3470309.0,
+            "shareChange": 145125.0,
+            "shareChangePct": 4.181904262703984
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 10220437.0,
+            "previousShares": 9898711.0,
+            "shareChange": 321726.0,
+            "shareChangePct": 3.25018075585801
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "decrease",
+            "latestShares": 7249774.0,
+            "previousShares": 7515031.0,
+            "shareChange": -265257.0,
+            "shareChangePct": -3.529686038553933
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 1201516.0,
+            "previousShares": 935971.0,
+            "shareChange": 265545.0,
+            "shareChangePct": 28.371071325927833
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "decrease",
+            "latestShares": 3106870.0,
+            "previousShares": 3113374.0,
+            "shareChange": -6504.0,
+            "shareChangePct": -0.20890519417198192
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "WMT",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 8,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 4,
+        "decreases": 2,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 188036646.0,
+            "previousShares": 185928865.0,
+            "shareChange": 2107781.0,
+            "shareChangePct": 1.1336491512493232
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 44494505.0,
+            "previousShares": 42211382.0,
+            "shareChange": 2283123.0,
+            "shareChangePct": 5.408785241857279
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 88318921.0,
+            "previousShares": 85906471.0,
+            "shareChange": 2412450.0,
+            "shareChangePct": 2.808228497711191
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "decrease",
+            "latestShares": 65823155.0,
+            "previousShares": 65844247.0,
+            "shareChange": -21092.0,
+            "shareChangePct": -0.032033170642835354
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 11931613.0,
+            "previousShares": 9350979.0,
+            "shareChange": 2580634.0,
+            "shareChangePct": 27.597474018495816
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "decrease",
+            "latestShares": 29004162.0,
+            "previousShares": 29392450.0,
+            "shareChange": -388288.0,
+            "shareChangePct": -1.3210467313885028
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 28,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 8
+        }
+      }
+    },
+    {
+      "symbol": "CRM",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 2,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 2,
+        "decreases": 4,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "decrease",
+            "latestShares": 44869478.0,
+            "previousShares": 48953388.0,
+            "shareChange": -4083910.0,
+            "shareChangePct": -8.342446083609168
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "decrease",
+            "latestShares": 7835083.0,
+            "previousShares": 9160125.0,
+            "shareChange": -1325042.0,
+            "shareChangePct": -14.465326619451154
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "decrease",
+            "latestShares": 23311316.0,
+            "previousShares": 31675603.0,
+            "shareChange": -8364287.0,
+            "shareChangePct": -26.4060860972402
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 12218090.0,
+            "previousShares": 11724790.0,
+            "shareChange": 493300.0,
+            "shareChangePct": 4.207324822022398
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 4808001.0,
+            "previousShares": 3245817.0,
+            "shareChange": 1562184.0,
+            "shareChangePct": 48.12914591303207
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "decrease",
+            "latestShares": 3112264.0,
+            "previousShares": 4335772.0,
+            "shareChange": -1223508.0,
+            "shareChangePct": -28.218919260514618
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 22,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 2
+        }
+      }
+    },
+    {
+      "symbol": "PLTR",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 6,
+        "decreases": 0,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 104490468.0,
+            "previousShares": 101626594.0,
+            "shareChange": 2863874.0,
+            "shareChangePct": 2.8180359955780867
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 29194848.0,
+            "previousShares": 19352152.0,
+            "shareChange": 9842696.0,
+            "shareChangePct": 50.860989516824795
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 34021287.0,
+            "previousShares": 32202689.0,
+            "shareChange": 1818598.0,
+            "shareChangePct": 5.647348269580841
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 19020265.0,
+            "previousShares": 18839779.0,
+            "shareChange": 180486.0,
+            "shareChangePct": 0.9580048683161304
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 8349009.0,
+            "previousShares": 7278547.0,
+            "shareChange": 1070462.0,
+            "shareChangePct": 14.70708370777849
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 5158202.0,
+            "previousShares": 4950132.0,
+            "shareChange": 208070.0,
+            "shareChangePct": 4.203322254840882
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
+        }
+      }
+    },
+    {
+      "symbol": "QCOM",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 6,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 7,
+        "increases": 4,
+        "decreases": 3,
+        "unchanged": 0,
+        "anomaliesExcluded": 0,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 52763263.0,
+            "previousShares": 52091726.0,
+            "shareChange": 671537.0,
+            "shareChangePct": 1.2891433084785864
+          },
+          {
+            "manager": "JPMorgan Chase",
+            "direction": "increase",
+            "latestShares": 8270471.0,
+            "previousShares": 0.0,
+            "shareChange": 8270471.0,
+            "shareChangePct": null
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 14045043.0,
+            "previousShares": 11530730.0,
+            "shareChange": 2514313.0,
+            "shareChangePct": 21.805323687225354
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "decrease",
+            "latestShares": 17100302.0,
+            "previousShares": 19991313.0,
+            "shareChange": -2891011.0,
+            "shareChangePct": -14.46133628141383
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "decrease",
+            "latestShares": 9954402.0,
+            "previousShares": 10480258.0,
+            "shareChange": -525856.0,
+            "shareChangePct": -5.0175863991134575
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "decrease",
+            "latestShares": 5899048.0,
+            "previousShares": 7466708.0,
+            "shareChange": -1567660.0,
+            "shareChangePct": -20.995330204422082
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 3594366.0,
+            "previousShares": 3549940.0,
+            "shareChange": 44426.0,
+            "shareChangePct": 1.2514577711172583
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 26,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 6
+        }
+      }
+    },
+    {
+      "symbol": "INTC",
+      "name": null,
+      "price": null,
+      "change": null,
+      "changePercentage": null,
+      "volume": null,
+      "marketCap": null,
+      "fundamentals": {
+        "revenueGrowth": null,
+        "netIncomeGrowth": null,
+        "epsGrowth": null,
+        "pe": null,
+        "peg": null
+      },
+      "analyst": {
+        "targetConsensus": null,
+        "targetHigh": null,
+        "targetLow": null,
+        "targetMedian": null
+      },
+      "insider": {
+        "score": 10,
+        "max": 20,
+        "buys": 0,
+        "sells": 0,
+        "buyValue": 0,
+        "sellValue": 0,
+        "transactions": [],
+        "source": "SEC EDGAR",
+        "lookbackDays": 90
+      },
+      "institutional": {
+        "score": 10,
+        "max": 10,
+        "status": "ok",
+        "validManagers": 6,
+        "increases": 6,
+        "decreases": 0,
+        "unchanged": 0,
+        "anomaliesExcluded": 1,
+        "managers": [
+          {
+            "manager": "State Street",
+            "direction": "increase",
+            "latestShares": 216849675.0,
+            "previousShares": 214321018.0,
+            "shareChange": 2528657.0,
+            "shareChangePct": 1.1798455529919143
+          },
+          {
+            "manager": "Goldman Sachs",
+            "direction": "increase",
+            "latestShares": 30641624.0,
+            "previousShares": 25817931.0,
+            "shareChange": 4823693.0,
+            "shareChangePct": 18.683499463996554
+          },
+          {
+            "manager": "Morgan Stanley",
+            "direction": "increase",
+            "latestShares": 61516453.0,
+            "previousShares": 53989387.0,
+            "shareChange": 7527066.0,
+            "shareChangePct": 13.941751181579445
+          },
+          {
+            "manager": "Bank of America",
+            "direction": "increase",
+            "latestShares": 31724362.0,
+            "previousShares": 23381848.0,
+            "shareChange": 8342514.0,
+            "shareChangePct": 35.67944672294508
+          },
+          {
+            "manager": "Citigroup",
+            "direction": "increase",
+            "latestShares": 16891250.0,
+            "previousShares": 16529188.0,
+            "shareChange": 362062.0,
+            "shareChangePct": 2.1904403289502183
+          },
+          {
+            "manager": "Wells Fargo",
+            "direction": "increase",
+            "latestShares": 10300423.0,
+            "previousShares": 6288442.0,
+            "shareChange": 4011981.0,
+            "shareChangePct": 63.799284465055095
+          }
+        ],
+        "source": "SEC EDGAR Form 13F-HR"
+      },
+      "radar": {
+        "score": 30,
+        "max": 80,
+        "components": {
+          "analyst": 0,
+          "growth": 0,
+          "valuation": 5,
+          "momentum": 5,
+          "insider": 10,
+          "institutional": 10
         }
       }
     }
