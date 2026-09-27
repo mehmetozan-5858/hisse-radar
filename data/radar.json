@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-27T19:43:25.541074+00:00",
+  "updated_at": "2026-09-27T20:44:54.496988+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "AVGO",
-    "ORCL"
+    "NFLX",
+    "JPM"
   ],
   "quote_status": {
     "fresh": 20,
@@ -12461,17 +12461,17 @@
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
-        "revenueGrowth": null,
-        "netIncomeGrowth": null,
-        "epsGrowth": null,
-        "pe": null,
-        "peg": null
+        "revenueGrowth": 0.15851068919677527,
+        "netIncomeGrowth": 0.26052182421408804,
+        "epsGrowth": 0.2709359605911332,
+        "pe": 22.026315789473685,
+        "peg": 0.6473587933247755
       },
       "analyst": {
-        "targetConsensus": null,
-        "targetHigh": null,
-        "targetLow": null,
-        "targetMedian": null
+        "targetConsensus": 91.56,
+        "targetHigh": 119,
+        "targetLow": 57,
+        "targetMedian": 91
       },
       "insider": {
         "score": 10,
@@ -12569,17 +12569,17 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 29,
+        "score": 60,
         "max": 80,
         "components": {
-          "analyst": 0,
-          "growth": 0,
-          "valuation": 5,
+          "analyst": 13,
+          "growth": 13,
+          "valuation": 10,
           "momentum": 4,
           "insider": 10,
           "institutional": 10
@@ -13605,17 +13605,17 @@
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
-        "revenueGrowth": null,
-        "netIncomeGrowth": null,
-        "epsGrowth": null,
-        "pe": null,
-        "peg": null
+        "revenueGrowth": 0.03307372160612137,
+        "netIncomeGrowth": -0.02433685074652392,
+        "epsGrowth": 0.01515917129863571,
+        "pe": 14.748925193465178,
+        "peg": 0.7722426515506036
       },
       "analyst": {
-        "targetConsensus": null,
-        "targetHigh": null,
-        "targetLow": null,
-        "targetMedian": null
+        "targetConsensus": 373.64,
+        "targetHigh": 420,
+        "targetLow": 305,
+        "targetMedian": 370
       },
       "insider": {
         "score": 10,
@@ -13647,17 +13647,17 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 23,
+        "score": 39,
         "max": 70,
         "components": {
-          "analyst": 0,
-          "growth": 0,
-          "valuation": 5,
+          "analyst": 7,
+          "growth": 4,
+          "valuation": 10,
           "momentum": 8,
           "insider": 10,
           "institutional": null
