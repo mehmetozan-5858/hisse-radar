@@ -182,6 +182,10 @@
     .researchCard strong { color:#eef7ff; }
     .researchCard a { display:inline-block; color:#89c8ff; margin:6px 8px 0 0; font-size:12px; }
     .researchCard button { min-height:40px; padding:8px 12px; border:1px solid #476b8d; border-radius:9px; color:#fff; background:#17324d; }
+    .researchChartExpanded { grid-column:1/-1; }
+    .financialTable { width:100%; border-collapse:collapse; font-size:12px; }
+    .financialTable th,.financialTable td { padding:6px; border-bottom:1px solid #294561; text-align:right; }
+    .financialTable th:first-child,.financialTable td:first-child { text-align:left; }
     .externalChart { margin-top:12px; width:100%; height:470px; }
     @media (max-width:540px) { .researchGrid { grid-template-columns:1fr; } }
     @media (max-width:420px) { .technicalGrid { grid-template-columns:1fr 1fr; } }
@@ -445,6 +449,7 @@
 <script>
 let radarData = null;
 let nicheData = null;
+let secData = null;
 let nicheShown = 30;
 const sourceInfo = {};
 let refreshing = false;
@@ -515,6 +520,23 @@ function researchMetrics(stock){
   return {closes,values,sma20:sma(20),sma50:sma(50),rsi};
 }
 function researchCard(title,body){return `<article class="researchCard"><h3>${title}</h3>${body}</article>`;}
+function secFinancialCard(stock,kind){
+  const item=(kind==="radar"||stock.market==="NASDAQ"||stock.market==="NYSE")
+    ?secData?.stocks?.[String(stock.symbol).toUpperCase()]:null;
+  if(!item) return '<p>SEC dönemli bilanço verisi bu hisse için henüz yayımlanmadı. Mevcut büyüme/F-K alanları doğrulanmış dönem karşılaştırması sayılmaz.</p>';
+  const val=(period,key)=>period?.[key]?.value;
+  const money=n=>typeof n==="number"&&Number.isFinite(n)?`${(n/1e9).toLocaleString("tr-TR",{maximumFractionDigits:2})} mlr USD`:"Veri yok";
+  const now=item.current||{},old=item.previous||{};
+  const rows=[["Hasılat","revenue"],["Net kâr/zarar","netIncome"],["Varlıklar","assets"],["Yükümlülükler","liabilities"],["Özkaynak","equity"]]
+    .map(([title,key])=>`<tr><td>${title}</td><td>${money(val(old,key))}</td><td>${money(val(now,key))}</td></tr>`).join("");
+  const margin=now.revenue?.value&&now.netIncome?.value!=null
+    ?`${(100*now.netIncome.value/now.revenue.value).toLocaleString("tr-TR",{maximumFractionDigits:1})}%`:"Veri yok";
+  const cik=Number(item.cik),source=Number.isInteger(cik)&&cik>0
+    ?`<a href="https://data.sec.gov/api/xbrl/companyfacts/CIK${String(cik).padStart(10,"0")}.json" target="_blank" rel="noopener noreferrer">SEC kaynak verisi ↗</a>`:"";
+  return `<p>SEC 10-K yıllık raporları · ${esc(item.previousFiscalYear)} ve ${esc(item.fiscalYear)} mali yılları · USD. Net kâr marjı: <strong>${margin}</strong>.</p>`+
+    `<table class="financialTable"><thead><tr><th>Kalem</th><th>${esc(item.previousFiscalYear)}</th><th>${esc(item.fiscalYear)}</th></tr></thead><tbody>${rows}</tbody></table>`+
+    `<p>Dönem sonları: ${esc(old.revenue?.end||"yok")} / ${esc(now.revenue?.end||"yok")}; dosyalama: ${esc(now.revenue?.filed||"yok")}. Eksik kalemler tahmin edilmez. Banka/finans şirketlerinde marj ve kalemlerin anlamı farklı olabilir.</p>${source}`;
+}
 function renderResearchHub(){
   const rows=watchUniverse(),select=document.getElementById("researchStock"),old=select.value;
   select.replaceChildren(new Option("Hisse seçin",""),...rows.map(row=>new Option(`${row.stock.symbol} · ${row.stock.market||row.stock.exchange||"Ana radar"}`,row.id)));
@@ -539,7 +561,7 @@ function renderResearchHub(){
   box.innerHTML=
     researchCard("📊 Prime araştırma özeti",`<p><strong>${esc(stock.symbol)}</strong> · ${esc(stock.name||"")} · ${esc(quality.label)}</p><p>Son günlük kapanış: <strong>${esc(m.closes.at(-1)?.[0]||"yok")}</strong> · Kaynak: ${source}. Canlı kotasyon değildir.</p>`)+
     researchCard("📐 İndikatör gözlemleri",`<p>20G ortalama: <strong>${fmt(m.sma20)}</strong> · 50G: <strong>${fmt(m.sma50)}</strong></p><p>RSI(14): <strong>${rsiText}</strong></p><p>${esc(trend)}. Yalnızca günlük kapanışlardan hesaplandı; al/sat kararı değildir.</p>`)+
-    researchCard("🧾 Temel analiz",`<p>Gelir büyümesi: <strong>${growth(f.revenueGrowth)}</strong> · Net kâr büyümesi: <strong>${growth(f.netIncomeGrowth)}</strong></p><p>F/K: <strong>${fmt(f.pe)}</strong> · PEG: <strong>${fmt(f.peg)}</strong></p><p>${kind==="radar"?"Kaynak raporda dönem ve karşılaştırmalı bilanço satırları bulunmuyor; farklı dönemleri eşdeğer saymayın.":"Bu hissede doğrulanmış temel veri yok."}</p>${filingLink}`)+
+    researchCard("🧾 Temel analiz",`${secFinancialCard(stock,kind)}<p>Eski radar alanları, kaynak dönemi doğrulanmadığı için ayrı tutulur: gelir büyümesi ${growth(f.revenueGrowth)}, net kâr büyümesi ${growth(f.netIncomeGrowth)}, F/K ${fmt(f.pe)}, PEG ${fmt(f.peg)}.</p>${filingLink}`)+
     researchCard("📈 Grafik ve formasyon",`<p>Radar grafiğinde ${m.values.length} günlük kapanış noktası var. Mum formasyonları için açık, yüksek, düşük ve kapanış serisi gerekir; burada otomatik formasyon sonucu üretilmiyor.</p>${chartSymbol?'<button type="button" id="researchAdvanced">TradingView gelişmiş grafik yükle</button><div id="researchChart" class="externalChart" hidden></div>':'<p>Borsa eşleşmesi doğrulanmadı. Gelişmiş grafik için sembolü sağlayıcıda seçin.</p><a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener noreferrer">TradingView grafik ↗</a>'}<p>Gömülü grafiğin veri kaynağı ve gecikmesi TradingView tarafından gösterilir; Radar fiyatıyla eşit olduğu varsayılmaz.</p>`)+
     researchCard("🏛️ Yabancı takas ve kurum akışı",`<p>Yabancı takas, aracı kurum bazlı alış/satış net hacmi ve saatlik para giriş çıkışı için doğrulanmış lisanslı veri bağlı değil. Bu alanlar hesaplanmış gibi gösterilmez.</p>`)+
     researchCard("🧭 Kurum önerileri ve dedektör",`<p>Aracı kurum raporu ve öneri tarihi için doğrulanmış akış yok. Mevcut radar puanı bir kurum önerisi değildir. Veri engellerini Global Niş kartlarında inceleyin.</p>`)+
@@ -548,6 +570,7 @@ function renderResearchHub(){
   document.getElementById("researchAdvanced")?.addEventListener("click",event=>{
     event.currentTarget.disabled=true;
     const container=document.getElementById("researchChart");container.hidden=false;
+    container.closest(".researchCard").classList.add("researchChartExpanded");
     const widget=document.createElement("div");widget.className="tradingview-widget-container";
     widget.style.cssText="height:100%;width:100%";
     const target=document.createElement("div");target.className="tradingview-widget-container__widget";
@@ -670,7 +693,7 @@ function sourceAge(value, maxHours){
 }
 function showSources(){
   document.getElementById("sourceStatus").textContent=
-    ["Ana radar","Global Niş","Ajan raporu","İşlem hazırlığı","13F bildirimi"]
+    ["Ana radar","Global Niş","SEC finansallar","Ajan raporu","İşlem hazırlığı","13F bildirimi"]
       .map(name=>`${name}: ${sourceInfo[name] || "kontrol ediliyor"}`).join(" | ")+
     ` | Son kontrol: ${new Date().toLocaleTimeString("tr-TR")}. Sayfa açılışı yeni borsa taraması başlatmaz.`;
 }
@@ -1342,6 +1365,19 @@ async function loadRadar(){
   }
 }
 
+async function loadSecFinancials(){
+  try{
+    secData=await latestJson("data/sec-financials.json");
+    const count=Object.keys(secData.stocks||{}).length;
+    if(secData.updatedAt) setSource("SEC finansallar",secData.updatedAt,48,`${count} şirket · yıllık 10-K`);
+    else {sourceInfo["SEC finansallar"]="henüz kurulmadı";showSources();}
+    renderResearchHub();
+  }catch(error){
+    console.error(error);
+    sourceError("SEC finansallar");
+  }
+}
+
 async function loadNiche(){
   try{
     nicheData=await latestJson("data/global-niche.json");
@@ -1375,6 +1411,7 @@ async function refreshPublished(){
   await Promise.allSettled([
     loadRadar(),
     loadNiche(),
+    loadSecFinancials(),
     loadAgentReports(),
     loadExecutionReadiness(),
     load13fStatus()

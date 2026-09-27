@@ -64,6 +64,27 @@ TradingView'in resmî, atıflı gelişmiş grafik widget'ı yüklenir. Widget ü
 taraf veri kaynağıdır; Radar'ın günlük fiyat geçmişine veya işlem motoruna
 bağlanmaz. Eşleşmesi bilinmeyen hisselerde sembol tahmin edilmez.
 
+### SEC yıllık temel veri
+
+`sec_financials.py` ana radardaki ABD sembollerini SEC'in resmî ticker/CIK
+dizinine eşleyip `companyfacts` kaynağından iki karşılaştırılabilir 10-K mali
+yılını seçer. Hasılat, net kâr/zarar, varlık, yükümlülük ve özkaynak için USD
+kalemleri, dönemin sonu, dosyalama tarihi ve kullanılan XBRL etiketi
+`data/sec-financials.json` içinde ayrı tutulur. Eksik yıllar veya kalemler
+uydurulmaz. Farklı muhasebe etiketleri, özel mali yıllar, finans şirketleri ve
+yeniden düzenlenen raporlar elle kaynak kontrolü gerektirebilir. Fiyatla
+birleştirilmiş değerleme çarpanı bu akıştan hesaplanmaz.
+
+`SEC Annual Fundamentals` işi hafta içi bir kez ve elle çalıştırılabilir.
+SEC'in [geliştirici yönergesine](https://www.sec.gov/about/webmaster-frequently-asked-questions)
+uygun, ulaşılabilir bir e-posta içeren tanıtıcıyı GitHub Actions
+`SEC_USER_AGENT` **repository secret** olarak tanımlayın; örnek biçim
+`HisseRadar Ad Soyad ad@alanadi.com`. E-posta kod veya herkese açık veri
+dosyasına yazılmaz. Secret yoksa iş eski dosyaya dokunmadan çıkar ve ekranda
+"henüz kurulmadı" görünür. SEC tarayıcıdan doğrudan erişime CORS desteği
+vermediği için kaynak GitHub Actions üzerinde alınır. Önce
+`python -m unittest -v test_sec_financials` ile mali yıl seçimi sınanabilir.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
