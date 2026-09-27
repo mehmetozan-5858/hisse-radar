@@ -448,12 +448,19 @@ jobs:
                   gate_reasons.append("Son fiyat kaydında hacim yok")
               if metrics.get("volumeRatio") is None:
                   gate_reasons.append("Hacim geçmişi doğrulanamıyor")
+              if not (data.get("quoteUrl") if fresh else previous.get("quoteUrl")):
+                  gate_reasons.append("Fiyat kaynağı doğrulanamıyor")
               try:
                   traded_time = datetime.fromisoformat(last_traded_at)
+                  bar_time = datetime.fromisoformat(last_bar_at)
+                  if traded_time.tzinfo is None or bar_time.tzinfo is None:
+                      raise ValueError("timezone missing")
+                  if bar_time != traded_time:
+                      gate_reasons.append("Fiyat barı ile son hacimli işlem farklı günlerde")
                   if traded_time > datetime.now(timezone.utc) + timedelta(hours=1) or datetime.now(timezone.utc) - traded_time > timedelta(days=5):
                       gate_reasons.append("Son işlem kaydı eski veya gelecekte")
               except (TypeError, ValueError):
-                  gate_reasons.append("Son işlem tarihi doğrulanamıyor")
+                  gate_reasons.append("Fiyat barı veya son işlem tarihi doğrulanamıyor")
 
               research_eligible = not gate_reasons
               score = technical_score if research_eligible else None
