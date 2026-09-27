@@ -314,6 +314,11 @@
       <div class="loadingBox">Global Niche verileri yükleniyor...</div>
     </div>
     <div class="detail" id="nicheDetail"></div>
+    <div class="panelTitle">
+      <h2>🧭 Ajan araştırma masası</h2>
+      <p>Veri nöbetçisi adayları ayırır. AI notları yalnızca elle çalıştırılan araştırma sonrası görünür. İşlem kararı sende.</p>
+    </div>
+    <div id="agentReports" class="grid"><div class="loadingBox">Ajan raporu yükleniyor...</div></div>
   </div>
 
   <div class="footer">
@@ -327,6 +332,40 @@
 <script>
 let radarData = null;
 let nicheData = null;
+
+async function loadAgentReports(){
+  const container=document.getElementById("agentReports");
+  try{
+    const response=await fetch("data/agent-radar.json?ts="+Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("No report");
+    const report=await response.json();
+    container.replaceChildren();
+    const summary=document.createElement("div");
+    summary.className="loadingBox";
+    summary.textContent=`${report.mode === "AI research" ? "AI araştırması" : "Veri kontrolü; AI henüz çalıştırılmadı"} · Kaynak verisi: ${report.sourceGeneratedAt || "tarih yok"} · Emir yetkisi: yalnızca kullanıcı`;
+    container.appendChild(summary);
+    for(const item of report.candidates || []){
+      const card=document.createElement("div");
+      card.className="card";
+      const title=document.createElement("div");
+      title.className="symbol";
+      title.textContent=`${item.symbol || "?"} · ${item.decision === "blocked" ? "VERİ ENGELİ" : "ARAŞTIRMA"}`;
+      card.appendChild(title);
+      const flags=document.createElement("div");
+      flags.className="small";
+      flags.textContent=(item.flags || []).join(" · ");
+      card.appendChild(flags);
+      for(const [role,note] of Object.entries(item.agents || {})){
+        const line=document.createElement("p");
+        line.textContent=`${role}: ${note}`;
+        card.appendChild(line);
+      }
+      container.appendChild(card);
+    }
+  }catch(error){
+    container.textContent="Ajan raporu henüz oluşturulmadı.";
+  }
+}
 
 const money = value => {
   if (value == null) return "-";
@@ -737,7 +776,8 @@ async function loadNiche(){
 async function startApp(){
   await Promise.all([
     loadRadar(),
-    loadNiche()
+    loadNiche(),
+    loadAgentReports()
   ]);
 }
 
