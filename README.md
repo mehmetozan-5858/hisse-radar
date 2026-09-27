@@ -17,10 +17,15 @@ Canlı fiyat, finansallar, analist verileri, SEC insider/13F ve Kongre bildiriml
 
 ## Ajan araştırma masası
 
-`agent_radar.py` önce `data/global-niche.json` verisini kontrol eder. Sıfır hacim,
-geçersiz fiyat veya eksik hacim geçmişi olan adayları engeller. Fiyatın son
-işlem zamanı kaynakta bulunmadığından hiçbir aday işlem için hazır sayılmaz.
-Temel finansal verinin eksikliği her adayda ayrıca işaretlenir.
+Global Niche veri üretimi fiyatın çekildiği zamanı (`fetchedAt`) gerçek son fiyat
+ve işlem kayıtlarından (`lastBarAt`, `lastTradedAt`) ayırır; kaynak adresini ve
+borsa saat dilimini saklar. Yeni fiyat yanıtı, geçerli fiyat, hacim geçmişi ve
+son beş gün içinde pozitif hacimli işlem kaydı olmayan adaylar ana sıralamada
+puan almaz, **VERİ ENGELİ** olarak gösterilir. Uzun piyasa tatillerinde bu
+sınır araştırma adaylarını geçici olarak engelleyebilir.
+
+`agent_radar.py` aynı veri kapısını bağımsız kontrol eder. Temel finansal
+verinin eksikliği her adayda ayrıca işaretlenir.
 
 GitHub Actions içindeki **Human Command Agent Radar** yalnızca elle başlatılır.
 `OPENAI_API_KEY` repository secret olarak tanımlıysa en fazla üç uygun adayın
