@@ -175,6 +175,15 @@
     .watchHead { color:#90a6ba; font-weight:700; }
     .workActions button:focus-visible, .watchRow button:focus-visible { outline:3px solid #70b7ff; }
     .technicalGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    .researchGrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .researchCard { padding:13px; border:1px solid #294561; border-radius:12px; background:#112238; min-width:0; }
+    .researchCard h3 { margin:0 0 8px; font-size:15px; }
+    .researchCard p { margin:5px 0; color:#b2c1d1; font-size:12px; line-height:1.5; }
+    .researchCard strong { color:#eef7ff; }
+    .researchCard a { display:inline-block; color:#89c8ff; margin:6px 8px 0 0; font-size:12px; }
+    .researchCard button { min-height:40px; padding:8px 12px; border:1px solid #476b8d; border-radius:9px; color:#fff; background:#17324d; }
+    .externalChart { margin-top:12px; width:100%; height:470px; }
+    @media (max-width:540px) { .researchGrid { grid-template-columns:1fr; } }
     @media (max-width:420px) { .technicalGrid { grid-template-columns:1fr 1fr; } }
 
     .bigScore {
@@ -351,6 +360,13 @@
     <button type="button" id="watchMore" class="close" hidden>Daha fazla göster</button>
   </section>
 
+  <section class="workspace" aria-labelledby="researchTitle">
+    <h2 id="researchTitle">🔎 Araştırma merkezi</h2>
+    <p>Seçilen hissenin günlük verisini ve mevcut temel alanlarını birlikte incele. Aşağıdaki gözlemler emir sinyali değildir; kaynak ve veri eksikleri her bölümde görünür.</p>
+    <div class="workControls"><label>Hisse seç<select id="researchStock"><option value="">Veriler yükleniyor...</option></select></label></div>
+    <div id="researchContent" class="researchGrid" aria-live="polite"></div>
+  </section>
+
   <div class="panel active" id="radarPanel">
     <div class="panelTitle">
       <h2>Hisse Radar</h2>
@@ -481,6 +497,68 @@ function renderDataHealth(){
     `Veri kapsamı: ${rows.length} yayımlanmış kayıt, ${current} güncel rapor ve yakın tarihli kapanış. `+
     `Küresel dizin ${directory} sembol; son taramada ${attempted} seçildi. `+
     `“Yeni fiyat yanıtı” günlük kapanışın bugün oluştuğu anlamına gelmez. Sayfayı yenilemek borsa taramasını başlatmaz.`;
+}
+function researchMetrics(stock){
+  const closes=(Array.isArray(stock.dailyCloses)?stock.dailyCloses:[])
+    .filter(row=>Array.isArray(row)&&/^\d{4}-\d{2}-\d{2}$/.test(row[0])&&Number.isFinite(Number(row[1]))&&Number(row[1])>0)
+    .sort((a,b)=>a[0].localeCompare(b[0]));
+  const values=closes.map(row=>Number(row[1]));
+  const sma=n=>values.length>=n?values.slice(-n).reduce((sum,n)=>sum+n,0)/n:null;
+  let rsi=null;
+  if(values.length>=15){
+    let up=0,down=0;
+    for(let i=values.length-14;i<values.length;i++){
+      const change=values[i]-values[i-1];up+=Math.max(change,0);down+=Math.max(-change,0);
+    }
+    rsi=down===0?(up===0?50:100):100-100/(1+up/down);
+  }
+  return {closes,values,sma20:sma(20),sma50:sma(50),rsi};
+}
+function researchCard(title,body){return `<article class="researchCard"><h3>${title}</h3>${body}</article>`;}
+function renderResearchHub(){
+  const rows=watchUniverse(),select=document.getElementById("researchStock"),old=select.value;
+  select.replaceChildren(new Option("Hisse seçin",""),...rows.map(row=>new Option(`${row.stock.symbol} · ${row.stock.market||row.stock.exchange||"Ana radar"}`,row.id)));
+  select.value=rows.some(row=>row.id===old)?old:"";
+  const target=rows.find(row=>row.id===select.value),box=document.getElementById("researchContent");
+  if(!target){box.innerHTML=researchCard("Veri durumu","<p>Bir hisse seçerek teknik ve temel görünümü açın.</p>");return;}
+  const {stock,kind}=target,quality=dataQuality(target),m=researchMetrics(stock);
+  const fmt=n=>Number.isFinite(Number(n))&&n!=null?Number(n).toLocaleString("tr-TR",{maximumFractionDigits:2}):"Veri yok";
+  const growth=n=>Number.isFinite(Number(n))&&n!=null?`${(Number(n)*100).toFixed(1)}%`:"Veri yok";
+  const f=stock.fundamentals||{};
+  const filingLink=stock.market==="BIST"||String(stock.symbol||"").endsWith(".IS")
+    ?'<a href="https://kap.org.tr/tr/kalem-karsilastirma" target="_blank" rel="noopener noreferrer">KAP bilanço karşılaştırma ↗</a>'
+    :stock.market==="NASDAQ"||stock.market==="NYSE"||stock.country==="USA"
+      ?'<a href="https://www.sec.gov/search-filings" target="_blank" rel="noopener noreferrer">SEC şirket raporları ↗</a>'
+      :'<p>Bu piyasa için resmî finansal rapor bağlantısı henüz eşleşmedi.</p>';
+  const last=m.values.at(-1),above20=m.sma20!=null&&last>m.sma20;
+  const trend=m.sma20!=null&&m.sma50!=null?`${above20?"Kapanış 20G üstünde":"Kapanış 20G altında"}; 20G, 50G ${m.sma20>m.sma50?"üstünde":"altında"}`:"Yeterli kapanış geçmişi yok";
+  const rsiText=m.rsi==null?"Veri yok":`${m.rsi.toFixed(1)} (${m.rsi>=70?"yüksek bölge":m.rsi<=30?"düşük bölge":"orta bölge"})`;
+  const source=esc(stock.quoteSource||"Kaynak belirtilmedi");
+  const exchange=stock.market==="NASDAQ"||stock.market==="NYSE"?stock.market:null;
+  const chartSymbol=exchange&&/^[A-Z0-9.]{1,8}$/.test(stock.symbol||"")?`${exchange}:${stock.symbol}`:null;
+  box.innerHTML=
+    researchCard("📊 Prime araştırma özeti",`<p><strong>${esc(stock.symbol)}</strong> · ${esc(stock.name||"")} · ${esc(quality.label)}</p><p>Son günlük kapanış: <strong>${esc(m.closes.at(-1)?.[0]||"yok")}</strong> · Kaynak: ${source}. Canlı kotasyon değildir.</p>`)+
+    researchCard("📐 İndikatör gözlemleri",`<p>20G ortalama: <strong>${fmt(m.sma20)}</strong> · 50G: <strong>${fmt(m.sma50)}</strong></p><p>RSI(14): <strong>${rsiText}</strong></p><p>${esc(trend)}. Yalnızca günlük kapanışlardan hesaplandı; al/sat kararı değildir.</p>`)+
+    researchCard("🧾 Temel analiz",`<p>Gelir büyümesi: <strong>${growth(f.revenueGrowth)}</strong> · Net kâr büyümesi: <strong>${growth(f.netIncomeGrowth)}</strong></p><p>F/K: <strong>${fmt(f.pe)}</strong> · PEG: <strong>${fmt(f.peg)}</strong></p><p>${kind==="radar"?"Kaynak raporda dönem ve karşılaştırmalı bilanço satırları bulunmuyor; farklı dönemleri eşdeğer saymayın.":"Bu hissede doğrulanmış temel veri yok."}</p>${filingLink}`)+
+    researchCard("📈 Grafik ve formasyon",`<p>Radar grafiğinde ${m.values.length} günlük kapanış noktası var. Mum formasyonları için açık, yüksek, düşük ve kapanış serisi gerekir; burada otomatik formasyon sonucu üretilmiyor.</p>${chartSymbol?'<button type="button" id="researchAdvanced">TradingView gelişmiş grafik yükle</button><div id="researchChart" class="externalChart" hidden></div>':'<p>Borsa eşleşmesi doğrulanmadı. Gelişmiş grafik için sembolü sağlayıcıda seçin.</p><a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener noreferrer">TradingView grafik ↗</a>'}<p>Gömülü grafiğin veri kaynağı ve gecikmesi TradingView tarafından gösterilir; Radar fiyatıyla eşit olduğu varsayılmaz.</p>`)+
+    researchCard("🏛️ Yabancı takas ve kurum akışı",`<p>Yabancı takas, aracı kurum bazlı alış/satış net hacmi ve saatlik para giriş çıkışı için doğrulanmış lisanslı veri bağlı değil. Bu alanlar hesaplanmış gibi gösterilmez.</p>`)+
+    researchCard("🧭 Kurum önerileri ve dedektör",`<p>Aracı kurum raporu ve öneri tarihi için doğrulanmış akış yok. Mevcut radar puanı bir kurum önerisi değildir. Veri engellerini Global Niş kartlarında inceleyin.</p>`)+
+    researchCard("🗓️ Halka arz, haber ve fonlar",`<p>Resmî açıklamaları ve fon verisini kaynağında açın. Yeni halka arzlar için arka planda telefon bildirimi henüz yok.</p><a href="https://kap.org.tr/tr" target="_blank" rel="noopener noreferrer">KAP bildirimleri ↗</a><a href="https://spk.gov.tr/spk-bultenleri" target="_blank" rel="noopener noreferrer">SPK bültenleri ↗</a><a href="https://www.tefas.gov.tr/" target="_blank" rel="noopener noreferrer">TEFAS fonları ↗</a>`)+
+    researchCard("🛒 Emir ve portföy",`<p>Hızlı al/sat veya çoklu aracı kurum emir bağlantısı aktif değil. İşlem yapılacaksa IBKR uygulamasında sözleşme, fiyat ve ücretleri doğrulayın; Radar emir göndermez.</p>`);
+  document.getElementById("researchAdvanced")?.addEventListener("click",event=>{
+    event.currentTarget.disabled=true;
+    const container=document.getElementById("researchChart");container.hidden=false;
+    const widget=document.createElement("div");widget.className="tradingview-widget-container";
+    widget.style.cssText="height:100%;width:100%";
+    const target=document.createElement("div");target.className="tradingview-widget-container__widget";
+    target.style.cssText="height:calc(100% - 32px);width:100%";
+    const credit=document.createElement("div");credit.className="tradingview-widget-copyright";
+    const link=document.createElement("a");link.href="https://www.tradingview.com/";link.target="_blank";link.rel="noopener noreferrer";link.textContent="Grafik TradingView tarafından sağlanır";
+    credit.appendChild(link);widget.append(target,credit);container.appendChild(widget);
+    const script=document.createElement("script");script.src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+    script.async=true;script.textContent=JSON.stringify({symbol:chartSymbol,interval:"D",theme:"dark",locale:"tr",autosize:true,allow_symbol_change:true,withdateranges:true,hide_side_toolbar:false});
+    widget.appendChild(script);
+  });
 }
 function renderWatchlist(){
   const state=watchState(), selector=document.getElementById("watchList");
@@ -1238,6 +1316,7 @@ async function loadRadar(){
     radarData=await latestJson("data/radar.json");
     renderCards();
     renderWatchlist();
+    renderResearchHub();
     setSource("Ana radar",radarData.updated_at,2,
       `yeni fiyat ${radarData.quote_status?.fresh ?? "?"}/${radarData.stocks?.length ?? "?"}`);
 
@@ -1271,6 +1350,7 @@ async function loadNiche(){
     updateDiscoveryStatus();
     renderNicheCards();
     renderWatchlist();
+    renderResearchHub();
 
   }catch(error){
     console.error(error);
@@ -1283,6 +1363,7 @@ async function loadNiche(){
 async function startApp(){
   initPilot();
   initWatchlist();
+  renderResearchHub();
   await refreshPublished();
 }
 async function refreshPublished(){
@@ -1304,6 +1385,7 @@ async function refreshPublished(){
 }
 
 startApp();
+document.getElementById("researchStock").addEventListener("change",renderResearchHub);
 document.getElementById("radarFavorites").addEventListener("change",renderCards);
 for(const id of ["nicheMarket","nicheView","nicheSearch"]){
   document.getElementById(id).addEventListener(id==="nicheSearch"?"input":"change",()=>{nicheShown=30;renderNicheCards();});
