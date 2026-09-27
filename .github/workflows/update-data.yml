@@ -108,7 +108,7 @@ jobs:
               url = (
                   "https://query1.finance.yahoo.com/v8/finance/chart/"
                   + quote(symbol)
-                  + "?interval=1d&range=5d"
+                  + "?interval=1d&range=1y"
               )
 
               try:
@@ -134,6 +134,8 @@ jobs:
 
                   closes = quote_data.get("close", [])
                   volumes = quote_data.get("volume", [])
+                  highs = quote_data.get("high", [])
+                  lows = quote_data.get("low", [])
 
                   valid = []
 
@@ -176,6 +178,14 @@ jobs:
                           if change_pct is not None
                           else None,
                       "volume": volume,
+                      "dailyCloses": [
+                          [datetime.fromtimestamp(timestamps[i], timezone.utc).strftime("%Y-%m-%d"), round(value, 4)]
+                          for i, value in valid[-252:]
+                          if i < len(timestamps) and isinstance(timestamps[i], (int, float))
+                      ],
+                      "dayLow": round(float(lows[last_i]), 4) if last_i < len(lows) and lows[last_i] is not None else None,
+                      "dayHigh": round(float(highs[last_i]), 4) if last_i < len(highs) and highs[last_i] is not None else None,
+                      "lastBarAt": datetime.fromtimestamp(timestamps[last_i], timezone.utc).isoformat() if last_i < len(timestamps) and isinstance(timestamps[last_i], (int, float)) else None,
                       "marketCap": market_cap,
                       "currency": meta.get("currency"),
                       "exchangeName": meta.get("exchangeName"),
@@ -633,6 +643,10 @@ jobs:
                       "changePercentage":
                           previous_stock.get("changePercentage"),
                       "volume": previous_stock.get("volume"),
+                      "dailyCloses": previous_stock.get("dailyCloses", []),
+                      "dayLow": previous_stock.get("dayLow"),
+                      "dayHigh": previous_stock.get("dayHigh"),
+                      "lastBarAt": previous_stock.get("lastBarAt"),
                       "marketCap": previous_stock.get("marketCap"),
                       "source": "cache"
                   }
@@ -970,6 +984,10 @@ jobs:
                   "changePercentage":
                       q.get("changePercentage"),
                   "volume": q.get("volume"),
+                  "dailyCloses": q.get("dailyCloses", []),
+                  "dayLow": q.get("dayLow"),
+                  "dayHigh": q.get("dayHigh"),
+                  "lastBarAt": q.get("lastBarAt"),
                   "marketCap":
                       q.get("marketCap")
                       or previous_stock.get("marketCap"),
