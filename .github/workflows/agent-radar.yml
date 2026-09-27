@@ -28,6 +28,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: gpt-5-mini
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
         run: python agent_radar.py
       - name: Save research report
         run: |
