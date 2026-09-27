@@ -156,6 +156,23 @@
     .chartMeta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
     .detailStats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:14px 0; }
     .detailStats .stat { min-width:0; }
+    .workspace { margin:16px 0 20px; padding:16px; border:1px solid #294561; border-radius:18px; background:#0d1b2a; }
+    .workspace h2 { margin:0 0 5px; font-size:19px; }
+    .workspace p { color:#9daec2; font-size:12px; line-height:1.5; margin:0 0 12px; }
+    .workControls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+    .workControls label { color:#9daec2; font-size:12px; }
+    .workControls input, .workControls select { width:100%; min-height:42px; margin-top:5px; padding:9px; border:1px solid #365675; border-radius:9px; background:#0a1625; color:#fff; }
+    .workActions { display:flex; gap:8px; flex-wrap:wrap; margin:10px 0; }
+    .workActions button, .watchRow button { min-height:40px; border:1px solid #476b8d; border-radius:9px; padding:8px 11px; color:#fff; background:#17324d; cursor:pointer; }
+    .watchTable { overflow-x:auto; }
+    .watchRow { display:grid; grid-template-columns:minmax(100px,1.4fr) minmax(85px,1fr) minmax(65px,.8fr) minmax(65px,.8fr) 48px; align-items:center; gap:7px; min-width:480px; padding:8px 0; border-bottom:1px solid #253a50; font-size:12px; }
+    .watchRow strong { font-size:14px; }
+    .watchRow small { display:block; color:#93a6bb; margin-top:3px; }
+    .watchRow button { padding:4px; font-size:20px; color:#ffd45b; }
+    .watchHead { color:#90a6ba; font-weight:700; }
+    .workActions button:focus-visible, .watchRow button:focus-visible { outline:3px solid #70b7ff; }
+    .technicalGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }
+    @media (max-width:420px) { .technicalGrid { grid-template-columns:1fr 1fr; } }
 
     .bigScore {
       font-size: 31px;
@@ -314,6 +331,21 @@
     </button>
   </div>
 
+  <section class="workspace" aria-labelledby="workspaceTitle">
+    <h2 id="workspaceTitle">📋 İzleme masası</h2>
+    <p>Kendi listelerini oluştur, yayımlanan hisseleri ara ve karşılaştır. Seçimler yalnızca bu cihazda saklanır. Fiyatlar anlık kotasyon değil, son yayımlanan günlük veridir.</p>
+    <div class="workControls">
+      <label>İzleme listesi<select id="watchList"></select></label>
+      <label>Görünüm<select id="watchView"><option value="mine">Listemdekiler</option><option value="all">Tüm yayımlananlar</option></select></label>
+      <label>Sembol / şirket ara<input type="search" id="watchSearch" placeholder="Örn. AAPL, IONQ"></label>
+      <label>Sırala<select id="watchSort"><option value="score">Araştırma puanı</option><option value="change">Günlük değişim</option><option value="volume">Hacim</option><option value="symbol">Sembol</option></select></label>
+    </div>
+    <div class="workActions"><button type="button" id="watchCreate">Yeni liste oluştur</button><button type="button" id="watchDelete">Seçili listeyi sil</button></div>
+    <div id="watchSummary" class="small" role="status"></div>
+    <div class="watchTable" id="watchRows"></div>
+    <button type="button" id="watchMore" class="close" hidden>Daha fazla göster</button>
+  </section>
+
   <div class="panel active" id="radarPanel">
     <div class="panelTitle">
       <h2>Hisse Radar</h2>
@@ -398,6 +430,98 @@ let refreshing = false;
 let lastRefresh = 0;
 const nicheSeenKey = "hisse-radar-niche-seen-v1";
 const favoritesKey = "hisse-radar-favorites-v1";
+const watchKey="hisse-radar-watchlists-v1";
+let watchShown=40;
+function watchState(){
+  try {
+    const state=JSON.parse(localStorage.getItem(watchKey)||"null");
+    if(state && Array.isArray(state.lists) && state.lists.length){
+      const lists=state.lists.filter(x=>x && typeof x.name==="string" && Array.isArray(x.ids)).slice(0,12);
+      if(lists.length) return {selected:Math.max(0,Math.min(Number(state.selected)||0,lists.length-1)),lists};
+    }
+  } catch {}
+  return {selected:0,lists:[{name:"Listem",ids:[]}]};
+}
+function saveWatch(state){ try {localStorage.setItem(watchKey,JSON.stringify(state)); return true;}catch{return false;} }
+function watchUniverse(){
+  const rows=[]; const seen=new Set();
+  for(const [kind,items] of [["radar",radarData?.stocks],["niche",nicheData?.candidates]]){
+    for(const [index,stock] of (items||[]).entries()){
+      const id=favoriteId(stock);
+      if(seen.has(id)) continue;
+      seen.add(id); rows.push({kind,index,stock,id});
+    }
+  }
+  return rows;
+}
+function renderWatchlist(){
+  const state=watchState(), selector=document.getElementById("watchList");
+  selector.replaceChildren();
+  state.lists.forEach((list,index)=>selector.add(new Option(list.name,index)));
+  selector.value=String(state.selected);
+  const selected=new Set(state.lists[state.selected].ids);
+  const search=document.getElementById("watchSearch").value.trim().toLocaleUpperCase("tr-TR");
+  const mine=document.getElementById("watchView").value==="mine";
+  const order=document.getElementById("watchSort").value;
+  const numeric=(row,field)=>{
+    const s=row.stock;
+    const n=field==="score" ? Number(s.radar?.score ?? s.score)/Number(s.radar?.max ?? 100)*100 : Number(s[field]);
+    return (field==="score" ? s.radar?.score ?? s.score : s[field])==null || !Number.isFinite(n) ? -Infinity : n;
+  };
+  const rows=watchUniverse().filter(({stock,id})=>(!mine||selected.has(id))&&(!search||`${stock.symbol||""} ${stock.name||""}`.toLocaleUpperCase("tr-TR").includes(search)));
+  rows.sort((a,b)=>order==="symbol" ? String(a.stock.symbol).localeCompare(String(b.stock.symbol)) : numeric(b,order==="change"?"changePercentage":order)-numeric(a,order==="change"?"changePercentage":order));
+  document.getElementById("watchSummary").textContent=`${state.lists[state.selected].name}: ${selected.size} kayıt · ${rows.length} eşleşme · ${watchUniverse().length} yayımlanan enstrüman`;
+  const table=document.getElementById("watchRows"); table.replaceChildren();
+  const head=document.createElement("div"); head.className="watchRow watchHead";
+  head.innerHTML="<span>Sembol / piyasa</span><span>Son kapanış</span><span>Değişim</span><span>Puan</span><span>Liste</span>";
+  table.appendChild(head);
+  for(const row of rows.slice(0,watchShown)){
+    const {stock,id,kind,index}=row;
+    const line=document.createElement("div"); line.className="watchRow";
+    const title=document.createElement("div");
+    const open=document.createElement("button"); open.type="button"; open.textContent=stock.symbol||"?";
+    open.style.cssText="font-size:14px;color:#c7e5ff;text-align:left;border:0;background:none;padding:0";
+    open.addEventListener("click",()=>{switchTab(kind); kind==="radar"?showDetail(index):showNicheDetail(index);});
+    const market=document.createElement("small"); market.textContent=kind==="radar"?"Ana radar":stock.market||stock.exchange||"Piyasa yok";
+    title.append(open,market);
+    const price=document.createElement("span"); price.textContent=kind==="radar"?money(stock.price):nicheMoney(stock.price,stock.currency);
+    const change=document.createElement("span"); change.textContent=stock.changePercentage==null?"—":`${Number(stock.changePercentage)>0?"+":""}${pct(stock.changePercentage)}`;
+    if(stock.changePercentage!=null) change.className=Number(stock.changePercentage)>=0?"positive":"negative";
+    const score=document.createElement("span"); score.textContent=kind==="radar"?`${stock.radar?.score??"—"}/${stock.radar?.max??"—"}`:`${stock.score??"—"}/100`;
+    const toggle=document.createElement("button"); toggle.type="button"; toggle.textContent=selected.has(id)?"★":"☆";
+    toggle.setAttribute("aria-label",`${stock.symbol} ${selected.has(id)?"listeden çıkar":"listeye ekle"}`);
+    toggle.addEventListener("click",()=>{
+      const fresh=watchState(), ids=new Set(fresh.lists[fresh.selected].ids);
+      ids.has(id)?ids.delete(id):ids.add(id);
+      fresh.lists[fresh.selected].ids=[...ids];
+      if(saveWatch(fresh)) renderWatchlist(); else document.getElementById("watchSummary").textContent="Cihazda liste kaydedilemedi.";
+    });
+    line.append(title,price,change,score,toggle); table.appendChild(line);
+  }
+  if(!rows.length){const empty=document.createElement("div");empty.className="loadingBox";empty.textContent=mine?"Bu liste boş. Tüm yayımlananlar görünümünde ☆ işaretine dokunarak hisse ekleyin.":"Aramayla eşleşen enstrüman yok.";table.appendChild(empty);}
+  document.getElementById("watchMore").hidden=rows.length<=watchShown;
+}
+function initWatchlist(){
+  for(const id of ["watchSearch","watchSort","watchView"]){
+    document.getElementById(id).addEventListener(id==="watchSearch"?"input":"change",()=>{watchShown=40;renderWatchlist();});
+  }
+  document.getElementById("watchList").addEventListener("change",event=>{const state=watchState();state.selected=Number(event.target.value)||0;saveWatch(state);renderWatchlist();});
+  document.getElementById("watchCreate").addEventListener("click",()=>{
+    const name=prompt("Yeni izleme listesinin adı (en fazla 30 karakter):")?.trim().slice(0,30);
+    if(!name)return;
+    const state=watchState(); if(state.lists.length>=12){alert("En fazla 12 liste oluşturabilirsiniz.");return;}
+    state.lists.push({name,ids:[]});state.selected=state.lists.length-1;
+    if(saveWatch(state))renderWatchlist();
+  });
+  document.getElementById("watchDelete").addEventListener("click",()=>{
+    const state=watchState(); if(state.lists.length===1)return;
+    if(!confirm(`“${state.lists[state.selected].name}” listesi bu cihazdan silinsin mi?`))return;
+    state.lists.splice(state.selected,1);state.selected=0;
+    if(saveWatch(state))renderWatchlist();
+  });
+  document.getElementById("watchMore").addEventListener("click",()=>{watchShown+=40;renderWatchlist();});
+  renderWatchlist();
+}
 function favoriteIds(){
   try { const ids=JSON.parse(localStorage.getItem(favoritesKey)||"[]"); return new Set(Array.isArray(ids) ? ids.filter(id=>typeof id==="string") : []); }
   catch { return new Set(); }
@@ -691,7 +815,7 @@ function renderCards(){
 
 function detailOverview(stock, kind){
   const fmt=value=>kind==="niche" ? nicheMoney(value,stock.currency) : money(value);
-  const change=Number(stock.changePercentage);
+  const change=stock.changePercentage==null ? NaN : Number(stock.changePercentage);
   const direction=Number.isFinite(change) ? (change>=0 ? "positive" : "negative") : "";
   const previous=stock.previousClose ?? (Array.isArray(stock.dailyCloses) && stock.dailyCloses.length>1 ? stock.dailyCloses.at(-2)?.[1] : null);
   const market=kind==="niche" ? stock.market || stock.exchange : "Ana radar";
@@ -712,7 +836,31 @@ function detailOverview(stock, kind){
     ${stat("Günlük en yüksek",fmt(stock.dayHigh))}
     ${stat("Günlük hacim",number(stock.volume))}
   </div>
-  <div class="note">Grafik günlük kapanışlardan oluşur; anlık fiyat, emir defteri, alış/satış kotasyonu veya 24 saatlik kripto verisi değildir.</div>`;
+  <div class="note">Grafik günlük kapanışlardan oluşur; anlık fiyat, emir defteri, alış/satış kotasyonu veya 24 saatlik kripto verisi değildir.</div>
+  ${technicalOverview(stock,kind)}`;
+}
+
+function technicalOverview(stock,kind){
+  const closes=(Array.isArray(stock.dailyCloses)?stock.dailyCloses:[])
+    .filter(row=>Array.isArray(row)&&/^\d{4}-\d{2}-\d{2}$/.test(row[0])&&Number.isFinite(Number(row[1]))&&Number(row[1])>0)
+    .sort((a,b)=>a[0].localeCompare(b[0]));
+  const values=closes.map(row=>Number(row[1]));
+  const average=n=>values.length>=n?values.slice(-n).reduce((a,b)=>a+b,0)/n:null;
+  const sma20=average(20),sma50=average(50);
+  let rsi=null;
+  if(values.length>=15){
+    let gains=0,losses=0;
+    for(let i=values.length-14;i<values.length;i++){
+      const delta=values[i]-values[i-1]; gains+=Math.max(0,delta);losses+=Math.max(0,-delta);
+    }
+    rsi=losses===0?(gains===0?50:100):100-100/(1+gains/losses);
+  }
+  const fmt=value=>kind==="niche"?nicheMoney(value,stock.currency):money(value);
+  const item=(name,value)=>`<div class="stat"><div class="statLabel">${name}</div><div class="statValue">${value}</div></div>`;
+  return `<div class="infoBox"><h3>📐 Teknik görünüm</h3>
+    <div class="technicalGrid">${item("20 günlük ortalama",sma20==null?"Veri yok":fmt(sma20))}${item("50 günlük ortalama",sma50==null?"Veri yok":fmt(sma50))}${item("RSI (14)",rsi==null?"Veri yok":rsi.toFixed(1))}</div>
+    <div class="note">Son günlük kapanış: ${esc(closes.at(-1)?.[0]||"bilinmiyor")} · ${values.length} kapanış noktası. RSI son 14 fiyat değişiminden hesaplanır. Bu göstergeler işlem sinyali değildir.</div>
+  </div>`;
 }
 
 function initPriceChart(detail,stock,kind){
@@ -1045,6 +1193,7 @@ async function loadRadar(){
   try{
     radarData=await latestJson("data/radar.json");
     renderCards();
+    renderWatchlist();
     setSource("Ana radar",radarData.updated_at,2,
       `yeni fiyat ${radarData.quote_status?.fresh ?? "?"}/${radarData.stocks?.length ?? "?"}`);
 
@@ -1077,6 +1226,7 @@ async function loadNiche(){
       `yeni fiyat ${nicheData.quoteStatus?.fresh ?? "?"}, bu tur ${nicheData.discovery?.scannedThisRun ?? "?"}`);
     updateDiscoveryStatus();
     renderNicheCards();
+    renderWatchlist();
 
   }catch(error){
     console.error(error);
@@ -1088,6 +1238,7 @@ async function loadNiche(){
 
 async function startApp(){
   initPilot();
+  initWatchlist();
   await refreshPublished();
 }
 async function refreshPublished(){
