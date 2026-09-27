@@ -576,8 +576,9 @@ function renderNicheCards(){
       <div class="name">${stock.name || ""}</div>
       <div class="price">${nicheMoney(stock.price,stock.currency)}</div>
       <div class="change ${cls}">${sign}${pct(change)}</div>
-      <div class="score">🌍 ${stock.score ?? "-"}/100</div>
+      <div class="score">${stock.researchEligible === false ? "⛔ VERİ ENGELİ" : "🌍 "+(stock.score ?? "-")+"/100"}</div>
       <div class="small">${stock.theme || "Global Niche Radar"}</div>
+      ${stock.researchEligible === false ? `<div class="small">${(stock.gateReasons || []).join(" · ")}</div>` : ""}
     `;
 
     card.onclick=()=>showNicheDetail(index);
@@ -598,7 +599,9 @@ function showNicheDetail(index){
       ${stock.name ? "• "+stock.name : ""}
     </h2>
 
-    <div class="bigScore">${stock.score ?? "-"}/100</div>
+    <div class="bigScore">${stock.researchEligible === false ? "VERİ ENGELİ" : (stock.score ?? "-")+"/100"}</div>
+    <div class="metric"><span>Son işlem kaydı</span><strong>${stock.lastTradedAt || "Doğrulanmadı"}</strong></div>
+    <div class="metric"><span>Veri durumu</span><strong>${stock.researchEligible === false ? (stock.gateReasons || []).join(" · ") : "Araştırma adayı"}</strong></div>
 
     <div class="metric">
       <span>Fiyat</span>

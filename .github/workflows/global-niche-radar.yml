@@ -28,7 +28,7 @@ jobs:
           import os
           import time
           import statistics
-          from datetime import datetime, timezone
+          from datetime import datetime, timezone, timedelta
           from urllib.request import Request, urlopen
           from urllib.parse import quote
 
@@ -108,6 +108,7 @@ jobs:
                   volumes_raw = q.get("volume", [])
                   highs_raw = q.get("high", [])
                   lows_raw = q.get("low", [])
+                  timestamps = item.get("timestamp", [])
 
                   rows = []
 
@@ -119,7 +120,8 @@ jobs:
                           "close": float(value),
                           "volume": volumes_raw[i] if i < len(volumes_raw) else None,
                           "high": highs_raw[i] if i < len(highs_raw) else None,
-                          "low": lows_raw[i] if i < len(lows_raw) else None
+                          "low": lows_raw[i] if i < len(lows_raw) else None,
+                          "timestamp": timestamps[i] if i < len(timestamps) else None
                       })
 
                   if not rows:
@@ -160,6 +162,12 @@ jobs:
                   if current_volume is not None and avg_volume20 not in (None, 0):
                       volume_ratio = float(current_volume) / float(avg_volume20)
 
+                  def bar_time(row):
+                      stamp = row.get("timestamp")
+                      return datetime.fromtimestamp(stamp, timezone.utc).isoformat() if isinstance(stamp, (int, float)) else None
+
+                  last_traded = next((row for row in reversed(rows) if (row.get("volume") or 0) > 0), None)
+
                   returns = []
 
                   for i in range(1, len(closes)):
@@ -189,6 +197,10 @@ jobs:
                       "change": round(change, 4) if change is not None else None,
                       "changePercentage": round(change_pct, 4) if change_pct is not None else None,
                       "volume": current_volume,
+                      "lastBarAt": bar_time(rows[-1]),
+                      "lastTradedAt": bar_time(last_traded) if last_traded else None,
+                      "exchangeTimezone": meta.get("exchangeTimezoneName"),
+                      "quoteUrl": url,
                       "dayLow": round(float(rows[-1]["low"]), 4) if rows[-1]["low"] is not None else None,
                       "dayHigh": round(float(rows[-1]["high"]), 4) if rows[-1]["high"] is not None else None,
                       "currency": meta.get("currency"),
@@ -424,9 +436,31 @@ jobs:
                   data_status = "unavailable"
                   quote_source = None
 
-              score = technical_score
+              fetched_at = datetime.now(timezone.utc).isoformat() if fresh else None
+              last_bar_at = data.get("lastBarAt") if fresh else previous.get("lastBarAt")
+              last_traded_at = data.get("lastTradedAt") if fresh else previous.get("lastTradedAt")
+              gate_reasons = []
+              if not fresh:
+                  gate_reasons.append("Yeni fiyat yanıtı yok")
+              if not isinstance(data.get("price"), (int, float)) or data["price"] <= 0:
+                  gate_reasons.append("Geçerli fiyat yok")
+              if not isinstance(data.get("volume"), (int, float)) or data["volume"] <= 0:
+                  gate_reasons.append("Son fiyat kaydında hacim yok")
+              if metrics.get("volumeRatio") is None:
+                  gate_reasons.append("Hacim geçmişi doğrulanamıyor")
+              try:
+                  traded_time = datetime.fromisoformat(last_traded_at)
+                  if traded_time > datetime.now(timezone.utc) + timedelta(hours=1) or datetime.now(timezone.utc) - traded_time > timedelta(days=5):
+                      gate_reasons.append("Son işlem kaydı eski veya gelecekte")
+              except (TypeError, ValueError):
+                  gate_reasons.append("Son işlem tarihi doğrulanamıyor")
 
-              if score >= 85:
+              research_eligible = not gate_reasons
+              score = technical_score if research_eligible else None
+
+              if not research_eligible:
+                  status = "VERİ ENGELİ"
+              elif score >= 85:
                   status = "ÇOK GÜÇLÜ İZLEME"
               elif score >= 75:
                   status = "GÜÇLÜ İZLEME"
@@ -435,7 +469,7 @@ jobs:
               else:
                   status = "ADAY"
 
-              confidence = "MEDIUM" if fresh else "LOW"
+              confidence = "MEDIUM" if research_eligible else "LOW"
 
               output_candidates.append({
                   "symbol": symbol,
@@ -446,7 +480,10 @@ jobs:
                   "size": candidate["size"],
 
                   "score": score,
-                  "technicalScore": technical_score,
+                  "technicalScore": score,
+                  "rawTechnicalScore": technical_score,
+                  "researchEligible": research_eligible,
+                  "gateReasons": gate_reasons,
                   "scoreComponents": components,
                   "metrics": metrics,
 
@@ -476,13 +513,18 @@ jobs:
 
                   "marketDataAvailable": data.get("price") is not None,
                   "marketDataStatus": data_status,
-                  "quoteSource": quote_source
+                  "quoteSource": quote_source,
+                  "quoteUrl": data.get("quoteUrl") if fresh else previous.get("quoteUrl"),
+                  "fetchedAt": fetched_at if fresh else previous.get("fetchedAt"),
+                  "lastBarAt": last_bar_at,
+                  "lastTradedAt": last_traded_at,
+                  "exchangeTimezone": data.get("exchangeTimezone") if fresh else previous.get("exchangeTimezone")
               })
 
               time.sleep(0.25)
 
           output_candidates.sort(
-              key=lambda x: (-x.get("score", 0), x["symbol"])
+              key=lambda x: (not x["researchEligible"], -(x.get("score") or 0), x["symbol"])
           )
 
           output = {

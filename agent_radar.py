@@ -5,7 +5,7 @@ Runs only on manual workflow dispatch. Never connects to a broker.
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -25,8 +25,14 @@ def eligibility(stock):
     metrics = stock.get("metrics") or {}
     if metrics.get("volumeRatio") is None:
         reasons.append("Hacim geçmişi doğrulanamıyor")
-    # Today's API fetch does not prove the exchange traded today. Source JSON
-    # currently has no last-bar timestamp, so no candidate can be trade-ready.
+    try:
+        traded_at = datetime.fromisoformat(stock.get("lastTradedAt"))
+        if traded_at.tzinfo is None or traded_at > datetime.now(timezone.utc) + timedelta(hours=1) or datetime.now(timezone.utc) - traded_at > timedelta(days=5):
+            reasons.append("Son işlem kaydı eski veya gelecekte")
+    except (TypeError, ValueError):
+        reasons.append("Son işlem tarihi doğrulanamıyor")
+    if not stock.get("quoteUrl"):
+        reasons.append("Fiyat kaynağı doğrulanamıyor")
     return reasons
 
 
@@ -69,11 +75,15 @@ def build_report(data, client=None, model=None):
         flags = list(reasons)
         if not stock.get("financialQuality", {}).get("available"):
             flags.append("Temel finansal veri yok")
-        flags.append("Son işlem tarihi doğrulanmadı; işlem için hazır değil")
+        if stock.get("lastTradedAt"):
+            flags.append("Son işlem: " + stock["lastTradedAt"])
+        flags.append("Araştırma adayı; işlem kararı yalnızca kullanıcıda")
         row = {
             "symbol": stock.get("symbol"),
             "theme": stock.get("theme"),
             "score": stock.get("score"),
+            "lastTradedAt": stock.get("lastTradedAt"),
+            "quoteUrl": stock.get("quoteUrl"),
             "decision": "blocked" if reasons else "research_only",
             "flags": flags,
             "agents": {},
@@ -89,7 +99,7 @@ def build_report(data, client=None, model=None):
         "source": "data/global-niche.json",
         "mode": "AI research" if client else "data gate only",
         "maxAiCandidates": MAX_CANDIDATES,
-        "lastBarTimestampAvailable": False,
+        "lastBarTimestampAvailable": any(row.get("lastTradedAt") for row in rows),
         "orderAuthority": "user_only",
         "brokerConnection": False,
         "candidates": rows,
