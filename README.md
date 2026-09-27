@@ -71,3 +71,14 @@ veya çekim talimatı göndermez.
 Yahoo günlük barlarının zaman damgası örnek veride borsa açılış saatiyle
 eşleşir; rapordaki `lastTradedAt` alanı son işlem anı olarak yorumlanmamalıdır.
 EODHD ile doğrulanmamış BIST sembolleri otomatik eşleştirilmez.
+
+## Kâğıt pilot günlüğü
+
+Global Niş panelindeki günlük, yalnızca tarayıcının yerel depolama alanına
+varsayımsal veya IBKR kâğıt işlem sonuçlarını kaydeder. Alış tutarı en fazla
+100 USD'dir; satış değeri, alış/satış komisyonu ve kur/spread maliyeti ayrı
+girilir. Net sonuç `satış - alış - komisyon - diğer maliyet` olarak hesaplanır.
+CSV dışa aktarımı ve yerel kayıt silme vardır. GitHub Pages'e hesap numarası,
+IBAN, şifre veya işlem günlüğü yüklenmez. Tarayıcı verisi temizlenirse günlüğün
+yerel kaydı kaybolur; CSV yedeği kullanıcı tarafından saklanmalıdır. Bu günlük
+aracı kurumdaki emir veya bakiye ile otomatik mutabakat yapmaz.

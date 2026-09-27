@@ -248,6 +248,13 @@
       font-size: 13px;
     }
 
+    .pilotForm { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .pilotForm label { font-size:12px; color:#94a3b8; }
+    .pilotForm input, .pilotForm select { display:block; width:100%; box-sizing:border-box; margin-top:5px; padding:10px; border-radius:9px; border:1px solid #34506c; background:#0a1625; color:white; }
+    .pilotActions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+    .pilotActions button { padding:10px; border-radius:9px; border:1px solid #3b82f6; background:#132b49; color:white; }
+    @media (max-width:420px) { .pilotForm { grid-template-columns:1fr; } }
+
     .footer {
       margin-top: 25px;
       color: #718096;
@@ -306,8 +313,8 @@
     <div class="panelTitle">
       <h2>🌍 Global Niche Radar</h2>
       <p>
-        Global hisse evreninde radar dışında kalan potansiyel fırsatları
-        tarayan ikinci araştırma motoru.
+        Önceden belirlenmiş niş hisse listesini tarayan ikinci araştırma motoru.
+        Puanlar getiri tahmini değildir.
       </p>
     </div>
     <div class="grid" id="nicheCards">
@@ -324,6 +331,20 @@
       <p>Adayı araştırma masasından kopyalayıp IBKR Mobile içinde aratabilirsiniz. Sembol ve borsa eşleşmesini, güncel fiyatı, işlem ücretini ve emir tutarını IBKR'de kendiniz doğrulayın. Buradaki adaylar alım satım talimatı değildir.</p>
     </div>
     <div class="loadingBox">Hesap onayınız ve kâğıt işlem erişiminiz tamamlanınca önce deneme işlemlerini kullanın. Hisse Radar IBKR hesabınıza bağlı değildir; emir veya para transferi göndermez.</div>
+    <div class="panelTitle"><h2>🧪 100 $ deneme günlüğü</h2><p>IBKR demo işlemini veya yalnızca varsayımsal bir örneği buraya kaydedin. Bilgiler bu tarayıcıda kalır; sunucuya gönderilmez. Ortak cihazda kullanmayın; tarayıcı verileri silinirse kayıtlar da silinir.</p></div>
+    <div class="loadingBox">
+      <form id="pilotForm" class="pilotForm">
+        <label>İşlem türü<select name="kind"><option value="varsayim">Varsayımsal örnek</option><option value="ibkr-paper">IBKR kâğıt işlem</option></select></label>
+        <label>Sembol / borsa<input name="instrument" maxlength="50" required placeholder="Örn. ABC / NYSE"></label>
+        <label>Alış tutarı (USD)<input name="entry" type="number" min="0.01" max="100" step="0.01" required></label>
+        <label>Satış değeri (USD)<input name="exit" type="number" min="0" step="0.01" required></label>
+        <label>Alış + satış komisyonu (USD)<input name="fees" type="number" min="0" step="0.01" required value="0"></label>
+        <label>Kur / spread / diğer maliyet (USD)<input name="other" type="number" min="0" step="0.01" required value="0"></label>
+        <div class="pilotActions"><button type="submit">Denemeyi kaydet</button><button type="button" id="pilotExport">CSV indir</button><button type="button" id="pilotClear">Kayıtları sil</button></div>
+      </form>
+      <div id="pilotSummary" class="small" role="status"></div>
+      <div id="pilotRows" class="small"></div>
+    </div>
     <div class="panelTitle">
       <h2>🌐 Küresel işlem hazırlığı</h2>
       <p>IBKR bağlantısı, piyasa verisi ve işlem izinleri doğrulanmadan emir oluşturulmaz. $1.000 sermaye ve her $10.000 gerçekleşmiş kâr dilimi kaydedilir; banka aktarımı aracı kurum portalında yapılır.</p>
@@ -342,6 +363,40 @@
 <script>
 let radarData = null;
 let nicheData = null;
+const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch]);
+
+const pilotKey="hisse-radar-paper-pilot-v1";
+function pilotEntries(){ try { const rows=JSON.parse(localStorage.getItem(pilotKey)||"[]"); return Array.isArray(rows)?rows:[]; } catch { return []; } }
+function renderPilot(){
+  const rows=pilotEntries();
+  const net=rows.reduce((sum,row)=>sum+row.exit-row.entry-row.fees-row.other,0);
+  document.getElementById("pilotSummary").textContent=`${rows.length} deneme · Net sonuç: ${net.toFixed(2)} USD · Başlangıç 100 USD varsayımı: ${(100+net).toFixed(2)} USD. Bu sonuç gerçek bakiye değildir.`;
+  const list=document.getElementById("pilotRows"); list.replaceChildren();
+  rows.slice(-10).reverse().forEach(row=>{
+    const line=document.createElement("p");
+    line.textContent=`${row.at} · ${row.kind === "ibkr-paper" ? "IBKR kâğıt" : "Varsayımsal"} · ${row.instrument} · net ${(row.exit-row.entry-row.fees-row.other).toFixed(2)} USD`;
+    list.appendChild(line);
+  });
+}
+function initPilot(){
+  const form=document.getElementById("pilotForm");
+  form.addEventListener("submit",event=>{
+    event.preventDefault();
+    const data=new FormData(form);
+    const row={at:new Date().toISOString(),kind:data.get("kind"),instrument:String(data.get("instrument")||"").trim(),entry:Number(data.get("entry")),exit:Number(data.get("exit")),fees:Number(data.get("fees")),other:Number(data.get("other"))};
+    if(!row.instrument || ![row.entry,row.exit,row.fees,row.other].every(Number.isFinite) || row.entry<=0 || row.entry>100 || row.exit<0 || row.fees<0 || row.other<0) return;
+    const rows=pilotEntries(); rows.push(row); localStorage.setItem(pilotKey,JSON.stringify(rows)); form.reset(); renderPilot();
+  });
+  document.getElementById("pilotExport").addEventListener("click",()=>{
+    const rows=pilotEntries(); if(!rows.length) return;
+    const quote=value=>'"'+String(value).replaceAll('"','""')+'"';
+    const csv=["tarih,tur,sembol_borsa,alis_usd,satis_usd,komisyon_usd,diger_usd,net_usd",...rows.map(r=>[r.at,r.kind,r.instrument,r.entry,r.exit,r.fees,r.other,(r.exit-r.entry-r.fees-r.other).toFixed(2)].map(quote).join(","))].join("\r\n");
+    const url=URL.createObjectURL(new Blob(["\uFEFF",csv],{type:"text/csv;charset=utf-8"}));
+    const link=document.createElement("a"); link.href=url; link.download="hisse-radar-deneme.csv"; link.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+  });
+  document.getElementById("pilotClear").addEventListener("click",()=>{ if(confirm("Bu telefondaki tüm deneme kayıtları silinsin mi?")){localStorage.removeItem(pilotKey);renderPilot();} });
+  renderPilot();
+}
 
 async function loadAgentReports(){
   const container=document.getElementById("agentReports");
@@ -469,7 +524,7 @@ const pct = value => {
 
 function component(label,score,max) {
   const ok = score != null && Number.isFinite(Number(score));
-  const display = ok ? `${score}/${max}` : "Veri yok";
+  const display = ok ? `${esc(score)}/${esc(max)}` : "Veri yok";
   const width = ok
     ? Math.max(0,Math.min(100,Number(score)/max*100))
     : 0;
@@ -526,12 +581,12 @@ function renderCards(){
     card.className="card";
 
     card.innerHTML=`
-      <div class="symbol">${stock.symbol || "-"}</div>
-      <div class="name">${stock.name || ""}</div>
+      <div class="symbol">${esc(stock.symbol || "-")}</div>
+      <div class="name">${esc(stock.name || "")}</div>
       <div class="price">${money(stock.price)}</div>
       <div class="change ${cls}">${sign}${pct(change)}</div>
       <div class="score">
-        🎯 ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
+        🎯 ${esc(stock.radar?.score ?? "-")}/${esc(stock.radar?.max ?? "-")}
       </div>
       <div class="small">Hacim: ${number(stock.volume)}</div>
     `;
@@ -549,10 +604,10 @@ function showDetail(index){
   const inst=stock.institutional || {};
 
   detail.innerHTML=`
-    <h2>${stock.symbol || ""}${stock.name?" • "+stock.name:""}</h2>
+    <h2>${esc(stock.symbol || "")}${stock.name?" • "+esc(stock.name):""}</h2>
 
     <div class="bigScore">
-      ${stock.radar?.score ?? "-"}/${stock.radar?.max ?? "-"}
+      ${esc(stock.radar?.score ?? "-")}/${esc(stock.radar?.max ?? "-")}
     </div>
 
     <div class="metric"><span>Fiyat</span><strong>${money(stock.price)}</strong></div>
@@ -571,18 +626,18 @@ function showDetail(index){
     <div class="infoBox">
       <h3>🏢 Kurumsal yatırımcılar</h3>
       <div class="institutionalStats">
-        <div class="stat"><div class="statLabel">Geçerli kurum</div><div class="statValue">${inst.validManagers ?? 0}</div></div>
-        <div class="stat"><div class="statLabel">Pozisyon artıran</div><div class="statValue">${inst.increases ?? 0}</div></div>
-        <div class="stat"><div class="statLabel">Pozisyon azaltan</div><div class="statValue">${inst.decreases ?? 0}</div></div>
-        <div class="stat"><div class="statLabel">13F puanı</div><div class="statValue">${inst.score != null ? inst.score+"/10":"Veri yok"}</div></div>
+        <div class="stat"><div class="statLabel">Geçerli kurum</div><div class="statValue">${esc(inst.validManagers ?? 0)}</div></div>
+        <div class="stat"><div class="statLabel">Pozisyon artıran</div><div class="statValue">${esc(inst.increases ?? 0)}</div></div>
+        <div class="stat"><div class="statLabel">Pozisyon azaltan</div><div class="statValue">${esc(inst.decreases ?? 0)}</div></div>
+        <div class="stat"><div class="statLabel">13F puanı</div><div class="statValue">${inst.score != null ? esc(inst.score)+"/10":"Veri yok"}</div></div>
       </div>
     </div>
 
     <div class="infoBox">
       <h3>👤 SEC içeriden işlemler</h3>
       <div class="institutionalStats">
-        <div class="stat"><div class="statLabel">Alış işlemi</div><div class="statValue">${insider.buys ?? 0}</div></div>
-        <div class="stat"><div class="statLabel">Satış işlemi</div><div class="statValue">${insider.sells ?? 0}</div></div>
+        <div class="stat"><div class="statLabel">Alış işlemi</div><div class="statValue">${esc(insider.buys ?? 0)}</div></div>
+        <div class="stat"><div class="statLabel">Satış işlemi</div><div class="statValue">${esc(insider.sells ?? 0)}</div></div>
         <div class="stat"><div class="statLabel">Toplam alış</div><div class="statValue">${money(insider.buyValue)}</div></div>
         <div class="stat"><div class="statLabel">Toplam satış</div><div class="statValue">${money(insider.sellValue)}</div></div>
       </div>
@@ -627,13 +682,13 @@ function renderNicheCards(){
     card.className="card";
 
     card.innerHTML=`
-      <div class="symbol">${stock.symbol || "-"}</div>
-      <div class="name">${stock.name || ""}</div>
+      <div class="symbol">${esc(stock.symbol || "-")}</div>
+      <div class="name">${esc(stock.name || "")}</div>
       <div class="price">${nicheMoney(stock.price,stock.currency)}</div>
       <div class="change ${cls}">${sign}${pct(change)}</div>
-      <div class="score">${stock.researchEligible === false ? "⛔ VERİ ENGELİ" : "🌍 "+(stock.score ?? "-")+"/100"}</div>
-      <div class="small">${stock.theme || "Global Niche Radar"}</div>
-      ${stock.researchEligible === false ? `<div class="small">${(stock.gateReasons || []).join(" · ")}</div>` : ""}
+      <div class="score">${stock.researchEligible === false ? "⛔ VERİ ENGELİ" : "🌍 "+esc(stock.score ?? "-")+"/100"}</div>
+      <div class="small">${esc(stock.theme || "Global Niche Radar")}</div>
+      ${stock.researchEligible === false ? `<div class="small">${esc((stock.gateReasons || []).join(" · "))}</div>` : ""}
     `;
 
     card.onclick=()=>showNicheDetail(index);
@@ -650,13 +705,13 @@ function showNicheDetail(index){
 
   detail.innerHTML=`
     <h2>
-      ${stock.symbol || ""}
-      ${stock.name ? "• "+stock.name : ""}
+      ${esc(stock.symbol || "")}
+      ${stock.name ? "• "+esc(stock.name) : ""}
     </h2>
 
-    <div class="bigScore">${stock.researchEligible === false ? "VERİ ENGELİ" : (stock.score ?? "-")+"/100"}</div>
-    <div class="metric"><span>Son işlem kaydı</span><strong>${stock.lastTradedAt || "Doğrulanmadı"}</strong></div>
-    <div class="metric"><span>Veri durumu</span><strong>${stock.researchEligible === false ? (stock.gateReasons || []).join(" · ") : "Araştırma adayı"}</strong></div>
+    <div class="bigScore">${stock.researchEligible === false ? "VERİ ENGELİ" : esc(stock.score ?? "-")+"/100"}</div>
+    <div class="metric"><span>Son günlük bar başlangıcı</span><strong>${esc(stock.lastBarAt || stock.lastTradedAt || "Doğrulanmadı")}</strong></div>
+    <div class="metric"><span>Veri durumu</span><strong>${stock.researchEligible === false ? esc((stock.gateReasons || []).join(" · ")) : "Araştırma adayı"}</strong></div>
 
     <div class="metric">
       <span>Fiyat</span>
@@ -665,7 +720,7 @@ function showNicheDetail(index){
 
     <div class="metric">
       <span>Para birimi</span>
-      <strong>${stock.currency || "-"}</strong>
+      <strong>${esc(stock.currency || "-")}</strong>
     </div>
 
     <div class="metric">
@@ -680,22 +735,22 @@ function showNicheDetail(index){
 
     <div class="metric">
       <span>Piyasa</span>
-      <strong>${stock.market || stock.exchange || "-"}</strong>
+      <strong>${esc(stock.market || stock.exchange || "-")}</strong>
     </div>
 
     <div class="metric">
       <span>Ülke</span>
-      <strong>${stock.country || "-"}</strong>
+      <strong>${esc(stock.country || "-")}</strong>
     </div>
 
     <div class="metric">
       <span>Tema</span>
-      <strong>${stock.theme || "-"}</strong>
+      <strong>${esc(stock.theme || "-")}</strong>
     </div>
 
     <div class="metric">
       <span>Durum</span>
-      <strong>${stock.status || "-"}</strong>
+      <strong>${esc(stock.status || "-")}</strong>
     </div>
 
     <div class="sectionTitle">
@@ -743,7 +798,7 @@ function showNicheDetail(index){
         <div class="stat">
           <div class="statLabel">Veri durumu</div>
           <div class="statValue">
-            ${stock.marketDataStatus==="fresh"?"Güncel":stock.marketDataStatus==="cached"?"Önbellek":"Veri yok"}
+            ${stock.marketDataStatus==="fresh"?"Yeni kaynak yanıtı":stock.marketDataStatus==="cached"?"Önbellek":"Veri yok"}
           </div>
         </div>
 
@@ -758,7 +813,7 @@ function showNicheDetail(index){
     <div class="infoBox">
       <h3>🌍 Neden radarda?</h3>
       <div class="note" style="margin-top:0">
-        ${stock.theme || "Niş sektör"} alanında Global Niche Radar
+        ${esc(stock.theme || "Niş sektör")} alanında Global Niche Radar
         tarafından otomatik araştırma adayı olarak izlenmektedir.
       </div>
     </div>
@@ -832,6 +887,7 @@ async function loadNiche(){
 }
 
 async function startApp(){
+  initPilot();
   await Promise.all([
     loadRadar(),
     loadNiche(),
