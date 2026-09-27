@@ -1,6 +1,1569 @@
 {
-  "updatedAt": null,
+  "updatedAt": "2026-09-27T19:14:14.412885+00:00",
   "source": "SEC EDGAR companyfacts",
-  "stocks": {},
+  "stocks": {
+    "AAPL": {
+      "cik": 320193,
+      "company": "Apple Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000320193.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 416161000000,
+          "end": "2025-09-27",
+          "filed": "2025-10-31",
+          "accession": "0000320193-25-000079",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 112010000000,
+          "end": "2025-09-27",
+          "filed": "2025-10-31",
+          "accession": "0000320193-25-000079",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 359241000000,
+          "end": "2025-09-27",
+          "filed": "2025-10-31",
+          "accession": "0000320193-25-000079",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 285508000000,
+          "end": "2025-09-27",
+          "filed": "2025-10-31",
+          "accession": "0000320193-25-000079",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 73733000000,
+          "end": "2025-09-27",
+          "filed": "2025-10-31",
+          "accession": "0000320193-25-000079",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 391035000000,
+          "end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 93736000000,
+          "end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 364980000000,
+          "end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 308030000000,
+          "end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 56950000000,
+          "end": "2024-09-28",
+          "filed": "2024-11-01",
+          "accession": "0000320193-24-000123",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "AMD": {
+      "cik": 2488,
+      "company": "ADVANCED MICRO DEVICES INC",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000002488.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 34639000000,
+          "end": "2025-12-27",
+          "filed": "2026-02-04",
+          "accession": "0000002488-26-000018",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 4335000000,
+          "end": "2025-12-27",
+          "filed": "2026-02-04",
+          "accession": "0000002488-26-000018",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 76926000000,
+          "end": "2025-12-27",
+          "filed": "2026-02-04",
+          "accession": "0000002488-26-000018",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 62999000000,
+          "end": "2025-12-27",
+          "filed": "2026-02-04",
+          "accession": "0000002488-26-000018",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 25785000000,
+          "end": "2024-12-28",
+          "filed": "2025-02-05",
+          "accession": "0000002488-25-000012",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 1641000000,
+          "end": "2024-12-28",
+          "filed": "2025-02-05",
+          "accession": "0000002488-25-000012",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 69226000000,
+          "end": "2024-12-28",
+          "filed": "2025-02-05",
+          "accession": "0000002488-25-000012",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 57568000000,
+          "end": "2024-12-28",
+          "filed": "2025-02-05",
+          "accession": "0000002488-25-000012",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "AMZN": {
+      "cik": 1018724,
+      "company": "AMAZON COM INC",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001018724.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 716924000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-06",
+          "accession": "0001018724-26-000004",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 77670000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-06",
+          "accession": "0001018724-26-000004",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 818042000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-06",
+          "accession": "0001018724-26-000004",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 411065000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-06",
+          "accession": "0001018724-26-000004",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 637959000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-07",
+          "accession": "0001018724-25-000004",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 59248000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-07",
+          "accession": "0001018724-25-000004",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 624894000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-07",
+          "accession": "0001018724-25-000004",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 285970000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-07",
+          "accession": "0001018724-25-000004",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "AVGO": {
+      "cik": 1730168,
+      "company": "Broadcom Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001730168.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 63887000000,
+          "end": "2025-11-02",
+          "filed": "2025-12-18",
+          "accession": "0001730168-25-000121",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": null,
+        "assets": {
+          "value": 171092000000,
+          "end": "2025-11-02",
+          "filed": "2025-12-18",
+          "accession": "0001730168-25-000121",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 89800000000,
+          "end": "2025-11-02",
+          "filed": "2025-12-18",
+          "accession": "0001730168-25-000121",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 81292000000,
+          "end": "2025-11-02",
+          "filed": "2025-12-18",
+          "accession": "0001730168-25-000121",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 51574000000,
+          "end": "2024-11-03",
+          "filed": "2024-12-20",
+          "accession": "0001730168-24-000139",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 5895000000,
+          "end": "2024-11-03",
+          "filed": "2024-12-20",
+          "accession": "0001730168-24-000139",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 165645000000,
+          "end": "2024-11-03",
+          "filed": "2024-12-20",
+          "accession": "0001730168-24-000139",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 97967000000,
+          "end": "2024-11-03",
+          "filed": "2024-12-20",
+          "accession": "0001730168-24-000139",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 67678000000,
+          "end": "2024-11-03",
+          "filed": "2024-12-20",
+          "accession": "0001730168-24-000139",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      }
+    },
+    "COST": {
+      "cik": 909832,
+      "company": "COSTCO WHOLESALE CORP /NEW",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000909832.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 275235000000,
+          "end": "2025-08-31",
+          "filed": "2025-10-08",
+          "accession": "0000909832-25-000101",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 8099000000,
+          "end": "2025-08-31",
+          "filed": "2025-10-08",
+          "accession": "0000909832-25-000101",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 77099000000,
+          "end": "2025-08-31",
+          "filed": "2025-10-08",
+          "accession": "0000909832-25-000101",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 47935000000,
+          "end": "2025-08-31",
+          "filed": "2025-10-08",
+          "accession": "0000909832-25-000101",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 29164000000,
+          "end": "2025-08-31",
+          "filed": "2025-10-08",
+          "accession": "0000909832-25-000101",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 254453000000,
+          "end": "2024-09-01",
+          "filed": "2024-10-09",
+          "accession": "0000909832-24-000049",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 7367000000,
+          "end": "2024-09-01",
+          "filed": "2024-10-09",
+          "accession": "0000909832-24-000049",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 69831000000,
+          "end": "2024-09-01",
+          "filed": "2024-10-09",
+          "accession": "0000909832-24-000049",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 46209000000,
+          "end": "2024-09-01",
+          "filed": "2024-10-09",
+          "accession": "0000909832-24-000049",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 23622000000,
+          "end": "2024-09-01",
+          "filed": "2024-10-09",
+          "accession": "0000909832-24-000049",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "CRM": {
+      "cik": 1108524,
+      "company": "Salesforce, Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001108524.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 37895000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-05",
+          "accession": "0001108524-25-000006",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 6197000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-05",
+          "accession": "0001108524-25-000006",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 102928000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-05",
+          "accession": "0001108524-25-000006",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 41755000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-05",
+          "accession": "0001108524-25-000006",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 61173000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-05",
+          "accession": "0001108524-25-000006",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 34857000000,
+          "end": "2024-01-31",
+          "filed": "2024-03-06",
+          "accession": "0001108524-24-000005",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 4136000000,
+          "end": "2024-01-31",
+          "filed": "2024-03-06",
+          "accession": "0001108524-24-000005",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 99823000000,
+          "end": "2024-01-31",
+          "filed": "2024-03-06",
+          "accession": "0001108524-24-000005",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 40177000000,
+          "end": "2024-01-31",
+          "filed": "2024-03-06",
+          "accession": "0001108524-24-000005",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 59646000000,
+          "end": "2024-01-31",
+          "filed": "2024-03-06",
+          "accession": "0001108524-24-000005",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "GOOGL": {
+      "cik": 1652044,
+      "company": "Alphabet Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001652044.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 402836000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "accession": "0001652044-26-000018",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 132170000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "accession": "0001652044-26-000018",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 595281000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "accession": "0001652044-26-000018",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 180016000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "accession": "0001652044-26-000018",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 415265000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-05",
+          "accession": "0001652044-26-000018",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 350018000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-05",
+          "accession": "0001652044-25-000014",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 100118000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-05",
+          "accession": "0001652044-25-000014",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 450256000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-05",
+          "accession": "0001652044-25-000014",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 125172000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-05",
+          "accession": "0001652044-25-000014",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 325084000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-05",
+          "accession": "0001652044-25-000014",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "INTC": {
+      "cik": 50863,
+      "company": "INTEL CORP",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000050863.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 52853000000,
+          "end": "2025-12-27",
+          "filed": "2026-01-23",
+          "accession": "0000050863-26-000011",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": -267000000,
+          "end": "2025-12-27",
+          "filed": "2026-01-23",
+          "accession": "0000050863-26-000011",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 211429000000,
+          "end": "2025-12-27",
+          "filed": "2026-01-23",
+          "accession": "0000050863-26-000011",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 114281000000,
+          "end": "2025-12-27",
+          "filed": "2026-01-23",
+          "accession": "0000050863-26-000011",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 53101000000,
+          "end": "2024-12-28",
+          "filed": "2025-01-31",
+          "accession": "0000050863-25-000009",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": -18756000000,
+          "end": "2024-12-28",
+          "filed": "2025-01-31",
+          "accession": "0000050863-25-000009",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 196485000000,
+          "end": "2024-12-28",
+          "filed": "2025-01-31",
+          "accession": "0000050863-25-000009",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 99270000000,
+          "end": "2024-12-28",
+          "filed": "2025-01-31",
+          "accession": "0000050863-25-000009",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "JPM": {
+      "cik": 19617,
+      "company": "JPMORGAN CHASE & CO",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000019617.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 182447000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "accession": "0001628280-26-008131",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 57048000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "accession": "0001628280-26-008131",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 4424900000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "accession": "0001628280-26-008131",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 4062462000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "accession": "0001628280-26-008131",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 362438000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-13",
+          "accession": "0001628280-26-008131",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 177556000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-14",
+          "accession": "0000019617-25-000270",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 58471000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-14",
+          "accession": "0000019617-25-000270",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 4002814000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-14",
+          "accession": "0000019617-25-000270",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 3658056000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-14",
+          "accession": "0000019617-25-000270",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 344758000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-14",
+          "accession": "0000019617-25-000270",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "MA": {
+      "cik": 1141391,
+      "company": "Mastercard Inc",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001141391.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 32791000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-11",
+          "accession": "0001141391-26-000013",
+          "tag": "Revenues"
+        },
+        "netIncome": null,
+        "assets": {
+          "value": 54157000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-11",
+          "accession": "0001141391-26-000013",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 46411000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-11",
+          "accession": "0001141391-26-000013",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 7737000000,
+          "end": "2025-12-31",
+          "filed": "2026-02-11",
+          "accession": "0001141391-26-000013",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 28167000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-12",
+          "accession": "0001141391-25-000011",
+          "tag": "Revenues"
+        },
+        "netIncome": null,
+        "assets": {
+          "value": 48081000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-12",
+          "accession": "0001141391-25-000011",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 41566000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-12",
+          "accession": "0001141391-25-000011",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 6485000000,
+          "end": "2024-12-31",
+          "filed": "2025-02-12",
+          "accession": "0001141391-25-000011",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "META": {
+      "cik": 1326801,
+      "company": "Meta Platforms, Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001326801.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 200966000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003942",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 60458000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003942",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 366021000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003942",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 148778000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003942",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 217243000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003942",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 164501000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001326801-25-000017",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 62360000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001326801-25-000017",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 276054000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001326801-25-000017",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 93417000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001326801-25-000017",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 182637000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001326801-25-000017",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "MSFT": {
+      "cik": 789019,
+      "company": "MICROSOFT CORP",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000789019.json",
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 331839000000,
+          "end": "2026-06-30",
+          "filed": "2026-07-29",
+          "accession": "0001193125-26-323660",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 133749000000,
+          "end": "2026-06-30",
+          "filed": "2026-07-29",
+          "accession": "0001193125-26-323660",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 758376000000,
+          "end": "2026-06-30",
+          "filed": "2026-07-29",
+          "accession": "0001193125-26-323660",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 315989000000,
+          "end": "2026-06-30",
+          "filed": "2026-07-29",
+          "accession": "0001193125-26-323660",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 442387000000,
+          "end": "2026-06-30",
+          "filed": "2026-07-29",
+          "accession": "0001193125-26-323660",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 281724000000,
+          "end": "2025-06-30",
+          "filed": "2025-07-30",
+          "accession": "0000950170-25-100235",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 101832000000,
+          "end": "2025-06-30",
+          "filed": "2025-07-30",
+          "accession": "0000950170-25-100235",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 619003000000,
+          "end": "2025-06-30",
+          "filed": "2025-07-30",
+          "accession": "0000950170-25-100235",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 275524000000,
+          "end": "2025-06-30",
+          "filed": "2025-07-30",
+          "accession": "0000950170-25-100235",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 343479000000,
+          "end": "2025-06-30",
+          "filed": "2025-07-30",
+          "accession": "0000950170-25-100235",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "NFLX": {
+      "cik": 1065280,
+      "company": "NETFLIX INC",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001065280.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 45183036000,
+          "end": "2025-12-31",
+          "filed": "2026-01-23",
+          "accession": "0001065280-26-000034",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 10981201000,
+          "end": "2025-12-31",
+          "filed": "2026-01-23",
+          "accession": "0001065280-26-000034",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 55596993000,
+          "end": "2025-12-31",
+          "filed": "2026-01-23",
+          "accession": "0001065280-26-000034",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 28981505000,
+          "end": "2025-12-31",
+          "filed": "2026-01-23",
+          "accession": "0001065280-26-000034",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 26615488000,
+          "end": "2025-12-31",
+          "filed": "2026-01-23",
+          "accession": "0001065280-26-000034",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 39000966000,
+          "end": "2024-12-31",
+          "filed": "2025-01-27",
+          "accession": "0001065280-25-000044",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 8711631000,
+          "end": "2024-12-31",
+          "filed": "2025-01-27",
+          "accession": "0001065280-25-000044",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 53630374000,
+          "end": "2024-12-31",
+          "filed": "2025-01-27",
+          "accession": "0001065280-25-000044",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 28886807000,
+          "end": "2024-12-31",
+          "filed": "2025-01-27",
+          "accession": "0001065280-25-000044",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 24743567000,
+          "end": "2024-12-31",
+          "filed": "2025-01-27",
+          "accession": "0001065280-25-000044",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "NVDA": {
+      "cik": 1045810,
+      "company": "NVIDIA CORP",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001045810.json",
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 215938000000,
+          "end": "2026-01-25",
+          "filed": "2026-02-25",
+          "accession": "0001045810-26-000021",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 120067000000,
+          "end": "2026-01-25",
+          "filed": "2026-02-25",
+          "accession": "0001045810-26-000021",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 206803000000,
+          "end": "2026-01-25",
+          "filed": "2026-02-25",
+          "accession": "0001045810-26-000021",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 49510000000,
+          "end": "2026-01-25",
+          "filed": "2026-02-25",
+          "accession": "0001045810-26-000021",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 157293000000,
+          "end": "2026-01-25",
+          "filed": "2026-02-25",
+          "accession": "0001045810-26-000021",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 130497000000,
+          "end": "2025-01-26",
+          "filed": "2025-02-26",
+          "accession": "0001045810-25-000023",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 72880000000,
+          "end": "2025-01-26",
+          "filed": "2025-02-26",
+          "accession": "0001045810-25-000023",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 111601000000,
+          "end": "2025-01-26",
+          "filed": "2025-02-26",
+          "accession": "0001045810-25-000023",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 32274000000,
+          "end": "2025-01-26",
+          "filed": "2025-02-26",
+          "accession": "0001045810-25-000023",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 79327000000,
+          "end": "2025-01-26",
+          "filed": "2025-02-26",
+          "accession": "0001045810-25-000023",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "ORCL": {
+      "cik": 1341439,
+      "company": "ORACLE CORP",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001341439.json",
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 67357000000,
+          "end": "2026-05-31",
+          "filed": "2026-06-22",
+          "accession": "0001193125-26-277521",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 17087000000,
+          "end": "2026-05-31",
+          "filed": "2026-06-22",
+          "accession": "0001193125-26-277521",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 261759000000,
+          "end": "2026-05-31",
+          "filed": "2026-06-22",
+          "accession": "0001193125-26-277521",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 42508000000,
+          "end": "2026-05-31",
+          "filed": "2026-06-22",
+          "accession": "0001193125-26-277521",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 57399000000,
+          "end": "2025-05-31",
+          "filed": "2025-06-18",
+          "accession": "0000950170-25-087926",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 12443000000,
+          "end": "2025-05-31",
+          "filed": "2025-06-18",
+          "accession": "0000950170-25-087926",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 168361000000,
+          "end": "2025-05-31",
+          "filed": "2025-06-18",
+          "accession": "0000950170-25-087926",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 20451000000,
+          "end": "2025-05-31",
+          "filed": "2025-06-18",
+          "accession": "0000950170-25-087926",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "PLTR": {
+      "cik": 1321655,
+      "company": "Palantir Technologies Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001321655.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 4475446000,
+          "end": "2025-12-31",
+          "filed": "2026-02-17",
+          "accession": "0001321655-26-000011",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 1625033000,
+          "end": "2025-12-31",
+          "filed": "2026-02-17",
+          "accession": "0001321655-26-000011",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 8900392000,
+          "end": "2025-12-31",
+          "filed": "2026-02-17",
+          "accession": "0001321655-26-000011",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 1412381000,
+          "end": "2025-12-31",
+          "filed": "2026-02-17",
+          "accession": "0001321655-26-000011",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 7387268000,
+          "end": "2025-12-31",
+          "filed": "2026-02-17",
+          "accession": "0001321655-26-000011",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 2865507000,
+          "end": "2024-12-31",
+          "filed": "2025-02-18",
+          "accession": "0001321655-25-000022",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 462190000,
+          "end": "2024-12-31",
+          "filed": "2025-02-18",
+          "accession": "0001321655-25-000022",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 6340884000,
+          "end": "2024-12-31",
+          "filed": "2025-02-18",
+          "accession": "0001321655-25-000022",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 1246477000,
+          "end": "2024-12-31",
+          "filed": "2025-02-18",
+          "accession": "0001321655-25-000022",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 5003275000,
+          "end": "2024-12-31",
+          "filed": "2025-02-18",
+          "accession": "0001321655-25-000022",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "QCOM": {
+      "cik": 804328,
+      "company": "QUALCOMM INC/DE",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000804328.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 44284000000,
+          "end": "2025-09-28",
+          "filed": "2025-11-05",
+          "accession": "0000804328-25-000085",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 5541000000,
+          "end": "2025-09-28",
+          "filed": "2025-11-05",
+          "accession": "0000804328-25-000085",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 50143000000,
+          "end": "2025-09-28",
+          "filed": "2025-11-05",
+          "accession": "0000804328-25-000085",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 28937000000,
+          "end": "2025-09-28",
+          "filed": "2025-11-05",
+          "accession": "0000804328-25-000085",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 21206000000,
+          "end": "2025-09-28",
+          "filed": "2025-11-05",
+          "accession": "0000804328-25-000085",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 38962000000,
+          "end": "2024-09-29",
+          "filed": "2024-11-06",
+          "accession": "0000804328-24-000075",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 10142000000,
+          "end": "2024-09-29",
+          "filed": "2024-11-06",
+          "accession": "0000804328-24-000075",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 55154000000,
+          "end": "2024-09-29",
+          "filed": "2024-11-06",
+          "accession": "0000804328-24-000075",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 28880000000,
+          "end": "2024-09-29",
+          "filed": "2024-11-06",
+          "accession": "0000804328-24-000075",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 26274000000,
+          "end": "2024-09-29",
+          "filed": "2024-11-06",
+          "accession": "0000804328-24-000075",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      }
+    },
+    "TSLA": {
+      "cik": 1318605,
+      "company": "Tesla, Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001318605.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 94827000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003952",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 3794000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003952",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 137806000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003952",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 54941000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003952",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 82137000000,
+          "end": "2025-12-31",
+          "filed": "2026-01-29",
+          "accession": "0001628280-26-003952",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 97690000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001628280-25-003063",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 7091000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001628280-25-003063",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 122070000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001628280-25-003063",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 48390000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001628280-25-003063",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 72913000000,
+          "end": "2024-12-31",
+          "filed": "2025-01-30",
+          "accession": "0001628280-25-003063",
+          "tag": "StockholdersEquity"
+        }
+      }
+    },
+    "V": {
+      "cik": 1403161,
+      "company": "VISA INC.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001403161.json",
+      "fiscalYear": 2025,
+      "previousFiscalYear": 2024,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 40000000000,
+          "end": "2025-09-30",
+          "filed": "2025-11-06",
+          "accession": "0001403161-25-000089",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 20058000000,
+          "end": "2025-09-30",
+          "filed": "2025-11-06",
+          "accession": "0001403161-25-000089",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 99627000000,
+          "end": "2025-09-30",
+          "filed": "2025-11-06",
+          "accession": "0001403161-25-000089",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 61718000000,
+          "end": "2025-09-30",
+          "filed": "2025-11-06",
+          "accession": "0001403161-25-000089",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 37909000000,
+          "end": "2025-09-30",
+          "filed": "2025-11-06",
+          "accession": "0001403161-25-000089",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 35926000000,
+          "end": "2024-09-30",
+          "filed": "2024-11-13",
+          "accession": "0001403161-24-000058",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 19743000000,
+          "end": "2024-09-30",
+          "filed": "2024-11-13",
+          "accession": "0001403161-24-000058",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 94511000000,
+          "end": "2024-09-30",
+          "filed": "2024-11-13",
+          "accession": "0001403161-24-000058",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 55374000000,
+          "end": "2024-09-30",
+          "filed": "2024-11-13",
+          "accession": "0001403161-24-000058",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 39137000000,
+          "end": "2024-09-30",
+          "filed": "2024-11-13",
+          "accession": "0001403161-24-000058",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      }
+    },
+    "WMT": {
+      "cik": 104169,
+      "company": "Walmart Inc.",
+      "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000104169.json",
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
+      "currency": "USD",
+      "current": {
+        "revenue": {
+          "value": 706413000000,
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "accession": "0000104169-26-000055",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 21893000000,
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "accession": "0000104169-26-000055",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 284668000000,
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "accession": "0000104169-26-000055",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 99617000000,
+          "end": "2026-01-31",
+          "filed": "2026-03-13",
+          "accession": "0000104169-26-000055",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
+        "revenue": {
+          "value": 674538000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-14",
+          "accession": "0000104169-25-000021",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 19436000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-14",
+          "accession": "0000104169-25-000021",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 260823000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-14",
+          "accession": "0000104169-25-000021",
+          "tag": "Assets"
+        },
+        "liabilities": null,
+        "equity": {
+          "value": 91013000000,
+          "end": "2025-01-31",
+          "filed": "2025-03-14",
+          "accession": "0000104169-25-000021",
+          "tag": "StockholdersEquity"
+        }
+      }
+    }
+  },
   "errors": {}
 }
