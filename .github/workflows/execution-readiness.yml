@@ -1,0 +1,31 @@
+name: Global Execution Readiness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "27 */4 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: global-execution-readiness
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check broker readiness without placing orders
+        run: python global_execution.py
+      - name: Save status
+        run: |
+          git config user.name "hisse-radar-bot"
+          git config user.email "actions@github.com"
+          git add data/execution-readiness.json
+          git diff --cached --quiet || (git commit -m "Update global execution readiness" && git push)
