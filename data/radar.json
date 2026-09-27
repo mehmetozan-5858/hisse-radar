@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-27T00:40:27.747867+00:00",
+  "updated_at": "2026-09-27T08:32:12.329292+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "CRM",
-    "PLTR"
+    "QCOM",
+    "INTC"
   ],
   "quote_status": {
     "fresh": 20,
@@ -2350,9 +2350,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 48,
@@ -2519,17 +2519,17 @@
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
-        "revenueGrowth": null,
-        "netIncomeGrowth": null,
-        "epsGrowth": null,
-        "pe": null,
-        "peg": null
+        "revenueGrowth": -0.004670345191239336,
+        "netIncomeGrowth": 0.9857645553422905,
+        "epsGrowth": 0.986552511415525,
+        "pe": -58.293838862559234,
+        "peg": 0.004830872823762445
       },
       "analyst": {
-        "targetConsensus": null,
-        "targetHigh": null,
-        "targetLow": null,
-        "targetMedian": null
+        "targetConsensus": 110.97,
+        "targetHigh": 200,
+        "targetLow": 60,
+        "targetMedian": 110
       },
       "insider": {
         "score": 10,
@@ -2621,17 +2621,17 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 26,
+        "score": 47,
         "max": 80,
         "components": {
-          "analyst": 0,
-          "growth": 0,
-          "valuation": 5,
+          "analyst": 1,
+          "growth": 15,
+          "valuation": 10,
           "momentum": 1,
           "insider": 10,
           "institutional": 10
