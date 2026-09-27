@@ -3,7 +3,7 @@ name: Global Niche Radar V13
 on:
   workflow_dispatch:
   schedule:
-    - cron: "47 */8 * * *"
+    - cron: "47 */4 * * *"
 
 permissions:
   contents: write
@@ -22,6 +22,9 @@ jobs:
           python-version: "3.12"
 
       - name: Global Niche V13 verilerini güncelle
+        env:
+          EODHD_API_KEY: ${{ secrets.EODHD_API_KEY }}
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: |
           python <<'PY'
           import json
@@ -31,6 +34,7 @@ jobs:
           from datetime import datetime, timezone, timedelta
           from urllib.request import Request, urlopen
           from urllib.parse import quote
+          from niche_universe import load_universe, rotate
 
           PATH = "data/global-niche.json"
 
@@ -71,6 +75,12 @@ jobs:
 
           except Exception as e:
               print("Previous data unavailable:", repr(e))
+
+          universe, markets = load_universe(os.getenv("EODHD_API_KEY"))
+          batch = rotate(universe, int(os.getenv("GITHUB_RUN_NUMBER", "0")), batch=30)
+          existing = {row["symbol"] for row in CANDIDATES}
+          CANDIDATES.extend(row for row in batch if row["symbol"] not in existing)
+          selected = {row["symbol"] for row in CANDIDATES}
 
           def get_json(url):
               req = Request(url, headers=HEADERS)
@@ -442,6 +452,11 @@ jobs:
               gate_reasons = []
               if not fresh:
                   gate_reasons.append("Yeni fiyat yanıtı yok")
+              if candidate.get("discovered") and fresh:
+                  ratio = metrics.get("volumeRatio")
+                  momentum = metrics.get("return5d")
+                  if ratio is None or ratio < 1.5 or momentum is None or abs(momentum) < 5:
+                      gate_reasons.append("Niş hacim ve fiyat hareketi eşiği karşılanmadı")
               if not isinstance(data.get("price"), (int, float)) or data["price"] <= 0:
                   gate_reasons.append("Geçerli fiyat yok")
               if not isinstance(data.get("volume"), (int, float)) or data["volume"] <= 0:
@@ -485,6 +500,8 @@ jobs:
                   "country": candidate["country"],
                   "theme": candidate["theme"],
                   "size": candidate["size"],
+                  "discovered": bool(candidate.get("discovered")),
+                  "listingCode": candidate.get("listingCode"),
 
                   "score": score,
                   "technicalScore": score,
@@ -530,6 +547,17 @@ jobs:
 
               time.sleep(0.25)
 
+          # Keep past discoveries searchable, but never imply an unrefreshed quote is current.
+          for symbol, previous in previous_map.items():
+              if symbol in selected or not previous.get("discovered"):
+                  continue
+              archived = dict(previous)
+              archived.update({"researchEligible": False, "score": None,
+                               "technicalScore": None, "researchConfidence": "LOW",
+                               "status": "YENİLENMEDİ", "marketDataStatus": "cached",
+                               "gateReasons": ["Bu taramada fiyat yenilenmedi"]})
+              output_candidates.append(archived)
+
           output_candidates.sort(
               key=lambda x: (not x["researchEligible"], -(x.get("score") or 0), x["symbol"])
           )
@@ -542,6 +570,10 @@ jobs:
               "count": len(output_candidates),
               "marketDataCount": fresh_count,
               "financialDataCount": 0,
+              "discovery": {"directoryCount": len(universe), "markets": markets,
+                            "scannedThisRun": len(batch), "tracked": sum(bool(x.get("discovered")) for x in output_candidates),
+                            "directorySource": "Nasdaq Trader / EODHD exchange lists",
+                            "intervalHours": 4},
 
               "quoteStatus": {
                   "fresh": fresh_count,
@@ -604,7 +636,7 @@ jobs:
           git config user.name "hisse-radar-bot"
           git config user.email "actions@github.com"
 
-          git add data/global-niche.json
+          git add data/global-niche.json data/niche-universe-cache.json
 
           if git diff --cached --quiet; then
             echo "Değişiklik yok."
