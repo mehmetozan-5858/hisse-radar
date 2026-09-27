@@ -103,8 +103,8 @@ def load_universe(token=None, fetch=http_text, now=None):
             # A stale directory must not be presented as current coverage.
     CACHE.parent.mkdir(parents=True, exist_ok=True)
     CACHE.write_text(json.dumps({"sources": refresh}, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    rows = {item["symbol"]: item for source in refresh.values() for item in source["rows"]}
-    return sorted(rows.values(), key=lambda row: row["symbol"]), {code: len(source["rows"]) for code, source in refresh.items()}
+    rows = {item["symbol"]: item for source in refresh.values() for item in source["rows"] if not EXCLUDE.search(item["name"])}
+    return sorted(rows.values(), key=lambda row: row["symbol"]), {code: sum(not EXCLUDE.search(item["name"]) for item in source["rows"]) for code, source in refresh.items()}
 
 
 def rotate(rows, run_number, batch=30):
