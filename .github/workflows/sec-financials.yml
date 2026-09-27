@@ -23,7 +23,7 @@ jobs:
           python-version: "3.12"
       - name: Load SEC companyfacts with declared contact
         env:
-          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          SEC_USER_AGENT: HisseRadar/2.0 ${{ secrets.SEC_CONTACT_EMAIL }}
         run: python sec_financials.py
       - name: Publish public financial facts only
         run: |
