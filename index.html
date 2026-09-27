@@ -313,13 +313,21 @@
     <div class="panelTitle">
       <h2>🌍 Global Niche Radar</h2>
       <p>
-        Önceden belirlenmiş niş hisse listesini tarayan ikinci araştırma motoru.
-        Puanlar getiri tahmini değildir.
+        ABD, Avrupa ve Hong Kong borsa listelerinden dönüşümlü keşif taraması.
+        Kapsam ve son yenileme aşağıda görünür; puanlar getiri tahmini değildir.
       </p>
+    </div>
+    <div class="loadingBox" id="discoverySummary" role="status">Keşif kapsamı yükleniyor...</div>
+    <div class="loadingBox" id="discoveryAlert" role="status">Yeni keşif alarmı beklemede.</div>
+    <div class="pilotForm">
+      <label>Piyasa<select id="nicheMarket"><option value="">Tüm piyasalar</option></select></label>
+      <label>Sembol veya şirket<input id="nicheSearch" type="search" placeholder="Ara"></label>
+      <label>Görünüm<select id="nicheView"><option value="eligible">Yeni sinyal ve araştırma adayları</option><option value="all">Tarananların tamamı</option></select></label>
     </div>
     <div class="grid" id="nicheCards">
       <div class="loadingBox">Global Niche verileri yükleniyor...</div>
     </div>
+    <button type="button" id="nicheMore" hidden>Daha fazla göster</button>
     <div class="detail" id="nicheDetail"></div>
     <div class="panelTitle">
       <h2>🧭 Ajan araştırma masası</h2>
@@ -363,6 +371,8 @@
 <script>
 let radarData = null;
 let nicheData = null;
+let nicheShown = 30;
+const nicheSeenKey = "hisse-radar-niche-seen-v1";
 const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch]);
 
 const pilotKey="hisse-radar-paper-pilot-v1";
@@ -409,7 +419,7 @@ async function loadAgentReports(){
     summary.className="loadingBox";
     summary.textContent=`${report.mode === "AI research" ? "AI araştırması" : "Veri kontrolü; AI henüz çalıştırılmadı"} · Kaynak verisi: ${report.sourceGeneratedAt || "tarih yok"} · Emir yetkisi: yalnızca kullanıcı`;
     container.appendChild(summary);
-    for(const item of report.candidates || []){
+    for(const item of (report.candidates || []).slice(0,30)){
       const card=document.createElement("div");
       card.className="card";
       const title=document.createElement("div");
@@ -673,7 +683,18 @@ function renderNicheCards(){
     return;
   }
 
-  stocks.forEach((stock,index)=>{
+  const market=document.getElementById("nicheMarket").value;
+  const search=document.getElementById("nicheSearch").value.trim().toLocaleLowerCase("tr-TR");
+  const view=document.getElementById("nicheView").value;
+  const matches=stocks.map((stock,index)=>({stock,index})).filter(({stock})=>
+    (!market || stock.market===market) &&
+    (view==="all" || stock.researchEligible!==false) &&
+    (!search || `${stock.symbol} ${stock.name}`.toLocaleLowerCase("tr-TR").includes(search))
+  );
+  if(!matches.length){
+    cards.innerHTML='<div class="loadingBox">Bu görünümde doğrulanmış aday bulunamadı. Tarananların tamamını seçerek veri engellerini inceleyebilirsiniz.</div>';
+  }
+  matches.slice(0,nicheShown).forEach(({stock,index})=>{
     const change=Number(stock.changePercentage ?? 0);
     const cls=change>=0?"positive":"negative";
     const sign=change>0?"+":"";
@@ -694,6 +715,33 @@ function renderNicheCards(){
     card.onclick=()=>showNicheDetail(index);
     cards.appendChild(card);
   });
+  const more=document.getElementById("nicheMore");
+  more.hidden=matches.length<=nicheShown;
+  more.textContent=`Daha fazla göster (${Math.min(nicheShown,matches.length)}/${matches.length})`;
+}
+
+function updateDiscoveryStatus(){
+  const d=nicheData?.discovery || {};
+  const markets=Object.entries(d.markets || {});
+  const stamp=nicheData?.generatedAt ? new Date(nicheData.generatedAt) : null;
+  const age=stamp && !Number.isNaN(stamp.getTime()) ? Date.now()-stamp.getTime() : Infinity;
+  document.getElementById("discoverySummary").textContent=
+    `Liste evreni: ${d.directoryCount || 0} · Bu tur fiyat sorgusu: ${d.scannedThisRun || 0} · Birikmiş keşif: ${d.tracked || 0} · `+
+    `Listesi erişilen piyasalar: ${markets.map(([key,n])=>`${key} ${n}`).join(", ") || "yok"} · `+
+    `Rapor: ${stamp && age<Infinity ? stamp.toLocaleString("tr-TR") : "bilinmiyor"}`+
+    (age>8*3600*1000 ? " · RAPOR ESKİ" : "")+
+    ". Liste evreni, fiyatı taranan hisse sayısı değildir.";
+  const select=document.getElementById("nicheMarket");
+  const old=select.value;
+  select.replaceChildren(new Option("Tüm piyasalar",""),...Array.from(new Set(getNicheStocks().map(x=>x.market).filter(Boolean))).sort().map(x=>new Option(x,x)));
+  select.value=old;
+  const current=getNicheStocks().filter(x=>x.discovered && x.researchEligible && age<=8*3600*1000).map(x=>x.symbol);
+  try{
+    const previous=JSON.parse(localStorage.getItem(nicheSeenKey));
+    const newly=Array.isArray(previous) ? current.filter(x=>!previous.includes(x)) : [];
+    if(newly.length) document.getElementById("discoveryAlert").textContent=`🔔 Yeni araştırma sinyali: ${newly.join(", ")}. İşlem önerisi değildir; kartların verisini ve IBKR sembolünü doğrulayın.`;
+    localStorage.setItem(nicheSeenKey,JSON.stringify(current));
+  }catch(error){ document.getElementById("discoveryAlert").textContent="Alarm kaydı bu tarayıcıda saklanamadı."; }
 }
 
 function showNicheDetail(index){
@@ -877,6 +925,7 @@ async function loadNiche(){
     );
 
     nicheData=await response.json();
+    updateDiscoveryStatus();
     renderNicheCards();
 
   }catch(error){
@@ -897,6 +946,11 @@ async function startApp(){
 }
 
 startApp();
+for(const id of ["nicheMarket","nicheView","nicheSearch"]){
+  document.getElementById(id).addEventListener(id==="nicheSearch"?"input":"change",()=>{nicheShown=30;renderNicheCards();});
+}
+document.getElementById("nicheMore").addEventListener("click",()=>{nicheShown+=30;renderNicheCards();});
+setInterval(loadNiche,15*60*1000);
 
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js");
