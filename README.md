@@ -17,6 +17,14 @@ Seçimler cihazın tarayıcı depolamasında kalır; hesaplar ve cihazlar arası
 eşitlenmez. Keşif raporundan çıkan bir sembol daha sonra yeniden taranana kadar
 favori listesinde görünmez; tarayıcı verileri silinirse yıldızlar da silinir.
 
+Hisse kartına dokununca görsel fiyat özeti, günlük kapanış grafiği ve mevcut
+günlük düşük/yüksek ile hacim bilgileri açılır. Grafik 5 işlem günü, yaklaşık
+1/3/6 ay ve bir yıllık yayımlanmış kapanış noktalarından oluşur. Yeni veri
+iş akışı çalışana dek eski kayıtlarda grafik yerine veri yok açıklaması görünür.
+Kaynak gün içi emir defteri, alış/satış kotasyonu veya gerçek zamanlı fiyat
+sağlamaz; ekranda bunlara ilişkin değer üretilmez. Her grafik son bar tarihini
+ve veri kaynağını belirtir.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse

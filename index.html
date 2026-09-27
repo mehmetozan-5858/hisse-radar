@@ -143,6 +143,19 @@
 
     .detail.active { display: block; }
     .detail h2 { margin: 0 0 4px; }
+    .detailHero { background:#142337; border-radius:17px; padding:17px; margin-bottom:16px; }
+    .detailHero h2 { font-size:22px; }
+    .detailHero .price { font-size:32px; margin-top:16px; }
+    .detailHero .small { line-height:1.5; }
+    .periods { display:flex; gap:6px; flex-wrap:wrap; margin:18px 0 10px; }
+    .periods button { border:0; border-radius:9px; padding:9px 12px; background:transparent; color:#a8b8ca; font-weight:700; cursor:pointer; }
+    .periods button[aria-pressed="true"] { background:#1b3e60; color:white; }
+    .periods button:focus-visible { outline:3px solid #70b7ff; }
+    .chartBox { min-height:210px; border-radius:12px; background:#0d1b2a; padding:6px; }
+    .chartBox svg { display:block; width:100%; height:auto; }
+    .chartMeta { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+    .detailStats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:14px 0; }
+    .detailStats .stat { min-width:0; }
 
     .bigScore {
       font-size: 31px;
@@ -676,6 +689,73 @@ function renderCards(){
   });
 }
 
+function detailOverview(stock, kind){
+  const fmt=value=>kind==="niche" ? nicheMoney(value,stock.currency) : money(value);
+  const change=Number(stock.changePercentage);
+  const direction=Number.isFinite(change) ? (change>=0 ? "positive" : "negative") : "";
+  const previous=stock.previousClose ?? (Array.isArray(stock.dailyCloses) && stock.dailyCloses.length>1 ? stock.dailyCloses.at(-2)?.[1] : null);
+  const market=kind==="niche" ? stock.market || stock.exchange : "Ana radar";
+  const stat=(label,value)=>`<div class="stat"><div class="statLabel">${label}</div><div class="statValue">${value}</div></div>`;
+  return `<div class="detailHero">
+    <h2>${esc(stock.symbol || "-")} <span class="small">${esc(market || "")}</span></h2>
+    <div class="small">${esc(stock.name || "")}</div>
+    <div class="price">${fmt(stock.price)}</div>
+    <div class="change ${direction}">${Number.isFinite(change) ? `${change>0?"+":""}${pct(change)}` : "Değişim yok"} · son kapanışa göre</div>
+    <div class="small">Günlük kapanış verisi · Son bar: ${esc(stock.lastBarAt ? new Date(stock.lastBarAt).toLocaleDateString("tr-TR") : "doğrulanmadı")} · ${esc(stock.quoteSource || "Kaynak belirtilmedi")}</div>
+    <div class="periods" role="group" aria-label="Grafik dönemi">${[["5G","5 işlem günü"],["1A","1 ay"],["3A","3 ay"],["6A","6 ay"],["1Y","1 yıl"]].map(([period,label])=>`<button type="button" data-period="${period}" aria-label="${label}" aria-pressed="${period==="1A"}">${period}</button>`).join("")}</div>
+    <div class="chartBox" role="img" aria-label="Günlük kapanış fiyat grafiği"></div>
+    <div class="small chartMeta"></div>
+  </div>
+  <div class="detailStats">
+    ${stat("Önceki kapanış",fmt(previous))}
+    ${stat("Günlük en düşük",fmt(stock.dayLow))}
+    ${stat("Günlük en yüksek",fmt(stock.dayHigh))}
+    ${stat("Günlük hacim",number(stock.volume))}
+  </div>
+  <div class="note">Grafik günlük kapanışlardan oluşur; anlık fiyat, emir defteri, alış/satış kotasyonu veya 24 saatlik kripto verisi değildir.</div>`;
+}
+
+function initPriceChart(detail,stock,kind){
+  const rows=(Array.isArray(stock.dailyCloses) ? stock.dailyCloses : [])
+    .filter(row=>Array.isArray(row) && /^\d{4}-\d{2}-\d{2}$/.test(row[0]) && Number.isFinite(Number(row[1])) && Number(row[1])>0)
+    .sort((a,b)=>a[0].localeCompare(b[0]));
+  const lengths={"5G":5,"1A":22,"3A":66,"6A":132,"1Y":252};
+  const fmt=value=>kind==="niche" ? nicheMoney(value,stock.currency) : money(value);
+  const chart=detail.querySelector(".chartBox");
+  const meta=detail.querySelector(".chartMeta");
+  function draw(period){
+    for(const button of detail.querySelectorAll(".periods button")) button.setAttribute("aria-pressed",String(button.dataset.period===period));
+    chart.replaceChildren();
+    const points=rows.slice(-lengths[period]);
+    if(points.length<2){
+      chart.textContent="Bu dönem için fiyat geçmişi henüz yayımlanmadı. Yeni veri turundan sonra tekrar kontrol edin.";
+      meta.textContent="Kaynak verisi yok; grafik çizilmedi.";
+      return;
+    }
+    const values=points.map(row=>Number(row[1]));
+    const low=Math.min(...values), high=Math.max(...values);
+    const span=high-low || Math.max(high*0.01,0.01);
+    const ns="http://www.w3.org/2000/svg";
+    const svg=document.createElementNS(ns,"svg");
+    svg.setAttribute("viewBox","0 0 600 220");
+    svg.setAttribute("aria-hidden","true");
+    const path=document.createElementNS(ns,"path");
+    const coords=values.map((value,i)=>[20+i*560/(values.length-1),190-(value-low)/span*150]);
+    path.setAttribute("d",coords.map(([x,y],i)=>`${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" "));
+    path.setAttribute("fill","none");
+    path.setAttribute("stroke",values.at(-1)>=values[0] ? "#3cba79" : "#ff6577");
+    path.setAttribute("stroke-width","3");
+    path.setAttribute("stroke-linecap","round");
+    path.setAttribute("stroke-linejoin","round");
+    svg.appendChild(path);
+    chart.appendChild(svg);
+    chart.setAttribute("aria-label",`${points[0][0]} ile ${points.at(-1)[0]} arasında ${points.length} günlük kapanış. En düşük ${fmt(low)}, en yüksek ${fmt(high)}.`);
+    meta.textContent=`${points[0][0]} – ${points.at(-1)[0]} · En düşük kapanış ${fmt(low)} · En yüksek kapanış ${fmt(high)}`;
+  }
+  detail.querySelectorAll(".periods button").forEach(button=>button.addEventListener("click",()=>draw(button.dataset.period)));
+  draw("1A");
+}
+
 function showDetail(index){
   const stock=radarData.stocks[index];
   const detail=document.getElementById("detail");
@@ -684,7 +764,7 @@ function showDetail(index){
   const inst=stock.institutional || {};
 
   detail.innerHTML=`
-    <h2>${esc(stock.symbol || "")}${stock.name?" • "+esc(stock.name):""}</h2>
+    ${detailOverview(stock,"radar")}
 
     <div class="bigScore">
       ${esc(stock.radar?.score ?? "-")}/${esc(stock.radar?.max ?? "-")}
@@ -725,6 +805,7 @@ function showDetail(index){
 
     <button class="close" onclick="closeDetail()">Kapat</button>
   `;
+  initPriceChart(detail,stock,"radar");
 
   detail.classList.add("active");
   detail.scrollIntoView({behavior:"smooth",block:"start"});
@@ -828,10 +909,7 @@ function showNicheDetail(index){
   const m=stock.metrics || {};
 
   detail.innerHTML=`
-    <h2>
-      ${esc(stock.symbol || "")}
-      ${stock.name ? "• "+esc(stock.name) : ""}
-    </h2>
+    ${detailOverview(stock,"niche")}
 
     <div class="bigScore">${stock.researchEligible === false ? "VERİ ENGELİ" : esc(stock.score ?? "-")+"/100"}</div>
     <div class="metric"><span>Son günlük bar başlangıcı</span><strong>${esc(stock.lastBarAt || stock.lastTradedAt || "Doğrulanmadı")}</strong></div>
@@ -953,6 +1031,7 @@ function showNicheDetail(index){
 
     <button class="close" onclick="closeNicheDetail()">Kapat</button>
   `;
+  initPriceChart(detail,stock,"niche");
 
   detail.classList.add("active");
   detail.scrollIntoView({behavior:"smooth",block:"start"});
