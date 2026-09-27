@@ -61,6 +61,7 @@ def verify_eod(stock, token, fetch=None):
 
 def eligibility(stock):
     reasons = []
+    now = datetime.now(timezone.utc)
     if stock.get("marketDataStatus") != "fresh":
         reasons.append("Güncel fiyat yanıtı yok")
     if not isinstance(stock.get("price"), (int, float)) or stock["price"] <= 0:
@@ -72,10 +73,21 @@ def eligibility(stock):
         reasons.append("Hacim geçmişi doğrulanamıyor")
     try:
         traded_at = datetime.fromisoformat(stock.get("lastTradedAt"))
-        if traded_at.tzinfo is None or traded_at > datetime.now(timezone.utc) + timedelta(hours=1) or datetime.now(timezone.utc) - traded_at > timedelta(days=5):
+        bar_at = datetime.fromisoformat(stock.get("lastBarAt"))
+        if traded_at.tzinfo is None or bar_at.tzinfo is None:
+            raise ValueError("timezone missing")
+        if traded_at != bar_at:
+            reasons.append("Fiyat barı ile son hacimli işlem farklı günlerde")
+        if traded_at > now + timedelta(hours=1) or now - traded_at > timedelta(days=5):
             reasons.append("Son işlem kaydı eski veya gelecekte")
     except (TypeError, ValueError):
-        reasons.append("Son işlem tarihi doğrulanamıyor")
+        reasons.append("Fiyat barı veya son işlem tarihi doğrulanamıyor")
+    try:
+        fetched_at = datetime.fromisoformat(stock.get("fetchedAt"))
+        if fetched_at.tzinfo is None or fetched_at > now + timedelta(hours=1) or now - fetched_at > timedelta(hours=12):
+            reasons.append("Fiyat yanıtı 12 saat içinde yenilenmemiş")
+    except (TypeError, ValueError):
+        reasons.append("Fiyat yanıtının zamanı doğrulanamıyor")
     if not stock.get("quoteUrl"):
         reasons.append("Fiyat kaynağı doğrulanamıyor")
     return reasons
@@ -116,8 +128,19 @@ def build_report(data, client=None, model=None, eod_key=None, eod_fetch=None):
     rows = []
     selected = 0
     checked = 0
+    try:
+        source_at = datetime.fromisoformat(data.get("generatedAt"))
+        source_stale = (
+            source_at.tzinfo is None
+            or source_at > datetime.now(timezone.utc) + timedelta(hours=1)
+            or datetime.now(timezone.utc) - source_at > timedelta(hours=12)
+        )
+    except (TypeError, ValueError):
+        source_stale = True
     for stock in ranked:
         reasons = eligibility(stock)
+        if source_stale:
+            reasons.append("Kaynak radar raporu 12 saat içinde yenilenmemiş")
         flags = list(reasons)
         verification = "not_run"
         if eod_key and not reasons and checked < MAX_EOD_CHECKS:
@@ -142,6 +165,8 @@ def build_report(data, client=None, model=None, eod_key=None, eod_fetch=None):
             "theme": stock.get("theme"),
             "score": stock.get("score"),
             "lastTradedAt": stock.get("lastTradedAt"),
+            "lastBarAt": stock.get("lastBarAt"),
+            "fetchedAt": stock.get("fetchedAt"),
             "quoteUrl": stock.get("quoteUrl"),
             "decision": "blocked" if reasons else "research_only",
             "independentCheck": verification,
@@ -156,6 +181,7 @@ def build_report(data, client=None, model=None, eod_key=None, eod_fetch=None):
     return {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
         "sourceGeneratedAt": data.get("generatedAt"),
+        "sourceStale": source_stale,
         "source": "data/global-niche.json",
         "mode": "AI research" if client else "data gate only",
         "maxAiCandidates": MAX_CANDIDATES,
