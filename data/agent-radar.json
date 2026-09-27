@@ -1,34 +1,24 @@
 {
-  "generatedAt": "2026-09-27T08:47:35.338541+00:00",
-  "sourceGeneratedAt": "2026-09-27T00:57:28.860990+00:00",
+  "generatedAt": "2026-09-27T09:23:04.024608+00:00",
+  "sourceGeneratedAt": "2026-09-27T09:20:45.985804+00:00",
   "source": "data/global-niche.json",
   "mode": "data gate only",
   "maxAiCandidates": 3,
-  "lastBarTimestampAvailable": false,
+  "lastBarTimestampAvailable": true,
   "orderAuthority": "user_only",
   "brokerConnection": false,
   "candidates": [
     {
-      "symbol": "ALQGC.PA",
-      "theme": "Quantum",
-      "score": 69,
-      "decision": "blocked",
-      "flags": [
-        "Son fiyat kaydında işlem hacmi yok",
-        "Hacim geçmişi doğrulanamıyor",
-        "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
-      ],
-      "agents": {}
-    },
-    {
       "symbol": "IONQ",
       "theme": "Quantum",
       "score": 66,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/IONQ?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -36,10 +26,13 @@
       "symbol": "FLT.TO",
       "theme": "Drones",
       "score": 59,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/FLT.TO?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -47,10 +40,13 @@
       "symbol": "RKLB",
       "theme": "Space",
       "score": 55,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/RKLB?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -58,10 +54,13 @@
       "symbol": "LUNR",
       "theme": "Space",
       "score": 49,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/LUNR?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -69,10 +68,13 @@
       "symbol": "QBTS",
       "theme": "Quantum",
       "score": 48,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/QBTS?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -80,10 +82,13 @@
       "symbol": "MIATK.IS",
       "theme": "Technology / AI",
       "score": 45,
+      "lastTradedAt": "2026-09-25T06:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/MIATK.IS?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T06:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -91,10 +96,13 @@
       "symbol": "HE1.L",
       "theme": "Helium",
       "score": 43,
+      "lastTradedAt": "2026-09-25T07:00:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/HE1.L?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T07:00:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -102,10 +110,13 @@
       "symbol": "SOUN",
       "theme": "AI",
       "score": 38,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SOUN?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -113,10 +124,13 @@
       "symbol": "DRO.AX",
       "theme": "Defense / Drones",
       "score": 34,
+      "lastTradedAt": "2026-09-25T00:00:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/DRO.AX?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T00:00:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -124,10 +138,13 @@
       "symbol": "PNG.V",
       "theme": "Robotics",
       "score": 34,
+      "lastTradedAt": "2026-09-25T13:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/PNG.V?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T13:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -135,10 +152,13 @@
       "symbol": "LTR.AX",
       "theme": "Lithium",
       "score": 30,
+      "lastTradedAt": "2026-09-25T00:00:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/LTR.AX?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T00:00:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     },
@@ -146,10 +166,29 @@
       "symbol": "PAPIL.IS",
       "theme": "Biometrics / Defense",
       "score": 30,
+      "lastTradedAt": "2026-09-25T06:30:00+00:00",
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/PAPIL.IS?interval=1d&range=1y",
       "decision": "research_only",
       "flags": [
         "Temel finansal veri yok",
-        "Son işlem tarihi doğrulanmadı; işlem için hazır değil"
+        "Son işlem: 2026-09-25T06:30:00+00:00",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
+      ],
+      "agents": {}
+    },
+    {
+      "symbol": "ALQGC.PA",
+      "theme": "Quantum",
+      "score": null,
+      "lastTradedAt": null,
+      "quoteUrl": "https://query1.finance.yahoo.com/v8/finance/chart/ALQGC.PA?interval=1d&range=1y",
+      "decision": "blocked",
+      "flags": [
+        "Son fiyat kaydında işlem hacmi yok",
+        "Hacim geçmişi doğrulanamıyor",
+        "Son işlem tarihi doğrulanamıyor",
+        "Temel finansal veri yok",
+        "Araştırma adayı; işlem kararı yalnızca kullanıcıda"
       ],
       "agents": {}
     }
