@@ -25,6 +25,19 @@ Kaynak gün içi emir defteri, alış/satış kotasyonu veya gerçek zamanlı fi
 sağlamaz; ekranda bunlara ilişkin değer üretilmez. Her grafik son bar tarihini
 ve veri kaynağını belirtir.
 
+## İzleme masası ve teknik görünüm
+
+Matriks Mobil IQ'nun kişiselleştirilmiş izleme ekranları örnek alınarak, ana radar
+ve küresel keşif sonuçlarını tek tabloda arayan ve sıralayan bir izleme masası
+eklendi. Kullanıcı en fazla 12 yerel liste oluşturup yayımlanan sembolleri bu
+listelere ekleyebilir. Listeler yalnızca tarayıcı depolamasında saklanır; farklı
+cihazlara eşitlenmez. Tablo son yayımlanan günlük fiyat ve değişimi gösterir.
+Hisse detayında mevcut günlük kapanışlardan 20/50 günlük basit ortalama ve
+14 değişimlik RSI hesaplanır; yeterli geçmiş yoksa değer gösterilmez.
+Bu göstergeler yatırım veya alım satım sinyali değildir. Matriks'in canlı
+kotasyon, derinlik, para giriş çıkış ve broker emir işlevleri uygulamaya bağlı
+değildir; ilgili veri ve emir yetkileri lisans ve resmi entegrasyon gerektirir.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
