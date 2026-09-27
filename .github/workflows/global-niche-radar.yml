@@ -223,6 +223,10 @@ jobs:
                       "quoteUrl": url,
                       "dayLow": round(float(rows[-1]["low"]), 4) if rows[-1]["low"] is not None else None,
                       "dayHigh": round(float(rows[-1]["high"]), 4) if rows[-1]["high"] is not None else None,
+                      "dailyCloses": [
+                          [datetime.fromtimestamp(row["timestamp"], timezone.utc).strftime("%Y-%m-%d"), round(row["close"], 4)]
+                          for row in rows[-252:] if isinstance(row.get("timestamp"), (int, float))
+                      ],
                       "currency": meta.get("currency"),
                       "exchangeName": meta.get("exchangeName"),
                       "marketCap": meta.get("marketCap"),
@@ -542,6 +546,7 @@ jobs:
                   "marketCap": market_cap,
                   "dayLow": data.get("dayLow"),
                   "dayHigh": data.get("dayHigh"),
+                  "dailyCloses": data.get("dailyCloses") if fresh else previous.get("dailyCloses", []),
                   "currency": data.get("currency"),
                   "exchange": exchange,
 
