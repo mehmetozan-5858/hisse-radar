@@ -46,6 +46,24 @@ Bu göstergeler yatırım veya alım satım sinyali değildir. Matriks'in canlı
 kotasyon, derinlik, para giriş çıkış ve broker emir işlevleri uygulamaya bağlı
 değildir; ilgili veri ve emir yetkileri lisans ve resmi entegrasyon gerektirir.
 
+## Araştırma merkezi
+
+Yayımlanmış hisseler arasından seçilen ürün için günlük kapanışın 20/50 günlük
+ortalama konumu ve 14 değişimlik RSI gözlemi gösterilir. Bu gözlemler al/sat
+komutu değildir. Ana radarda mevcut gelir/net kâr büyümesi, F/K ve PEG alanları
+varsa görünür; raporda dönemli bilanço satırları ve kaynak döneminin tam tarihi
+olmadığı için doğrulanmış karşılaştırmalı finansal rapor sayılmaz. KAP'ın
+bilanço karşılaştırması, SPK bültenleri, KAP açıklamaları ve TEFAS fon ekranı
+resmî kaynak bağlantıları olarak sunulur; dış sitelerin verisi Radar içinde
+yeniden yayımlanmaz. Mum formasyonu, yabancı takas, kurum bazlı para akışı,
+kurum önerileri, halka arz push bildirimi ve aracı kuruma emir bağlantısı için
+gerekli veri/izin bulunmadığında açık durum metni gösterilir. Radar hiçbir
+aracı kurum adına emir göndermeye başlamaz.
+NASDAQ veya NYSE eşleşmesi açıkça bilinen bir hissede kullanıcı isterse
+TradingView'in resmî, atıflı gelişmiş grafik widget'ı yüklenir. Widget üçüncü
+taraf veri kaynağıdır; Radar'ın günlük fiyat geçmişine veya işlem motoruna
+bağlanmaz. Eşleşmesi bilinmeyen hisselerde sembol tahmin edilmez.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
