@@ -107,21 +107,9 @@ def load_universe(token=None, fetch=http_text, now=None):
     return sorted(rows.values(), key=lambda row: row["symbol"]), {code: sum(not EXCLUDE.search(item["name"]) for item in source["rows"]) for code, source in refresh.items()}
 
 
-def rotate(rows, run_number, batch=30):
-    """Interleave markets, then advance a bounded slice at each scheduled run."""
-    grouped = {code: [] for code in EXCHANGES}
-    for row in rows:
-        code = row.get("listingCode", "").rsplit(".", 1)[-1] if row.get("listingCode") else "US"
-        if code in grouped:
-            grouped[code].append(row)
-    result = []
-    active = [code for code, items in grouped.items() if items]
-    if not active:
-        return result
-    for offset in range(batch):
-        code = active[(run_number * batch + offset) % len(active)]
-        items = grouped[code]
-        # Each market advances independently across successive runs.
-        slot = (run_number * batch // len(active) + offset // len(active)) % len(items)
-        result.append(items[slot])
-    return result
+def rotate(rows, cursor, batch=120):
+    """Visit every listed symbol before repeating, across persisted hourly runs."""
+    if not rows:
+        return []
+    start = cursor % len(rows)
+    return [rows[(start + offset) % len(rows)] for offset in range(min(batch, len(rows)))]

@@ -4,18 +4,21 @@ Mobil uyumlu PWA hisse araştırma paneli.
 
 ## Dinamik küresel keşif
 
-`global-niche-radar.yml` dört saatte bir çalışır. Nasdaq Trader'ın resmî hisse
+`global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
 listesi ve `EODHD_API_KEY` repository secret tanımlıysa EODHD'nin LSE, XETRA,
-Euronext Paris/Amsterdam ve Hong Kong hisse listelerinden her tur en fazla 30
-sembolü borsalara dağıtarak seçer. Liste bir günde yeniden alınır. EODHD ücretsiz
+Euronext Paris/Amsterdam ve Hong Kong hisse listelerinden her tur en fazla 120
+sembolü seçer. Sonraki tur kaldığı yerden devam eder; liste aynı kalırsa 2.778
+sembollük evren yaklaşık 24 saatlik döngüde tamamen denenir. İş akışı zamanlaması
+ve fiyat kaynağının yanıtları kesin süre veya tüm fiyatların güncelliğini garanti
+etmez. Liste bir günde yeniden alınır. EODHD ücretsiz
 katmanında günlük çağrı ve veri kapsamı sınırları vardır; key yoksa Avrupa/Hong
 Kong listeleri taranmış gibi gösterilmez. Resmî liste bulunamazsa ilgili piyasa
 bu tur keşif evreninde yer almaz. `data/niche-universe-cache.json` yalnızca
 halka açık sembol/şirket listelerini tutar, API token içermez.
 
 Seçilen semboller Yahoo günlük fiyat geçmişiyle denenir. Bu kaynağın otomatik
-toplu tarama için kullanım ve erişim güvencesi yoktur; 30 sorgu yanıtının
-kaçının yeni olduğu ayrıca raporlanır. Dinamik keşif kartına araştırma sinyali
+toplu tarama için kullanım ve erişim güvencesi yoktur; seçilen 120 sembolden
+kaçının güncel fiyat yanıtı olduğu ayrıca raporlanır. Dinamik keşif kartına araştırma sinyali
 verilmesi için geçerli fiyat/hacim kapısı yanında 20 günlük ortalamanın en az
 1,5 katı hacim ve beş günde mutlak %5 fiyat hareketi aranır. Bunlar doğrulanmış
 bir şirket tezi veya kazanç tahmini değildir. Önceki turda taranmış semboller

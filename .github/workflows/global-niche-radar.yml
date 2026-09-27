@@ -3,7 +3,11 @@ name: Global Niche Radar V13
 on:
   workflow_dispatch:
   schedule:
-    - cron: "47 */4 * * *"
+    - cron: "17 * * * *"
+
+concurrency:
+  group: global-niche-radar-${{ github.ref }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -60,6 +64,7 @@ jobs:
           }
 
           previous_map = {}
+          previous_discovery = {}
 
           try:
               with open(PATH, "r", encoding="utf-8") as f:
@@ -70,6 +75,7 @@ jobs:
                   for x in old.get("candidates", [])
                   if x.get("symbol")
               }
+              previous_discovery = old.get("discovery", {})
 
               print("Previous data loaded:", len(previous_map))
 
@@ -77,7 +83,11 @@ jobs:
               print("Previous data unavailable:", repr(e))
 
           universe, markets = load_universe(os.getenv("EODHD_API_KEY"))
-          batch = rotate(universe, int(os.getenv("GITHUB_RUN_NUMBER", "0")), batch=30)
+          batch_size = 120
+          cursor = previous_discovery.get("nextOffset")
+          if not isinstance(cursor, int) or cursor < 0:
+              cursor = int(os.getenv("GITHUB_RUN_NUMBER", "0")) * batch_size
+          batch = rotate(universe, cursor, batch=batch_size)
           existing = {row["symbol"] for row in CANDIDATES}
           CANDIDATES.extend(row for row in batch if row["symbol"] not in existing)
           selected = {row["symbol"] for row in CANDIDATES}
@@ -572,8 +582,10 @@ jobs:
               "financialDataCount": 0,
               "discovery": {"directoryCount": len(universe), "markets": markets,
                             "scannedThisRun": len(batch), "tracked": sum(bool(x.get("discovered")) for x in output_candidates),
+                            "nextOffset": (cursor + len(batch)) % len(universe) if universe else 0,
+                            "cycleHours": (len(universe) + batch_size - 1) // batch_size,
                             "directorySource": "Nasdaq Trader / EODHD exchange lists",
-                            "intervalHours": 4},
+                            "intervalHours": 1},
 
               "quoteStatus": {
                   "fresh": fresh_count,
