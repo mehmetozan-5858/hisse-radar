@@ -319,6 +319,11 @@
       <p>Veri nöbetçisi adayları ayırır. AI notları yalnızca elle çalıştırılan araştırma sonrası görünür. İşlem kararı sende.</p>
     </div>
     <div id="agentReports" class="grid"><div class="loadingBox">Ajan raporu yükleniyor...</div></div>
+    <div class="panelTitle">
+      <h2>🌐 Küresel işlem hazırlığı</h2>
+      <p>IBKR bağlantısı, piyasa verisi ve işlem izinleri doğrulanmadan emir oluşturulmaz. $1.000 sermaye ve her $10.000 gerçekleşmiş kâr dilimi kaydedilir; banka aktarımı aracı kurum portalında yapılır.</p>
+    </div>
+    <div id="executionReadiness" class="grid"><div class="loadingBox">İşlem koşulları yükleniyor...</div></div>
   </div>
 
   <div class="footer">
@@ -365,6 +370,36 @@ async function loadAgentReports(){
   }catch(error){
     container.textContent="Ajan raporu henüz oluşturulmadı.";
   }
+}
+
+async function loadExecutionReadiness(){
+  const container=document.getElementById("executionReadiness");
+  try{
+    const response=await fetch("data/execution-readiness.json?ts="+Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("No readiness report");
+    const report=await response.json();
+    container.replaceChildren();
+    const summary=document.createElement("div");
+    summary.className="card";
+    const title=document.createElement("div");
+    title.className="symbol";
+    title.textContent=`${report.brokerCandidate} · ${report.brokerConnected ? "BAĞLI" : "BAĞLI DEĞİL"}`;
+    const detail=document.createElement("div");
+    detail.className="small";
+    detail.textContent=`İşleme hazır: ${report.readyCount}/${(report.candidates||[]).length} · Başlangıç: $${report.capitalLimitUsd} · Süre: ${report.pilotDays} gün · Korunacak sermaye hedefi: $${report.retainedTradingCapitalUsd}`;
+    summary.append(title,detail);
+    container.appendChild(summary);
+    const missing=document.createElement("div");
+    missing.className="card";
+    const label=document.createElement("div");
+    label.className="symbol";
+    label.textContent="Eksik koşullar";
+    const notes=document.createElement("div");
+    notes.className="small";
+    notes.textContent=`IBKR kâğıt hesabı ve geçerli oturum, borsa bazında fiyat/işlem izinleri, doğrulanmış enstrüman eşlemesi ve temel finansal veri gerekli. Her $${report.realizedWithdrawableProfitChunkUsd} çekilebilir kâr dilimi kaydedilir; sistem banka aktarımı veya bildirim yapmaz.`;
+    missing.append(label,notes);
+    container.appendChild(missing);
+  }catch(error){ container.textContent="İşlem hazırlığı raporu henüz oluşturulmadı."; }
 }
 
 const money = value => {
@@ -780,7 +815,8 @@ async function startApp(){
   await Promise.all([
     loadRadar(),
     loadNiche(),
-    loadAgentReports()
+    loadAgentReports(),
+    loadExecutionReadiness()
   ]);
 }
 

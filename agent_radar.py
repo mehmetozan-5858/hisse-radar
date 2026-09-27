@@ -17,7 +17,7 @@ OUTPUT = Path("data/agent-radar.json")
 MAX_CANDIDATES = 3
 MAX_EOD_CHECKS = 3
 MAX_CLOSE_DIFFERENCE = 0.02
-EOD_SUFFIX = {"": "US", ".TO": "TO", ".V": "V", ".AX": "AU", ".PA": "PA", ".IS": "IS"}
+EOD_SUFFIX = {".TO": "TO", ".V": "V", ".AX": "AU", ".PA": "PA"}
 
 
 def eod_symbol(symbol):
@@ -135,7 +135,7 @@ def build_report(data, client=None, model=None, eod_key=None, eod_fetch=None):
         if not stock.get("financialQuality", {}).get("available"):
             flags.append("Temel finansal veri yok")
         if stock.get("lastTradedAt"):
-            flags.append("Son işlem: " + stock["lastTradedAt"])
+            flags.append("Son günlük bar başlangıcı: " + stock["lastTradedAt"])
         flags.append("Veri engeli; araştırma dışı" if reasons else "Araştırma adayı; işlem kararı yalnızca kullanıcıda")
         row = {
             "symbol": stock.get("symbol"),
