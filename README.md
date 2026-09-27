@@ -66,6 +66,28 @@ otomatik emir veya al/sat komutu bulunmaz; tüm işlem kararları kullanıcıdad
 
 ## Küresel işlem hazırlığı
 
+### Yerel otomatik kâğıt pilotu
+
+`python paper_agent.py` araştırma verisini üç ayrı kapıdan geçirir: sinyal,
+bağımsız veri ve portföy riski. Yerel `local/paper-state.json` içinde yalnızca
+**sanal** 100 USD bakiye ve işlem günlüğü tutar; IBKR'ye ağ çağrısı, emir veya
+para çekme talimatı göndermez. Aynı veri turu ikinci kez çalıştırılırsa yeniden
+alım yapmaz. Tek pozisyon üst sınırı 20 USD, beş açık pozisyon, 10 USD toplam
+zararda yeni alışları durdurma, örnek 0,25 USD komisyon ve 20 baz puanlık
+alış/satış farkı uygulanır. %4 düşüş veya %5 yükseliş ancak yeni ve geçerli
+fiyat yanıtı varsa sanal satışa dönüşür. Bu eşikler deney ayarıdır; getiri
+tahmini değildir. `python -m unittest -v test_paper_agent` giriş, çıkış, tekrar
+çalıştırma, eski fiyat ve zarar sınırını sınar.
+
+Mevcut halka açık radar verisinde temel finansal bilgi, bağımsız doğrulama,
+IBKR sözleşme kimliği ve piyasa açık onayı eksik olduğundan bütün adaylar
+engellenir. Bu beklenen güvenli sonuçtur. Testler örnek doğrulanmış veriyle
+sanal alım ve satım akışını gösterir. İşlemler kullanıcı cihazı veya özel
+sunucuda çalıştırılmalıdır; GitHub Pages bir aracı kurum oturumu tutamaz.
+Gerçek IBKR kâğıt hesabına geçiş için ayrı Gateway oturumu, broker fiyatı,
+borsa/kontrat eşlemesi, hesap izinleri ve emir mutabakatı gerekir. Canlı hesap
+bu pilotun kapsamı dışındadır.
+
 Türkiye'den hesap açılabilen Interactive Brokers, pek çok dünya piyasasına
 erişim ve kâğıt işlem API'si için inceleniyor. Bu depoda bir IBKR hesabı,
 geçerli Gateway oturumu veya işlem yetkisi henüz yoktur. IBKR bireysel API
