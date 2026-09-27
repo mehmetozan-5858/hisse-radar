@@ -320,6 +320,11 @@
     </div>
     <div id="agentReports" class="grid"><div class="loadingBox">Ajan raporu yükleniyor...</div></div>
     <div class="panelTitle">
+      <h2>📱 Telefonda IBKR kontrolü</h2>
+      <p>Adayı araştırma masasından kopyalayıp IBKR Mobile içinde aratabilirsiniz. Sembol ve borsa eşleşmesini, güncel fiyatı, işlem ücretini ve emir tutarını IBKR'de kendiniz doğrulayın. Buradaki adaylar alım satım talimatı değildir.</p>
+    </div>
+    <div class="loadingBox">Hesap onayınız ve kâğıt işlem erişiminiz tamamlanınca önce deneme işlemlerini kullanın. Hisse Radar IBKR hesabınıza bağlı değildir; emir veya para transferi göndermez.</div>
+    <div class="panelTitle">
       <h2>🌐 Küresel işlem hazırlığı</h2>
       <p>IBKR bağlantısı, piyasa verisi ve işlem izinleri doğrulanmadan emir oluşturulmaz. $1.000 sermaye ve her $10.000 gerçekleşmiş kâr dilimi kaydedilir; banka aktarımı aracı kurum portalında yapılır.</p>
     </div>
@@ -360,6 +365,21 @@ async function loadAgentReports(){
       flags.className="small";
       flags.textContent=(item.flags || []).join(" · ");
       card.appendChild(flags);
+      if(item.symbol){
+        const copy=document.createElement("button");
+        copy.type="button";
+        copy.textContent="Sembolü araştırma için kopyala";
+        copy.style.cssText="margin-top:12px;padding:10px;border-radius:10px;border:1px solid #3b82f6;background:#132b49;color:white;font-weight:700";
+        copy.addEventListener("click", async ()=>{
+          try{
+            await navigator.clipboard.writeText(item.symbol);
+            copy.textContent="Kopyalandı: "+item.symbol;
+          }catch(error){
+            copy.textContent="Kopyalanamadı; sembol: "+item.symbol;
+          }
+        });
+        card.appendChild(copy);
+      }
       for(const [role,note] of Object.entries(item.agents || {})){
         const line=document.createElement("p");
         line.textContent=`${role}: ${note}`;
