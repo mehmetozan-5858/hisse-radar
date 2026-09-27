@@ -549,7 +549,7 @@ function renderResearchHub(){
   const f=stock.fundamentals||{};
   const filingLink=stock.market==="BIST"||String(stock.symbol||"").endsWith(".IS")
     ?'<a href="https://kap.org.tr/tr/kalem-karsilastirma" target="_blank" rel="noopener noreferrer">KAP bilanço karşılaştırma ↗</a>'
-    :stock.market==="NASDAQ"||stock.market==="NYSE"||stock.country==="USA"
+    :kind==="radar"||stock.market==="NASDAQ"||stock.market==="NYSE"||stock.country==="USA"
       ?'<a href="https://www.sec.gov/search-filings" target="_blank" rel="noopener noreferrer">SEC şirket raporları ↗</a>'
       :'<p>Bu piyasa için resmî finansal rapor bağlantısı henüz eşleşmedi.</p>';
   const last=m.values.at(-1),above20=m.sma20!=null&&last>m.sma20;
