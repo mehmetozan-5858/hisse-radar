@@ -284,6 +284,8 @@
       hareketleri ve global niş fırsatlarını tek araştırma panelinde birleştirir.
     </p>
     <div class="status" id="status">Veriler yükleniyor...</div>
+    <div class="loadingBox" id="sourceStatus" role="status" style="margin-top:12px">Yayımlanan veri kaynakları kontrol ediliyor...</div>
+    <button id="refreshAll" type="button" style="margin-top:10px;padding:9px 14px;border-radius:10px;border:1px solid #3b82f6;background:#132b49;color:white;font-weight:700">Verileri yeniden kontrol et</button>
   </div>
 
   <div class="tabs">
@@ -372,8 +374,33 @@
 let radarData = null;
 let nicheData = null;
 let nicheShown = 30;
+const sourceInfo = {};
+let refreshing = false;
+let lastRefresh = 0;
 const nicheSeenKey = "hisse-radar-niche-seen-v1";
 const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch]);
+function sourceAge(value, maxHours){
+  const time=Date.parse(value || "");
+  if(!Number.isFinite(time) || time>Date.now()+60000) return "tarih bilinmiyor";
+  const hours=Math.max(0,(Date.now()-time)/3600000);
+  return `${new Date(time).toLocaleString("tr-TR")} · ${hours>maxHours ? "GECİKMİŞ" : "son yayımlanan"}`;
+}
+function showSources(){
+  document.getElementById("sourceStatus").textContent=
+    ["Ana radar","Global Niş","Ajan raporu","İşlem hazırlığı","13F bildirimi"]
+      .map(name=>`${name}: ${sourceInfo[name] || "kontrol ediliyor"}`).join(" | ")+
+    ` | Son kontrol: ${new Date().toLocaleTimeString("tr-TR")}. Sayfa açılışı yeni borsa taraması başlatmaz.`;
+}
+function setSource(name, stamp, maxHours, extra=""){
+  sourceInfo[name]=sourceAge(stamp,maxHours)+(extra ? ` · ${extra}` : "");
+  showSources();
+}
+function sourceError(name){sourceInfo[name]="ERİŞİLEMEDİ";showSources();}
+async function latestJson(path){
+  const response=await fetch(`${path}?ts=${Date.now()}`,{cache:"no-store"});
+  if(!response.ok) throw new Error(`${path}: ${response.status}`);
+  return response.json();
+}
 
 const pilotKey="hisse-radar-paper-pilot-v1";
 function pilotEntries(){ try { const rows=JSON.parse(localStorage.getItem(pilotKey)||"[]"); return Array.isArray(rows)?rows:[]; } catch { return []; } }
@@ -411,9 +438,8 @@ function initPilot(){
 async function loadAgentReports(){
   const container=document.getElementById("agentReports");
   try{
-    const response=await fetch("data/agent-radar.json?ts="+Date.now(),{cache:"no-store"});
-    if(!response.ok) throw new Error("No report");
-    const report=await response.json();
+    const report=await latestJson("data/agent-radar.json");
+    setSource("Ajan raporu",report.generatedAt,24,report.mode === "AI research" ? "AI notu" : "veri kontrolü");
     container.replaceChildren();
     const summary=document.createElement("div");
     summary.className="loadingBox";
@@ -453,6 +479,7 @@ async function loadAgentReports(){
       container.appendChild(card);
     }
   }catch(error){
+    sourceError("Ajan raporu");
     container.textContent="Ajan raporu henüz oluşturulmadı.";
   }
 }
@@ -460,9 +487,8 @@ async function loadAgentReports(){
 async function loadExecutionReadiness(){
   const container=document.getElementById("executionReadiness");
   try{
-    const response=await fetch("data/execution-readiness.json?ts="+Date.now(),{cache:"no-store"});
-    if(!response.ok) throw new Error("No readiness report");
-    const report=await response.json();
+    const report=await latestJson("data/execution-readiness.json");
+    setSource("İşlem hazırlığı",report.checkedAt,8);
     container.replaceChildren();
     const summary=document.createElement("div");
     summary.className="card";
@@ -484,7 +510,14 @@ async function loadExecutionReadiness(){
     notes.textContent=`IBKR kâğıt hesabı ve geçerli oturum, borsa bazında fiyat/işlem izinleri, doğrulanmış enstrüman eşlemesi ve temel finansal veri gerekli. Her $${report.realizedWithdrawableProfitChunkUsd} çekilebilir kâr dilimi kaydedilir; sistem banka aktarımı veya bildirim yapmaz.`;
     missing.append(label,notes);
     container.appendChild(missing);
-  }catch(error){ container.textContent="İşlem hazırlığı raporu henüz oluşturulmadı."; }
+  }catch(error){ sourceError("İşlem hazırlığı");container.textContent="İşlem hazırlığı raporuna erişilemedi."; }
+}
+
+async function load13fStatus(){
+  try{
+    const report=await latestJson("data/13f.json");
+    setSource("13F bildirimi",report.updated_at,8*24,"çeyreklik bildirim; anlık işlem verisi değil");
+  }catch(error){sourceError("13F bildirimi");}
 }
 
 const money = value => {
@@ -889,13 +922,10 @@ function closeNicheDetail(){
 
 async function loadRadar(){
   try{
-    const response=await fetch(
-      "data/radar.json?ts="+Date.now(),
-      {cache:"no-store"}
-    );
-
-    radarData=await response.json();
+    radarData=await latestJson("data/radar.json");
     renderCards();
+    setSource("Ana radar",radarData.updated_at,2,
+      `yeni fiyat ${radarData.quote_status?.fresh ?? "?"}/${radarData.stocks?.length ?? "?"}`);
 
     const date=radarData.updated_at
       ? new Date(radarData.updated_at)
@@ -908,11 +938,12 @@ async function loadRadar(){
       +(radarData.current_score_max || "-")
       +" puan"
       +(date && !isNaN(date)
-        ? " • Güncelleme: "+date.toLocaleTimeString("tr-TR")
+        ? " • Rapor: "+date.toLocaleString("tr-TR")+(Date.now()-date.getTime()>2*3600000 ? " · GECİKMİŞ" : "")
         : "");
 
   }catch(error){
     console.error(error);
+    sourceError("Ana radar");
     document.getElementById("status").textContent=
       "Hisse Radar verileri yüklenemedi.";
   }
@@ -920,17 +951,15 @@ async function loadRadar(){
 
 async function loadNiche(){
   try{
-    const response=await fetch(
-      "data/global-niche.json?ts="+Date.now(),
-      {cache:"no-store"}
-    );
-
-    nicheData=await response.json();
+    nicheData=await latestJson("data/global-niche.json");
+    setSource("Global Niş",nicheData.generatedAt,3,
+      `yeni fiyat ${nicheData.quoteStatus?.fresh ?? "?"}, bu tur ${nicheData.discovery?.scannedThisRun ?? "?"}`);
     updateDiscoveryStatus();
     renderNicheCards();
 
   }catch(error){
     console.error(error);
+    sourceError("Global Niş");
     document.getElementById("nicheCards").innerHTML=
       '<div class="loadingBox">Global Niche verileri yüklenemedi.</div>';
   }
@@ -938,12 +967,24 @@ async function loadNiche(){
 
 async function startApp(){
   initPilot();
-  await Promise.all([
+  await refreshPublished();
+}
+async function refreshPublished(){
+  if(refreshing) return;
+  refreshing=true;
+  lastRefresh=Date.now();
+  document.getElementById("refreshAll").disabled=true;
+  showSources();
+  await Promise.allSettled([
     loadRadar(),
     loadNiche(),
     loadAgentReports(),
-    loadExecutionReadiness()
+    loadExecutionReadiness(),
+    load13fStatus()
   ]);
+  refreshing=false;
+  document.getElementById("refreshAll").disabled=false;
+  showSources();
 }
 
 startApp();
@@ -951,7 +992,14 @@ for(const id of ["nicheMarket","nicheView","nicheSearch"]){
   document.getElementById(id).addEventListener(id==="nicheSearch"?"input":"change",()=>{nicheShown=30;renderNicheCards();});
 }
 document.getElementById("nicheMore").addEventListener("click",()=>{nicheShown+=30;renderNicheCards();});
-setInterval(loadNiche,15*60*1000);
+document.getElementById("refreshAll").addEventListener("click",refreshPublished);
+document.addEventListener("visibilitychange",()=>{
+  if(!document.hidden && Date.now()-lastRefresh>30000) refreshPublished();
+});
+window.addEventListener("focus",()=>{
+  if(Date.now()-lastRefresh>30000) refreshPublished();
+});
+setInterval(()=>{if(!document.hidden) refreshPublished();},15*60*1000);
 
 if("serviceWorker" in navigator){
   navigator.serviceWorker.register("sw.js");

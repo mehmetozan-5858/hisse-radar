@@ -3,10 +3,14 @@ name: Update Radar Data
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 */8 * * *"
+    - cron: "37 * * * *"
 
 permissions:
   contents: write
+
+concurrency:
+  group: update-radar-data
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -1063,5 +1067,6 @@ jobs:
             echo "Değişiklik yok."
           else
             git commit -m "Update radar v0.7.0 with independent quote source"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
             git push
           fi
