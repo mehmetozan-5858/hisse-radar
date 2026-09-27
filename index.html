@@ -726,11 +726,12 @@ function updateDiscoveryStatus(){
   const stamp=nicheData?.generatedAt ? new Date(nicheData.generatedAt) : null;
   const age=stamp && !Number.isNaN(stamp.getTime()) ? Date.now()-stamp.getTime() : Infinity;
   document.getElementById("discoverySummary").textContent=
-    `Liste evreni: ${d.directoryCount || 0} · Bu tur fiyat sorgusu: ${d.scannedThisRun || 0} · Birikmiş keşif: ${d.tracked || 0} · `+
+    `Liste evreni: ${d.directoryCount || 0} · Bu tur seçilen: ${d.scannedThisRun || 0} · Yeni fiyat yanıtı: ${nicheData?.quoteStatus?.fresh || 0} · Birikmiş keşif: ${d.tracked || 0} · `+
+    `Tahmini tam tur: ${d.cycleHours || "?"} saat · `+
     `Listesi erişilen piyasalar: ${markets.map(([key,n])=>`${key} ${n}`).join(", ") || "yok"} · `+
     `Rapor: ${stamp && age<Infinity ? stamp.toLocaleString("tr-TR") : "bilinmiyor"}`+
-    (age>8*3600*1000 ? " · RAPOR ESKİ" : "")+
-    ". Liste evreni, fiyatı taranan hisse sayısı değildir.";
+    (age>3*3600*1000 ? " · RAPOR ESKİ" : "")+
+    ". Süre tahmindir; fiyat ve borsa listesi güncelliği ayrı değerlendirilir.";
   const select=document.getElementById("nicheMarket");
   const old=select.value;
   select.replaceChildren(new Option("Tüm piyasalar",""),...Array.from(new Set(getNicheStocks().map(x=>x.market).filter(Boolean))).sort().map(x=>new Option(x,x)));
