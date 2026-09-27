@@ -97,6 +97,10 @@
     }
 
     .symbol { font-size: 21px; font-weight: 800; }
+    .cardHeading { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .favorite { border:1px solid #506684; border-radius:10px; background:#17283b; color:#d8e3ef; font-size:23px; line-height:1; min-width:42px; min-height:42px; cursor:pointer; }
+    .favorite[aria-pressed="true"] { color:#ffd45b; border-color:#ffd45b; }
+    .favorite:focus-visible { outline:3px solid #70b7ff; outline-offset:2px; }
 
     .name {
       color: #94a3b8;
@@ -305,6 +309,7 @@
         ve 13F kurumsal hareketlerine göre araştırma puanı.
       </p>
     </div>
+    <label class="small" style="display:block;margin:0 0 14px"><input type="checkbox" id="radarFavorites"> Yalnızca favoriler <span id="radarFavoriteCount"></span></label>
     <div class="grid" id="cards">
       <div class="loadingBox">Hisse verileri yükleniyor...</div>
     </div>
@@ -324,8 +329,9 @@
     <div class="pilotForm">
       <label>Piyasa<select id="nicheMarket"><option value="">Tüm piyasalar</option></select></label>
       <label>Sembol veya şirket<input id="nicheSearch" type="search" placeholder="Ara"></label>
-      <label>Görünüm<select id="nicheView"><option value="eligible">Yeni sinyal ve araştırma adayları</option><option value="all">Tarananların tamamı</option></select></label>
+      <label>Görünüm<select id="nicheView"><option value="eligible">Yeni sinyal ve araştırma adayları</option><option value="all">Tarananların tamamı</option><option value="favorites">Favorilerim</option></select></label>
     </div>
+    <div class="small" id="nicheFavoriteCount" style="margin:0 0 12px"></div>
     <div class="grid" id="nicheCards">
       <div class="loadingBox">Global Niche verileri yükleniyor...</div>
     </div>
@@ -378,6 +384,31 @@ const sourceInfo = {};
 let refreshing = false;
 let lastRefresh = 0;
 const nicheSeenKey = "hisse-radar-niche-seen-v1";
+const favoritesKey = "hisse-radar-favorites-v1";
+function favoriteIds(){
+  try { const ids=JSON.parse(localStorage.getItem(favoritesKey)||"[]"); return new Set(Array.isArray(ids) ? ids.filter(id=>typeof id==="string") : []); }
+  catch { return new Set(); }
+}
+function favoriteId(stock){ return `${String(stock.market||stock.exchange||"RADAR").trim().toUpperCase()}:${String(stock.symbol||"").trim().toUpperCase()}`; }
+function favoriteButton(stock){
+  const id=favoriteId(stock);
+  const selected=favoriteIds().has(id);
+  const button=document.createElement("button");
+  button.type="button";
+  button.className="favorite";
+  button.textContent=selected ? "★" : "☆";
+  button.setAttribute("aria-label",`${stock.symbol || "Ürün"} ${selected ? "favorilerden çıkar" : "favorilere ekle"}`);
+  button.setAttribute("aria-pressed",String(selected));
+  button.addEventListener("click",event=>{
+    event.stopPropagation();
+    const ids=favoriteIds();
+    if(ids.has(id)) ids.delete(id); else ids.add(id);
+    try { localStorage.setItem(favoritesKey,JSON.stringify([...ids])); }
+    catch { button.title="Favori kaydedilemedi; tarayıcı depolama alanını kontrol edin."; return; }
+    renderCards(); renderNicheCards();
+  });
+  return button;
+}
 const esc = value => String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[ch]);
 function sourceAge(value, maxHours){
   const time=Date.parse(value || "");
@@ -615,7 +646,12 @@ function renderCards(){
     return;
   }
 
-  radarData.stocks.forEach((stock,index)=>{
+  const ids=favoriteIds();
+  document.getElementById("radarFavoriteCount").textContent=`(${radarData.stocks.filter(stock=>ids.has(favoriteId(stock))).length})`;
+  const onlyFavorites=document.getElementById("radarFavorites").checked;
+  const matches=radarData.stocks.map((stock,index)=>({stock,index})).filter(({stock})=>!onlyFavorites || ids.has(favoriteId(stock)));
+  if(!matches.length) cards.innerHTML='<div class="loadingBox">Bu listede henüz favori yok. Bir hissenin yanındaki ☆ işaretine dokunun.</div>';
+  matches.forEach(({stock,index})=>{
     const change=Number(stock.changePercentage || 0);
     const cls=change>=0?"positive":"negative";
     const sign=change>0?"+":"";
@@ -624,7 +660,7 @@ function renderCards(){
     card.className="card";
 
     card.innerHTML=`
-      <div class="symbol">${esc(stock.symbol || "-")}</div>
+      <div class="cardHeading"><div class="symbol">${esc(stock.symbol || "-")}</div></div>
       <div class="name">${esc(stock.name || "")}</div>
       <div class="price">${money(stock.price)}</div>
       <div class="change ${cls}">${sign}${pct(change)}</div>
@@ -633,6 +669,7 @@ function renderCards(){
       </div>
       <div class="small">Hacim: ${number(stock.volume)}</div>
     `;
+    card.querySelector(".cardHeading").appendChild(favoriteButton(stock));
 
     card.onclick=()=>showDetail(index);
     cards.appendChild(card);
@@ -713,19 +750,23 @@ function renderNicheCards(){
 
   if(!stocks.length){
     cards.innerHTML='<div class="loadingBox">Global Niche adayı bulunamadı.</div>';
+    document.getElementById("nicheFavoriteCount").textContent="Bu keşif listesinde favori bulunamadı.";
+    document.getElementById("nicheMore").hidden=true;
     return;
   }
 
   const market=document.getElementById("nicheMarket").value;
   const search=document.getElementById("nicheSearch").value.trim().toLocaleLowerCase("tr-TR");
   const view=document.getElementById("nicheView").value;
+  const ids=favoriteIds();
+  document.getElementById("nicheFavoriteCount").textContent=`Bu keşif listesinde ${stocks.filter(stock=>ids.has(favoriteId(stock))).length} favori · Yıldızladıklarınız bu cihazda saklanır.`;
   const matches=stocks.map((stock,index)=>({stock,index})).filter(({stock})=>
     (!market || stock.market===market) &&
-    (view==="all" || stock.researchEligible!==false) &&
+    (view==="all" || (view==="favorites" ? ids.has(favoriteId(stock)) : stock.researchEligible!==false)) &&
     (!search || `${stock.symbol} ${stock.name}`.toLocaleLowerCase("tr-TR").includes(search))
   );
   if(!matches.length){
-    cards.innerHTML='<div class="loadingBox">Bu görünümde doğrulanmış aday bulunamadı. Tarananların tamamını seçerek veri engellerini inceleyebilirsiniz.</div>';
+    cards.innerHTML=view==="favorites" ? '<div class="loadingBox">Bu filtrede favori yok. Bir ürünün yanındaki ☆ işaretine dokunun; piyasa ve arama filtrelerini de kontrol edin.</div>' : '<div class="loadingBox">Bu görünümde doğrulanmış aday bulunamadı. Tarananların tamamını seçerek veri engellerini inceleyebilirsiniz.</div>';
   }
   matches.slice(0,nicheShown).forEach(({stock,index})=>{
     const change=Number(stock.changePercentage ?? 0);
@@ -736,7 +777,7 @@ function renderNicheCards(){
     card.className="card";
 
     card.innerHTML=`
-      <div class="symbol">${esc(stock.symbol || "-")}</div>
+      <div class="cardHeading"><div class="symbol">${esc(stock.symbol || "-")}</div></div>
       <div class="name">${esc(stock.name || "")}</div>
       <div class="price">${nicheMoney(stock.price,stock.currency)}</div>
       <div class="change ${cls}">${sign}${pct(change)}</div>
@@ -744,6 +785,7 @@ function renderNicheCards(){
       <div class="small">${esc(stock.theme || "Global Niche Radar")}</div>
       ${stock.researchEligible === false ? `<div class="small">${esc((stock.gateReasons || []).join(" · "))}</div>` : ""}
     `;
+    card.querySelector(".cardHeading").appendChild(favoriteButton(stock));
 
     card.onclick=()=>showNicheDetail(index);
     cards.appendChild(card);
@@ -988,6 +1030,7 @@ async function refreshPublished(){
 }
 
 startApp();
+document.getElementById("radarFavorites").addEventListener("change",renderCards);
 for(const id of ["nicheMarket","nicheView","nicheSearch"]){
   document.getElementById(id).addEventListener(id==="nicheSearch"?"input":"change",()=>{nicheShown=30;renderNicheCards();});
 }

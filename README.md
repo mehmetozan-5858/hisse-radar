@@ -11,6 +11,12 @@ saatlik, işlem hazırlığı dört saatte bir ve 13F haftalık planlıdır. Aja
 araştırması yalnızca elle başlatılır. GitHub zamanlayıcısı gecikebilir, veri
 sağlayıcıları yanıt vermeyebilir ve 13F bildirimleri gerçek zamanlı değildir.
 
+Her iki hisse kartındaki yıldız, sembolü ve piyasayı favorilere ekler. Ana
+radarda “Yalnızca favoriler”, küresel keşifte “Favorilerim” görünümü vardır.
+Seçimler cihazın tarayıcı depolamasında kalır; hesaplar ve cihazlar arasında
+eşitlenmez. Keşif raporundan çıkan bir sembol daha sonra yeniden taranana kadar
+favori listesinde görünmez; tarayıcı verileri silinirse yıldızlar da silinir.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
