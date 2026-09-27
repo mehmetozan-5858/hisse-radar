@@ -34,6 +34,14 @@ listelere ekleyebilir. Listeler yalnızca tarayıcı depolamasında saklanır; f
 cihazlara eşitlenmez. Tablo son yayımlanan günlük fiyat ve değişimi gösterir.
 Hisse detayında mevcut günlük kapanışlardan 20/50 günlük basit ortalama ve
 14 değişimlik RSI hesaplanır; yeterli geçmiş yoksa değer gösterilmez.
+İzleme masası ve hisse kartları raporun yaşını, küresel hissede fiyatın bu tur
+yenilenip yenilenmediğini ve son günlük bar tarihini birlikte kontrol eder.
+İzleme masasındaki “Güncel rapor ve bar” filtresi ana radar için iki, küresel
+keşif için üç saat içinde yayımlanmış raporu ve son beş takvim gününde oluşmuş
+günlük barı gösterir. Beş günlük tolerans hafta sonu ve kısa tatilleri kapsar;
+uzun piyasa tatilinde hisse geçici olarak filtre dışı kalabilir. Üstteki veri
+kapsamı sayısı bir dizin büyüklüğü değil, bu koşulları sağlayan yayımlanmış
+kayıt sayısıdır. Güncel rapor, gün içi canlı fiyat anlamına gelmez.
 Bu göstergeler yatırım veya alım satım sinyali değildir. Matriks'in canlı
 kotasyon, derinlik, para giriş çıkış ve broker emir işlevleri uygulamaya bağlı
 değildir; ilgili veri ve emir yetkileri lisans ve resmi entegrasyon gerektirir.
