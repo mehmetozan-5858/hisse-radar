@@ -77,9 +77,9 @@ birleştirilmiş değerleme çarpanı bu akıştan hesaplanmaz.
 
 `SEC Annual Fundamentals` işi hafta içi bir kez ve elle çalıştırılabilir.
 SEC'in [geliştirici yönergesine](https://www.sec.gov/about/webmaster-frequently-asked-questions)
-uygun, ulaşılabilir bir e-posta içeren tanıtıcıyı GitHub Actions
-`SEC_USER_AGENT` **repository secret** olarak tanımlayın; örnek biçim
-`HisseRadar Ad Soyad ad@alanadi.com`. E-posta kod veya herkese açık veri
+uygun, ulaşılabilir bir e-posta içeren mevcut GitHub Actions
+`SEC_CONTACT_EMAIL` **repository secret** kullanılır. İstekte
+`HisseRadar/2.0` tanıtıcısı ile birleştirilir. E-posta kod veya herkese açık veri
 dosyasına yazılmaz. Secret yoksa iş eski dosyaya dokunmadan çıkar ve ekranda
 "henüz kurulmadı" görünür. SEC tarayıcıdan doğrudan erişime CORS desteği
 vermediği için kaynak GitHub Actions üzerinde alınır. Önce
