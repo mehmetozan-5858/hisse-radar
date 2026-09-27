@@ -40,7 +40,9 @@ otomatik emir veya al/sat komutu bulunmaz; tüm işlem kararları kullanıcıdad
 Türkiye'den hesap açılabilen Interactive Brokers, pek çok dünya piyasasına
 erişim ve kâğıt işlem API'si için inceleniyor. Bu depoda bir IBKR hesabı,
 geçerli Gateway oturumu veya işlem yetkisi henüz yoktur. IBKR bireysel API
-oturumu günlük yeniden kimlik doğrulaması gerektirir. Borsa bazındaki fiyat
+oturumu için düzenli yeniden kimlik doğrulaması gerekir. IB Gateway otomatik
+yeniden başlatmayla hafta içinde oturumu sürdürebilir; haftalık manuel giriş
+gerekir. Borsa bazındaki fiyat
 abonelikleri, işlem izinleri, enstrüman sözleşmeleri ve piyasa takvimleri
 doğrulanmadan gerçek ya da kâğıt emir gönderilmez.
 
@@ -55,6 +57,16 @@ Eşik açık pozisyon değeri veya henüz takas olmamış satış gelirini kapsa
 Sistem banka bildirimi veya otomatik banka transferi başlatmaz.
 Kişisel banka hesabına para çekme işlemi kullanıcının aracı kurum portalında
 tamamlanacaktır. Bu hazırlık denetimi hiçbir API anahtarı kullanmaz.
+
+## Telefonla manuel araştırma akışı
+
+IBKR hesap başvurusu onaylanana kadar işlem entegrasyonu kurulmaz. Hisse Radar
+ajan araştırma kartlarında sembol kopyalama düğmesi vardır. Kullanıcı sembolü
+IBKR Mobile'da aratır ve doğru enstrümanı, borsayı, güncel fiyatı, komisyonu
+ve emir tutarını kendisi denetler. Semboller aracı kurum sözleşme kimliği
+değildir; adaylar emir önerisi sayılmaz. Önce kâğıt işlem kullanılır. Telefon
+tarayıcısı IB Gateway API sunucusu olarak çalışmaz; Hisse Radar IBKR'ye emir
+veya çekim talimatı göndermez.
 
 Yahoo günlük barlarının zaman damgası örnek veride borsa açılış saatiyle
 eşleşir; rapordaki `lastTradedAt` alanı son işlem anı olarak yorumlanmamalıdır.
