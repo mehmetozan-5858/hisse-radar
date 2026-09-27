@@ -2,6 +2,15 @@
 
 Mobil uyumlu PWA hisse araştırma paneli.
 
+Uygulama her açılışta ve sekmeye geri dönüldüğünde yayımlanmış beş veri
+kaynağını ağdan yeniden kontrol eder; ayrıca sayfa açıkken 15 dakikada bir ve
+"Verileri yeniden kontrol et" düğmesiyle tekrar yükler. Kaynakların rapor
+tarihi, fiyat yanıtı kapsamı ve gecikme durumu görünür. Sayfa açılması GitHub
+Actions işini tetiklemez; 20 hisselik ana radar saatlik, dinamik niş radar
+saatlik, işlem hazırlığı dört saatte bir ve 13F haftalık planlıdır. Ajan AI
+araştırması yalnızca elle başlatılır. GitHub zamanlayıcısı gecikebilir, veri
+sağlayıcıları yanıt vermeyebilir ve 13F bildirimleri gerçek zamanlı değildir.
+
 ## Dinamik küresel keşif
 
 `global-niche-radar.yml` saatlik çalışır. Nasdaq Trader'ın resmî hisse
