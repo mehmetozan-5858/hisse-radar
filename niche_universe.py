@@ -20,7 +20,7 @@ EXCHANGES = {
     "HK": ("HKEX", "Hong Kong", ".HK"),
 }
 STOCK_TYPES = {"common stock", "ordinary share", "ordinary shares", "equity"}
-EXCLUDE = re.compile(r"\b(etf|etn|fund|warrant|rights?|units?|preferred|depositary|notes?|bond|acquisition corp|spac)\b", re.I)
+EXCLUDE = re.compile(r"\b(etfs?|etns?|funds?|warrants?|rights?|units?|preferred|depositary|notes?|bonds?|acquisition(?:\s+[IVX0-9]+)?\s+(?:corp|company)|spac)\b", re.I)
 
 
 def http_text(url):
