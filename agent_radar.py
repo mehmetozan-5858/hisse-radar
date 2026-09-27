@@ -77,7 +77,7 @@ def build_report(data, client=None, model=None):
             flags.append("Temel finansal veri yok")
         if stock.get("lastTradedAt"):
             flags.append("Son işlem: " + stock["lastTradedAt"])
-        flags.append("Araştırma adayı; işlem kararı yalnızca kullanıcıda")
+        flags.append("Veri engeli; araştırma dışı" if reasons else "Araştırma adayı; işlem kararı yalnızca kullanıcıda")
         row = {
             "symbol": stock.get("symbol"),
             "theme": stock.get("theme"),
