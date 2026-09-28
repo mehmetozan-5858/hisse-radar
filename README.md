@@ -14,6 +14,16 @@ ticari kullanım sınırlaması nedeniyle otomatik indirme ve yeniden yayımlama
 henüz etkinleştirilmedi. Senato kayıtları için de erişim ve kullanım şartları
 incelenmelidir. Sinyal/puan ve anlık işlem iddiası üretilmez.
 
+`congress_feed.py` FMP'nin `house-latest` ve `senate-latest` uç noktalarından
+en son 100'er bildirimi doğrular, yalnızca sembolü ve resmî belge bağlantısı
+olan hisse/ETF/kripto işlemlerini yayımlar. Sunucu anahtarı tarayıcıya verilmez.
+Bu akış, FMP'nin [görüntüleme ve yeniden dağıtım lisansı](https://site.financialmodelingprep.com/developer/docs/pricing)
+ayrıca teyit edilince depo değişkeni `CONGRESS_DISPLAY_LICENSED=true` ile
+etkinleştirilir. Varsayılan olarak kapalıdır. API planı bu uç noktalara erişim
+vermiyorsa veya yanıt hatalı/boşsa mevcut yayımlanmış dosya korunur; işin
+günlüğü hatayı gösterir. Bildirimler gecikmeli kamu açıklamasıdır, işlem anı
+akışı değildir. Komite üyeliği doğrulanmadan boş bırakılır.
+
 Mobil uyumlu PWA hisse araştırma paneli.
 
 Uygulama her açılışta ve sekmeye geri dönüldüğünde yayımlanmış beş veri

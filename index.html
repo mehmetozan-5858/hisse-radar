@@ -310,6 +310,7 @@
     .congressRow strong { font-size:16px; }
     .congressMeta { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 14px; margin:10px 0; color:#a9b8c8; font-size:12px; }
     .congressRow p { color:#a9b8c8; font-size:12px; margin:8px 0; }
+    #congressControls[hidden] { display:none; }
     @media (max-width:420px) { .pilotForm { grid-template-columns:1fr; } }
 
     .footer {
@@ -386,7 +387,7 @@
       <a href="https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch" target="_blank" rel="noopener noreferrer">Temsilciler Meclisi resmî araması ↗</a>
       <a href="https://efdsearch.senate.gov/search/" target="_blank" rel="noopener noreferrer">Senato resmî araması ↗</a>
     </div>
-    <div class="workControls">
+    <div class="workControls" id="congressControls" hidden>
       <label>Sembol / üye ara<input type="search" id="congressSearch" placeholder="Örn. NVDA veya üye adı"></label>
       <label>Meclis<select id="congressChamber"><option value="">Tümü</option><option value="House">Temsilciler Meclisi</option><option value="Senate">Senato</option></select></label>
       <label>İşlem<select id="congressType"><option value="">Tümü</option><option value="purchase">Alış</option><option value="sale">Satış</option></select></label>
@@ -927,16 +928,18 @@ async function loadCongress(){
     const age=Date.parse(stamp||"");
     const stale=!Number.isFinite(age) || age>Date.now()+60000 || Date.now()-age>7*86400000;
     if(!available){
-      status.textContent="Kongre işlem akışı henüz doğrulanmadı. Kayıtlar yüklenene kadar resmî bildirim portallarından kontrol edin.";
+      status.textContent=congressReport.reason || "Kongre işlem akışı henüz doğrulanmadı. Kayıtlar yüklenene kadar resmî bildirim portallarından kontrol edin.";
       sourceInfo["Kongre bildirimleri"]="DOĞRULANMIŞ AKIŞ YOK";
     }else{
       status.textContent=`Son veri yayını: ${Number.isFinite(age)?new Date(age).toLocaleString("tr-TR"):"bilinmiyor"}${stale?" · GECİKMİŞ / TARİH DOĞRULANAMADI":""}. Bildirim tarihi işlem tarihinden sonra olabilir; komite ilişkisi doğrulanmadıkça gösterilmez.`;
       setSource("Kongre bildirimleri",stamp,7*24,"açıklanan işlemler; anlık işlem değil");
     }
+    document.getElementById("congressControls").hidden=!available;
     showSources(); renderCongress();
   }catch(error){
     congressReport=null;
     status.textContent="Kongre bildirimleri yüklenemedi. Resmî portallardan kontrol edin.";
+    document.getElementById("congressControls").hidden=true;
     sourceError("Kongre bildirimleri");renderCongress();
   }
 }
