@@ -701,6 +701,10 @@ function setSource(name, stamp, maxHours, extra=""){
   sourceInfo[name]=sourceAge(stamp,maxHours)+(extra ? ` · ${extra}` : "");
   showSources();
 }
+function latestDailyBar(rows){
+  const dates=(rows||[]).map(row=>row.lastBarAt||row.lastTradedAt).filter(Boolean).sort();
+  return dates.length ? new Date(dates.at(-1)).toLocaleDateString("tr-TR") : "bilinmiyor";
+}
 function sourceError(name){sourceInfo[name]="ERİŞİLEMEDİ";showSources();}
 async function latestJson(path){
   const response=await fetch(`${path}?ts=${Date.now()}`,{cache:"no-store"});
@@ -1341,7 +1345,7 @@ async function loadRadar(){
     renderWatchlist();
     renderResearchHub();
     setSource("Ana radar",radarData.updated_at,2,
-      `yeni fiyat ${radarData.quote_status?.fresh ?? "?"}/${radarData.stocks?.length ?? "?"}`);
+      `yeni kaynak yanıtı ${radarData.quote_status?.fresh ?? "?"}/${radarData.stocks?.length ?? "?"} · en yeni günlük bar ${latestDailyBar(radarData.stocks)}`);
 
     const date=radarData.updated_at
       ? new Date(radarData.updated_at)
@@ -1382,7 +1386,7 @@ async function loadNiche(){
   try{
     nicheData=await latestJson("data/global-niche.json");
     setSource("Global Niş",nicheData.generatedAt,3,
-      `yeni fiyat ${nicheData.quoteStatus?.fresh ?? "?"}, bu tur ${nicheData.discovery?.scannedThisRun ?? "?"}`);
+      `yeni kaynak yanıtı ${nicheData.quoteStatus?.fresh ?? "?"}, bu tur ${nicheData.discovery?.scannedThisRun ?? "?"} · listesi erişilen: ${Object.keys(nicheData.discovery?.markets||{}).join(", ")||"yok"}`);
     updateDiscoveryStatus();
     renderNicheCards();
     renderWatchlist();
