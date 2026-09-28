@@ -350,7 +350,7 @@
 
   <section class="workspace" aria-labelledby="workspaceTitle">
     <h2 id="workspaceTitle">📋 İzleme masası</h2>
-    <p>Kendi listelerini oluştur, yayımlanan hisseleri ara ve karşılaştır. Seçimler yalnızca bu cihazda saklanır. Fiyatlar anlık kotasyon değil, son yayımlanan günlük veridir.</p>
+    <p>Kendi listelerini oluştur, yayımlanan hisseleri ara ve karşılaştır. Seçimler yalnızca bu cihazda saklanır. Fiyatlar anlık kotasyon değil, son yayımlanan günlük bardır; seans içindeki bar değişebilir.</p>
     <div class="workControls">
       <label>İzleme listesi<select id="watchList"></select></label>
       <label>Görünüm<select id="watchView"><option value="mine">Listemdekiler</option><option value="all">Tüm yayımlananlar</option></select></label>
@@ -491,7 +491,7 @@ function dataQuality(row){
     return {current:false,label:"Fiyat yenilenmedi"};
   const barTime=Date.parse(stock.lastBarAt||"");
   if(!Number.isFinite(barTime)||barTime>Date.now()+86400000||Date.now()-barTime>5*86400000)
-    return {current:false,label:"Son kapanış eski / belirsiz"};
+    return {current:false,label:"Son günlük bar eski / belirsiz"};
   return {current:true,label:`Son bar ${new Date(barTime).toLocaleDateString("tr-TR")}`};
 }
 function renderDataHealth(){
@@ -499,9 +499,9 @@ function renderDataHealth(){
   const directory=nicheData?.discovery?.directoryCount ?? 0;
   const attempted=nicheData?.discovery?.scannedThisRun ?? 0;
   document.getElementById("dataHealth").textContent=
-    `Veri kapsamı: ${rows.length} yayımlanmış kayıt, ${current} güncel rapor ve yakın tarihli kapanış. `+
+    `Veri kapsamı: ${rows.length} yayımlanmış kayıt, ${current} güncel rapor ve yakın tarihli günlük bar. `+
     `Küresel dizin ${directory} sembol; son taramada ${attempted} seçildi. `+
-    `“Yeni fiyat yanıtı” günlük kapanışın bugün oluştuğu anlamına gelmez. Sayfayı yenilemek borsa taramasını başlatmaz.`;
+    `“Yeni fiyat yanıtı” anlık fiyat demek değildir. Seans içindeki günlük bar kesinleşmemiş olabilir. Sayfayı yenilemek borsa taramasını başlatmaz.`;
 }
 function researchMetrics(stock){
   const closes=(Array.isArray(stock.dailyCloses)?stock.dailyCloses:[])
@@ -559,7 +559,7 @@ function renderResearchHub(){
   const exchange=stock.market==="NASDAQ"||stock.market==="NYSE"?stock.market:null;
   const chartSymbol=exchange&&/^[A-Z0-9.]{1,8}$/.test(stock.symbol||"")?`${exchange}:${stock.symbol}`:null;
   box.innerHTML=
-    researchCard("📊 Prime araştırma özeti",`<p><strong>${esc(stock.symbol)}</strong> · ${esc(stock.name||"")} · ${esc(quality.label)}</p><p>Son günlük kapanış: <strong>${esc(m.closes.at(-1)?.[0]||"yok")}</strong> · Kaynak: ${source}. Canlı kotasyon değildir.</p>`)+
+    researchCard("📊 Prime araştırma özeti",`<p><strong>${esc(stock.symbol)}</strong> · ${esc(stock.name||"")} · ${esc(quality.label)}</p><p>Son günlük bar: <strong>${esc(m.closes.at(-1)?.[0]||"yok")}</strong> · Kaynak: ${source}. Seans içindeyse bar kesinleşmemiş olabilir; canlı kotasyon değildir.</p>`)+
     researchCard("📐 İndikatör gözlemleri",`<p>20G ortalama: <strong>${fmt(m.sma20)}</strong> · 50G: <strong>${fmt(m.sma50)}</strong></p><p>RSI(14): <strong>${rsiText}</strong></p><p>${esc(trend)}. Yalnızca günlük kapanışlardan hesaplandı; al/sat kararı değildir.</p>`)+
     researchCard("🧾 Temel analiz",`${secFinancialCard(stock,kind)}<p>Eski radar alanları, kaynak dönemi doğrulanmadığı için ayrı tutulur: gelir büyümesi ${growth(f.revenueGrowth)}, net kâr büyümesi ${growth(f.netIncomeGrowth)}, F/K ${fmt(f.pe)}, PEG ${fmt(f.peg)}.</p>${filingLink}`)+
     researchCard("📈 Grafik ve formasyon",`<p>Radar grafiğinde ${m.values.length} günlük kapanış noktası var. Mum formasyonları için açık, yüksek, düşük ve kapanış serisi gerekir; burada otomatik formasyon sonucu üretilmiyor.</p>${chartSymbol?'<button type="button" id="researchAdvanced">TradingView gelişmiş grafik yükle</button><div id="researchChart" class="externalChart" hidden></div>':'<p>Borsa eşleşmesi doğrulanmadı. Gelişmiş grafik için sembolü sağlayıcıda seçin.</p><a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener noreferrer">TradingView grafik ↗</a>'}<p>Gömülü grafiğin veri kaynağı ve gecikmesi TradingView tarafından gösterilir; Radar fiyatıyla eşit olduğu varsayılmaz.</p>`)+
@@ -607,7 +607,7 @@ function renderWatchlist(){
   document.getElementById("watchSummary").textContent=`${state.lists[state.selected].name}: ${selected.size} kayıt · ${rows.length} eşleşme · ${watchUniverse().length} yayımlanan kayıt`;
   const table=document.getElementById("watchRows"); table.replaceChildren();
   const head=document.createElement("div"); head.className="watchRow watchHead";
-  head.innerHTML="<span>Sembol / piyasa</span><span>Son kapanış</span><span>Değişim</span><span>Puan</span><span>Liste</span>";
+  head.innerHTML="<span>Sembol / piyasa</span><span>Son günlük bar</span><span>Değişim</span><span>Puan</span><span>Liste</span>";
   table.appendChild(head);
   for(const row of rows.slice(0,watchShown)){
     const {stock,id,kind,index}=row;
@@ -750,17 +750,22 @@ async function loadAgentReports(){
   try{
     const report=await latestJson("data/agent-radar.json");
     setSource("Ajan raporu",report.generatedAt,24,report.mode === "AI research" ? "AI notu" : "veri kontrolü");
+    const sourceAt=Date.parse(report.sourceGeneratedAt||"");
+    const reportAt=Date.parse(report.generatedAt||"");
+    const stale=!Number.isFinite(sourceAt)||!Number.isFinite(reportAt)||
+      sourceAt>Date.now()+60000||reportAt>Date.now()+60000||
+      Date.now()-sourceAt>12*3600000||Date.now()-reportAt>24*3600000;
     container.replaceChildren();
     const summary=document.createElement("div");
     summary.className="loadingBox";
-    summary.textContent=`${report.mode === "AI research" ? "AI araştırması" : "Veri kontrolü; AI henüz çalıştırılmadı"} · Kaynak verisi: ${report.sourceGeneratedAt || "tarih yok"} · Emir yetkisi: yalnızca kullanıcı`;
+    summary.textContent=`${stale ? "ESKİ AJAN RAPORU · Bugünkü araştırma kararı olarak kullanmayın · " : ""}${report.mode === "AI research" ? "AI araştırması" : "Veri kontrolü; AI henüz çalıştırılmadı"} · Kaynak verisi: ${report.sourceGeneratedAt || "tarih yok"} · Emir yetkisi: yalnızca kullanıcı`;
     container.appendChild(summary);
     for(const item of (report.candidates || []).slice(0,30)){
       const card=document.createElement("div");
       card.className="card";
       const title=document.createElement("div");
       title.className="symbol";
-      title.textContent=`${item.symbol || "?"} · ${item.decision === "blocked" ? "VERİ ENGELİ" : "ARAŞTIRMA"}`;
+      title.textContent=`${item.symbol || "?"} · ${stale ? "ESKİ RAPOR" : item.decision === "blocked" ? "VERİ ENGELİ" : "ARAŞTIRMA"}`;
       card.appendChild(title);
       const flags=document.createElement("div");
       flags.className="small";
@@ -971,7 +976,7 @@ function detailOverview(stock, kind){
     <div class="small">${esc(stock.name || "")}</div>
     <div class="price">${fmt(stock.price)}</div>
     <div class="change ${direction}">${Number.isFinite(change) ? `${change>0?"+":""}${pct(change)}` : "Değişim yok"} · son kapanışa göre</div>
-    <div class="small${quality.current?"":" dataWarning"}">${esc(quality.label)} · Günlük kapanış verisi · ${esc(stock.quoteSource || "Kaynak belirtilmedi")}</div>
+    <div class="small${quality.current?"":" dataWarning"}">${esc(quality.label)} · Günlük bar verisi (seans içinde kesinleşmemiş olabilir) · ${esc(stock.quoteSource || "Kaynak belirtilmedi")}</div>
     <div class="periods" role="group" aria-label="Grafik dönemi">${[["5G","5 işlem günü"],["1A","1 ay"],["3A","3 ay"],["6A","6 ay"],["1Y","1 yıl"]].map(([period,label])=>`<button type="button" data-period="${period}" aria-label="${label}" aria-pressed="${period==="1A"}">${period}</button>`).join("")}</div>
     <div class="chartBox" role="img" aria-label="Günlük kapanış fiyat grafiği"></div>
     <div class="small chartMeta"></div>
@@ -982,7 +987,7 @@ function detailOverview(stock, kind){
     ${stat("Günlük en yüksek",fmt(stock.dayHigh))}
     ${stat("Günlük hacim",number(stock.volume))}
   </div>
-  <div class="note">Grafik günlük kapanışlardan oluşur; anlık fiyat, emir defteri, alış/satış kotasyonu veya 24 saatlik kripto verisi değildir.</div>
+  <div class="note">Grafik günlük barlardan oluşur; seans içindeki son bar değişebilir. Anlık fiyat, emir defteri, alış/satış kotasyonu veya 24 saatlik kripto verisi değildir.</div>
   ${technicalOverview(stock,kind)}`;
 }
 
@@ -1005,7 +1010,7 @@ function technicalOverview(stock,kind){
   const item=(name,value)=>`<div class="stat"><div class="statLabel">${name}</div><div class="statValue">${value}</div></div>`;
   return `<div class="infoBox"><h3>📐 Teknik görünüm</h3>
     <div class="technicalGrid">${item("20 günlük ortalama",sma20==null?"Veri yok":fmt(sma20))}${item("50 günlük ortalama",sma50==null?"Veri yok":fmt(sma50))}${item("RSI (14)",rsi==null?"Veri yok":rsi.toFixed(1))}</div>
-    <div class="note">Son günlük kapanış: ${esc(closes.at(-1)?.[0]||"bilinmiyor")} · ${values.length} kapanış noktası. RSI son 14 fiyat değişiminden hesaplanır. Bu göstergeler işlem sinyali değildir.</div>
+    <div class="note">Son günlük bar: ${esc(closes.at(-1)?.[0]||"bilinmiyor")} · ${values.length} bar. Seans içindeki son bar değişebilir. RSI son 14 fiyat değişiminden hesaplanır. Bu göstergeler işlem sinyali değildir.</div>
   </div>`;
 }
 
