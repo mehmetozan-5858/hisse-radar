@@ -10,6 +10,7 @@ def approved(price=5.0, fetched=NOW):
     return {"symbol": "DEMO", "price": price, "score": 80,
             "researchEligible": True, "financialQuality": {"available": True},
             "marketDataStatus": "fresh", "fetchedAt": fetched,
+            "priceKind": "realtime", "priceAsOf": fetched,
             "brokerConid": "12345", "exchange": "NASDAQ", "currency": "USD",
             "marketOpenVerified": True}
 
@@ -49,6 +50,20 @@ class PaperAgentTests(unittest.TestCase):
         state, report = run({"generatedAt": NOW, "candidates": [approved()]}, AGENTS,
                             {"cash": 89, "positions": {}}, NOW)
         self.assertTrue(report["halted"])
+        self.assertEqual(report["orders"], [])
+
+    def test_refreshed_daily_close_does_not_become_live_quote(self):
+        row = approved()
+        row["priceKind"] = "daily_close"
+        row["priceAsOf"] = "2026-09-25T20:00:00+00:00"
+        state, report = run({"generatedAt": NOW, "candidates": [row]}, AGENTS, {}, NOW)
+        self.assertEqual(report["orders"], [])
+        self.assertIn("15 dakika içinde zaman damgalı anlık fiyat doğrulanmadı", report["blocked"][0]["reasons"])
+
+    def test_recent_fetch_with_old_price_does_not_trade(self):
+        row = approved()
+        row["priceAsOf"] = "2026-09-27T14:30:00+00:00"
+        state, report = run({"generatedAt": NOW, "candidates": [row]}, AGENTS, {}, NOW)
         self.assertEqual(report["orders"], [])
 
 
