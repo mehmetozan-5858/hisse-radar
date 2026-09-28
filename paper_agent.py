@@ -27,9 +27,13 @@ def valid_quote(row, now):
     try:
         price = float(row["price"])
         checked = utc(row["fetchedAt"])
+        quoted = utc(row["priceAsOf"])
         return (row.get("marketDataStatus") == "fresh" and
+                row.get("priceKind") == "realtime" and
                 math.isfinite(price) and price > 0 and
-                0 <= (now - checked).total_seconds() <= 900)
+                0 <= (now - checked).total_seconds() <= 900 and
+                0 <= (now - quoted).total_seconds() <= 900 and
+                quoted <= checked)
     except (KeyError, ValueError, TypeError, OverflowError):
         return False
 
@@ -37,7 +41,7 @@ def valid_quote(row, now):
 def eligibility(row, verification, now):
     reasons = []
     if not valid_quote(row, now):
-        reasons.append("Fiyat yanıtı 15 dakika içinde doğrulanmadı")
+        reasons.append("15 dakika içinde zaman damgalı anlık fiyat doğrulanmadı")
     if not row.get("researchEligible") or float(row.get("score") or 0) < 65:
         reasons.append("Sinyal kapısı veya 65 puan eşiği geçilmedi")
     if not row.get("financialQuality", {}).get("available"):
