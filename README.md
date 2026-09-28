@@ -1,5 +1,19 @@
 # Hisse Radar
 
+## Kongre işlemleri veri durumu
+
+`data/congress-trades.json` Kongre işlem açıklamaları için sürümlü arayüzdür.
+Şu an `status: unavailable` ve boş `trades` içerir; bu, yeni işlem olmadığı
+anlamına gelmez. İşlem tarihi (`eventDate`) ile açıklamanın yayımlandığı tarih
+(`disclosureDate`) ayrıdır. Bir işlem ancak doğrudan resmî dosya bağlantısı,
+işlem türü, tutar aralığı ve manuel doğrulanmış hisse sembolü varsa yayımlanır.
+`python congress_disclosures.py` temel şema, tarih, tekrar ve resmî bağlantı
+kontrollerini yapar. Kontrol, finansal veri lisansını veya dosyanın yorumunu
+doğrulamaz. ABD Temsilciler Meclisi [arama sayfasındaki](https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch)
+ticari kullanım sınırlaması nedeniyle otomatik indirme ve yeniden yayımlama
+henüz etkinleştirilmedi. Senato kayıtları için de erişim ve kullanım şartları
+incelenmelidir. Sinyal/puan ve anlık işlem iddiası üretilmez.
+
 Mobil uyumlu PWA hisse araştırma paneli.
 
 Uygulama her açılışta ve sekmeye geri dönüldüğünde yayımlanmış beş veri

@@ -303,6 +303,13 @@
     .pilotForm input, .pilotForm select { display:block; width:100%; box-sizing:border-box; margin-top:5px; padding:10px; border-radius:9px; border:1px solid #34506c; background:#0a1625; color:white; }
     .pilotActions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
     .pilotActions button { padding:10px; border-radius:9px; border:1px solid #3b82f6; background:#132b49; color:white; }
+    .congressLinks { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0; }
+    .congressLinks a, .congressRow a { color:#8bc8ff; }
+    .congressRows { display:grid; gap:10px; margin-top:12px; }
+    .congressRow { background:#0d1b2a; border:1px solid #1d3147; border-radius:13px; padding:14px; }
+    .congressRow strong { font-size:16px; }
+    .congressMeta { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 14px; margin:10px 0; color:#a9b8c8; font-size:12px; }
+    .congressRow p { color:#a9b8c8; font-size:12px; margin:8px 0; }
     @media (max-width:420px) { .pilotForm { grid-template-columns:1fr; } }
 
     .footer {
@@ -369,6 +376,23 @@
     <p>Seçilen hissenin günlük verisini ve mevcut temel alanlarını birlikte incele. Aşağıdaki gözlemler emir sinyali değildir; kaynak ve veri eksikleri her bölümde görünür.</p>
     <div class="workControls"><label>Hisse seç<select id="researchStock"><option value="">Veriler yükleniyor...</option></select></label></div>
     <div id="researchContent" class="researchGrid" aria-live="polite"></div>
+  </section>
+
+  <section class="workspace" aria-labelledby="congressTitle">
+    <h2 id="congressTitle">🏛️ ABD Kongre işlem bildirimleri</h2>
+    <p>Üye işlemleri, bildirimler yayımlandıktan sonra görünür. İşlem tarihi ile bildirim tarihini ayrı inceleyin; tutarlar açıklanan aralıklardır. Bu veriler anlık alım satım sinyali değildir.</p>
+    <div id="congressStatus" class="loadingBox" role="status">Kongre bildirimleri kontrol ediliyor...</div>
+    <div class="congressLinks">
+      <a href="https://disclosures-clerk.house.gov/FinancialDisclosure/ViewSearch" target="_blank" rel="noopener noreferrer">Temsilciler Meclisi resmî araması ↗</a>
+      <a href="https://efdsearch.senate.gov/search/" target="_blank" rel="noopener noreferrer">Senato resmî araması ↗</a>
+    </div>
+    <div class="workControls">
+      <label>Sembol / üye ara<input type="search" id="congressSearch" placeholder="Örn. NVDA veya üye adı"></label>
+      <label>Meclis<select id="congressChamber"><option value="">Tümü</option><option value="House">Temsilciler Meclisi</option><option value="Senate">Senato</option></select></label>
+      <label>İşlem<select id="congressType"><option value="">Tümü</option><option value="purchase">Alış</option><option value="sale">Satış</option></select></label>
+    </div>
+    <div id="congressCount" class="small" role="status"></div>
+    <div id="congressRows" class="congressRows" aria-live="polite"></div>
   </section>
 
   <div class="panel active" id="radarPanel">
@@ -693,7 +717,7 @@ function sourceAge(value, maxHours){
 }
 function showSources(){
   document.getElementById("sourceStatus").textContent=
-    ["Ana radar","Global Niş","SEC finansallar","Ajan raporu","İşlem hazırlığı","13F bildirimi"]
+    ["Ana radar","Global Niş","SEC finansallar","Ajan raporu","İşlem hazırlığı","13F bildirimi","Kongre bildirimleri"]
       .map(name=>`${name}: ${sourceInfo[name] || "kontrol ediliyor"}`).join(" | ")+
     ` | Son kontrol: ${new Date().toLocaleTimeString("tr-TR")}. Sayfa açılışı yeni borsa taraması başlatmaz.`;
 }
@@ -833,6 +857,88 @@ async function load13fStatus(){
     const report=await latestJson("data/13f.json");
     setSource("13F bildirimi",report.updated_at,8*24,"çeyreklik bildirim; anlık işlem verisi değil");
   }catch(error){sourceError("13F bildirimi");}
+}
+
+let congressReport=null;
+function congressDate(value){
+  if(!value || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return "Bilinmiyor";
+  const date=new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(date.getTime()) ? "Bilinmiyor" : date.toLocaleDateString("tr-TR",{timeZone:"UTC"});
+}
+function congressType(value){
+  const type=String(value||"").toLowerCase();
+  if(["purchase","buy","p","alış"].includes(type)) return "purchase";
+  if(["sale","sell","s","satış"].includes(type)) return "sale";
+  return "other";
+}
+function congressSafeLink(value){
+  try { const url=new URL(value); return url.protocol==="https:" ? url.href : null; }
+  catch { return null; }
+}
+function renderCongress(){
+  const rows=document.getElementById("congressRows");
+  const count=document.getElementById("congressCount");
+  rows.replaceChildren();
+  if(!congressReport || congressReport.status!=="available" || !Array.isArray(congressReport.trades)){
+    count.textContent="Doğrulanmış kayıt gösterilemiyor.";
+    return;
+  }
+  const query=document.getElementById("congressSearch").value.trim().toLocaleLowerCase("tr-TR");
+  const chamber=document.getElementById("congressChamber").value;
+  const type=document.getElementById("congressType").value;
+  const filtered=congressReport.trades.filter(trade=>
+    (!query || `${trade.symbol||""} ${trade.politician||""}`.toLocaleLowerCase("tr-TR").includes(query)) &&
+    (!chamber || trade.chamber===chamber) && (!type || congressType(trade.transactionType)===type)
+  ).sort((a,b)=>String(b.disclosureDate||"").localeCompare(String(a.disclosureDate||"")));
+  count.textContent=`${filtered.length} kayıt gösteriliyor · toplam ${congressReport.trades.length} doğrulanmış işlem`;
+  if(!filtered.length){
+    const empty=document.createElement("div"); empty.className="loadingBox";
+    empty.textContent=congressReport.trades.length ? "Filtreyle eşleşen bildirim yok." : "Bu veri yayınında doğrulanmış işlem kaydı yok.";
+    rows.appendChild(empty); return;
+  }
+  for(const trade of filtered.slice(0,100)){
+    const card=document.createElement("article"); card.className="congressRow";
+    const title=document.createElement("strong"); title.textContent=`${trade.symbol||"Sembol belirtilmemiş"} · ${trade.politician||"Üye belirtilmemiş"}`;
+    const detail=document.createElement("div"); detail.className="congressMeta";
+    const fields=[
+      ["Meclis",trade.chamber==="House"?"Temsilciler Meclisi":trade.chamber==="Senate"?"Senato":"Bilinmiyor"],
+      ["İşlem",congressType(trade.transactionType)==="purchase"?"Alış":congressType(trade.transactionType)==="sale"?"Satış":trade.transactionType||"Bilinmiyor"],
+      ["İşlem tarihi",congressDate(trade.eventDate)],
+      ["Bildirim tarihi",congressDate(trade.disclosureDate)],
+      ["Tutar aralığı",trade.amountRange||"Bilinmiyor"],
+      ["Komite",trade.committee||"Doğrulanmadı"]
+    ];
+    for(const [label,value] of fields){ const cell=document.createElement("span");cell.textContent=`${label}: ${value}`;detail.appendChild(cell); }
+    card.append(title,detail);
+    const source=congressSafeLink(trade.sourceUrl);
+    if(source){const link=document.createElement("a");link.href=source;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Kaynak bildirimi aç ↗";card.appendChild(link);}
+    else {const note=document.createElement("p");note.textContent="Kaynak bağlantısı doğrulanmadı.";card.appendChild(note);}
+    rows.appendChild(card);
+  }
+  if(filtered.length>100){const note=document.createElement("p");note.className="small";note.textContent="İlk 100 kayıt gösteriliyor; filtreleri daraltın.";rows.appendChild(note);}
+}
+async function loadCongress(){
+  const status=document.getElementById("congressStatus");
+  try{
+    congressReport=await latestJson("data/congress-trades.json");
+    if(congressReport.schemaVersion!==1 || !Array.isArray(congressReport.trades)) throw new Error("Geçersiz kongre veri şeması");
+    const available=congressReport.status==="available";
+    const stamp=congressReport.updatedAt;
+    const age=Date.parse(stamp||"");
+    const stale=!Number.isFinite(age) || age>Date.now()+60000 || Date.now()-age>7*86400000;
+    if(!available){
+      status.textContent="Kongre işlem akışı henüz doğrulanmadı. Kayıtlar yüklenene kadar resmî bildirim portallarından kontrol edin.";
+      sourceInfo["Kongre bildirimleri"]="DOĞRULANMIŞ AKIŞ YOK";
+    }else{
+      status.textContent=`Son veri yayını: ${Number.isFinite(age)?new Date(age).toLocaleString("tr-TR"):"bilinmiyor"}${stale?" · GECİKMİŞ / TARİH DOĞRULANAMADI":""}. Bildirim tarihi işlem tarihinden sonra olabilir; komite ilişkisi doğrulanmadıkça gösterilmez.`;
+      setSource("Kongre bildirimleri",stamp,7*24,"açıklanan işlemler; anlık işlem değil");
+    }
+    showSources(); renderCongress();
+  }catch(error){
+    congressReport=null;
+    status.textContent="Kongre bildirimleri yüklenemedi. Resmî portallardan kontrol edin.";
+    sourceError("Kongre bildirimleri");renderCongress();
+  }
 }
 
 const money = value => {
@@ -1423,7 +1529,8 @@ async function refreshPublished(){
     loadSecFinancials(),
     loadAgentReports(),
     loadExecutionReadiness(),
-    load13fStatus()
+    load13fStatus(),
+    loadCongress()
   ]);
   refreshing=false;
   document.getElementById("refreshAll").disabled=false;
@@ -1438,6 +1545,9 @@ for(const id of ["nicheMarket","nicheView","nicheSearch"]){
 }
 document.getElementById("nicheMore").addEventListener("click",()=>{nicheShown+=30;renderNicheCards();});
 document.getElementById("refreshAll").addEventListener("click",refreshPublished);
+for(const id of ["congressSearch","congressChamber","congressType"]){
+  document.getElementById(id).addEventListener(id==="congressSearch"?"input":"change",renderCongress);
+}
 document.addEventListener("visibilitychange",()=>{
   if(!document.hidden && Date.now()-lastRefresh>30000) refreshPublished();
 });
