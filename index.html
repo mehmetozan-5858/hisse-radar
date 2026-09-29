@@ -349,7 +349,16 @@
       .tabs { gap: 5px; }
       .tab { font-size: 13px; }
     }
-    .panelSection{margin:14px 0;border:1px solid #263b55;border-radius:14px;padding:0 12px;background:rgba(9,20,36,.45)}
+    .quickMenu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:14px 0}
+  .quickMenu button,.primaryAction{border:1px solid #294d70;background:#10253a;color:#eef7ff;border-radius:11px;padding:11px 5px;font-weight:800;font-size:12px;cursor:pointer}
+  .topStatus,.homeGroup{margin:12px 0;border:1px solid #263b55;border-radius:14px;background:#0a1625}
+  .topStatus>summary,.homeGroup>summary{cursor:pointer;padding:13px;font-weight:800;list-style:none}
+  .topStatus>*:not(summary),.homeGroup>*:not(summary){margin-left:12px;margin-right:12px}
+  .homeGroup>summary span,.homeGroup>summary small{display:block}
+  .homeGroup>summary small{font-weight:500;color:#94a3b8;margin-top:4px}
+  .primaryAction{margin:10px 0 12px}
+  @media(max-width:540px){.quickMenu{grid-template-columns:repeat(3,1fr)}}
+  .panelSection{margin:14px 0;border:1px solid #263b55;border-radius:14px;padding:0 12px;background:rgba(9,20,36,.45)}
   .panelSection>summary{cursor:pointer;padding:14px 4px;font-weight:800;font-size:16px;list-style:none}
   .panelSection>summary::-webkit-details-marker{display:none}
   .panelSection>summary:after{content:"›";float:right;font-size:22px;transform:rotate(90deg)}
@@ -367,20 +376,33 @@
       hareketleri ve global niş fırsatlarını tek araştırma panelinde birleştirir.
     </p>
     <div class="status" id="status">Veriler yükleniyor...</div>
-    <div class="dataHealth" id="dataHealth" role="status">Veri kapsamı kontrol ediliyor...</div>
-    <div class="loadingBox" id="sourceStatus" role="status" style="margin-top:12px">Yayımlanan veri kaynakları kontrol ediliyor...</div>
-    <button id="refreshAll" type="button" style="margin-top:10px;padding:9px 14px;border-radius:10px;border:1px solid #3b82f6;background:#132b49;color:white;font-weight:700">Verileri yeniden kontrol et</button>
+    <details class="topStatus">
+      <summary>⚙️ Veri ve sistem durumu</summary>
+      <div class="dataHealth" id="dataHealth" role="status">Veri kapsamı kontrol ediliyor...</div>
+      <div class="loadingBox" id="sourceStatus" role="status" style="margin-top:10px">Yayımlanan veri kaynakları kontrol ediliyor...</div>
+      <button id="refreshAll" type="button" class="primaryAction">Verileri yeniden kontrol et</button>
+    </details>
   </div>
+
+  <nav class="quickMenu" aria-label="Ana bölümler">
+    <button type="button" onclick="document.getElementById('radarPanel').scrollIntoView({behavior:'smooth'})">📡 Radar</button>
+    <button type="button" onclick="document.querySelector('.panelSection')?.scrollIntoView({behavior:'smooth'})">🤖 Ajan Robotu</button>
+    <button type="button" onclick="document.getElementById('congressPanel')?.scrollIntoView({behavior:'smooth'})">🏛️ Kongre</button>
+    <button type="button" onclick="document.getElementById('workspaceTitle')?.scrollIntoView({behavior:'smooth'})">📈 Analiz</button>
+    <button type="button" onclick="document.getElementById('executionReadiness')?.scrollIntoView({behavior:'smooth'})">🔌 IBKR</button>
+  </nav>
 
   <div class="tabs">
     <button class="tab active" id="tabRadar" onclick="switchTab('radar')">
-      📊 Hisse Radar
+      📊 Radar Hisseleri
     </button>
     <button class="tab" id="tabNiche" onclick="switchTab('niche')">
-      🌍 Global Niş
+      🌍 Global Fırsatlar
     </button>
   </div>
 
+  <details class="homeGroup">
+    <summary><span>⭐ İzleme Listelerim</span><small>Favoriler, listeler ve karşılaştırma</small></summary>
   <section class="workspace" aria-labelledby="workspaceTitle">
     <h2 id="workspaceTitle">📋 İzleme masası</h2>
     <p>Kendi listelerini oluştur, yayımlanan hisseleri ara ve karşılaştır. Seçimler yalnızca bu cihazda saklanır. Fiyatlar anlık kotasyon değil, son yayımlanan günlük bardır; seans içindeki bar değişebilir.</p>
@@ -420,6 +442,8 @@
     <div id="congressCount" class="small" role="status"></div>
     <div id="congressRows" class="congressRows" aria-live="polite"></div>
   </section>
+
+  </details>
 
   <div class="panel active" id="radarPanel">
     <div class="panelTitle">
