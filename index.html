@@ -532,9 +532,9 @@
 
 <script>
 function openHomeSection(section){
-  // Agent and IBKR live inside the Radar panel, so activate it first.
-  if(section==="radar" || section==="agent" || section==="ibkr") switchTab("radar");
-  if(section==="niche") switchTab("niche");
+  // Agent and IBKR currently live inside Global Fırsatlar (nichePanel).
+  if(section==="radar") switchTab("radar");
+  if(section==="agent" || section==="ibkr" || section==="niche") switchTab("niche");
 
   const ids={
     radar:"radarPanel",
