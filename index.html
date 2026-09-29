@@ -322,11 +322,13 @@
     .congressDetailsBox a { color:#8bc8ff; margin-left:10px; }
     @media (max-width:700px) {
       .congressTable { min-width:0; table-layout:fixed; }
-      .congressTable th:nth-child(5), .congressTable td:nth-child(5) { display:none; }
-      .congressTable th:nth-child(1){width:28%}.congressTable th:nth-child(2){width:16%}.congressTable th:nth-child(3){width:17%}.congressTable th:nth-child(4){width:39%}
-      .congressTable td { padding:9px 5px; overflow:hidden; text-overflow:ellipsis; }
-      .congressPerson { white-space:nowrap; }
-      .congressAmount { font-size:11px; line-height:1.25; }
+      .congressTable th:nth-child(1){width:25%}.congressTable th:nth-child(2){width:14%}.congressTable th:nth-child(3){width:15%}.congressTable th:nth-child(4){width:18%}.congressTable th:nth-child(5){width:28%}
+      .congressTable th { padding:8px 4px; font-size:10px; }
+      .congressTable td { padding:8px 4px; overflow:hidden; text-overflow:ellipsis; font-size:11px; }
+      .congressPerson { white-space:nowrap; font-size:11px; }
+      .congressSymbol { font-size:12px; }
+      .congressTrade { min-width:34px; padding:3px 5px; font-size:10px; }
+      .congressAmount { font-size:10px; line-height:1.15; white-space:normal; }
     }
     #congressControls[hidden] { display:none; }
     @media (max-width:420px) { .pilotForm { grid-template-columns:1fr; } }
@@ -929,8 +931,22 @@ function renderCongress(){
     const person=document.createElement("td"); person.className="congressPerson"; person.textContent=trade.politician||"Üye belirtilmemiş";
     const symbol=document.createElement("td"); symbol.className="congressSymbol"; symbol.textContent=trade.symbol||"—";
     const action=document.createElement("td"); const badge=document.createElement("span"); badge.className=`congressTrade ${kind==="purchase"?"buy":kind==="sale"?"sell":"other"}`; badge.textContent=label; action.appendChild(badge);
-    const date=document.createElement("td"); date.textContent=congressDate(trade.eventDate);
-    const amount=document.createElement("td"); amount.className="congressAmount"; amount.textContent=trade.amountRange||"—";
+    const date=document.createElement("td");
+    const fullDate=congressDate(trade.eventDate);
+    date.textContent=fullDate && fullDate!=="Bilinmiyor" ? fullDate.replace(/\.\d{4}$/,"") : fullDate;
+    date.title=fullDate;
+    const amount=document.createElement("td"); amount.className="congressAmount";
+    amount.textContent=String(trade.amountRange||"—")
+      .replace(/\$1,001\s*-\s*\$15,000/g,"$1K–15K")
+      .replace(/\$15,001\s*-\s*\$50,000/g,"$15K–50K")
+      .replace(/\$50,001\s*-\s*\$100,000/g,"$50K–100K")
+      .replace(/\$100,001\s*-\s*\$250,000/g,"$100K–250K")
+      .replace(/\$250,001\s*-\s*\$500,000/g,"$250K–500K")
+      .replace(/\$500,001\s*-\s*\$1,000,000/g,"$500K–1M")
+      .replace(/\$1,000,001\s*-\s*\$5,000,000/g,"$1M–5M")
+      .replace(/\$5,000,001\s*-\s*\$25,000,000/g,"$5M–25M")
+      .replace(/\$25,000,001\s*-\s*\$50,000,000/g,"$25M–50M")
+      .replace(/\$50,000,000\+/g,"$50M+");
     tr.append(person,symbol,action,date,amount);
 
     const detail=document.createElement("tr"); detail.className="congressDetails"; detail.hidden=true;
