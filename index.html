@@ -349,7 +349,12 @@
       .tabs { gap: 5px; }
       .tab { font-size: 13px; }
     }
-  </style>
+    .panelSection{margin:14px 0;border:1px solid #263b55;border-radius:14px;padding:0 12px;background:rgba(9,20,36,.45)}
+  .panelSection>summary{cursor:pointer;padding:14px 4px;font-weight:800;font-size:16px;list-style:none}
+  .panelSection>summary::-webkit-details-marker{display:none}
+  .panelSection>summary:after{content:"›";float:right;font-size:22px;transform:rotate(90deg)}
+  .panelSection:not([open])>summary:after{transform:none}
+</style>
 </head>
 
 <body>
@@ -462,11 +467,14 @@
       <p>Adayı araştırma masasından kopyalayıp IBKR Mobile içinde aratabilirsiniz. Sembol ve borsa eşleşmesini, güncel fiyatı, işlem ücretini ve emir tutarını IBKR'de kendiniz doğrulayın. Buradaki adaylar alım satım talimatı değildir.</p>
     </div>
     <div class="loadingBox">Hesap onayınız ve kâğıt işlem erişiminiz tamamlanınca önce deneme işlemlerini kullanın. Hisse Radar IBKR hesabınıza bağlı değildir; emir veya para transferi göndermez.</div>
-    <div class="panelTitle"><h2>🧪 100 $ otomatik deneme portföyü</h2><p>Otomatik deneme açıkken Radar veya Global Niş kartındaki bir hisseye dokununca, sistemde yayımlanan son fiyat üzerinden 100 USD'lik varsayımsal alım kaydedilir. Bu işlem IBKR'ye emir göndermez ve gerçek para kullanmaz.</p></div>
-    <div class="loadingBox" style="margin-bottom:12px">
-      <div class="pilotActions"><button type="button" id="pilotAutoToggle">Otomatik 100 $ deneme: AÇIK</button></div>
-      <div id="pilotAutoStatus" class="small">Kart dokunuşları 100 USD'lik varsayımsal alım olarak kaydedilir; aynı dokunuş hisse detayını da açar.</div>
+    <details class="panelSection" open><summary>🤖 Ajan Paper Trading Laboratuvarı</summary>
+    <div class="loadingBox" style="margin-top:12px">
+      <p><strong>Hedef:</strong> Seçtiğiniz hisse havuzunda ajan stratejilerini 100 USD sanal sermaye ile ölçmek. %85–95 hedefi garanti değil, test eşiğidir.</p>
+      <div class="pilotActions"><button type="button" id="pilotAutoToggle">Ajan denemeleri: AÇIK</button></div>
+      <div id="pilotAutoStatus" class="small">Hisse kartına dokunmak işlem açmaz. Denemeler yalnızca kayıtlı strateji sinyallerinden oluşur.</div>
+      <div id="agentPilotMetrics" class="small" style="margin-top:10px"></div>
     </div>
+    </details>
     <div class="loadingBox">
       <form id="pilotForm" class="pilotForm">
         <label>İşlem türü<select name="kind"><option value="varsayim">Varsayımsal örnek</option><option value="ibkr-paper">IBKR kâğıt işlem</option></select></label>
@@ -480,11 +488,14 @@
       <div id="pilotSummary" class="small" role="status"></div>
       <div id="pilotRows" class="small"></div>
     </div>
+    </details>
+    <details class="panelSection"><summary>🔌 IBKR ve İşlem Hazırlığı</summary>
     <div class="panelTitle">
       <h2>🌐 Küresel işlem hazırlığı</h2>
       <p>IBKR bağlantısı, piyasa verisi ve işlem izinleri doğrulanmadan emir oluşturulmaz. $1.000 sermaye ve her $10.000 gerçekleşmiş kâr dilimi kaydedilir; banka aktarımı aracı kurum portalında yapılır.</p>
     </div>
     <div id="executionReadiness" class="grid"><div class="loadingBox">İşlem koşulları yükleniyor...</div></div>
+    </details>
   </div>
 
   <div class="footer">
@@ -775,10 +786,10 @@ function renderPilotAutoState(){
   const button=document.getElementById("pilotAutoToggle"),status=document.getElementById("pilotAutoStatus");
   if(!button||!status)return;
   const on=pilotAutoEnabled();
-  button.textContent=`Otomatik 100 $ deneme: ${on?"AÇIK":"KAPALI"}`;
+  button.textContent=`Ajan denemeleri: ${on?"AÇIK":"KAPALI"}`;
   status.textContent=on
-    ?"Bir hisse kartına dokununca yayımlanan son fiyat üzerinden 100 USD'lik varsayımsal alım kaydedilir. Gerçek emir gönderilmez."
-    :"Kart dokunuşları yalnızca hisse detayını açar; otomatik deneme alımı yapılmaz.";
+    ?"Ajan Paper laboratuvarı açık. Hisse kartına dokunmak işlem açmaz; gerçek IBKR emri gönderilmez."
+    :"Ajan Paper laboratuvarı kapalı. Mevcut deneme geçmişi korunur.";
 }
 function autoPilotBuy(stock,kind){
   if(!pilotAutoEnabled()) return;
@@ -828,6 +839,12 @@ function renderPilot(){
       : `${row.at} · ${row.kind === "ibkr-paper" ? "IBKR kâğıt" : "Varsayımsal"} · ${row.instrument} · net ${row.net.toFixed(2)} USD`;
     list.appendChild(line);
   });
+  const closed=values.filter(r=>Number.isFinite(r.net));
+  const wins=closed.filter(r=>r.net>0).length;
+  const losses=closed.filter(r=>r.net<0).length;
+  const winRate=closed.length?100*wins/closed.length:0;
+  const metric=document.getElementById("agentPilotMetrics");
+  if(metric) metric.textContent=`İşlem: ${closed.length} · Kârlı: ${wins} · Zararlı: ${losses} · Başarı oranı: ${winRate.toFixed(1)}% · Hedef test bandı: %85–95. Yeterli örneklem oluşmadan gerçek para için sonuç çıkarılmaz.`;
   renderPilotAutoState();
 }
 function initPilot(){
@@ -1175,7 +1192,7 @@ function renderCards(){
     const stamp=document.createElement("div");stamp.className=`small${quality.current?"":" dataWarning"}`;
     stamp.textContent=quality.label;card.appendChild(stamp);
 
-    card.onclick=()=>{autoPilotBuy(stock,"radar");showDetail(index);};
+    card.onclick=()=>showDetail(index);
     cards.appendChild(card);
   });
 }
@@ -1387,7 +1404,7 @@ function renderNicheCards(){
     const stamp=document.createElement("div");stamp.className=`small${quality.current?"":" dataWarning"}`;
     stamp.textContent=quality.label;card.appendChild(stamp);
 
-    card.onclick=()=>{autoPilotBuy(stock,"niche");showNicheDetail(index);};
+    card.onclick=()=>showNicheDetail(index);
     cards.appendChild(card);
   });
   const more=document.getElementById("nicheMore");
