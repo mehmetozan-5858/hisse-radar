@@ -462,7 +462,11 @@
       <p>Adayı araştırma masasından kopyalayıp IBKR Mobile içinde aratabilirsiniz. Sembol ve borsa eşleşmesini, güncel fiyatı, işlem ücretini ve emir tutarını IBKR'de kendiniz doğrulayın. Buradaki adaylar alım satım talimatı değildir.</p>
     </div>
     <div class="loadingBox">Hesap onayınız ve kâğıt işlem erişiminiz tamamlanınca önce deneme işlemlerini kullanın. Hisse Radar IBKR hesabınıza bağlı değildir; emir veya para transferi göndermez.</div>
-    <div class="panelTitle"><h2>🧪 100 $ deneme günlüğü</h2><p>IBKR demo işlemini veya yalnızca varsayımsal bir örneği buraya kaydedin. Bilgiler bu tarayıcıda kalır; sunucuya gönderilmez. Ortak cihazda kullanmayın; tarayıcı verileri silinirse kayıtlar da silinir.</p></div>
+    <div class="panelTitle"><h2>🧪 100 $ otomatik deneme portföyü</h2><p>Otomatik deneme açıkken Radar veya Global Niş kartındaki bir hisseye dokununca, sistemde yayımlanan son fiyat üzerinden 100 USD'lik varsayımsal alım kaydedilir. Bu işlem IBKR'ye emir göndermez ve gerçek para kullanmaz.</p></div>
+    <div class="loadingBox" style="margin-bottom:12px">
+      <div class="pilotActions"><button type="button" id="pilotAutoToggle">Otomatik 100 $ deneme: AÇIK</button></div>
+      <div id="pilotAutoStatus" class="small">Kart dokunuşları 100 USD'lik varsayımsal alım olarak kaydedilir; aynı dokunuş hisse detayını da açar.</div>
+    </div>
     <div class="loadingBox">
       <form id="pilotForm" class="pilotForm">
         <label>İşlem türü<select name="kind"><option value="varsayim">Varsayımsal örnek</option><option value="ibkr-paper">IBKR kâğıt işlem</option></select></label>
@@ -764,20 +768,71 @@ async function latestJson(path){
 }
 
 const pilotKey="hisse-radar-paper-pilot-v1";
+const pilotAutoKey="hisse-radar-paper-auto-v1";
+function pilotAutoEnabled(){ try{return localStorage.getItem(pilotAutoKey)!=="off";}catch{return true;} }
+function setPilotAutoEnabled(enabled){ try{localStorage.setItem(pilotAutoKey,enabled?"on":"off");}catch{} renderPilotAutoState(); }
+function renderPilotAutoState(){
+  const button=document.getElementById("pilotAutoToggle"),status=document.getElementById("pilotAutoStatus");
+  if(!button||!status)return;
+  const on=pilotAutoEnabled();
+  button.textContent=`Otomatik 100 $ deneme: ${on?"AÇIK":"KAPALI"}`;
+  status.textContent=on
+    ?"Bir hisse kartına dokununca yayımlanan son fiyat üzerinden 100 USD'lik varsayımsal alım kaydedilir. Gerçek emir gönderilmez."
+    :"Kart dokunuşları yalnızca hisse detayını açar; otomatik deneme alımı yapılmaz.";
+}
+function autoPilotBuy(stock,kind){
+  if(!pilotAutoEnabled()) return;
+  const price=Number(stock?.price);
+  const symbol=String(stock?.symbol||"").trim().toUpperCase();
+  if(!symbol||!Number.isFinite(price)||price<=0) return;
+  const market=String(stock.market||stock.exchange||(kind==="radar"?"RADAR":"")).trim().toUpperCase();
+  const rows=pilotEntries();
+  rows.push({
+    at:new Date().toISOString(),
+    kind:"varsayim",
+    instrument:`${symbol}${market?` / ${market}`:""}`,
+    entry:100,
+    exit:100,
+    fees:0,
+    other:0,
+    auto:true,
+    symbol,
+    market,
+    entryPrice:price,
+    quantity:100/price,
+    source:kind==="radar"?(stock.quoteSource||"Radar yayımlanan fiyat"):(stock.quoteSource||stock.marketDataStatus||"Global Niş yayımlanan fiyat")
+  });
+  try{localStorage.setItem(pilotKey,JSON.stringify(rows));renderPilot();}catch{}
+}
 function pilotEntries(){ try { const rows=JSON.parse(localStorage.getItem(pilotKey)||"[]"); return Array.isArray(rows)?rows:[]; } catch { return []; } }
 function renderPilot(){
   const rows=pilotEntries();
-  const net=rows.reduce((sum,row)=>sum+row.exit-row.entry-row.fees-row.other,0);
-  document.getElementById("pilotSummary").textContent=`${rows.length} deneme · Net sonuç: ${net.toFixed(2)} USD · Başlangıç 100 USD varsayımı: ${(100+net).toFixed(2)} USD. Bu sonuç gerçek bakiye değildir.`;
+  const universe=watchUniverse();
+  const currentPrice=row=>{
+    if(!row.auto||!row.symbol)return null;
+    const found=universe.find(x=>String(x.stock.symbol||"").toUpperCase()===row.symbol && (!row.market||String(x.stock.market||x.stock.exchange||"").toUpperCase()===row.market||row.market==="RADAR"));
+    const p=Number(found?.stock?.price); return Number.isFinite(p)&&p>0?p:null;
+  };
+  const values=rows.map(row=>{
+    const p=currentPrice(row);
+    const current=row.auto&&p!=null&&Number.isFinite(Number(row.quantity)) ? Number(row.quantity)*p : Number(row.exit);
+    return {...row,current:Number.isFinite(current)?current:0,net:(Number.isFinite(current)?current:0)-Number(row.entry)-Number(row.fees)-Number(row.other)};
+  });
+  const net=values.reduce((sum,row)=>sum+row.net,0);
+  document.getElementById("pilotSummary").textContent=`${rows.length} deneme · Toplam net: ${net.toFixed(2)} USD · Otomatik kayıtlar yayımlanan son fiyatla yeniden değerlenir. Gerçek bakiye değildir.`;
   const list=document.getElementById("pilotRows"); list.replaceChildren();
-  rows.slice(-10).reverse().forEach(row=>{
+  values.slice(-10).reverse().forEach(row=>{
     const line=document.createElement("p");
-    line.textContent=`${row.at} · ${row.kind === "ibkr-paper" ? "IBKR kâğıt" : "Varsayımsal"} · ${row.instrument} · net ${(row.exit-row.entry-row.fees-row.other).toFixed(2)} USD`;
+    line.textContent=row.auto
+      ? `${row.at} · OTOMATİK DENEME · ${row.instrument} · 100 USD @ ${Number(row.entryPrice).toFixed(2)} · adet ${Number(row.quantity).toFixed(4)} · güncel değer ${row.current.toFixed(2)} · net ${row.net.toFixed(2)} USD`
+      : `${row.at} · ${row.kind === "ibkr-paper" ? "IBKR kâğıt" : "Varsayımsal"} · ${row.instrument} · net ${row.net.toFixed(2)} USD`;
     list.appendChild(line);
   });
+  renderPilotAutoState();
 }
 function initPilot(){
   const form=document.getElementById("pilotForm");
+  document.getElementById("pilotAutoToggle")?.addEventListener("click",()=>setPilotAutoEnabled(!pilotAutoEnabled()));
   form.addEventListener("submit",event=>{
     event.preventDefault();
     const data=new FormData(form);
@@ -1120,7 +1175,7 @@ function renderCards(){
     const stamp=document.createElement("div");stamp.className=`small${quality.current?"":" dataWarning"}`;
     stamp.textContent=quality.label;card.appendChild(stamp);
 
-    card.onclick=()=>showDetail(index);
+    card.onclick=()=>{autoPilotBuy(stock,"radar");showDetail(index);};
     cards.appendChild(card);
   });
 }
@@ -1332,7 +1387,7 @@ function renderNicheCards(){
     const stamp=document.createElement("div");stamp.className=`small${quality.current?"":" dataWarning"}`;
     stamp.textContent=quality.label;card.appendChild(stamp);
 
-    card.onclick=()=>showNicheDetail(index);
+    card.onclick=()=>{autoPilotBuy(stock,"niche");showNicheDetail(index);};
     cards.appendChild(card);
   });
   const more=document.getElementById("nicheMore");
