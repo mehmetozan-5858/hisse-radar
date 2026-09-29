@@ -305,11 +305,29 @@
     .pilotActions button { padding:10px; border-radius:9px; border:1px solid #3b82f6; background:#132b49; color:white; }
     .congressLinks { display:flex; flex-wrap:wrap; gap:12px; margin:12px 0; }
     .congressLinks a, .congressRow a { color:#8bc8ff; }
-    .congressRows { display:grid; gap:10px; margin-top:12px; }
-    .congressRow { background:#0d1b2a; border:1px solid #1d3147; border-radius:13px; padding:14px; }
-    .congressRow strong { font-size:16px; }
-    .congressMeta { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px 14px; margin:10px 0; color:#a9b8c8; font-size:12px; }
-    .congressRow p { color:#a9b8c8; font-size:12px; margin:8px 0; }
+    .congressRows { margin-top:12px; overflow-x:auto; border:1px solid #1d3147; border-radius:13px; }
+    .congressTable { width:100%; border-collapse:collapse; min-width:650px; font-size:12px; }
+    .congressTable th { position:sticky; top:0; background:#13263a; color:#9fb2c7; text-align:left; padding:10px 8px; white-space:nowrap; }
+    .congressTable td { padding:10px 8px; border-top:1px solid #1d3147; vertical-align:middle; }
+    .congressTable tbody tr { background:#0d1b2a; cursor:pointer; }
+    .congressTable tbody tr:active { background:#13263a; }
+    .congressSymbol { font-weight:800; font-size:14px; color:#fff; }
+    .congressPerson { font-weight:700; color:#e7eef7; }
+    .congressTrade { display:inline-block; min-width:42px; text-align:center; border-radius:7px; padding:4px 7px; font-weight:800; font-size:11px; }
+    .congressTrade.buy { background:#123b2c; color:#74e0ad; }
+    .congressTrade.sell { background:#44212a; color:#ff8da1; }
+    .congressTrade.other { background:#263548; color:#c6d2df; }
+    .congressDetails td { padding:0; }
+    .congressDetailsBox { padding:12px; background:#0a1625; color:#a9b8c8; line-height:1.65; }
+    .congressDetailsBox a { color:#8bc8ff; margin-left:10px; }
+    @media (max-width:700px) {
+      .congressTable { min-width:0; table-layout:fixed; }
+      .congressTable th:nth-child(5), .congressTable td:nth-child(5) { display:none; }
+      .congressTable th:nth-child(1){width:28%}.congressTable th:nth-child(2){width:16%}.congressTable th:nth-child(3){width:17%}.congressTable th:nth-child(4){width:39%}
+      .congressTable td { padding:9px 5px; overflow:hidden; text-overflow:ellipsis; }
+      .congressPerson { white-space:nowrap; }
+      .congressAmount { font-size:11px; line-height:1.25; }
+    }
     #congressControls[hidden] { display:none; }
     @media (max-width:420px) { .pilotForm { grid-template-columns:1fr; } }
 
@@ -890,33 +908,46 @@ function renderCongress(){
   const filtered=congressReport.trades.filter(trade=>
     (!query || `${trade.symbol||""} ${trade.politician||""}`.toLocaleLowerCase("tr-TR").includes(query)) &&
     (!chamber || trade.chamber===chamber) && (!type || congressType(trade.transactionType)===type)
-  ).sort((a,b)=>String(b.disclosureDate||"").localeCompare(String(a.disclosureDate||"")));
-  count.textContent=`${filtered.length} kayıt gösteriliyor · toplam ${congressReport.trades.length} doğrulanmış işlem`;
+  ).sort((a,b)=>String(b.eventDate||"").localeCompare(String(a.eventDate||"")) || String(b.disclosureDate||"").localeCompare(String(a.disclosureDate||"")));
+  count.textContent=`${filtered.length} işlem · en yeni işlem tarihi üstte`;
   if(!filtered.length){
     const empty=document.createElement("div"); empty.className="loadingBox";
     empty.textContent=congressReport.trades.length ? "Filtreyle eşleşen bildirim yok." : "Bu veri yayınında doğrulanmış işlem kaydı yok.";
     rows.appendChild(empty); return;
   }
-  for(const trade of filtered.slice(0,100)){
-    const card=document.createElement("article"); card.className="congressRow";
-    const title=document.createElement("strong"); title.textContent=`${trade.symbol||"Sembol belirtilmemiş"} · ${trade.politician||"Üye belirtilmemiş"}`;
-    const detail=document.createElement("div"); detail.className="congressMeta";
-    const fields=[
-      ["Meclis",trade.chamber==="House"?"Temsilciler Meclisi":trade.chamber==="Senate"?"Senato":"Bilinmiyor"],
-      ["İşlem",congressType(trade.transactionType)==="purchase"?"Alış":congressType(trade.transactionType)==="sale"?"Satış":trade.transactionType||"Bilinmiyor"],
-      ["İşlem tarihi",congressDate(trade.eventDate)],
-      ["Bildirim tarihi",congressDate(trade.disclosureDate)],
-      ["Tutar aralığı",trade.amountRange||"Bilinmiyor"],
-      ["Komite",trade.committee||"Doğrulanmadı"]
-    ];
-    for(const [label,value] of fields){ const cell=document.createElement("span");cell.textContent=`${label}: ${value}`;detail.appendChild(cell); }
-    card.append(title,detail);
+
+  const table=document.createElement("table"); table.className="congressTable";
+  const thead=document.createElement("thead");
+  thead.innerHTML="<tr><th>Üye</th><th>Hisse</th><th>İşlem</th><th>İşlem tarihi</th><th>Tutar</th></tr>";
+  const tbody=document.createElement("tbody");
+  table.append(thead,tbody); rows.appendChild(table);
+
+  for(const trade of filtered.slice(0,150)){
+    const kind=congressType(trade.transactionType);
+    const label=kind==="purchase"?"AL":kind==="sale"?"SAT":"DİĞER";
+    const tr=document.createElement("tr");
+    const person=document.createElement("td"); person.className="congressPerson"; person.textContent=trade.politician||"Üye belirtilmemiş";
+    const symbol=document.createElement("td"); symbol.className="congressSymbol"; symbol.textContent=trade.symbol||"—";
+    const action=document.createElement("td"); const badge=document.createElement("span"); badge.className=`congressTrade ${kind==="purchase"?"buy":kind==="sale"?"sell":"other"}`; badge.textContent=label; action.appendChild(badge);
+    const date=document.createElement("td"); date.textContent=congressDate(trade.eventDate);
+    const amount=document.createElement("td"); amount.className="congressAmount"; amount.textContent=trade.amountRange||"—";
+    tr.append(person,symbol,action,date,amount);
+
+    const detail=document.createElement("tr"); detail.className="congressDetails"; detail.hidden=true;
+    const cell=document.createElement("td"); cell.colSpan=5;
+    const box=document.createElement("div"); box.className="congressDetailsBox";
+    const chamberLabel=trade.chamber==="House"?"Temsilciler Meclisi":trade.chamber==="Senate"?"Senato":"Bilinmiyor";
+    box.textContent=`Bildirim: ${congressDate(trade.disclosureDate)} · Meclis: ${chamberLabel} · Tutar: ${trade.amountRange||"Bilinmiyor"}`;
     const source=congressSafeLink(trade.sourceUrl);
-    if(source){const link=document.createElement("a");link.href=source;link.target="_blank";link.rel="noopener noreferrer";link.textContent="Kaynak bildirimi aç ↗";card.appendChild(link);}
-    else {const note=document.createElement("p");note.textContent="Kaynak bağlantısı doğrulanmadı.";card.appendChild(note);}
-    rows.appendChild(card);
+    if(source){ const link=document.createElement("a"); link.href=source; link.target="_blank"; link.rel="noopener noreferrer"; link.textContent="Resmî belge ↗"; link.addEventListener("click",e=>e.stopPropagation()); box.appendChild(link); }
+    cell.appendChild(box); detail.appendChild(cell);
+    tr.tabIndex=0; tr.setAttribute("role","button"); tr.setAttribute("aria-expanded","false");
+    const toggle=()=>{ detail.hidden=!detail.hidden; tr.setAttribute("aria-expanded",String(!detail.hidden)); };
+    tr.addEventListener("click",toggle);
+    tr.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle();}});
+    tbody.append(tr,detail);
   }
-  if(filtered.length>100){const note=document.createElement("p");note.className="small";note.textContent="İlk 100 kayıt gösteriliyor; filtreleri daraltın.";rows.appendChild(note);}
+  if(filtered.length>150){ const note=document.createElement("caption"); note.textContent="İlk 150 işlem gösteriliyor; arama ve filtrelerle daraltabilirsiniz."; table.appendChild(note); }
 }
 async function loadCongress(){
   const status=document.getElementById("congressStatus");
