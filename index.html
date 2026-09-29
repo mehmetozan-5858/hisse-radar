@@ -382,7 +382,7 @@
     <div class="workControls">
       <label>İzleme listesi<select id="watchList"></select></label>
       <label>Görünüm<select id="watchView"><option value="mine">Listemdekiler</option><option value="all">Tüm yayımlananlar</option></select></label>
-      <label>Veri filtresi<select id="watchQuality"><option value="all">Tüm kayıtlar</option><option value="current">Güncel rapor ve bar</option></select></label>
+      <label>Veri filtresi<select id="watchQuality"><option value="all">Tüm kayıtlar</option><option value="current">Güncel fiyat kaynağı ve yakın tarihli bar</option></select></label>
       <label>Sembol / şirket ara<input type="search" id="watchSearch" placeholder="Örn. AAPL, IONQ"></label>
       <label>Sırala<select id="watchSort"><option value="score">Araştırma puanı</option><option value="change">Günlük değişim</option><option value="volume">Hacim</option><option value="symbol">Sembol</option></select></label>
     </div>
@@ -534,6 +534,8 @@ function dataQuality(row){
     return {current:false,label:"Rapor gecikmiş"};
   if(kind==="niche" && stock.marketDataStatus!=="fresh")
     return {current:false,label:"Fiyat yenilenmedi"};
+  if(kind==="radar" && stock.freshness?.quote !== true)
+    return {current:false,label:"Fiyat: Son bilinen"};
   const barTime=Date.parse(stock.lastBarAt||"");
   if(!Number.isFinite(barTime)||barTime>Date.now()+86400000||Date.now()-barTime>5*86400000)
     return {current:false,label:"Son günlük bar eski / belirsiz"};
@@ -547,6 +549,10 @@ function renderDataHealth(){
     `Veri kapsamı: ${rows.length} yayımlanmış kayıt, ${current} güncel rapor ve yakın tarihli günlük bar. `+
     `Küresel dizin ${directory} sembol; son taramada ${attempted} seçildi. `+
     `“Yeni fiyat yanıtı” anlık fiyat demek değildir. Seans içindeki günlük bar kesinleşmemiş olabilir. Sayfayı yenilemek borsa taramasını başlatmaz.`;
+}
+function freshnessLabel(stock,key,hasValue=true){
+  if(!hasValue) return "Veri yok";
+  return stock.freshness?.[key] === true ? "Güncel" : "Son bilinen";
 }
 function researchMetrics(stock){
   const closes=(Array.isArray(stock.dailyCloses)?stock.dailyCloses:[])
@@ -606,7 +612,7 @@ function renderResearchHub(){
   box.innerHTML=
     researchCard("📊 Prime araştırma özeti",`<p><strong>${esc(stock.symbol)}</strong> · ${esc(stock.name||"")} · ${esc(quality.label)}</p><p>Son günlük bar: <strong>${esc(m.closes.at(-1)?.[0]||"yok")}</strong> · Kaynak: ${source}. Seans içindeyse bar kesinleşmemiş olabilir; canlı kotasyon değildir.</p>`)+
     researchCard("📐 İndikatör gözlemleri",`<p>20G ortalama: <strong>${fmt(m.sma20)}</strong> · 50G: <strong>${fmt(m.sma50)}</strong></p><p>RSI(14): <strong>${rsiText}</strong></p><p>${esc(trend)}. Yalnızca günlük kapanışlardan hesaplandı; al/sat kararı değildir.</p>`)+
-    researchCard("🧾 Temel analiz",`${secFinancialCard(stock,kind)}<p>Eski radar alanları, kaynak dönemi doğrulanmadığı için ayrı tutulur: gelir büyümesi ${growth(f.revenueGrowth)}, net kâr büyümesi ${growth(f.netIncomeGrowth)}, F/K ${fmt(f.pe)}, PEG ${fmt(f.peg)}.</p>${filingLink}`)+
+    researchCard("🧾 Temel analiz",`${secFinancialCard(stock,kind)}<p>Gelir büyümesi: <strong>${growth(f.revenueGrowth)}</strong> · ${freshnessLabel(stock,"growth",f.revenueGrowth!=null)}<br>Net kâr büyümesi: <strong>${growth(f.netIncomeGrowth)}</strong> · ${freshnessLabel(stock,"growth",f.netIncomeGrowth!=null)}<br>F/K: <strong>${fmt(f.pe)}</strong> · ${freshnessLabel(stock,"ratios",f.pe!=null)}<br>PEG: <strong>${fmt(f.peg)}</strong> · ${freshnessLabel(stock,"ratios",f.peg!=null)}</p><p>Analist hedefi: <strong>${fmt(stock.analyst?.targetConsensus ?? stock.analyst?.targetMedian)}</strong> · ${freshnessLabel(stock,"analyst",(stock.analyst?.targetConsensus ?? stock.analyst?.targetMedian)!=null)}</p>${filingLink}`)+
     researchCard("📈 Grafik ve formasyon",`<p>Radar grafiğinde ${m.values.length} günlük kapanış noktası var. Mum formasyonları için açık, yüksek, düşük ve kapanış serisi gerekir; burada otomatik formasyon sonucu üretilmiyor.</p>${chartSymbol?'<button type="button" id="researchAdvanced">TradingView gelişmiş grafik yükle</button><div id="researchChart" class="externalChart" hidden></div>':'<p>Borsa eşleşmesi doğrulanmadı. Gelişmiş grafik için sembolü sağlayıcıda seçin.</p><a href="https://www.tradingview.com/chart/" target="_blank" rel="noopener noreferrer">TradingView grafik ↗</a>'}<p>Gömülü grafiğin veri kaynağı ve gecikmesi TradingView tarafından gösterilir; Radar fiyatıyla eşit olduğu varsayılmaz.</p>`)+
     researchCard("🏛️ Yabancı takas ve kurum akışı",`<p>Yabancı takas, aracı kurum bazlı alış/satış net hacmi ve saatlik para giriş çıkışı için doğrulanmış lisanslı veri bağlı değil. Bu alanlar hesaplanmış gibi gösterilmez.</p>`)+
     researchCard("🧭 Kurum önerileri ve dedektör",`<p>Aracı kurum raporu ve öneri tarihi için doğrulanmış akış yok. Mevcut radar puanı bir kurum önerisi değildir. Veri engellerini Global Niş kartlarında inceleyin.</p>`)+
