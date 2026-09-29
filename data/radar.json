@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-29T11:47:49.362834+00:00",
+  "updated_at": "2026-09-29T12:53:29.353610+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "AVGO",
-    "ORCL"
+    "NFLX",
+    "JPM"
   ],
   "quote_status": {
     "fresh": 20,
@@ -12468,7 +12468,7 @@
         "peg": 0.6299339273578496
       },
       "analyst": {
-        "targetConsensus": 91.56,
+        "targetConsensus": 90.72,
         "targetHigh": 119,
         "targetLow": 57,
         "targetMedian": 91
@@ -12569,9 +12569,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 59,
@@ -13647,9 +13647,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 36,
