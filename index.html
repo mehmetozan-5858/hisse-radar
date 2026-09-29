@@ -491,7 +491,7 @@
       <p>Adayı araştırma masasından kopyalayıp IBKR Mobile içinde aratabilirsiniz. Sembol ve borsa eşleşmesini, güncel fiyatı, işlem ücretini ve emir tutarını IBKR'de kendiniz doğrulayın. Buradaki adaylar alım satım talimatı değildir.</p>
     </div>
     <div class="loadingBox">Hesap onayınız ve kâğıt işlem erişiminiz tamamlanınca önce deneme işlemlerini kullanın. Hisse Radar IBKR hesabınıza bağlı değildir; emir veya para transferi göndermez.</div>
-    <details class="panelSection" open><summary>🤖 Ajan Paper Trading Laboratuvarı</summary>
+    <details class="panelSection" id="agentRobotSection" open><summary>🤖 Ajan Paper Trading Laboratuvarı</summary>
     <div class="loadingBox" style="margin-top:12px">
       <p><strong>Hedef:</strong> Seçtiğiniz hisse havuzunda ajan stratejilerini 100 USD sanal sermaye ile ölçmek. %85–95 hedefi garanti değil, test eşiğidir.</p>
       <div class="pilotActions"><button type="button" id="pilotAutoToggle">Ajan denemeleri: AÇIK</button></div>
@@ -513,7 +513,7 @@
       <div id="pilotRows" class="small"></div>
     </div>
     </details>
-    <details class="panelSection"><summary>🔌 IBKR ve İşlem Hazırlığı</summary>
+    <details class="panelSection" id="ibkrSection"><summary>🔌 IBKR ve İşlem Hazırlığı</summary>
     <div class="panelTitle">
       <h2>🌐 Küresel işlem hazırlığı</h2>
       <p>IBKR bağlantısı, piyasa verisi ve işlem izinleri doğrulanmadan emir oluşturulmaz. $1.000 sermaye ve her $10.000 gerçekleşmiş kâr dilimi kaydedilir; banka aktarımı aracı kurum portalında yapılır.</p>
@@ -532,21 +532,22 @@
 
 <script>
 function openHomeSection(section){
-  let target=null;
-  if(section==="radar"){
-    switchTab("radar");
-    target=document.getElementById("radarPanel");
-  }else if(section==="agent"){
-    target=document.getElementById("pilotAutoToggle")?.closest("details") || document.getElementById("pilotAutoToggle");
-  }else if(section==="congress"){
-    target=document.getElementById("congressTitle")?.closest("section") || document.getElementById("congressTitle");
-  }else if(section==="analysis"){
-    target=document.getElementById("workspaceTitle")?.closest("details") || document.getElementById("workspaceTitle");
-  }else if(section==="ibkr"){
-    target=document.getElementById("executionReadiness")?.closest("details") || document.getElementById("executionReadiness");
-  }
+  // Agent and IBKR live inside the Radar panel, so activate it first.
+  if(section==="radar" || section==="agent" || section==="ibkr") switchTab("radar");
+  if(section==="niche") switchTab("niche");
+
+  const ids={
+    radar:"radarPanel",
+    agent:"agentRobotSection",
+    congress:"congressTitle",
+    analysis:"workspaceTitle",
+    ibkr:"ibkrSection"
+  };
+  let target=document.getElementById(ids[section]);
+  if(section==="analysis") target=target?.closest("details") || target;
   if(target?.tagName==="DETAILS") target.open=true;
-  target?.scrollIntoView({behavior:"smooth",block:"start"});
+  // wait one frame for panel display state before scrolling on iPhone/Safari
+  requestAnimationFrame(()=>target?.scrollIntoView({behavior:"smooth",block:"start"}));
 }
 
 let radarData = null;
