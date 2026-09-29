@@ -385,11 +385,11 @@
   </div>
 
   <nav class="quickMenu" aria-label="Ana bölümler">
-    <button type="button" onclick="document.getElementById('radarPanel').scrollIntoView({behavior:'smooth'})">📡 Radar</button>
-    <button type="button" onclick="document.querySelector('.panelSection')?.scrollIntoView({behavior:'smooth'})">🤖 Ajan Robotu</button>
-    <button type="button" onclick="document.getElementById('congressPanel')?.scrollIntoView({behavior:'smooth'})">🏛️ Kongre</button>
-    <button type="button" onclick="document.getElementById('workspaceTitle')?.scrollIntoView({behavior:'smooth'})">📈 Analiz</button>
-    <button type="button" onclick="document.getElementById('executionReadiness')?.scrollIntoView({behavior:'smooth'})">🔌 IBKR</button>
+    <button type="button" onclick="openHomeSection('radar')">📡 Radar</button>
+    <button type="button" onclick="openHomeSection('agent')">🤖 Ajan Robotu</button>
+    <button type="button" onclick="openHomeSection('congress')">🏛️ Kongre</button>
+    <button type="button" onclick="openHomeSection('analysis')">📈 Analiz</button>
+    <button type="button" onclick="openHomeSection('ibkr')">🔌 IBKR</button>
   </nav>
 
   <div class="tabs">
@@ -531,6 +531,24 @@
 </div>
 
 <script>
+function openHomeSection(section){
+  let target=null;
+  if(section==="radar"){
+    switchTab("radar");
+    target=document.getElementById("radarPanel");
+  }else if(section==="agent"){
+    target=document.getElementById("pilotAutoToggle")?.closest("details") || document.getElementById("pilotAutoToggle");
+  }else if(section==="congress"){
+    target=document.getElementById("congressTitle")?.closest("section") || document.getElementById("congressTitle");
+  }else if(section==="analysis"){
+    target=document.getElementById("workspaceTitle")?.closest("details") || document.getElementById("workspaceTitle");
+  }else if(section==="ibkr"){
+    target=document.getElementById("executionReadiness")?.closest("details") || document.getElementById("executionReadiness");
+  }
+  if(target?.tagName==="DETAILS") target.open=true;
+  target?.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
 let radarData = null;
 let nicheData = null;
 let secData = null;
