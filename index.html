@@ -351,6 +351,7 @@
     }
     .quickMenu{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:14px 0}
   .quickMenu button,.primaryAction{border:1px solid #294d70;background:#10253a;color:#eef7ff;border-radius:11px;padding:11px 5px;font-weight:800;font-size:12px;cursor:pointer}
+  .quickMenu button.active{background:#eef7ff;color:#10253a;border-color:#eef7ff;box-shadow:0 0 0 2px rgba(238,247,255,.12)}
   .topStatus,.homeGroup{margin:12px 0;border:1px solid #263b55;border-radius:14px;background:#0a1625}
   .topStatus>summary,.homeGroup>summary{cursor:pointer;padding:13px;font-weight:800;list-style:none}
   .topStatus>*:not(summary),.homeGroup>*:not(summary){margin-left:12px;margin-right:12px}
@@ -385,11 +386,11 @@
   </div>
 
   <nav class="quickMenu" aria-label="Ana bölümler">
-    <button type="button" onclick="openHomeSection('radar')">📡 Radar</button>
-    <button type="button" onclick="openHomeSection('agent')">🤖 Ajan Robotu</button>
-    <button type="button" onclick="openHomeSection('congress')">🏛️ Kongre</button>
-    <button type="button" onclick="openHomeSection('analysis')">📈 Analiz</button>
-    <button type="button" onclick="openHomeSection('ibkr')">🔌 IBKR</button>
+    <button type="button" data-home-section="radar" onclick="openHomeSection('radar')">📡 Radar</button>
+    <button type="button" data-home-section="agent" onclick="openHomeSection('agent')">🤖 Ajan Robotu</button>
+    <button type="button" data-home-section="congress" onclick="openHomeSection('congress')">🏛️ Kongre</button>
+    <button type="button" data-home-section="analysis" onclick="openHomeSection('analysis')">📈 Analiz</button>
+    <button type="button" data-home-section="ibkr" onclick="openHomeSection('ibkr')">🔌 IBKR</button>
   </nav>
 
   <div class="tabs">
@@ -532,9 +533,14 @@
 
 <script>
 function openHomeSection(section){
-  // Agent and IBKR currently live inside Global Fırsatlar (nichePanel).
+  // Mark the selected top-level segment as active.
+  document.querySelectorAll(".quickMenu [data-home-section]").forEach(btn=>{
+    btn.classList.toggle("active",btn.dataset.homeSection===section);
+  });
+
+  // Agent and IBKR are physically inside Global Fırsatlar.
   if(section==="radar") switchTab("radar");
-  if(section==="agent" || section==="ibkr" || section==="niche") switchTab("niche");
+  if(section==="agent" || section==="ibkr") switchTab("niche");
 
   const ids={
     radar:"radarPanel",
@@ -544,10 +550,13 @@ function openHomeSection(section){
     ibkr:"ibkrSection"
   };
   let target=document.getElementById(ids[section]);
+  if(section==="congress") target=target?.closest("section") || target;
   if(section==="analysis") target=target?.closest("details") || target;
   if(target?.tagName==="DETAILS") target.open=true;
-  // wait one frame for panel display state before scrolling on iPhone/Safari
-  requestAnimationFrame(()=>target?.scrollIntoView({behavior:"smooth",block:"start"}));
+
+  // switchTab itself scrolls to top; wait until that finishes its state change,
+  // then move to the requested section.
+  setTimeout(()=>target?.scrollIntoView({behavior:"smooth",block:"start"}),80);
 }
 
 let radarData = null;
