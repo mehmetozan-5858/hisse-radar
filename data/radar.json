@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-02T04:48:56.733276+00:00",
+  "updated_at": "2026-10-02T05:48:06.925719+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "QCOM",
-    "INTC"
+    "AAPL",
+    "MSFT"
   ],
   "quote_status": {
     "fresh": 20,
@@ -1035,8 +1035,8 @@
         "revenueGrowth": 0.0642551178283274,
         "netIncomeGrowth": 0.19495177946573355,
         "epsGrowth": 0.22585924713584285,
-        "pe": 37.61929337899544,
-        "peg": 1.149478408802637
+        "pe": 37.70776255707763,
+        "peg": 1.1521816336884818
       },
       "analyst": {
         "targetConsensus": 341.68,
@@ -1148,9 +1148,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 49,
@@ -2187,8 +2187,8 @@
         "revenueGrowth": 0.1778868679984666,
         "netIncomeGrowth": 0.3134279990572708,
         "epsGrowth": 0.3138686131386862,
-        "pe": 28.61611111111111,
-        "peg": 0.9089432972415554
+        "pe": 28.488888888888884,
+        "peg": 0.9049022944057729
       },
       "analyst": {
         "targetConsensus": 563.5,
@@ -2285,9 +2285,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 56,
@@ -22801,9 +22801,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 50,
