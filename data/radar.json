@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-06T05:48:22.389250+00:00",
+  "updated_at": "2026-10-06T06:54:30.889235+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "QCOM",
-    "INTC"
+    "AAPL",
+    "MSFT"
   ],
   "quote_status": {
     "fresh": 20,
@@ -1035,8 +1035,8 @@
         "revenueGrowth": 0.0642551178283274,
         "netIncomeGrowth": 0.19495177946573355,
         "epsGrowth": 0.22585924713584285,
-        "pe": 38.09246575342466,
-        "peg": 1.1639364535768635
+        "pe": 38.00114155251141,
+        "peg": 1.161145991882292
       },
       "analyst": {
         "targetConsensus": 341.68,
@@ -1148,9 +1148,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 49,
@@ -2187,14 +2187,14 @@
         "revenueGrowth": 0.1778868679984666,
         "netIncomeGrowth": 0.3134279990572708,
         "epsGrowth": 0.3138686131386862,
-        "pe": 28.751666666666665,
-        "peg": 0.9132489945862319
+        "pe": 29.176666666666662,
+        "peg": 0.926748414539828
       },
       "analyst": {
-        "targetConsensus": 563.5,
+        "targetConsensus": 571.76,
         "targetHigh": 725,
         "targetLow": 440,
-        "targetMedian": 550
+        "targetMedian": 556
       },
       "insider": {
         "score": 10,
@@ -2285,9 +2285,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 60,
@@ -22801,9 +22801,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 47,
