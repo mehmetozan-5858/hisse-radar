@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-01T08:50:21.361589+00:00",
+  "updatedAt": "2026-10-08T08:51:58.099349+00:00",
   "source": "SEC EDGAR companyfacts",
   "stocks": {
     "AAPL": {
@@ -304,10 +304,47 @@
       "cik": 909832,
       "company": "COSTCO WHOLESALE CORP /NEW",
       "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000909832.json",
-      "fiscalYear": 2025,
-      "previousFiscalYear": 2024,
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
       "currency": "USD",
       "current": {
+        "revenue": {
+          "value": 303154000000,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "accession": "0000909832-26-000093",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 9226000000,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "accession": "0000909832-26-000093",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 89045000000,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "accession": "0000909832-26-000093",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 53242000000,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "accession": "0000909832-26-000093",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 35803000000,
+          "end": "2026-08-30",
+          "filed": "2026-10-07",
+          "accession": "0000909832-26-000093",
+          "tag": "StockholdersEquity"
+        }
+      },
+      "previous": {
         "revenue": {
           "value": 275235000000,
           "end": "2025-08-31",
@@ -341,43 +378,6 @@
           "end": "2025-08-31",
           "filed": "2025-10-08",
           "accession": "0000909832-25-000101",
-          "tag": "StockholdersEquity"
-        }
-      },
-      "previous": {
-        "revenue": {
-          "value": 254453000000,
-          "end": "2024-09-01",
-          "filed": "2024-10-09",
-          "accession": "0000909832-24-000049",
-          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
-        },
-        "netIncome": {
-          "value": 7367000000,
-          "end": "2024-09-01",
-          "filed": "2024-10-09",
-          "accession": "0000909832-24-000049",
-          "tag": "NetIncomeLoss"
-        },
-        "assets": {
-          "value": 69831000000,
-          "end": "2024-09-01",
-          "filed": "2024-10-09",
-          "accession": "0000909832-24-000049",
-          "tag": "Assets"
-        },
-        "liabilities": {
-          "value": 46209000000,
-          "end": "2024-09-01",
-          "filed": "2024-10-09",
-          "accession": "0000909832-24-000049",
-          "tag": "Liabilities"
-        },
-        "equity": {
-          "value": 23622000000,
-          "end": "2024-09-01",
-          "filed": "2024-10-09",
-          "accession": "0000909832-24-000049",
           "tag": "StockholdersEquity"
         }
       }
