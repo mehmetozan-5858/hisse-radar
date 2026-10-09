@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-09T10:50:51.506996+00:00",
+  "updated_at": "2026-10-09T11:49:29.989168+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "V",
-    "MA"
+    "COST",
+    "WMT"
   ],
   "quote_status": {
     "fresh": 20,
@@ -14791,9 +14791,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 47,
@@ -16978,10 +16978,10 @@
         "peg": 3.290549973941192
       },
       "analyst": {
-        "targetConsensus": 1092.67,
+        "targetConsensus": 1101.09,
         "targetHigh": 1275,
         "targetLow": 955,
-        "targetMedian": 1089.5
+        "targetMedian": 1100
       },
       "insider": {
         "score": 10,
@@ -17086,9 +17086,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 48,
@@ -18230,9 +18230,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 49,
