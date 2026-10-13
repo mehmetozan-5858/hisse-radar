@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-13T01:00:53.807735+00:00",
+  "updated_at": "2026-10-13T01:52:45.646571+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "GOOGL",
-    "META"
+    "TSLA",
+    "AMD"
   ],
   "quote_status": {
     "fresh": 20,
@@ -5712,9 +5712,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 64,
@@ -5732,10 +5732,10 @@
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
-      "price": 718.67,
-      "change": -2.22,
-      "changePercentage": -0.308,
-      "volume": 12605100,
+      "price": 742.96,
+      "change": 24.29,
+      "changePercentage": 3.3799,
+      "volume": 24828300,
       "dailyCloses": [
         [
           "2025-10-13",
@@ -6736,11 +6736,15 @@
         [
           "2026-10-09",
           718.67
+        ],
+        [
+          "2026-10-12",
+          742.96
         ]
       ],
-      "dayLow": 716.2,
-      "dayHigh": 728.07,
-      "lastBarAt": "2026-10-09T13:30:00+00:00",
+      "dayLow": 727.64,
+      "dayHigh": 752.24,
+      "lastBarAt": "2026-10-12T13:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -6846,18 +6850,18 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
-        "score": 45,
+        "score": 50,
         "max": 80,
         "components": {
           "analyst": 7,
           "growth": 7,
           "valuation": 7,
-          "momentum": 4,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -7885,8 +7889,8 @@
         "revenueGrowth": -0.029306991503736307,
         "netIncomeGrowth": -0.4678821879382889,
         "epsGrowth": -0.47089947089947093,
-        "pe": 321.87288135593224,
-        "peg": -8.56816543327763
+        "pe": 320.364406779661,
+        "peg": -8.528010264979704
       },
       "analyst": {
         "targetConsensus": 441.36,
@@ -7989,9 +7993,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 29,
@@ -9028,8 +9032,8 @@
         "revenueGrowth": 0.34337793290672874,
         "netIncomeGrowth": 1.6416819012797075,
         "epsGrowth": 1.6435643564356435,
-        "pe": 149.95431725888324,
-        "peg": 1.2106403595212591
+        "pe": 150.8223350253807,
+        "peg": 1.2176482093792202
       },
       "analyst": {
         "targetConsensus": 607.59,
@@ -9133,9 +9137,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 48,
@@ -19390,10 +19394,10 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "price": 209.05,
-      "change": 10.27,
-      "changePercentage": 5.1665,
-      "volume": 37479600,
+      "price": 209.0,
+      "change": -0.05,
+      "changePercentage": -0.0239,
+      "volume": 24259200,
       "dailyCloses": [
         [
           "2025-10-13",
@@ -20394,11 +20398,15 @@
         [
           "2026-10-09",
           209.05
+        ],
+        [
+          "2026-10-12",
+          209.0
         ]
       ],
-      "dayLow": 198.3,
-      "dayHigh": 209.58,
-      "lastBarAt": "2026-10-09T13:30:00+00:00",
+      "dayLow": 206.05,
+      "dayHigh": 212.94,
+      "lastBarAt": "2026-10-12T13:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -20509,13 +20517,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 56,
+        "score": 50,
         "max": 80,
         "components": {
           "analyst": 1,
           "growth": 15,
           "valuation": 10,
-          "momentum": 10,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
