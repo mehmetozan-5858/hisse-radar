@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-15T21:03:30.739879+00:00",
+  "updated_at": "2026-10-15T22:00:21.321417+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "AAPL",
-    "MSFT"
+    "NVDA",
+    "AMZN"
   ],
   "quote_status": {
     "fresh": 20,
@@ -1148,9 +1148,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 46,
@@ -2285,9 +2285,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 60,
@@ -3324,8 +3324,8 @@
         "revenueGrowth": 0.654735357900948,
         "netIncomeGrowth": 0.6474615806805708,
         "epsGrowth": 0.6599326599326597,
-        "pe": 27.83647798742138,
-        "peg": 0.22344927908270226
+        "pe": 27.324528301886787,
+        "peg": 0.2193397509947375
       },
       "analyst": {
         "targetConsensus": 339.17,
@@ -3422,9 +3422,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 62,
@@ -4461,8 +4461,8 @@
         "revenueGrowth": 0.12377754683294695,
         "netIncomeGrowth": 0.3109303267620848,
         "epsGrowth": 0.2879858657243816,
-        "pe": 20.165079365079364,
-        "peg": 0.22826460398034004
+        "pe": 20.21904761904762,
+        "peg": 0.22887551365723954
       },
       "analyst": {
         "targetConsensus": 328.42,
@@ -4566,9 +4566,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 62,
