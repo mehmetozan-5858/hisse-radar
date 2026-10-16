@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-16T01:09:41.086159+00:00",
+  "updated_at": "2026-10-16T02:03:12.261037+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "AVGO",
-    "ORCL"
+    "NFLX",
+    "JPM"
   ],
   "quote_status": {
     "fresh": 20,
@@ -5732,10 +5732,10 @@
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
-      "price": 737.54,
-      "change": -24.96,
-      "changePercentage": -3.2734,
-      "volume": 16236300,
+      "price": 736.72,
+      "change": -0.82,
+      "changePercentage": -0.1112,
+      "volume": 16868800,
       "dailyCloses": [
         [
           "2025-10-16",
@@ -6736,11 +6736,15 @@
         [
           "2026-10-14",
           737.54
+        ],
+        [
+          "2026-10-15",
+          736.72
         ]
       ],
-      "dayLow": 734.29,
-      "dayHigh": 761.5,
-      "lastBarAt": "2026-10-14T13:30:00+00:00",
+      "dayLow": 715.58,
+      "dayHigh": 743.97,
+      "lastBarAt": "2026-10-15T13:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -6851,13 +6855,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 42,
+        "score": 45,
         "max": 80,
         "components": {
           "analyst": 7,
           "growth": 7,
           "valuation": 7,
-          "momentum": 1,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
@@ -12460,8 +12464,8 @@
         "revenueGrowth": 0.15851068919677527,
         "netIncomeGrowth": 0.26052182421408804,
         "epsGrowth": 0.2709359605911332,
-        "pe": 22.444272445820438,
-        "peg": 0.6596426413954545
+        "pe": 22.479876160990713,
+        "peg": 0.6606890432681418
       },
       "analyst": {
         "targetConsensus": 89.16,
@@ -12565,9 +12569,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 65,
@@ -13604,8 +13608,8 @@
         "revenueGrowth": 0.03307372160612137,
         "netIncomeGrowth": -0.02433685074652392,
         "epsGrowth": 0.013137948458817664,
-        "pe": 13.975711474036851,
-        "peg": 0.7745990222459339
+        "pe": 14.050670016750418,
+        "peg": 0.7787535738050995
       },
       "analyst": {
         "targetConsensus": 373.36,
@@ -13643,9 +13647,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 40,
@@ -19390,10 +19394,10 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "price": 200.97,
-      "change": -7.7,
-      "changePercentage": -3.69,
-      "volume": 24263800,
+      "price": 200.5,
+      "change": -0.47,
+      "changePercentage": -0.2339,
+      "volume": 24745000,
       "dailyCloses": [
         [
           "2025-10-16",
@@ -20394,11 +20398,15 @@
         [
           "2026-10-14",
           200.97
+        ],
+        [
+          "2026-10-15",
+          200.5
         ]
       ],
-      "dayLow": 199.74,
-      "dayHigh": 209.29,
-      "lastBarAt": "2026-10-14T13:30:00+00:00",
+      "dayLow": 192.6,
+      "dayHigh": 200.91,
+      "lastBarAt": "2026-10-15T13:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -20509,13 +20517,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 47,
+        "score": 50,
         "max": 80,
         "components": {
           "analyst": 1,
           "growth": 15,
           "valuation": 10,
-          "momentum": 1,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
