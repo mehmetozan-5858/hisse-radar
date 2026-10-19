@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-19T20:06:40.649606+00:00",
+  "updated_at": "2026-10-19T21:02:20.137394+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "NFLX",
-    "JPM"
+    "V",
+    "MA"
   ],
   "quote_status": {
     "fresh": 20,
@@ -19,7 +19,7 @@
       "price": 342.94,
       "change": -0.52,
       "changePercentage": -0.1514,
-      "volume": 32633684,
+      "volume": 34524344,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -1171,7 +1171,7 @@
       "price": 533.52,
       "change": 4.47,
       "changePercentage": 0.8449,
-      "volume": 16077058,
+      "volume": 17469801,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -2308,7 +2308,7 @@
       "price": 217.09,
       "change": 2.96,
       "changePercentage": 1.3823,
-      "volume": 90523782,
+      "volume": 98236684,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -3445,7 +3445,7 @@
       "price": 262.45,
       "change": 12.45,
       "changePercentage": 4.98,
-      "volume": 51359999,
+      "volume": 54744203,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -4589,7 +4589,7 @@
       "price": 344.18,
       "change": 3.59,
       "changePercentage": 1.0541,
-      "volume": 17452687,
+      "volume": 19012489,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -5735,7 +5735,7 @@
       "price": 705.44,
       "change": -3.89,
       "changePercentage": -0.5484,
-      "volume": 14263197,
+      "volume": 15788171,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -6873,7 +6873,7 @@
       "price": 368.06,
       "change": 13.34,
       "changePercentage": 3.7607,
-      "volume": 38394157,
+      "volume": 38651173,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -8016,7 +8016,7 @@
       "price": 538.05,
       "change": 9.3,
       "changePercentage": 1.7589,
-      "volume": 19655478,
+      "volume": 20120889,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -9160,7 +9160,7 @@
       "price": 334.59,
       "change": 5.84,
       "changePercentage": 1.7764,
-      "volume": 16206597,
+      "volume": 17120557,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -10301,10 +10301,10 @@
     {
       "symbol": "ORCL",
       "name": "Oracle Corporation",
-      "price": 129.63,
-      "change": 1.4,
-      "changePercentage": 1.0918,
-      "volume": 20458358,
+      "price": 129.59,
+      "change": 1.36,
+      "changePercentage": 1.0606,
+      "volume": 23540613,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -11308,7 +11308,7 @@
         ],
         [
           "2026-10-19",
-          129.63
+          129.59
         ]
       ],
       "dayLow": 129.12,
@@ -11448,7 +11448,7 @@
       "price": 69.85,
       "change": -0.68,
       "changePercentage": -0.9641,
-      "volume": 32864439,
+      "volume": 33582290,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -12569,9 +12569,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 60,
@@ -12589,10 +12589,10 @@
     {
       "symbol": "JPM",
       "name": "JPMorgan Chase & Co.",
-      "price": 333.63,
-      "change": -6.09,
-      "changePercentage": -1.7927,
-      "volume": 4410099,
+      "price": 333.53,
+      "change": -6.19,
+      "changePercentage": -1.8221,
+      "volume": 6921965,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -13596,7 +13596,7 @@
         ],
         [
           "2026-10-19",
-          333.63
+          333.53
         ]
       ],
       "dayLow": 333.23,
@@ -13647,9 +13647,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 36,
@@ -13667,10 +13667,10 @@
     {
       "symbol": "V",
       "name": "Visa Inc.",
-      "price": 403.09,
-      "change": 0.48,
-      "changePercentage": 0.1192,
-      "volume": 4274421,
+      "price": 402.92,
+      "change": 0.31,
+      "changePercentage": 0.077,
+      "volume": 5831869,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -14674,7 +14674,7 @@
         ],
         [
           "2026-10-19",
-          403.09
+          402.92
         ]
       ],
       "dayLow": 398.01,
@@ -14686,8 +14686,8 @@
         "revenueGrowth": 0.1133997661860491,
         "netIncomeGrowth": 0.015955022033125665,
         "epsGrowth": 0.04928131416837787,
-        "pe": 34.20645709430756,
-        "peg": 2.3066854290569254
+        "pe": 34.23279524214104,
+        "peg": 2.3084615212628017
       },
       "analyst": {
         "targetConsensus": 424.47,
@@ -14791,9 +14791,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 44,
@@ -14811,10 +14811,10 @@
     {
       "symbol": "MA",
       "name": "Mastercard Incorporated",
-      "price": 616.27,
-      "change": -1.15,
-      "changePercentage": -0.1863,
-      "volume": 2204439,
+      "price": 616.4,
+      "change": -1.02,
+      "changePercentage": -0.1652,
+      "volume": 2961877,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -15818,7 +15818,7 @@
         ],
         [
           "2026-10-19",
-          616.27
+          616.4
         ]
       ],
       "dayLow": 608.5901,
@@ -15958,7 +15958,7 @@
       "price": 995.53,
       "change": 6.42,
       "changePercentage": 0.6491,
-      "volume": 1604334,
+      "volume": 1744465,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -17109,7 +17109,7 @@
       "price": 118.7,
       "change": -0.11,
       "changePercentage": -0.0926,
-      "volume": 15733269,
+      "volume": 16194710,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -18250,10 +18250,10 @@
     {
       "symbol": "CRM",
       "name": "Salesforce, Inc.",
-      "price": 242.46,
-      "change": 1.76,
-      "changePercentage": 0.7312,
-      "volume": 4829765,
+      "price": 242.45,
+      "change": 1.75,
+      "changePercentage": 0.727,
+      "volume": 7026111,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -19257,7 +19257,7 @@
         ],
         [
           "2026-10-19",
-          242.46
+          242.45
         ]
       ],
       "dayLow": 236.9,
@@ -19397,7 +19397,7 @@
       "price": 194.15,
       "change": 8.12,
       "changePercentage": 4.3649,
-      "volume": 22503431,
+      "volume": 23719536,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -20535,7 +20535,7 @@
       "price": 173.53,
       "change": 1.42,
       "changePercentage": 0.8251,
-      "volume": 9144262,
+      "volume": 10546182,
       "dailyCloses": [
         [
           "2025-10-20",
@@ -21686,7 +21686,7 @@
       "price": 92.03,
       "change": 2.18,
       "changePercentage": 2.4263,
-      "volume": 98507851,
+      "volume": 101113975,
       "dailyCloses": [
         [
           "2025-10-20",
