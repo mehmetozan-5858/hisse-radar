@@ -1,10 +1,36 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-23T15:04:29.442527+00:00",
+  "updatedAt": "2026-10-24T14:52:43.454127+00:00",
   "status": "available",
   "source": "U.S. House Clerk annual disclosure index and official PTR PDFs",
   "coverage": "House; recent machine-readable PTR filings only",
   "trades": [
+    {
+      "symbol": "TSM",
+      "politician": "Cleo Fields",
+      "chamber": "House",
+      "transactionType": "purchase",
+      "amountRange": "$1,001 - $15,000",
+      "eventDate": "2026-10-09",
+      "disclosureDate": "2026-10-22",
+      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035669.pdf",
+      "committee": null,
+      "owner": null,
+      "assetType": "Manufacturing Company Ltd."
+    },
+    {
+      "symbol": "NVDA",
+      "politician": "Cleo Fields",
+      "chamber": "House",
+      "transactionType": "purchase",
+      "amountRange": "$1,001 - $15,000",
+      "eventDate": "2026-10-01",
+      "disclosureDate": "2026-10-22",
+      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035669.pdf",
+      "committee": null,
+      "owner": null,
+      "assetType": "NVIDIA Corporation - Common Stock"
+    },
     {
       "symbol": "GOOG",
       "politician": "Michael Rulli",
@@ -6036,19 +6062,6 @@
       "committee": null,
       "owner": null,
       "assetType": "Ordinary Shares"
-    },
-    {
-      "symbol": "VSAT",
-      "politician": "Jonathan Jackson",
-      "chamber": "House",
-      "transactionType": "sale",
-      "amountRange": "$1,001 - $15,000",
-      "eventDate": "2026-08-28",
-      "disclosureDate": "2026-09-03",
-      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035370.pdf",
-      "committee": null,
-      "owner": null,
-      "assetType": "JT ViaSat, Inc. - Common Stock"
     }
   ]
 }
