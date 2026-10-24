@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-24T13:10:32.810603+00:00",
+  "updated_at": "2026-10-24T13:59:35.332144+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "CRM",
-    "PLTR"
+    "QCOM",
+    "INTC"
   ],
   "quote_status": {
     "fresh": 20,
@@ -20512,9 +20512,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 55,
@@ -22706,10 +22706,10 @@
         "peg": 0.0034153878110112375
       },
       "analyst": {
-        "targetConsensus": 113.79,
+        "targetConsensus": 117.12,
         "targetHigh": 200,
         "targetLow": 80,
-        "targetMedian": 110
+        "targetMedian": 113
       },
       "insider": {
         "score": 10,
@@ -22801,9 +22801,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 68,
