@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-04T03:13:19.012055+00:00",
+  "updated_at": "2026-11-04T11:29:21.062252+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "GOOGL",
-    "META"
+    "TSLA",
+    "AMD"
   ],
   "quote_status": {
     "fresh": 20,
@@ -5712,9 +5712,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 66,
@@ -6850,9 +6850,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 61,
@@ -7889,8 +7889,8 @@
         "revenueGrowth": -0.029306991503736307,
         "netIncomeGrowth": -0.4678821879382889,
         "epsGrowth": -0.47089947089947093,
-        "pe": 403.8484848484848,
-        "peg": -10.189407925407922
+        "pe": 402.5252525252525,
+        "peg": -10.156021756021751
       },
       "analyst": {
         "targetConsensus": 442.59,
@@ -7993,9 +7993,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 29,
@@ -9032,14 +9032,14 @@
         "revenueGrowth": 0.34337793290672874,
         "netIncomeGrowth": 1.6416819012797075,
         "epsGrowth": 1.6435643564356435,
-        "pe": 128.12182741116752,
-        "peg": 1.0343780561635543
+        "pe": 103.8412017167382,
+        "peg": 0.8085345477181144
       },
       "analyst": {
-        "targetConsensus": 627.14,
+        "targetConsensus": 622.07,
         "targetHigh": 1250,
         "targetLow": 340,
-        "targetMedian": 650
+        "targetMedian": 649.5
       },
       "insider": {
         "score": 10,
@@ -9137,17 +9137,17 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 65,
+        "score": 67,
         "max": 80,
         "components": {
           "analyst": 13,
           "growth": 15,
-          "valuation": 8,
+          "valuation": 10,
           "momentum": 9,
           "insider": 10,
           "institutional": 10
