@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-04T16:31:34.327934+00:00",
+  "updatedAt": "2026-11-05T16:44:22.220062+00:00",
   "source": "SEC EDGAR companyfacts",
   "stocks": {
     "AAPL": {
@@ -1252,10 +1252,47 @@
       "cik": 804328,
       "company": "QUALCOMM INC/DE",
       "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0000804328.json",
-      "fiscalYear": 2025,
-      "previousFiscalYear": 2024,
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
       "currency": "USD",
       "current": {
+        "revenue": {
+          "value": 43120000000,
+          "end": "2026-09-27",
+          "filed": "2026-11-04",
+          "accession": "0000804328-26-000128",
+          "tag": "Revenues"
+        },
+        "netIncome": {
+          "value": 13628000000,
+          "end": "2026-09-27",
+          "filed": "2026-11-04",
+          "accession": "0000804328-26-000128",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 60829000000,
+          "end": "2026-09-27",
+          "filed": "2026-11-04",
+          "accession": "0000804328-26-000128",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 30428000000,
+          "end": "2026-09-27",
+          "filed": "2026-11-04",
+          "accession": "0000804328-26-000128",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 30401000000,
+          "end": "2026-09-27",
+          "filed": "2026-11-04",
+          "accession": "0000804328-26-000128",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      },
+      "previous": {
         "revenue": {
           "value": 44284000000,
           "end": "2025-09-28",
@@ -1289,43 +1326,6 @@
           "end": "2025-09-28",
           "filed": "2025-11-05",
           "accession": "0000804328-25-000085",
-          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
-        }
-      },
-      "previous": {
-        "revenue": {
-          "value": 38962000000,
-          "end": "2024-09-29",
-          "filed": "2024-11-06",
-          "accession": "0000804328-24-000075",
-          "tag": "Revenues"
-        },
-        "netIncome": {
-          "value": 10142000000,
-          "end": "2024-09-29",
-          "filed": "2024-11-06",
-          "accession": "0000804328-24-000075",
-          "tag": "NetIncomeLoss"
-        },
-        "assets": {
-          "value": 55154000000,
-          "end": "2024-09-29",
-          "filed": "2024-11-06",
-          "accession": "0000804328-24-000075",
-          "tag": "Assets"
-        },
-        "liabilities": {
-          "value": 28880000000,
-          "end": "2024-09-29",
-          "filed": "2024-11-06",
-          "accession": "0000804328-24-000075",
-          "tag": "Liabilities"
-        },
-        "equity": {
-          "value": 26274000000,
-          "end": "2024-09-29",
-          "filed": "2024-11-06",
-          "accession": "0000804328-24-000075",
           "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
         }
       }
