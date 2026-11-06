@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-05T16:44:22.220062+00:00",
+  "updatedAt": "2026-11-06T16:12:32.159414+00:00",
   "source": "SEC EDGAR companyfacts",
   "stocks": {
     "AAPL": {
@@ -1416,10 +1416,47 @@
       "cik": 1403161,
       "company": "VISA INC.",
       "source": "https://data.sec.gov/api/xbrl/companyfacts/CIK0001403161.json",
-      "fiscalYear": 2025,
-      "previousFiscalYear": 2024,
+      "fiscalYear": 2026,
+      "previousFiscalYear": 2025,
       "currency": "USD",
       "current": {
+        "revenue": {
+          "value": 45903000000,
+          "end": "2026-09-30",
+          "filed": "2026-11-05",
+          "accession": "0001403161-26-000134",
+          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
+        },
+        "netIncome": {
+          "value": 23504000000,
+          "end": "2026-09-30",
+          "filed": "2026-11-05",
+          "accession": "0001403161-26-000134",
+          "tag": "NetIncomeLoss"
+        },
+        "assets": {
+          "value": 94360000000,
+          "end": "2026-09-30",
+          "filed": "2026-11-05",
+          "accession": "0001403161-26-000134",
+          "tag": "Assets"
+        },
+        "liabilities": {
+          "value": 58249000000,
+          "end": "2026-09-30",
+          "filed": "2026-11-05",
+          "accession": "0001403161-26-000134",
+          "tag": "Liabilities"
+        },
+        "equity": {
+          "value": 36111000000,
+          "end": "2026-09-30",
+          "filed": "2026-11-05",
+          "accession": "0001403161-26-000134",
+          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
+        }
+      },
+      "previous": {
         "revenue": {
           "value": 40000000000,
           "end": "2025-09-30",
@@ -1453,43 +1490,6 @@
           "end": "2025-09-30",
           "filed": "2025-11-06",
           "accession": "0001403161-25-000089",
-          "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
-        }
-      },
-      "previous": {
-        "revenue": {
-          "value": 35926000000,
-          "end": "2024-09-30",
-          "filed": "2024-11-13",
-          "accession": "0001403161-24-000058",
-          "tag": "RevenueFromContractWithCustomerExcludingAssessedTax"
-        },
-        "netIncome": {
-          "value": 19743000000,
-          "end": "2024-09-30",
-          "filed": "2024-11-13",
-          "accession": "0001403161-24-000058",
-          "tag": "NetIncomeLoss"
-        },
-        "assets": {
-          "value": 94511000000,
-          "end": "2024-09-30",
-          "filed": "2024-11-13",
-          "accession": "0001403161-24-000058",
-          "tag": "Assets"
-        },
-        "liabilities": {
-          "value": 55374000000,
-          "end": "2024-09-30",
-          "filed": "2024-11-13",
-          "accession": "0001403161-24-000058",
-          "tag": "Liabilities"
-        },
-        "equity": {
-          "value": 39137000000,
-          "end": "2024-09-30",
-          "filed": "2024-11-13",
-          "accession": "0001403161-24-000058",
           "tag": "StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest"
         }
       }
