@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-06T02:47:39.354002+00:00",
+  "updated_at": "2026-11-06T11:25:18.820065+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "QCOM",
-    "INTC"
+    "AAPL",
+    "MSFT"
   ],
   "quote_status": {
     "fresh": 20,
@@ -1035,14 +1035,14 @@
         "revenueGrowth": 0.1505979656911628,
         "netIncomeGrowth": 0.18002856887777877,
         "epsGrowth": 0.20293724966622156,
-        "pe": 36.76470588235294,
-        "peg": 1.7973856209150303
+        "pe": 38.19866814650389,
+        "peg": 1.8674904427179655
       },
       "analyst": {
-        "targetConsensus": 341.85,
+        "targetConsensus": 344.46,
         "targetHigh": 400,
         "targetLow": 245,
-        "targetMedian": 350
+        "targetMedian": 355
       },
       "insider": {
         "score": 10,
@@ -1148,15 +1148,15 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 42,
+        "score": 45,
         "max": 80,
         "components": {
-          "analyst": 1,
+          "analyst": 4,
           "growth": 13,
           "valuation": 6,
           "momentum": 2,
@@ -2187,8 +2187,8 @@
         "revenueGrowth": 0.1778868679984666,
         "netIncomeGrowth": 0.3134279990572708,
         "epsGrowth": 0.3138686131386862,
-        "pe": 27.100520833333338,
-        "peg": 0.7492496936274503
+        "pe": 27.91302083333333,
+        "peg": 0.7717129289215677
       },
       "analyst": {
         "targetConsensus": 611.74,
@@ -2285,9 +2285,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
         "score": 56,
@@ -22801,9 +22801,9 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 61,
