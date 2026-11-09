@@ -1,10 +1,36 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-11-08T18:55:50.375142+00:00",
+  "updatedAt": "2026-11-09T23:29:48.964817+00:00",
   "status": "available",
   "source": "U.S. House Clerk annual disclosure index and official PTR PDFs",
   "coverage": "House; recent machine-readable PTR filings only",
   "trades": [
+    {
+      "symbol": "WDC",
+      "politician": "John J Mr McGuire",
+      "chamber": "House",
+      "transactionType": "sale",
+      "amountRange": "$1,001 - $15,000",
+      "eventDate": "2026-10-15",
+      "disclosureDate": "2026-11-06",
+      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035775.pdf",
+      "committee": null,
+      "owner": null,
+      "assetType": "Common Stock"
+    },
+    {
+      "symbol": "WBD",
+      "politician": "Nancy Pelosi",
+      "chamber": "House",
+      "transactionType": "sale",
+      "amountRange": "$50,001 - $100,000",
+      "eventDate": "2026-10-07",
+      "disclosureDate": "2026-11-06",
+      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035780.pdf",
+      "committee": null,
+      "owner": null,
+      "assetType": "A Common Stock"
+    },
     {
       "symbol": "AMAT",
       "politician": "Josh Gottheimer",
@@ -3683,58 +3709,6 @@
       "committee": null,
       "owner": null,
       "assetType": "Walmart Inc. - Common Stock"
-    },
-    {
-      "symbol": "AAPL",
-      "politician": "Pete Sessions",
-      "chamber": "House",
-      "transactionType": "sale",
-      "amountRange": "$100,001 - $250,000",
-      "eventDate": "2026-09-22",
-      "disclosureDate": "2026-09-22",
-      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035499.pdf",
-      "committee": null,
-      "owner": null,
-      "assetType": "SP Apple Inc. - Common Stock"
-    },
-    {
-      "symbol": "AVGO",
-      "politician": "Richard W. Allen",
-      "chamber": "House",
-      "transactionType": "purchase",
-      "amountRange": "$1,001 - $15,000",
-      "eventDate": "2026-08-12",
-      "disclosureDate": "2026-09-22",
-      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035492.pdf",
-      "committee": null,
-      "owner": null,
-      "assetType": "SP Broadcom Inc. - Common Stock"
-    },
-    {
-      "symbol": "ROL",
-      "politician": "Richard W. Allen",
-      "chamber": "House",
-      "transactionType": "sale",
-      "amountRange": "$15,001 - $50,000",
-      "eventDate": "2026-08-12",
-      "disclosureDate": "2026-09-22",
-      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035492.pdf",
-      "committee": null,
-      "owner": null,
-      "assetType": "SP Rollins, Inc. Common Stock"
-    },
-    {
-      "symbol": "TSM",
-      "politician": "Richard W. Allen",
-      "chamber": "House",
-      "transactionType": "purchase",
-      "amountRange": "$1,001 - $15,000",
-      "eventDate": "2026-08-12",
-      "disclosureDate": "2026-09-22",
-      "sourceUrl": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20035492.pdf",
-      "committee": null,
-      "owner": null,
-      "assetType": "Manufacturing Company Ltd."
     }
   ]
 }
