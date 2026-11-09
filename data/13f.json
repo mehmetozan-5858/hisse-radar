@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-02T18:33:42.850735+00:00",
+  "updated_at": "2026-11-09T18:56:38.215063+00:00",
   "version": "0.6.0",
   "source": "SEC EDGAR Form 13F-HR",
   "max_score": 10,
@@ -30,7 +30,7 @@
         "filingDate": "2026-08-14",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "56757.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1067983/000119312526352200/56757.xml"
       },
@@ -54,7 +54,7 @@
         "filingDate": "2024-08-13",
         "reportDate": "2024-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 855
+        "ageDays": 862
       },
       "previous": {
         "accession": "0001086364-24-007638",
@@ -74,7 +74,7 @@
         "filingDate": "2026-01-29",
         "reportDate": "2025-12-31",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 306
+        "ageDays": 313
       },
       "previous": {
         "accession": "0000102909-25-000353",
@@ -94,7 +94,7 @@
         "filingDate": "2026-08-07",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "XML_Infotable.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/93751/000009375126000507/XML_Infotable.xml"
       },
@@ -118,7 +118,7 @@
         "filingDate": "2026-08-12",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "Information_Table_06.30.2026.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/19617/000001961726000325/Information_Table_06.30.2026.xml"
       },
@@ -142,7 +142,7 @@
         "filingDate": "2026-08-14",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "InfoTable_2026-08-13_Final_1.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/886982/000088698226000519/InfoTable_2026-08-13_Final_1.xml"
       },
@@ -166,7 +166,7 @@
         "filingDate": "2026-08-13",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "US_13F-408-20260630.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/895421/000089542126000243/US_13F-408-20260630.xml"
       },
@@ -190,7 +190,7 @@
         "filingDate": "2026-08-14",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "Q2202613FHR.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/70858/000007085826000442/Q2202613FHR.xml"
       },
@@ -210,21 +210,21 @@
       "status": "ok",
       "eligible": true,
       "latest": {
+        "accession": "0000831001-26-000052",
+        "filingDate": "2026-11-04",
+        "reportDate": "2026-09-30",
+        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
+        "ageDays": 40,
+        "infoTable": "CITIGROUP_13F_HR_INFOTABLE.xml",
+        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/831001/000083100126000052/CITIGROUP_13F_HR_INFOTABLE.xml"
+      },
+      "previous": {
         "accession": "0000831001-26-000040",
         "filingDate": "2026-08-03",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
         "infoTable": "CITIGROUP_13F_HR_INFOTABLE.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/831001/000083100126000040/CITIGROUP_13F_HR_INFOTABLE.xml"
-      },
-      "previous": {
-        "accession": "0000831001-26-000022",
-        "filingDate": "2026-05-11",
-        "reportDate": "2026-03-31",
-        "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "infoTable": "CITIGROUP_13F_HR_INFOTABLE.xml",
-        "sourceUrl": "https://www.sec.gov/Archives/edgar/data/831001/000083100126000022/CITIGROUP_13F_HR_INFOTABLE.xml"
       },
       "error": null
     },
@@ -238,7 +238,7 @@
         "filingDate": "2026-08-14",
         "reportDate": "2026-06-30",
         "primaryDocument": "xslForm13F_X02/primary_doc.xml",
-        "ageDays": 125,
+        "ageDays": 132,
         "infoTable": "13F_6_2026.xml",
         "sourceUrl": "https://www.sec.gov/Archives/edgar/data/72971/000007297126000304/13F_6_2026.xml"
       },
@@ -256,14 +256,14 @@
   "stocks": {
     "AAPL": {
       "status": "ok",
-      "score": 10,
+      "score": 8,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 1,
       "anomaliesExcluded": 1,
       "validManagers": 7,
-      "netShareChange": 38745950.0,
+      "netShareChange": 27013662.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -273,16 +273,15 @@
         "shareChangePct": 11.128060441179679
       },
       "largestDecrease": {
-        "manager": "Morgan Stanley",
+        "manager": "Citigroup",
         "direction": "decrease",
-        "latestShares": 242614238.0,
-        "previousShares": 244474722.0,
-        "shareChange": -1860484.0,
-        "shareChangePct": -0.7610128297845042
+        "latestShares": 36419155.0,
+        "previousShares": 41801559.0,
+        "shareChange": -5382404.0,
+        "shareChangePct": -12.876084358480504
       },
       "flags": [
-        "anomaly_filtered",
-        "large_manager_move"
+        "anomaly_filtered"
       ],
       "managers": [
         {
@@ -327,11 +326,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 41801559.0,
-          "previousShares": 35451675.0,
-          "shareChange": 6349884.0,
-          "shareChangePct": 17.911379363598474
+          "direction": "decrease",
+          "latestShares": 36419155.0,
+          "previousShares": 41801559.0,
+          "shareChange": -5382404.0,
+          "shareChangePct": -12.876084358480504
         },
         {
           "manager": "Wells Fargo",
@@ -347,12 +346,12 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 6,
-      "decreases": 0,
+      "increases": 5,
+      "decreases": 1,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 21126815.0,
+      "netShareChange": 13958021.0,
       "largestIncrease": {
         "manager": "State Street",
         "direction": "increase",
@@ -361,10 +360,17 @@
         "shareChange": 8944917.0,
         "shareChangePct": 2.9164249290960638
       },
-      "largestDecrease": null,
+      "largestDecrease": {
+        "manager": "Citigroup",
+        "direction": "decrease",
+        "latestShares": 21318859.0,
+        "previousShares": 25921344.0,
+        "shareChange": -4602485.0,
+        "shareChangePct": -17.755580111895434
+      },
       "flags": [
         "anomaly_filtered",
-        "broad_institutional_accumulation"
+        "large_manager_move"
       ],
       "managers": [
         {
@@ -401,11 +407,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 25921344.0,
-          "previousShares": 23355035.0,
-          "shareChange": 2566309.0,
-          "shareChangePct": 10.988247288004493
+          "direction": "decrease",
+          "latestShares": 21318859.0,
+          "previousShares": 25921344.0,
+          "shareChange": -4602485.0,
+          "shareChangePct": -17.755580111895434
         },
         {
           "manager": "Wells Fargo",
@@ -421,12 +427,12 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 6,
-      "decreases": 0,
+      "increases": 5,
+      "decreases": 1,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 60667236.0,
+      "netShareChange": 39958040.0,
       "largestIncrease": {
         "manager": "State Street",
         "direction": "increase",
@@ -435,10 +441,16 @@
         "shareChange": 15897836.0,
         "shareChangePct": 1.5995639723529913
       },
-      "largestDecrease": null,
+      "largestDecrease": {
+        "manager": "Citigroup",
+        "direction": "decrease",
+        "latestShares": 78048615.0,
+        "previousShares": 88144167.0,
+        "shareChange": -10095552.0,
+        "shareChangePct": -11.453454429945433
+      },
       "flags": [
-        "anomaly_filtered",
-        "broad_institutional_accumulation"
+        "anomaly_filtered"
       ],
       "managers": [
         {
@@ -475,11 +487,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 88144167.0,
-          "previousShares": 77530523.0,
-          "shareChange": 10613644.0,
-          "shareChangePct": 13.689632920443476
+          "direction": "decrease",
+          "latestShares": 78048615.0,
+          "previousShares": 88144167.0,
+          "shareChange": -10095552.0,
+          "shareChangePct": -11.453454429945433
         },
         {
           "manager": "Wells Fargo",
@@ -493,14 +505,14 @@
     },
     "AMZN": {
       "status": "ok",
-      "score": 10,
+      "score": 8,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 29071851.0,
+      "netShareChange": 21588131.0,
       "largestIncrease": {
         "manager": "Bank of America",
         "direction": "increase",
@@ -510,16 +522,15 @@
         "shareChangePct": 10.740716282958713
       },
       "largestDecrease": {
-        "manager": "Wells Fargo",
+        "manager": "Citigroup",
         "direction": "decrease",
-        "latestShares": 36984451.0,
-        "previousShares": 38171848.0,
-        "shareChange": -1187397.0,
-        "shareChangePct": -3.1106615535092774
+        "latestShares": 26916933.0,
+        "previousShares": 28602778.0,
+        "shareChange": -1685845.0,
+        "shareChangePct": -5.89399043687295
       },
       "flags": [
-        "anomaly_filtered",
-        "large_manager_move"
+        "anomaly_filtered"
       ],
       "managers": [
         {
@@ -556,11 +567,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 28602778.0,
-          "previousShares": 22804903.0,
-          "shareChange": 5797875.0,
-          "shareChangePct": 25.423809081757547
+          "direction": "decrease",
+          "latestShares": 26916933.0,
+          "previousShares": 28602778.0,
+          "shareChange": -1685845.0,
+          "shareChangePct": -5.89399043687295
         },
         {
           "manager": "Wells Fargo",
@@ -576,12 +587,12 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 7,
-      "decreases": 0,
+      "increases": 6,
+      "decreases": 1,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 7,
-      "netShareChange": 83150661.0,
+      "netShareChange": 81657389.0,
       "largestIncrease": {
         "manager": "Berkshire Hathaway",
         "direction": "increase",
@@ -590,10 +601,16 @@
         "shareChange": 48144587.0,
         "shareChangePct": 83.24470680070566
       },
-      "largestDecrease": null,
+      "largestDecrease": {
+        "manager": "Citigroup",
+        "direction": "decrease",
+        "latestShares": 29109005.0,
+        "previousShares": 29218694.0,
+        "shareChange": -109689.0,
+        "shareChangePct": -0.3754069227050326
+      },
       "flags": [
         "anomaly_filtered",
-        "broad_institutional_accumulation",
         "large_manager_move"
       ],
       "managers": [
@@ -639,11 +656,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 29218694.0,
-          "previousShares": 27835111.0,
-          "shareChange": 1383583.0,
-          "shareChangePct": 4.970639420119431
+          "direction": "decrease",
+          "latestShares": 29109005.0,
+          "previousShares": 29218694.0,
+          "shareChange": -109689.0,
+          "shareChangePct": -0.3754069227050326
         },
         {
           "manager": "Wells Fargo",
@@ -664,7 +681,7 @@
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 11775504.0,
+      "netShareChange": 13591345.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -715,10 +732,10 @@
         {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 6608160.0,
-          "previousShares": 6261407.0,
-          "shareChange": 346753.0,
-          "shareChangePct": 5.537940593863328
+          "latestShares": 8770754.0,
+          "previousShares": 6608160.0,
+          "shareChange": 2162594.0,
+          "shareChangePct": 32.7261143797971
         },
         {
           "manager": "Wells Fargo",
@@ -732,14 +749,14 @@
     },
     "TSLA": {
       "status": "ok",
-      "score": 5,
+      "score": 8,
       "maxScore": 10,
-      "increases": 3,
-      "decreases": 3,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 3288125.0,
+      "netShareChange": 5531454.0,
       "largestIncrease": {
         "manager": "State Street",
         "direction": "increase",
@@ -794,11 +811,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "decrease",
-          "latestShares": 14987170.0,
-          "previousShares": 15269429.0,
-          "shareChange": -282259.0,
-          "shareChangePct": -1.8485236088395969
+          "direction": "increase",
+          "latestShares": 16948240.0,
+          "previousShares": 14987170.0,
+          "shareChange": 1961070.0,
+          "shareChangePct": 13.084992029849532
         },
         {
           "manager": "Wells Fargo",
@@ -812,14 +829,14 @@
     },
     "AMD": {
       "status": "ok",
-      "score": 10,
+      "score": 8,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 3350331.0,
+      "netShareChange": 1858211.0,
       "largestIncrease": {
         "manager": "Bank of America",
         "direction": "increase",
@@ -829,12 +846,12 @@
         "shareChangePct": 18.96218671274394
       },
       "largestDecrease": {
-        "manager": "State Street",
+        "manager": "Citigroup",
         "direction": "decrease",
-        "latestShares": 74361687.0,
-        "previousShares": 74771220.0,
-        "shareChange": -409533.0,
-        "shareChangePct": -0.5477147490705648
+        "latestShares": 6862378.0,
+        "previousShares": 8235837.0,
+        "shareChange": -1373459.0,
+        "shareChangePct": -16.676617082149633
       },
       "flags": [
         "anomaly_filtered",
@@ -875,11 +892,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 8235837.0,
-          "previousShares": 8117176.0,
-          "shareChange": 118661.0,
-          "shareChangePct": 1.4618507717462328
+          "direction": "decrease",
+          "latestShares": 6862378.0,
+          "previousShares": 8235837.0,
+          "shareChange": -1373459.0,
+          "shareChangePct": -16.676617082149633
         },
         {
           "manager": "Wells Fargo",
@@ -893,14 +910,14 @@
     },
     "AVGO": {
       "status": "ok",
-      "score": 10,
+      "score": 8,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 17840242.0,
+      "netShareChange": 12099730.0,
       "largestIncrease": {
         "manager": "State Street",
         "direction": "increase",
@@ -910,16 +927,15 @@
         "shareChangePct": 2.884471892582929
       },
       "largestDecrease": {
-        "manager": "Wells Fargo",
+        "manager": "Citigroup",
         "direction": "decrease",
-        "latestShares": 25220194.0,
-        "previousShares": 26192540.0,
-        "shareChange": -972346.0,
-        "shareChangePct": -3.7123012888402576
+        "latestShares": 15131343.0,
+        "previousShares": 17665760.0,
+        "shareChange": -2534417.0,
+        "shareChangePct": -14.346492876615555
       },
       "flags": [
-        "anomaly_filtered",
-        "large_manager_move"
+        "anomaly_filtered"
       ],
       "managers": [
         {
@@ -956,11 +972,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 17665760.0,
-          "previousShares": 14459665.0,
-          "shareChange": 3206095.0,
-          "shareChangePct": 22.17267827435836
+          "direction": "decrease",
+          "latestShares": 15131343.0,
+          "previousShares": 17665760.0,
+          "shareChange": -2534417.0,
+          "shareChangePct": -14.346492876615555
         },
         {
           "manager": "Wells Fargo",
@@ -976,12 +992,12 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 6,
+      "decreases": 0,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 22941926.0,
+      "netShareChange": 24283201.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -990,16 +1006,10 @@
         "shareChange": 10699971.0,
         "shareChangePct": 62.31152387204626
       },
-      "largestDecrease": {
-        "manager": "Citigroup",
-        "direction": "decrease",
-        "latestShares": 9303778.0,
-        "previousShares": 9769196.0,
-        "shareChange": -465418.0,
-        "shareChangePct": -4.76413821567302
-      },
+      "largestDecrease": null,
       "flags": [
         "anomaly_filtered",
+        "broad_institutional_accumulation",
         "large_manager_move"
       ],
       "managers": [
@@ -1037,11 +1047,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "decrease",
-          "latestShares": 9303778.0,
-          "previousShares": 9769196.0,
-          "shareChange": -465418.0,
-          "shareChangePct": -4.76413821567302
+          "direction": "increase",
+          "latestShares": 10179635.0,
+          "previousShares": 9303778.0,
+          "shareChange": 875857.0,
+          "shareChangePct": 9.413992896219149
         },
         {
           "manager": "Wells Fargo",
@@ -1055,14 +1065,14 @@
     },
     "NFLX": {
       "status": "ok",
-      "score": 10,
+      "score": 8,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 1,
+      "increases": 4,
+      "decreases": 2,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 4854882.0,
+      "netShareChange": 291800.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -1118,11 +1128,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 15381798.0,
-          "previousShares": 12885752.0,
-          "shareChange": 2496046.0,
-          "shareChangePct": 19.370588538410484
+          "direction": "decrease",
+          "latestShares": 13314762.0,
+          "previousShares": 15381798.0,
+          "shareChange": -2067036.0,
+          "shareChangePct": -13.438194936638748
         },
         {
           "manager": "Wells Fargo",
@@ -1158,7 +1168,7 @@
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 7238005.0,
+      "netShareChange": 6781297.0,
       "largestIncrease": {
         "manager": "Wells Fargo",
         "direction": "increase",
@@ -1215,10 +1225,10 @@
         {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 7268969.0,
-          "previousShares": 6560947.0,
-          "shareChange": 708022.0,
-          "shareChangePct": 10.79146044008586
+          "latestShares": 7520283.0,
+          "previousShares": 7268969.0,
+          "shareChange": 251314.0,
+          "shareChangePct": 3.4573541309641023
         },
         {
           "manager": "Wells Fargo",
@@ -1239,7 +1249,7 @@
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 1173082.0,
+      "netShareChange": 1163728.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -1296,10 +1306,10 @@
         {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 934262.0,
-          "previousShares": 768929.0,
-          "shareChange": 165333.0,
-          "shareChangePct": 21.501725126767234
+          "latestShares": 1090241.0,
+          "previousShares": 934262.0,
+          "shareChange": 155979.0,
+          "shareChangePct": 16.695423767636917
         },
         {
           "manager": "Wells Fargo",
@@ -1313,14 +1323,14 @@
     },
     "COST": {
       "status": "ok",
-      "score": 10,
+      "score": 6,
       "maxScore": 10,
-      "increases": 5,
-      "decreases": 2,
+      "increases": 4,
+      "decreases": 3,
       "unchanged": 0,
       "anomaliesExcluded": 0,
       "validManagers": 7,
-      "netShareChange": 4917545.0,
+      "netShareChange": 4558839.0,
       "largestIncrease": {
         "manager": "JPMorgan Chase",
         "direction": "increase",
@@ -1337,9 +1347,7 @@
         "shareChange": -265257.0,
         "shareChangePct": -3.529686038553933
       },
-      "flags": [
-        "large_manager_move"
-      ],
+      "flags": [],
       "managers": [
         {
           "manager": "State Street",
@@ -1383,11 +1391,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 1201516.0,
-          "previousShares": 935971.0,
-          "shareChange": 265545.0,
-          "shareChangePct": 28.371071325927833
+          "direction": "decrease",
+          "latestShares": 1108355.0,
+          "previousShares": 1201516.0,
+          "shareChange": -93161.0,
+          "shareChangePct": -7.753621258476791
         },
         {
           "manager": "Wells Fargo",
@@ -1401,33 +1409,32 @@
     },
     "WMT": {
       "status": "ok",
-      "score": 8,
+      "score": 5,
       "maxScore": 10,
-      "increases": 4,
-      "decreases": 2,
+      "increases": 3,
+      "decreases": 3,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 8974608.0,
+      "netShareChange": 5589007.0,
       "largestIncrease": {
-        "manager": "Citigroup",
+        "manager": "Morgan Stanley",
         "direction": "increase",
-        "latestShares": 11931613.0,
-        "previousShares": 9350979.0,
-        "shareChange": 2580634.0,
-        "shareChangePct": 27.597474018495816
+        "latestShares": 88318921.0,
+        "previousShares": 85906471.0,
+        "shareChange": 2412450.0,
+        "shareChangePct": 2.808228497711191
       },
       "largestDecrease": {
-        "manager": "Wells Fargo",
+        "manager": "Citigroup",
         "direction": "decrease",
-        "latestShares": 29004162.0,
-        "previousShares": 29392450.0,
-        "shareChange": -388288.0,
-        "shareChangePct": -1.3210467313885028
+        "latestShares": 11126646.0,
+        "previousShares": 11931613.0,
+        "shareChange": -804967.0,
+        "shareChangePct": -6.746506109442202
       },
       "flags": [
-        "anomaly_filtered",
-        "large_manager_move"
+        "anomaly_filtered"
       ],
       "managers": [
         {
@@ -1464,11 +1471,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 11931613.0,
-          "previousShares": 9350979.0,
-          "shareChange": 2580634.0,
-          "shareChangePct": 27.597474018495816
+          "direction": "decrease",
+          "latestShares": 11126646.0,
+          "previousShares": 11931613.0,
+          "shareChange": -804967.0,
+          "shareChangePct": -6.746506109442202
         },
         {
           "manager": "Wells Fargo",
@@ -1489,14 +1496,14 @@
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": -12941263.0,
+      "netShareChange": -13391647.0,
       "largestIncrease": {
         "manager": "Citigroup",
         "direction": "increase",
-        "latestShares": 4808001.0,
-        "previousShares": 3245817.0,
-        "shareChange": 1562184.0,
-        "shareChangePct": 48.12914591303207
+        "latestShares": 5919801.0,
+        "previousShares": 4808001.0,
+        "shareChange": 1111800.0,
+        "shareChangePct": 23.12395525708085
       },
       "largestDecrease": {
         "manager": "Morgan Stanley",
@@ -1546,10 +1553,10 @@
         {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 4808001.0,
-          "previousShares": 3245817.0,
-          "shareChange": 1562184.0,
-          "shareChangePct": 48.12914591303207
+          "latestShares": 5919801.0,
+          "previousShares": 4808001.0,
+          "shareChange": 1111800.0,
+          "shareChangePct": 23.12395525708085
         },
         {
           "manager": "Wells Fargo",
@@ -1565,12 +1572,12 @@
       "status": "ok",
       "score": 10,
       "maxScore": 10,
-      "increases": 6,
-      "decreases": 0,
+      "increases": 5,
+      "decreases": 1,
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 15984186.0,
+      "netShareChange": 13226742.0,
       "largestIncrease": {
         "manager": "Goldman Sachs",
         "direction": "increase",
@@ -1579,10 +1586,16 @@
         "shareChange": 9842696.0,
         "shareChangePct": 50.860989516824795
       },
-      "largestDecrease": null,
+      "largestDecrease": {
+        "manager": "Citigroup",
+        "direction": "decrease",
+        "latestShares": 6662027.0,
+        "previousShares": 8349009.0,
+        "shareChange": -1686982.0,
+        "shareChangePct": -20.20577532016075
+      },
       "flags": [
         "anomaly_filtered",
-        "broad_institutional_accumulation",
         "large_manager_move"
       ],
       "managers": [
@@ -1620,11 +1633,11 @@
         },
         {
           "manager": "Citigroup",
-          "direction": "increase",
-          "latestShares": 8349009.0,
-          "previousShares": 7278547.0,
-          "shareChange": 1070462.0,
-          "shareChangePct": 14.70708370777849
+          "direction": "decrease",
+          "latestShares": 6662027.0,
+          "previousShares": 8349009.0,
+          "shareChange": -1686982.0,
+          "shareChangePct": -20.20577532016075
         },
         {
           "manager": "Wells Fargo",
@@ -1645,7 +1658,7 @@
       "unchanged": 0,
       "anomaliesExcluded": 0,
       "validManagers": 7,
-      "netShareChange": 6516220.0,
+      "netShareChange": 7749882.0,
       "largestIncrease": {
         "manager": "JPMorgan Chase",
         "direction": "increase",
@@ -1709,10 +1722,10 @@
         {
           "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 5899048.0,
-          "previousShares": 7466708.0,
-          "shareChange": -1567660.0,
-          "shareChangePct": -20.995330204422082
+          "latestShares": 5565050.0,
+          "previousShares": 5899048.0,
+          "shareChange": -333998.0,
+          "shareChangePct": -5.661896631456465
         },
         {
           "manager": "Wells Fargo",
@@ -1733,7 +1746,7 @@
       "unchanged": 0,
       "anomaliesExcluded": 1,
       "validManagers": 6,
-      "netShareChange": 27595973.0,
+      "netShareChange": 27821488.0,
       "largestIncrease": {
         "manager": "Bank of America",
         "direction": "increase",
@@ -1784,10 +1797,10 @@
         {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 16891250.0,
-          "previousShares": 16529188.0,
-          "shareChange": 362062.0,
-          "shareChangePct": 2.1904403289502183
+          "latestShares": 17478827.0,
+          "previousShares": 16891250.0,
+          "shareChange": 587577.0,
+          "shareChangePct": 3.478588026345001
         },
         {
           "manager": "Wells Fargo",
