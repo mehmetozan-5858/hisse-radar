@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-09T17:46:52.263874+00:00",
+  "updated_at": "2026-11-10T01:45:13.256062+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "TSLA",
-    "AMD"
+    "AVGO",
+    "ORCL"
   ],
   "quote_status": {
     "fresh": 20,
@@ -16,10 +16,10 @@
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "price": 348.975,
-      "change": 6.605,
-      "changePercentage": 1.9292,
-      "volume": 15928303,
+      "price": 342.37,
+      "change": -1.8,
+      "changePercentage": -0.523,
+      "volume": 44676300,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -1020,15 +1020,11 @@
         [
           "2026-11-06",
           342.37
-        ],
-        [
-          "2026-11-09",
-          348.975
         ]
       ],
-      "dayLow": 344.78,
-      "dayHigh": 351.42,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 338.3,
+      "dayHigh": 345.79,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -1057,15 +1053,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 7,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 1,
         "anomaliesExcluded": 1,
-        "netShareChange": 38745950.0,
+        "netShareChange": 27013662.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -1075,16 +1071,15 @@
           "shareChangePct": 11.128060441179679
         },
         "largestDecrease": {
-          "manager": "Morgan Stanley",
+          "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 242614238.0,
-          "previousShares": 244474722.0,
-          "shareChange": -1860484.0,
-          "shareChangePct": -0.7610128297845042
+          "latestShares": 36419155.0,
+          "previousShares": 41801559.0,
+          "shareChange": -5382404.0,
+          "shareChangePct": -12.876084358480504
         },
         "flags": [
-          "anomaly_filtered",
-          "large_manager_move"
+          "anomaly_filtered"
         ],
         "managers": [
           {
@@ -1129,11 +1124,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 41801559.0,
-            "previousShares": 35451675.0,
-            "shareChange": 6349884.0,
-            "shareChangePct": 17.911379363598474
+            "direction": "decrease",
+            "latestShares": 36419155.0,
+            "previousShares": 41801559.0,
+            "shareChange": -5382404.0,
+            "shareChangePct": -12.876084358480504
           },
           {
             "manager": "Wells Fargo",
@@ -1153,25 +1148,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 48,
+        "score": 42,
         "max": 80,
         "components": {
           "analyst": 1,
           "growth": 13,
           "valuation": 6,
-          "momentum": 8,
+          "momentum": 4,
           "insider": 10,
-          "institutional": 10
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "price": 543.41,
-      "change": 12.8,
-      "changePercentage": 2.4123,
-      "volume": 9419578,
+      "price": 530.61,
+      "change": -5.32,
+      "changePercentage": -0.9927,
+      "volume": 26938400,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -2172,15 +2167,11 @@
         [
           "2026-11-06",
           530.61
-        ],
-        [
-          "2026-11-09",
-          543.41
         ]
       ],
-      "dayLow": 538.6996,
-      "dayHigh": 547.48,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 524.47,
+      "dayHigh": 538.33,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -2213,11 +2204,11 @@
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 6,
-        "decreases": 0,
+        "increases": 5,
+        "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 21126815.0,
+        "netShareChange": 13958021.0,
         "largestIncrease": {
           "manager": "State Street",
           "direction": "increase",
@@ -2226,10 +2217,17 @@
           "shareChange": 8944917.0,
           "shareChangePct": 2.9164249290960638
         },
-        "largestDecrease": null,
+        "largestDecrease": {
+          "manager": "Citigroup",
+          "direction": "decrease",
+          "latestShares": 21318859.0,
+          "previousShares": 25921344.0,
+          "shareChange": -4602485.0,
+          "shareChangePct": -17.755580111895434
+        },
         "flags": [
           "anomaly_filtered",
-          "broad_institutional_accumulation"
+          "large_manager_move"
         ],
         "managers": [
           {
@@ -2266,11 +2264,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 25921344.0,
-            "previousShares": 23355035.0,
-            "shareChange": 2566309.0,
-            "shareChangePct": 10.988247288004493
+            "direction": "decrease",
+            "latestShares": 21318859.0,
+            "previousShares": 25921344.0,
+            "shareChange": -4602485.0,
+            "shareChangePct": -17.755580111895434
           },
           {
             "manager": "Wells Fargo",
@@ -2290,13 +2288,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 64,
+        "score": 59,
         "max": 80,
         "components": {
           "analyst": 10,
           "growth": 15,
           "valuation": 10,
-          "momentum": 9,
+          "momentum": 4,
           "insider": 10,
           "institutional": 10
         }
@@ -2305,10 +2303,10 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "price": 177.715,
-      "change": -8.925,
-      "changePercentage": -4.7819,
-      "volume": 299053632,
+      "price": 186.64,
+      "change": 5.04,
+      "changePercentage": 2.7753,
+      "volume": 179722400,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -3309,15 +3307,11 @@
         [
           "2026-11-06",
           186.64
-        ],
-        [
-          "2026-11-09",
-          177.715
         ]
       ],
-      "dayLow": 170.24,
-      "dayHigh": 179.92,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 185.22,
+      "dayHigh": 194.9,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -3350,11 +3344,11 @@
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 6,
-        "decreases": 0,
+        "increases": 5,
+        "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 60667236.0,
+        "netShareChange": 39958040.0,
         "largestIncrease": {
           "manager": "State Street",
           "direction": "increase",
@@ -3363,10 +3357,16 @@
           "shareChange": 15897836.0,
           "shareChangePct": 1.5995639723529913
         },
-        "largestDecrease": null,
+        "largestDecrease": {
+          "manager": "Citigroup",
+          "direction": "decrease",
+          "latestShares": 78048615.0,
+          "previousShares": 88144167.0,
+          "shareChange": -10095552.0,
+          "shareChangePct": -11.453454429945433
+        },
         "flags": [
-          "anomaly_filtered",
-          "broad_institutional_accumulation"
+          "anomaly_filtered"
         ],
         "managers": [
           {
@@ -3403,11 +3403,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 88144167.0,
-            "previousShares": 77530523.0,
-            "shareChange": 10613644.0,
-            "shareChangePct": 13.689632920443476
+            "direction": "decrease",
+            "latestShares": 78048615.0,
+            "previousShares": 88144167.0,
+            "shareChange": -10095552.0,
+            "shareChangePct": -11.453454429945433
           },
           {
             "manager": "Wells Fargo",
@@ -3427,13 +3427,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 61,
+        "score": 69,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 1,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -3442,10 +3442,10 @@
     {
       "symbol": "AMZN",
       "name": "Amazon.com, Inc.",
-      "price": 268.64,
-      "change": 9.34,
-      "changePercentage": 3.602,
-      "volume": 26727112,
+      "price": 259.3,
+      "change": -0.91,
+      "changePercentage": -0.3497,
+      "volume": 42497100,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -4446,15 +4446,11 @@
         [
           "2026-11-06",
           259.3
-        ],
-        [
-          "2026-11-09",
-          268.64
         ]
       ],
-      "dayLow": 267.72,
-      "dayHigh": 275.31,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 258.53,
+      "dayHigh": 264.18,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -4483,15 +4479,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 29071851.0,
+        "netShareChange": 21588131.0,
         "largestIncrease": {
           "manager": "Bank of America",
           "direction": "increase",
@@ -4501,16 +4497,15 @@
           "shareChangePct": 10.740716282958713
         },
         "largestDecrease": {
-          "manager": "Wells Fargo",
+          "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 36984451.0,
-          "previousShares": 38171848.0,
-          "shareChange": -1187397.0,
-          "shareChangePct": -3.1106615535092774
+          "latestShares": 26916933.0,
+          "previousShares": 28602778.0,
+          "shareChange": -1685845.0,
+          "shareChangePct": -5.89399043687295
         },
         "flags": [
-          "anomaly_filtered",
-          "large_manager_move"
+          "anomaly_filtered"
         ],
         "managers": [
           {
@@ -4547,11 +4542,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 28602778.0,
-            "previousShares": 22804903.0,
-            "shareChange": 5797875.0,
-            "shareChangePct": 25.423809081757547
+            "direction": "decrease",
+            "latestShares": 26916933.0,
+            "previousShares": 28602778.0,
+            "shareChange": -1685845.0,
+            "shareChangePct": -5.89399043687295
           },
           {
             "manager": "Wells Fargo",
@@ -4571,25 +4566,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 65,
+        "score": 58,
         "max": 80,
         "components": {
           "analyst": 13,
           "growth": 13,
           "valuation": 10,
-          "momentum": 9,
+          "momentum": 4,
           "insider": 10,
-          "institutional": 10
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "GOOGL",
       "name": "Alphabet Inc.",
-      "price": 290.7327,
-      "change": 5.9527,
-      "changePercentage": 2.0903,
-      "volume": 18683993,
+      "price": 284.78,
+      "change": 2.21,
+      "changePercentage": 0.7821,
+      "volume": 36283900,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -5590,15 +5585,11 @@
         [
           "2026-11-06",
           284.78
-        ],
-        [
-          "2026-11-09",
-          290.7327
         ]
       ],
-      "dayLow": 290.42,
-      "dayHigh": 296.33,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 284.59,
+      "dayHigh": 290.49,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -5631,11 +5622,11 @@
         "max": 10,
         "status": "ok",
         "validManagers": 7,
-        "increases": 7,
-        "decreases": 0,
+        "increases": 6,
+        "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 83150661.0,
+        "netShareChange": 81657389.0,
         "largestIncrease": {
           "manager": "Berkshire Hathaway",
           "direction": "increase",
@@ -5644,10 +5635,16 @@
           "shareChange": 48144587.0,
           "shareChangePct": 83.24470680070566
         },
-        "largestDecrease": null,
+        "largestDecrease": {
+          "manager": "Citigroup",
+          "direction": "decrease",
+          "latestShares": 29109005.0,
+          "previousShares": 29218694.0,
+          "shareChange": -109689.0,
+          "shareChangePct": -0.3754069227050326
+        },
         "flags": [
           "anomaly_filtered",
-          "broad_institutional_accumulation",
           "large_manager_move"
         ],
         "managers": [
@@ -5693,11 +5690,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 29218694.0,
-            "previousShares": 27835111.0,
-            "shareChange": 1383583.0,
-            "shareChangePct": 4.970639420119431
+            "direction": "decrease",
+            "latestShares": 29109005.0,
+            "previousShares": 29218694.0,
+            "shareChange": -109689.0,
+            "shareChangePct": -0.3754069227050326
           },
           {
             "manager": "Wells Fargo",
@@ -5717,13 +5714,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 69,
+        "score": 66,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 9,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -5732,10 +5729,10 @@
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
-      "price": 641.01,
-      "change": 30.86,
-      "changePercentage": 5.0578,
-      "volume": 8603574,
+      "price": 610.15,
+      "change": 5.07,
+      "changePercentage": 0.8379,
+      "volume": 15682300,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -6736,15 +6733,11 @@
         [
           "2026-11-06",
           610.15
-        ],
-        [
-          "2026-11-09",
-          641.01
         ]
       ],
-      "dayLow": 630.0,
-      "dayHigh": 644.54,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 606.66,
+      "dayHigh": 625.6,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -6781,7 +6774,7 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 11775504.0,
+        "netShareChange": 13591345.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -6832,10 +6825,10 @@
           {
             "manager": "Citigroup",
             "direction": "increase",
-            "latestShares": 6608160.0,
-            "previousShares": 6261407.0,
-            "shareChange": 346753.0,
-            "shareChangePct": 5.537940593863328
+            "latestShares": 8770754.0,
+            "previousShares": 6608160.0,
+            "shareChange": 2162594.0,
+            "shareChangePct": 32.7261143797971
           },
           {
             "manager": "Wells Fargo",
@@ -6855,13 +6848,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 62,
+        "score": 58,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 7,
           "valuation": 10,
-          "momentum": 10,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -6870,10 +6863,10 @@
     {
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
-      "price": 377.27,
-      "change": 19.05,
-      "changePercentage": 5.318,
-      "volume": 17121062,
+      "price": 358.22,
+      "change": 14.53,
+      "changePercentage": 4.2276,
+      "volume": 36642300,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -7874,15 +7867,11 @@
         [
           "2026-11-06",
           358.22
-        ],
-        [
-          "2026-11-09",
-          377.27
         ]
       ],
-      "dayLow": 360.02,
-      "dayHigh": 380.08,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 347.6,
+      "dayHigh": 363.84,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -7911,15 +7900,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 5,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 3,
-        "decreases": 3,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 3288125.0,
+        "netShareChange": 5531454.0,
         "largestIncrease": {
           "manager": "State Street",
           "direction": "increase",
@@ -7974,11 +7963,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "decrease",
-            "latestShares": 14987170.0,
-            "previousShares": 15269429.0,
-            "shareChange": -282259.0,
-            "shareChangePct": -1.8485236088395969
+            "direction": "increase",
+            "latestShares": 16948240.0,
+            "previousShares": 14987170.0,
+            "shareChange": 1961070.0,
+            "shareChangePct": 13.084992029849532
           },
           {
             "manager": "Wells Fargo",
@@ -7993,30 +7982,30 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
-        "score": 37,
+        "score": 43,
         "max": 80,
         "components": {
-          "analyst": 10,
+          "analyst": 13,
           "growth": 0,
           "valuation": 2,
           "momentum": 10,
           "insider": 10,
-          "institutional": 5
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "AMD",
       "name": "Advanced Micro Devices, Inc.",
-      "price": 501.88,
-      "change": 52.84,
-      "changePercentage": 11.7673,
-      "volume": 28295103,
+      "price": 449.04,
+      "change": 44.64,
+      "changePercentage": 11.0386,
+      "volume": 45682000,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -9017,15 +9006,11 @@
         [
           "2026-11-06",
           449.04
-        ],
-        [
-          "2026-11-09",
-          501.88
         ]
       ],
-      "dayLow": 468.21,
-      "dayHigh": 504.8,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 433.3,
+      "dayHigh": 459.8,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -9054,15 +9039,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 3350331.0,
+        "netShareChange": 1858211.0,
         "largestIncrease": {
           "manager": "Bank of America",
           "direction": "increase",
@@ -9072,12 +9057,12 @@
           "shareChangePct": 18.96218671274394
         },
         "largestDecrease": {
-          "manager": "State Street",
+          "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 74361687.0,
-          "previousShares": 74771220.0,
-          "shareChange": -409533.0,
-          "shareChangePct": -0.5477147490705648
+          "latestShares": 6862378.0,
+          "previousShares": 8235837.0,
+          "shareChange": -1373459.0,
+          "shareChangePct": -16.676617082149633
         },
         "flags": [
           "anomaly_filtered",
@@ -9118,11 +9103,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 8235837.0,
-            "previousShares": 8117176.0,
-            "shareChange": 118661.0,
-            "shareChangePct": 1.4618507717462328
+            "direction": "decrease",
+            "latestShares": 6862378.0,
+            "previousShares": 8235837.0,
+            "shareChange": -1373459.0,
+            "shareChangePct": -16.676617082149633
           },
           {
             "manager": "Wells Fargo",
@@ -9137,30 +9122,30 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
         "score": 68,
         "max": 80,
         "components": {
-          "analyst": 13,
+          "analyst": 15,
           "growth": 15,
           "valuation": 10,
           "momentum": 10,
           "insider": 10,
-          "institutional": 10
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "AVGO",
       "name": "Broadcom Inc.",
-      "price": 320.3995,
-      "change": 26.7095,
-      "changePercentage": 9.0945,
-      "volume": 16474387,
+      "price": 293.69,
+      "change": 2.16,
+      "changePercentage": 0.7409,
+      "volume": 32379300,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -10161,15 +10146,11 @@
         [
           "2026-11-06",
           293.69
-        ],
-        [
-          "2026-11-09",
-          320.3995
         ]
       ],
-      "dayLow": 304.292,
-      "dayHigh": 321.73,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 289.77,
+      "dayHigh": 311.52,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -10198,15 +10179,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 17840242.0,
+        "netShareChange": 12099730.0,
         "largestIncrease": {
           "manager": "State Street",
           "direction": "increase",
@@ -10216,16 +10197,15 @@
           "shareChangePct": 2.884471892582929
         },
         "largestDecrease": {
-          "manager": "Wells Fargo",
+          "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 25220194.0,
-          "previousShares": 26192540.0,
-          "shareChange": -972346.0,
-          "shareChangePct": -3.7123012888402576
+          "latestShares": 15131343.0,
+          "previousShares": 17665760.0,
+          "shareChange": -2534417.0,
+          "shareChangePct": -14.346492876615555
         },
         "flags": [
-          "anomaly_filtered",
-          "large_manager_move"
+          "anomaly_filtered"
         ],
         "managers": [
           {
@@ -10262,11 +10242,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 17665760.0,
-            "previousShares": 14459665.0,
-            "shareChange": 3206095.0,
-            "shareChangePct": 22.17267827435836
+            "direction": "decrease",
+            "latestShares": 15131343.0,
+            "previousShares": 17665760.0,
+            "shareChange": -2534417.0,
+            "shareChangePct": -14.346492876615555
           },
           {
             "manager": "Wells Fargo",
@@ -10286,25 +10266,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 35,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 10,
+          "momentum": 6,
           "insider": 10,
-          "institutional": 10
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "ORCL",
       "name": "Oracle Corporation",
-      "price": 119.27,
-      "change": 3.17,
-      "changePercentage": 2.7304,
-      "volume": 13501169,
+      "price": 116.1,
+      "change": 0.94,
+      "changePercentage": 0.8163,
+      "volume": 47503200,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -11305,15 +11285,11 @@
         [
           "2026-11-06",
           116.1
-        ],
-        [
-          "2026-11-09",
-          119.27
         ]
       ],
-      "dayLow": 114.91,
-      "dayHigh": 119.76,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 109.21,
+      "dayHigh": 119.7,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -11346,11 +11322,11 @@
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 6,
+        "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 22941926.0,
+        "netShareChange": 24283201.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -11359,16 +11335,10 @@
           "shareChange": 10699971.0,
           "shareChangePct": 62.31152387204626
         },
-        "largestDecrease": {
-          "manager": "Citigroup",
-          "direction": "decrease",
-          "latestShares": 9303778.0,
-          "previousShares": 9769196.0,
-          "shareChange": -465418.0,
-          "shareChangePct": -4.76413821567302
-        },
+        "largestDecrease": null,
         "flags": [
           "anomaly_filtered",
+          "broad_institutional_accumulation",
           "large_manager_move"
         ],
         "managers": [
@@ -11406,11 +11376,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "decrease",
-            "latestShares": 9303778.0,
-            "previousShares": 9769196.0,
-            "shareChange": -465418.0,
-            "shareChangePct": -4.76413821567302
+            "direction": "increase",
+            "latestShares": 10179635.0,
+            "previousShares": 9303778.0,
+            "shareChange": 875857.0,
+            "shareChangePct": 9.413992896219149
           },
           {
             "manager": "Wells Fargo",
@@ -11430,13 +11400,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 34,
+        "score": 31,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 9,
+          "momentum": 6,
           "insider": 10,
           "institutional": 10
         }
@@ -11445,10 +11415,10 @@
     {
       "symbol": "NFLX",
       "name": "Netflix, Inc.",
-      "price": 63.87,
-      "change": 0.46,
-      "changePercentage": 0.7254,
-      "volume": 14209828,
+      "price": 63.41,
+      "change": -2.15,
+      "changePercentage": -3.2794,
+      "volume": 35472200,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -12449,15 +12419,11 @@
         [
           "2026-11-06",
           63.41
-        ],
-        [
-          "2026-11-09",
-          63.87
         ]
       ],
-      "dayLow": 62.95,
-      "dayHigh": 64.02,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 63.31,
+      "dayHigh": 64.35,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -12486,15 +12452,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 8,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 5,
-        "decreases": 1,
+        "increases": 4,
+        "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 4854882.0,
+        "netShareChange": 291800.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -12550,11 +12516,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 15381798.0,
-            "previousShares": 12885752.0,
-            "shareChange": 2496046.0,
-            "shareChangePct": 19.370588538410484
+            "direction": "decrease",
+            "latestShares": 13314762.0,
+            "previousShares": 15381798.0,
+            "shareChange": -2067036.0,
+            "shareChangePct": -13.438194936638748
           },
           {
             "manager": "Wells Fargo",
@@ -12574,25 +12540,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 64,
+        "score": 57,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 13,
           "valuation": 10,
-          "momentum": 6,
+          "momentum": 1,
           "insider": 10,
-          "institutional": 10
+          "institutional": 8
         }
       }
     },
     {
       "symbol": "JPM",
       "name": "JPMorgan Chase & Co.",
-      "price": 342.79,
-      "change": 8.3,
-      "changePercentage": 2.4814,
-      "volume": 2447855,
+      "price": 334.49,
+      "change": -2.85,
+      "changePercentage": -0.8448,
+      "volume": 7818400,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -13593,15 +13559,11 @@
         [
           "2026-11-06",
           334.49
-        ],
-        [
-          "2026-11-09",
-          342.79
         ]
       ],
-      "dayLow": 335.0001,
-      "dayHigh": 343.0351,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 333.0,
+      "dayHigh": 341.79,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -13652,13 +13614,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 40,
+        "score": 38,
         "max": 70,
         "components": {
-          "analyst": 7,
+          "analyst": 10,
           "growth": 4,
           "valuation": 10,
-          "momentum": 9,
+          "momentum": 4,
           "insider": 10,
           "institutional": null
         }
@@ -13667,10 +13629,10 @@
     {
       "symbol": "V",
       "name": "Visa Inc.",
-      "price": 423.69,
-      "change": 1.04,
-      "changePercentage": 0.2461,
-      "volume": 3094850,
+      "price": 422.65,
+      "change": 0.06,
+      "changePercentage": 0.0142,
+      "volume": 9219400,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -14671,15 +14633,11 @@
         [
           "2026-11-06",
           422.65
-        ],
-        [
-          "2026-11-09",
-          423.69
         ]
       ],
-      "dayLow": 417.69,
-      "dayHigh": 426.46,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 412.75,
+      "dayHigh": 424.15,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -14716,7 +14674,7 @@
         "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 7238005.0,
+        "netShareChange": 6781297.0,
         "largestIncrease": {
           "manager": "Wells Fargo",
           "direction": "increase",
@@ -14773,10 +14731,10 @@
           {
             "manager": "Citigroup",
             "direction": "increase",
-            "latestShares": 7268969.0,
-            "previousShares": 6560947.0,
-            "shareChange": 708022.0,
-            "shareChangePct": 10.79146044008586
+            "latestShares": 7520283.0,
+            "previousShares": 7268969.0,
+            "shareChange": 251314.0,
+            "shareChangePct": 3.4573541309641023
           },
           {
             "manager": "Wells Fargo",
@@ -14796,10 +14754,10 @@
         "analyst": false
       },
       "radar": {
-        "score": 49,
+        "score": 52,
         "max": 80,
         "components": {
-          "analyst": 4,
+          "analyst": 7,
           "growth": 13,
           "valuation": 6,
           "momentum": 6,
@@ -14811,10 +14769,10 @@
     {
       "symbol": "MA",
       "name": "Mastercard Incorporated",
-      "price": 658.25,
-      "change": 5.55,
-      "changePercentage": 0.8503,
-      "volume": 1181946,
+      "price": 652.7,
+      "change": -3.22,
+      "changePercentage": -0.4909,
+      "volume": 3293700,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -15815,15 +15773,11 @@
         [
           "2026-11-06",
           652.7
-        ],
-        [
-          "2026-11-09",
-          658.25
         ]
       ],
-      "dayLow": 648.54,
-      "dayHigh": 658.87,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 638.01,
+      "dayHigh": 659.59,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -15860,7 +15814,7 @@
         "decreases": 2,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 1173082.0,
+        "netShareChange": 1163728.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -15917,10 +15871,10 @@
           {
             "manager": "Citigroup",
             "direction": "increase",
-            "latestShares": 934262.0,
-            "previousShares": 768929.0,
-            "shareChange": 165333.0,
-            "shareChangePct": 21.501725126767234
+            "latestShares": 1090241.0,
+            "previousShares": 934262.0,
+            "shareChange": 155979.0,
+            "shareChangePct": 16.695423767636917
           },
           {
             "manager": "Wells Fargo",
@@ -15940,13 +15894,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 29,
+        "score": 27,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 6,
+          "momentum": 4,
           "insider": 10,
           "institutional": 8
         }
@@ -15955,10 +15909,10 @@
     {
       "symbol": "COST",
       "name": "Costco Wholesale Corporation",
-      "price": 1055.6801,
-      "change": 2.12,
-      "changePercentage": 0.2012,
-      "volume": 689533,
+      "price": 1053.5601,
+      "change": -12.0299,
+      "changePercentage": -1.1289,
+      "volume": 2513100,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -16959,15 +16913,11 @@
         [
           "2026-11-06",
           1053.5601
-        ],
-        [
-          "2026-11-09",
-          1055.6801
         ]
       ],
-      "dayLow": 1045.73,
-      "dayHigh": 1055.83,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 1043.0,
+      "dayHigh": 1063.02,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -16996,15 +16946,15 @@
         "fresh": true
       },
       "institutional": {
-        "score": 10,
+        "score": 6,
         "max": 10,
         "status": "ok",
         "validManagers": 7,
-        "increases": 5,
-        "decreases": 2,
+        "increases": 4,
+        "decreases": 3,
         "unchanged": 0,
         "anomaliesExcluded": 0,
-        "netShareChange": 4917545.0,
+        "netShareChange": 4558839.0,
         "largestIncrease": {
           "manager": "JPMorgan Chase",
           "direction": "increase",
@@ -17021,9 +16971,7 @@
           "shareChange": -265257.0,
           "shareChangePct": -3.529686038553933
         },
-        "flags": [
-          "large_manager_move"
-        ],
+        "flags": [],
         "managers": [
           {
             "manager": "State Street",
@@ -17067,11 +17015,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 1201516.0,
-            "previousShares": 935971.0,
-            "shareChange": 265545.0,
-            "shareChangePct": 28.371071325927833
+            "direction": "decrease",
+            "latestShares": 1108355.0,
+            "previousShares": 1201516.0,
+            "shareChange": -93161.0,
+            "shareChangePct": -7.753621258476791
           },
           {
             "manager": "Wells Fargo",
@@ -17091,25 +17039,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 45,
+        "score": 37,
         "max": 80,
         "components": {
           "analyst": 7,
           "growth": 10,
           "valuation": 2,
-          "momentum": 6,
+          "momentum": 2,
           "insider": 10,
-          "institutional": 10
+          "institutional": 6
         }
       }
     },
     {
       "symbol": "WMT",
       "name": "Walmart Inc.",
-      "price": 125.03,
-      "change": -0.49,
-      "changePercentage": -0.3904,
-      "volume": 9470609,
+      "price": 125.52,
+      "change": -2.2,
+      "changePercentage": -1.7225,
+      "volume": 24822500,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -18110,15 +18058,11 @@
         [
           "2026-11-06",
           125.52
-        ],
-        [
-          "2026-11-09",
-          125.03
         ]
       ],
-      "dayLow": 123.575,
-      "dayHigh": 125.0985,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 123.03,
+      "dayHigh": 126.64,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -18147,34 +18091,33 @@
         "fresh": true
       },
       "institutional": {
-        "score": 8,
+        "score": 5,
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 4,
-        "decreases": 2,
+        "increases": 3,
+        "decreases": 3,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 8974608.0,
+        "netShareChange": 5589007.0,
         "largestIncrease": {
-          "manager": "Citigroup",
+          "manager": "Morgan Stanley",
           "direction": "increase",
-          "latestShares": 11931613.0,
-          "previousShares": 9350979.0,
-          "shareChange": 2580634.0,
-          "shareChangePct": 27.597474018495816
+          "latestShares": 88318921.0,
+          "previousShares": 85906471.0,
+          "shareChange": 2412450.0,
+          "shareChangePct": 2.808228497711191
         },
         "largestDecrease": {
-          "manager": "Wells Fargo",
+          "manager": "Citigroup",
           "direction": "decrease",
-          "latestShares": 29004162.0,
-          "previousShares": 29392450.0,
-          "shareChange": -388288.0,
-          "shareChangePct": -1.3210467313885028
+          "latestShares": 11126646.0,
+          "previousShares": 11931613.0,
+          "shareChange": -804967.0,
+          "shareChangePct": -6.746506109442202
         },
         "flags": [
-          "anomaly_filtered",
-          "large_manager_move"
+          "anomaly_filtered"
         ],
         "managers": [
           {
@@ -18211,11 +18154,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 11931613.0,
-            "previousShares": 9350979.0,
-            "shareChange": 2580634.0,
-            "shareChangePct": 27.597474018495816
+            "direction": "decrease",
+            "latestShares": 11126646.0,
+            "previousShares": 11931613.0,
+            "shareChange": -804967.0,
+            "shareChangePct": -6.746506109442202
           },
           {
             "manager": "Wells Fargo",
@@ -18235,25 +18178,25 @@
         "analyst": false
       },
       "radar": {
-        "score": 38,
+        "score": 33,
         "max": 80,
         "components": {
           "analyst": 4,
           "growth": 10,
           "valuation": 2,
-          "momentum": 4,
+          "momentum": 2,
           "insider": 10,
-          "institutional": 8
+          "institutional": 5
         }
       }
     },
     {
       "symbol": "CRM",
       "name": "Salesforce, Inc.",
-      "price": 216.78,
-      "change": 3.13,
-      "changePercentage": 1.465,
-      "volume": 1951687,
+      "price": 213.65,
+      "change": -8.76,
+      "changePercentage": -3.9387,
+      "volume": 6710100,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -19254,15 +19197,11 @@
         [
           "2026-11-06",
           213.65
-        ],
-        [
-          "2026-11-09",
-          216.78
         ]
       ],
-      "dayLow": 213.79,
-      "dayHigh": 217.26,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 211.0,
+      "dayHigh": 218.77,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -19299,14 +19238,14 @@
         "decreases": 4,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": -12941263.0,
+        "netShareChange": -13391647.0,
         "largestIncrease": {
           "manager": "Citigroup",
           "direction": "increase",
-          "latestShares": 4808001.0,
-          "previousShares": 3245817.0,
-          "shareChange": 1562184.0,
-          "shareChangePct": 48.12914591303207
+          "latestShares": 5919801.0,
+          "previousShares": 4808001.0,
+          "shareChange": 1111800.0,
+          "shareChangePct": 23.12395525708085
         },
         "largestDecrease": {
           "manager": "Morgan Stanley",
@@ -19356,10 +19295,10 @@
           {
             "manager": "Citigroup",
             "direction": "increase",
-            "latestShares": 4808001.0,
-            "previousShares": 3245817.0,
-            "shareChange": 1562184.0,
-            "shareChangePct": 48.12914591303207
+            "latestShares": 5919801.0,
+            "previousShares": 4808001.0,
+            "shareChange": 1111800.0,
+            "shareChangePct": 23.12395525708085
           },
           {
             "manager": "Wells Fargo",
@@ -19379,13 +19318,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 25,
+        "score": 18,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 8,
+          "momentum": 1,
           "insider": 10,
           "institutional": 2
         }
@@ -19394,10 +19333,10 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "price": 169.4399,
-      "change": 9.0599,
-      "changePercentage": 5.649,
-      "volume": 11171825,
+      "price": 160.38,
+      "change": 5.39,
+      "changePercentage": 3.4776,
+      "volume": 24298100,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -20398,15 +20337,11 @@
         [
           "2026-11-06",
           160.38
-        ],
-        [
-          "2026-11-09",
-          169.4399
         ]
       ],
-      "dayLow": 161.05,
-      "dayHigh": 170.5,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 157.24,
+      "dayHigh": 163.973,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -20439,11 +20374,11 @@
         "max": 10,
         "status": "ok",
         "validManagers": 6,
-        "increases": 6,
-        "decreases": 0,
+        "increases": 5,
+        "decreases": 1,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 15984186.0,
+        "netShareChange": 13226742.0,
         "largestIncrease": {
           "manager": "Goldman Sachs",
           "direction": "increase",
@@ -20452,10 +20387,16 @@
           "shareChange": 9842696.0,
           "shareChangePct": 50.860989516824795
         },
-        "largestDecrease": null,
+        "largestDecrease": {
+          "manager": "Citigroup",
+          "direction": "decrease",
+          "latestShares": 6662027.0,
+          "previousShares": 8349009.0,
+          "shareChange": -1686982.0,
+          "shareChangePct": -20.20577532016075
+        },
         "flags": [
           "anomaly_filtered",
-          "broad_institutional_accumulation",
           "large_manager_move"
         ],
         "managers": [
@@ -20493,11 +20434,11 @@
           },
           {
             "manager": "Citigroup",
-            "direction": "increase",
-            "latestShares": 8349009.0,
-            "previousShares": 7278547.0,
-            "shareChange": 1070462.0,
-            "shareChangePct": 14.70708370777849
+            "direction": "decrease",
+            "latestShares": 6662027.0,
+            "previousShares": 8349009.0,
+            "shareChange": -1686982.0,
+            "shareChangePct": -20.20577532016075
           },
           {
             "manager": "Wells Fargo",
@@ -20517,13 +20458,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 70,
+        "score": 69,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 10,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -20532,10 +20473,10 @@
     {
       "symbol": "QCOM",
       "name": "QUALCOMM Incorporated",
-      "price": 174.5,
-      "change": 9.09,
-      "changePercentage": 5.4954,
-      "volume": 4931632,
+      "price": 165.41,
+      "change": 8.66,
+      "changePercentage": 5.5247,
+      "volume": 19680100,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -21536,15 +21477,11 @@
         [
           "2026-11-06",
           165.41
-        ],
-        [
-          "2026-11-09",
-          174.5
         ]
       ],
-      "dayLow": 163.29,
-      "dayHigh": 176.28,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 159.11,
+      "dayHigh": 167.47,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -21581,7 +21518,7 @@
         "decreases": 3,
         "unchanged": 0,
         "anomaliesExcluded": 0,
-        "netShareChange": 6516220.0,
+        "netShareChange": 7749882.0,
         "largestIncrease": {
           "manager": "JPMorgan Chase",
           "direction": "increase",
@@ -21645,10 +21582,10 @@
           {
             "manager": "Citigroup",
             "direction": "decrease",
-            "latestShares": 5899048.0,
-            "previousShares": 7466708.0,
-            "shareChange": -1567660.0,
-            "shareChangePct": -20.995330204422082
+            "latestShares": 5565050.0,
+            "previousShares": 5899048.0,
+            "shareChange": -333998.0,
+            "shareChangePct": -5.661896631456465
           },
           {
             "manager": "Wells Fargo",
@@ -21683,10 +21620,10 @@
     {
       "symbol": "INTC",
       "name": "Intel Corporation",
-      "price": 58.265,
-      "change": 1.985,
-      "changePercentage": 3.527,
-      "volume": 66798745,
+      "price": 56.28,
+      "change": 4.03,
+      "changePercentage": 7.7129,
+      "volume": 173770300,
       "dailyCloses": [
         [
           "2025-11-10",
@@ -22687,15 +22624,11 @@
         [
           "2026-11-06",
           56.28
-        ],
-        [
-          "2026-11-09",
-          58.265
         ]
       ],
-      "dayLow": 55.83,
-      "dayHigh": 59.26,
-      "lastBarAt": "2026-11-09T14:30:00+00:00",
+      "dayLow": 54.56,
+      "dayHigh": 57.32,
+      "lastBarAt": "2026-11-06T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -22732,7 +22665,7 @@
         "decreases": 0,
         "unchanged": 0,
         "anomaliesExcluded": 1,
-        "netShareChange": 27595973.0,
+        "netShareChange": 27821488.0,
         "largestIncrease": {
           "manager": "Bank of America",
           "direction": "increase",
@@ -22783,10 +22716,10 @@
           {
             "manager": "Citigroup",
             "direction": "increase",
-            "latestShares": 16891250.0,
-            "previousShares": 16529188.0,
-            "shareChange": 362062.0,
-            "shareChangePct": 2.1904403289502183
+            "latestShares": 17478827.0,
+            "previousShares": 16891250.0,
+            "shareChange": 587577.0,
+            "shareChangePct": 3.478588026345001
           },
           {
             "manager": "Wells Fargo",
@@ -22806,13 +22739,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 69,
+        "score": 70,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 9,
+          "momentum": 10,
           "insider": 10,
           "institutional": 10
         }
