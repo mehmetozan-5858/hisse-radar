@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-11T22:55:37.088789+00:00",
+  "checkedAt": "2026-11-12T07:29:34.705302+00:00",
   "brokerCandidate": "Interactive Brokers",
   "brokerConnected": false,
   "executionMode": "research_only",
@@ -16,7 +16,7 @@
   "readyCount": 0,
   "candidates": [
     {
-      "symbol": "PANL",
+      "symbol": "PYPD",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "symbol": "PEPG",
+      "symbol": "PUBM",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
@@ -38,7 +38,18 @@
       ]
     },
     {
-      "symbol": "OPRX",
+      "symbol": "PRAX",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PRME",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
@@ -59,17 +70,6 @@
       ]
     },
     {
-      "symbol": "PASG",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
       "symbol": "RKLB",
       "market": "NASDAQ",
       "readyForOrder": false,
@@ -80,23 +80,13 @@
       ]
     },
     {
-      "symbol": "OPTX",
+      "symbol": "QUIK",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "LTR.AX",
-      "market": "ASX",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
         "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
       ]
     },
@@ -111,45 +101,12 @@
       ]
     },
     {
-      "symbol": "OPTH",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PAYS",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
       "symbol": "PAPIL.IS",
       "market": "BIST",
       "readyForOrder": false,
       "reasons": [
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PETS",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
         "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
       ]
     },
@@ -164,17 +121,7 @@
       ]
     },
     {
-      "symbol": "DRO.AX",
-      "market": "ASX",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PHOE",
+      "symbol": "QNTM",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
@@ -205,13 +152,12 @@
       ]
     },
     {
-      "symbol": "PLCE",
-      "market": "NASDAQ",
+      "symbol": "LTR.AX",
+      "market": "ASX",
       "readyForOrder": false,
       "reasons": [
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
         "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
       ]
     },
@@ -226,29 +172,28 @@
       ]
     },
     {
-      "symbol": "HE1.L",
-      "market": "LSE-AIM",
+      "symbol": "DRO.AX",
+      "market": "ASX",
       "readyForOrder": false,
       "reasons": [
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PIII",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
         "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
       ]
     },
     {
       "symbol": "FLT.TO",
       "market": "TSX",
+      "readyForOrder": false,
+      "reasons": [
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "HE1.L",
+      "market": "LSE-AIM",
       "readyForOrder": false,
       "reasons": [
         "Temel finansal veri eksik",
@@ -24395,6 +24340,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24419,6 +24365,43 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "OPRX",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "OPTH",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "OPTX",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24430,6 +24413,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24441,6 +24425,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24452,6 +24437,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24463,6 +24449,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24474,6 +24461,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24485,6 +24473,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24496,6 +24485,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24507,6 +24497,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24518,6 +24509,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24529,6 +24521,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24540,6 +24533,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24551,6 +24545,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24562,6 +24557,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24573,6 +24569,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24584,6 +24581,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24595,6 +24593,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Son işlem zamanı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
@@ -24607,6 +24606,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24618,6 +24618,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24629,6 +24630,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24653,6 +24655,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24664,6 +24667,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24675,6 +24679,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24686,6 +24691,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24697,6 +24703,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24708,6 +24715,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24719,6 +24727,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24730,6 +24739,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24741,6 +24751,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24752,6 +24763,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24763,6 +24775,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24774,6 +24787,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24785,6 +24799,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24796,6 +24811,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PANL",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24807,6 +24835,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24831,6 +24860,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PASG",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24842,6 +24884,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24853,6 +24896,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24864,6 +24908,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24875,6 +24920,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24886,6 +24932,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24897,6 +24944,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PAYS",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24908,6 +24968,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24919,6 +24980,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24930,6 +24992,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24941,6 +25004,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24952,6 +25016,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24963,6 +25028,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24974,6 +25040,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -24998,6 +25065,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25009,6 +25077,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25020,6 +25089,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25031,6 +25101,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25042,6 +25113,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25053,6 +25125,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25064,6 +25137,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25075,6 +25149,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25086,6 +25161,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25097,6 +25173,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25108,6 +25185,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25119,6 +25197,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25130,6 +25209,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25141,6 +25221,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25152,6 +25233,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25163,6 +25245,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25174,6 +25257,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25185,6 +25269,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25196,6 +25281,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PEPG",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25207,6 +25305,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25218,6 +25317,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PETS",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25229,6 +25341,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25240,6 +25353,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25251,6 +25365,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25262,6 +25377,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25273,6 +25389,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25284,6 +25401,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25295,6 +25413,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25306,6 +25425,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25317,6 +25437,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25328,6 +25449,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25339,6 +25461,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25350,6 +25473,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25361,6 +25485,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PHOE",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25372,6 +25509,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25383,6 +25521,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25394,6 +25533,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25405,6 +25545,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PIII",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25416,6 +25569,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25427,6 +25581,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25438,6 +25593,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25449,6 +25605,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25460,6 +25617,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25471,6 +25629,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25482,6 +25641,19 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
+        "Temel finansal veri eksik",
+        "İkinci fiyat kaynağı doğrulamadı",
+        "Ajan veri kapısı geçilmedi",
+        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
+      ]
+    },
+    {
+      "symbol": "PLCE",
+      "market": "NASDAQ",
+      "readyForOrder": false,
+      "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25493,6 +25665,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25504,6 +25677,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25515,6 +25689,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25526,6 +25701,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25537,6 +25713,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25548,6 +25725,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25559,6 +25737,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25570,6 +25749,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25581,6 +25761,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25592,6 +25773,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25603,6 +25785,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25614,6 +25797,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25625,6 +25809,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25636,6 +25821,7 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
+        "Güncel fiyat yanıtı yok",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25647,8 +25833,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25660,8 +25844,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25673,8 +25855,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25686,8 +25866,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25699,8 +25877,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25712,8 +25888,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25725,8 +25899,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25738,8 +25910,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25751,8 +25921,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25764,8 +25932,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25777,8 +25943,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25790,8 +25954,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25803,8 +25965,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25816,8 +25976,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25829,8 +25987,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25842,8 +25998,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25855,8 +26009,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25868,8 +26020,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25881,8 +26031,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25907,8 +26055,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25920,8 +26066,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25933,8 +26077,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25946,8 +26088,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25959,8 +26099,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25972,21 +26110,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PRAX",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -25998,8 +26121,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26011,8 +26132,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26024,8 +26143,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26037,8 +26154,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26050,8 +26165,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26063,8 +26176,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26076,8 +26187,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26089,21 +26198,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PRME",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26115,8 +26209,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26128,8 +26220,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26141,8 +26231,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26167,8 +26255,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26180,8 +26266,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26193,8 +26277,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26206,8 +26288,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26219,8 +26299,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26232,8 +26310,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26245,8 +26321,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26258,8 +26332,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26271,8 +26343,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26297,8 +26367,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26310,8 +26378,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26323,8 +26389,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26336,8 +26400,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26349,8 +26411,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26362,8 +26422,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26375,8 +26433,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26388,8 +26444,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26401,8 +26455,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26414,8 +26466,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26427,8 +26477,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26440,8 +26488,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26453,8 +26499,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26466,21 +26510,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PUBM",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26492,8 +26521,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26505,8 +26532,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26518,8 +26543,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26531,8 +26554,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26544,8 +26565,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26557,8 +26576,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26570,8 +26587,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26583,8 +26598,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26596,21 +26609,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "PYPD",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26622,8 +26620,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26635,8 +26631,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26648,8 +26642,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26661,8 +26653,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26674,8 +26664,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26687,8 +26675,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26700,8 +26686,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26726,8 +26710,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26739,8 +26721,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26752,8 +26732,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26765,8 +26743,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26778,8 +26754,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26791,8 +26765,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26804,21 +26776,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
-        "Temel finansal veri eksik",
-        "İkinci fiyat kaynağı doğrulamadı",
-        "Ajan veri kapısı geçilmedi",
-        "IBKR sözleşmesi, piyasa saati ve işlem izni doğrulanmadı"
-      ]
-    },
-    {
-      "symbol": "QNTM",
-      "market": "NASDAQ",
-      "readyForOrder": false,
-      "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26830,8 +26787,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26856,8 +26811,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26869,8 +26822,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26882,8 +26833,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26895,8 +26844,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26908,8 +26855,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26921,8 +26866,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26934,8 +26877,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26947,8 +26888,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26960,8 +26899,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26969,12 +26906,10 @@
       ]
     },
     {
-      "symbol": "QUIK",
+      "symbol": "QUIT",
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26986,8 +26921,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -26999,8 +26932,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27012,8 +26943,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27025,8 +26954,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27038,8 +26965,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27051,8 +26976,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27064,8 +26987,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27077,8 +26998,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27090,8 +27009,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27103,8 +27020,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27116,8 +27031,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27129,8 +27042,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27142,8 +27053,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27155,8 +27064,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27168,8 +27075,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27181,8 +27086,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27194,8 +27097,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27207,8 +27108,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27220,8 +27119,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
@@ -27233,8 +27130,6 @@
       "market": "NASDAQ",
       "readyForOrder": false,
       "reasons": [
-        "Güncel fiyat yanıtı yok",
-        "Son işlem kaydı güncel değil",
         "Temel finansal veri eksik",
         "İkinci fiyat kaynağı doğrulamadı",
         "Ajan veri kapısı geçilmedi",
