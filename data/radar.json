@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-11-24T16:15:49.708749+00:00",
+  "updated_at": "2026-11-25T01:01:10.074252+00:00",
   "score_version": "0.7.0",
   "current_score_max": 80,
   "universe_size": 20,
   "quote_provider": "Yahoo Finance chart / cache fallback",
   "fmp_refresh_symbols": [
-    "GOOGL",
-    "META"
+    "TSLA",
+    "AMD"
   ],
   "quote_status": {
     "fresh": 20,
@@ -16,15 +16,11 @@
     {
       "symbol": "AAPL",
       "name": "Apple Inc.",
-      "price": 351.5636,
-      "change": 2.4836,
-      "changePercentage": 0.7115,
-      "volume": 11915259,
+      "price": 354.07,
+      "change": 4.99,
+      "changePercentage": 1.4295,
+      "volume": 40235897,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          275.92
-        ],
         [
           "2025-11-25",
           276.97
@@ -1027,11 +1023,11 @@
         ],
         [
           "2026-11-24",
-          351.5636
+          354.07
         ]
       ],
       "dayLow": 345.88,
-      "dayHigh": 353.92,
+      "dayHigh": 354.369,
       "lastBarAt": "2026-11-24T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
@@ -1162,13 +1158,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 40,
+        "score": 42,
         "max": 80,
         "components": {
           "analyst": 1,
           "growth": 13,
           "valuation": 6,
-          "momentum": 6,
+          "momentum": 8,
           "insider": 10,
           "institutional": 4
         }
@@ -1177,15 +1173,11 @@
     {
       "symbol": "MSFT",
       "name": "Microsoft Corporation",
-      "price": 493.07,
-      "change": 0.57,
-      "changePercentage": 0.1157,
-      "volume": 6795775,
+      "price": 496.13,
+      "change": 3.63,
+      "changePercentage": 0.7371,
+      "volume": 22448885,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          474.0
-        ],
         [
           "2025-11-25",
           476.99
@@ -2188,11 +2180,11 @@
         ],
         [
           "2026-11-24",
-          493.07
+          496.13
         ]
       ],
       "dayLow": 488.43,
-      "dayHigh": 496.79,
+      "dayHigh": 501.8,
       "lastBarAt": "2026-11-24T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
@@ -2332,15 +2324,11 @@
     {
       "symbol": "NVDA",
       "name": "NVIDIA Corporation",
-      "price": 151.205,
-      "change": -13.845,
-      "changePercentage": -8.3884,
-      "volume": 167793836,
+      "price": 165.05,
+      "change": 39.52,
+      "changePercentage": 31.4825,
+      "volume": 782593300,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          182.55
-        ],
         [
           "2025-11-25",
           177.82
@@ -3340,15 +3328,11 @@
         [
           "2026-11-23",
           165.05
-        ],
-        [
-          "2026-11-24",
-          151.205
         ]
       ],
-      "dayLow": 150.8,
-      "dayHigh": 159.92,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 156.93,
+      "dayHigh": 171.5,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -3470,13 +3454,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 61,
+        "score": 70,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 10
         }
@@ -3485,15 +3469,11 @@
     {
       "symbol": "AMZN",
       "name": "Amazon.com, Inc.",
-      "price": 251.11,
-      "change": -4.28,
-      "changePercentage": -1.6759,
-      "volume": 10489418,
+      "price": 255.39,
+      "change": 8.57,
+      "changePercentage": 3.4722,
+      "volume": 53277400,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          226.28
-        ],
         [
           "2025-11-25",
           229.67
@@ -4493,15 +4473,11 @@
         [
           "2026-11-23",
           255.39
-        ],
-        [
-          "2026-11-24",
-          251.11
         ]
       ],
-      "dayLow": 250.53,
-      "dayHigh": 255.5599,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 251.25,
+      "dayHigh": 262.48,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -4623,13 +4599,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 60,
+        "score": 65,
         "max": 80,
         "components": {
-          "analyst": 15,
+          "analyst": 13,
           "growth": 13,
           "valuation": 10,
-          "momentum": 2,
+          "momentum": 9,
           "insider": 10,
           "institutional": 10
         }
@@ -4638,15 +4614,11 @@
     {
       "symbol": "GOOGL",
       "name": "Alphabet Inc.",
-      "price": 276.685,
-      "change": -5.415,
-      "changePercentage": -1.9195,
-      "volume": 10334955,
+      "price": 282.1,
+      "change": 16.81,
+      "changePercentage": 6.3365,
+      "volume": 44375600,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          318.58
-        ],
         [
           "2025-11-25",
           323.44
@@ -5646,15 +5618,11 @@
         [
           "2026-11-23",
           282.1
-        ],
-        [
-          "2026-11-24",
-          276.685
         ]
       ],
-      "dayLow": 276.04,
-      "dayHigh": 281.395,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 275.36,
+      "dayHigh": 285.14,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -5779,18 +5747,18 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
-        "score": 62,
+        "score": 70,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 2,
+          "momentum": 10,
           "insider": 10,
           "institutional": 10
         }
@@ -5799,15 +5767,11 @@
     {
       "symbol": "META",
       "name": "Meta Platforms, Inc.",
-      "price": 586.505,
-      "change": -11.095,
-      "changePercentage": -1.8566,
-      "volume": 3655859,
+      "price": 597.6,
+      "change": 36.7599,
+      "changePercentage": 6.5544,
+      "volume": 19106900,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          613.05
-        ],
         [
           "2025-11-25",
           636.22
@@ -6807,15 +6771,11 @@
         [
           "2026-11-23",
           597.6
-        ],
-        [
-          "2026-11-24",
-          586.505
         ]
       ],
-      "dayLow": 584.26,
-      "dayHigh": 600.315,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 579.78,
+      "dayHigh": 602.46,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -6934,18 +6894,18 @@
       },
       "freshness": {
         "quote": true,
-        "growth": true,
-        "ratios": true,
-        "analyst": true
+        "growth": false,
+        "ratios": false,
+        "analyst": false
       },
       "radar": {
-        "score": 50,
+        "score": 58,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 7,
           "valuation": 10,
-          "momentum": 2,
+          "momentum": 10,
           "insider": 10,
           "institutional": 6
         }
@@ -6954,15 +6914,11 @@
     {
       "symbol": "TSLA",
       "name": "Tesla, Inc.",
-      "price": 376.67,
-      "change": -8.79,
-      "changePercentage": -2.2804,
-      "volume": 12525569,
+      "price": 385.46,
+      "change": 39.64,
+      "changePercentage": 11.4626,
+      "volume": 47105900,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          417.78
-        ],
         [
           "2025-11-25",
           419.4
@@ -7962,23 +7918,19 @@
         [
           "2026-11-23",
           385.46
-        ],
-        [
-          "2026-11-24",
-          376.67
         ]
       ],
-      "dayLow": 376.395,
-      "dayHigh": 390.09,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 371.95,
+      "dayHigh": 393.83,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": -0.029306991503736307,
         "netIncomeGrowth": -0.4678821879382889,
         "epsGrowth": -0.47089947089947093,
-        "pe": 349.31313131313124,
-        "peg": -8.813439005439001
+        "pe": 388.5656565656565,
+        "peg": -9.803810411810408
       },
       "analyst": {
         "targetConsensus": 453.47,
@@ -8089,18 +8041,18 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 36,
+        "score": 42,
         "max": 80,
         "components": {
-          "analyst": 13,
+          "analyst": 10,
           "growth": 0,
           "valuation": 2,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 10
         }
@@ -8109,15 +8061,11 @@
     {
       "symbol": "AMD",
       "name": "Advanced Micro Devices, Inc.",
-      "price": 397.1101,
-      "change": -56.3499,
-      "changePercentage": -12.4266,
-      "volume": 19402560,
+      "price": 453.46,
+      "change": 29.07,
+      "changePercentage": 6.8498,
+      "volume": 54000600,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          215.05
-        ],
         [
           "2025-11-25",
           206.13
@@ -9117,23 +9065,19 @@
         [
           "2026-11-23",
           453.46
-        ],
-        [
-          "2026-11-24",
-          397.1101
         ]
       ],
-      "dayLow": 396.52,
-      "dayHigh": 428.8677,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 432.01,
+      "dayHigh": 477.75,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
         "revenueGrowth": 0.34337793290672874,
         "netIncomeGrowth": 1.6416819012797075,
         "epsGrowth": 1.6435643564356435,
-        "pe": 91.07081545064378,
-        "peg": 0.7091010057989059
+        "pe": 88.68454935622317,
+        "peg": 0.6905209186515088
       },
       "analyst": {
         "targetConsensus": 661.52,
@@ -9244,18 +9188,18 @@
       },
       "freshness": {
         "quote": true,
-        "growth": false,
-        "ratios": false,
-        "analyst": false
+        "growth": true,
+        "ratios": true,
+        "analyst": true
       },
       "radar": {
-        "score": 51,
+        "score": 60,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 0
         }
@@ -9264,15 +9208,11 @@
     {
       "symbol": "AVGO",
       "name": "Broadcom Inc.",
-      "price": 298.515,
-      "change": -15.035,
-      "changePercentage": -4.7951,
-      "volume": 9003629,
+      "price": 313.55,
+      "change": 9.14,
+      "changePercentage": 3.0025,
+      "volume": 41104900,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          377.96
-        ],
         [
           "2025-11-25",
           385.03
@@ -10272,15 +10212,11 @@
         [
           "2026-11-23",
           313.55
-        ],
-        [
-          "2026-11-24",
-          298.515
         ]
       ],
-      "dayLow": 297.805,
-      "dayHigh": 309.18,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 304.56,
+      "dayHigh": 324.46,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -10402,13 +10338,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 22,
+        "score": 30,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 1,
+          "momentum": 9,
           "insider": 10,
           "institutional": 6
         }
@@ -10417,15 +10353,11 @@
     {
       "symbol": "ORCL",
       "name": "Oracle Corporation",
-      "price": 108.455,
-      "change": -5.225,
-      "changePercentage": -4.5962,
-      "volume": 7373692,
+      "price": 113.68,
+      "change": 12.49,
+      "changePercentage": 12.3431,
+      "volume": 40546700,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          200.28
-        ],
         [
           "2025-11-25",
           197.03
@@ -11425,15 +11357,11 @@
         [
           "2026-11-23",
           113.68
-        ],
-        [
-          "2026-11-24",
-          108.455
         ]
       ],
-      "dayLow": 108.35,
-      "dayHigh": 112.2499,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 112.28,
+      "dayHigh": 118.7,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -11557,13 +11485,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 20,
+        "score": 29,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 4
         }
@@ -11572,15 +11500,11 @@
     {
       "symbol": "NFLX",
       "name": "Netflix, Inc.",
-      "price": 58.93,
-      "change": 0.83,
-      "changePercentage": 1.4286,
-      "volume": 12200896,
+      "price": 58.1,
+      "change": 1.37,
+      "changePercentage": 2.4149,
+      "volume": 50733300,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          106.97
-        ],
         [
           "2025-11-25",
           104.4
@@ -12580,15 +12504,11 @@
         [
           "2026-11-23",
           58.1
-        ],
-        [
-          "2026-11-24",
-          58.93
         ]
       ],
-      "dayLow": 57.58,
-      "dayHigh": 59.72,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 57.23,
+      "dayHigh": 58.61,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -12712,13 +12632,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 56,
+        "score": 57,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 13,
           "valuation": 10,
-          "momentum": 8,
+          "momentum": 9,
           "insider": 10,
           "institutional": 0
         }
@@ -12727,15 +12647,11 @@
     {
       "symbol": "JPM",
       "name": "JPMorgan Chase & Co.",
-      "price": 314.73,
-      "change": -1.93,
-      "changePercentage": -0.6095,
-      "volume": 1443270,
+      "price": 316.66,
+      "change": 6.13,
+      "changePercentage": 1.974,
+      "volume": 8710800,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          298.0
-        ],
         [
           "2025-11-25",
           303.0
@@ -13735,15 +13651,11 @@
         [
           "2026-11-23",
           316.66
-        ],
-        [
-          "2026-11-24",
-          314.73
         ]
       ],
-      "dayLow": 313.62,
-      "dayHigh": 319.0,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 315.0,
+      "dayHigh": 321.61,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -13794,13 +13706,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 38,
+        "score": 42,
         "max": 70,
         "components": {
           "analyst": 10,
           "growth": 4,
           "valuation": 10,
-          "momentum": 4,
+          "momentum": 8,
           "insider": 10,
           "institutional": null
         }
@@ -13809,15 +13721,11 @@
     {
       "symbol": "V",
       "name": "Visa Inc.",
-      "price": 413.775,
-      "change": 4.375,
-      "changePercentage": 1.0686,
-      "volume": 1634959,
+      "price": 409.4,
+      "change": 7.53,
+      "changePercentage": 1.8737,
+      "volume": 8676200,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          329.3
-        ],
         [
           "2025-11-25",
           334.53
@@ -14817,15 +14725,11 @@
         [
           "2026-11-23",
           409.4
-        ],
-        [
-          "2026-11-24",
-          413.775
         ]
       ],
-      "dayLow": 407.4,
-      "dayHigh": 416.4,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 404.01,
+      "dayHigh": 411.41,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -14964,15 +14868,11 @@
     {
       "symbol": "MA",
       "name": "Mastercard Incorporated",
-      "price": 643.46,
-      "change": 7.98,
-      "changePercentage": 1.2558,
-      "volume": 538991,
+      "price": 635.48,
+      "change": 9.89,
+      "changePercentage": 1.5809,
+      "volume": 3605300,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          537.85
-        ],
         [
           "2025-11-25",
           546.47
@@ -15972,15 +15872,11 @@
         [
           "2026-11-23",
           635.48
-        ],
-        [
-          "2026-11-24",
-          643.46
         ]
       ],
-      "dayLow": 632.05,
-      "dayHigh": 648.01,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 629.0,
+      "dayHigh": 638.67,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -16119,15 +16015,11 @@
     {
       "symbol": "COST",
       "name": "Costco Wholesale Corporation",
-      "price": 1091.37,
-      "change": -6.54,
-      "changePercentage": -0.5957,
-      "volume": 890011,
+      "price": 1097.91,
+      "change": -4.24,
+      "changePercentage": -0.3847,
+      "volume": 3161100,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          886.12
-        ],
         [
           "2025-11-25",
           894.33
@@ -17127,15 +17019,11 @@
         [
           "2026-11-23",
           1097.91
-        ],
-        [
-          "2026-11-24",
-          1091.37
         ]
       ],
-      "dayLow": 1068.0,
-      "dayHigh": 1094.74,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 1085.04,
+      "dayHigh": 1101.5,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -17274,15 +17162,11 @@
     {
       "symbol": "WMT",
       "name": "Walmart Inc.",
-      "price": 132.125,
-      "change": 2.545,
-      "changePercentage": 1.964,
-      "volume": 6873408,
+      "price": 129.58,
+      "change": 1.63,
+      "changePercentage": 1.2739,
+      "volume": 25117900,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          104.06
-        ],
         [
           "2025-11-25",
           107.0
@@ -18282,15 +18166,11 @@
         [
           "2026-11-23",
           129.58
-        ],
-        [
-          "2026-11-24",
-          132.125
         ]
       ],
-      "dayLow": 129.74,
-      "dayHigh": 132.42,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 125.84,
+      "dayHigh": 130.0,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -18429,15 +18309,11 @@
     {
       "symbol": "CRM",
       "name": "Salesforce, Inc.",
-      "price": 193.075,
-      "change": 7.615,
-      "changePercentage": 4.106,
-      "volume": 2639617,
+      "price": 185.46,
+      "change": 4.84,
+      "changePercentage": 2.6797,
+      "volume": 6103700,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          226.82
-        ],
         [
           "2025-11-25",
           234.12
@@ -19437,15 +19313,11 @@
         [
           "2026-11-23",
           185.46
-        ],
-        [
-          "2026-11-24",
-          193.075
         ]
       ],
-      "dayLow": 183.89,
-      "dayHigh": 194.8335,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 181.68,
+      "dayHigh": 185.83,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -19569,13 +19441,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 31,
+        "score": 30,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 10,
+          "momentum": 9,
           "insider": 10,
           "institutional": 6
         }
@@ -19584,15 +19456,11 @@
     {
       "symbol": "PLTR",
       "name": "Palantir Technologies Inc.",
-      "price": 159.675,
-      "change": 0.315,
-      "changePercentage": 0.1977,
-      "volume": 7406646,
+      "price": 159.36,
+      "change": 15.87,
+      "changePercentage": 11.06,
+      "volume": 32072100,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          162.25
-        ],
         [
           "2025-11-25",
           163.55
@@ -20592,15 +20460,11 @@
         [
           "2026-11-23",
           159.36
-        ],
-        [
-          "2026-11-24",
-          159.675
         ]
       ],
-      "dayLow": 157.8,
-      "dayHigh": 163.0,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 154.57,
+      "dayHigh": 161.19,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -20724,13 +20588,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 60,
+        "score": 64,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 6,
+          "momentum": 10,
           "insider": 10,
           "institutional": 4
         }
@@ -20739,15 +20603,11 @@
     {
       "symbol": "QCOM",
       "name": "QUALCOMM Incorporated",
-      "price": 161.1,
-      "change": -4.28,
-      "changePercentage": -2.588,
-      "volume": 2789893,
+      "price": 165.38,
+      "change": 15.44,
+      "changePercentage": 10.2975,
+      "volume": 20263900,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          165.06
-        ],
         [
           "2025-11-25",
           163.3
@@ -21747,15 +21607,11 @@
         [
           "2026-11-23",
           165.38
-        ],
-        [
-          "2026-11-24",
-          161.1
         ]
       ],
-      "dayLow": 160.5,
-      "dayHigh": 165.28,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 160.47,
+      "dayHigh": 165.68,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -21877,13 +21733,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 16,
+        "score": 25,
         "max": 80,
         "components": {
           "analyst": 0,
           "growth": 0,
           "valuation": 5,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 0
         }
@@ -21892,15 +21748,11 @@
     {
       "symbol": "INTC",
       "name": "Intel Corporation",
-      "price": 53.815,
-      "change": -5.845,
-      "changePercentage": -9.7972,
-      "volume": 46945784,
+      "price": 59.66,
+      "change": 8.38,
+      "changePercentage": 16.3417,
+      "volume": 165246200,
       "dailyCloses": [
-        [
-          "2025-11-24",
-          35.79
-        ],
         [
           "2025-11-25",
           35.83
@@ -22900,15 +22752,11 @@
         [
           "2026-11-23",
           59.66
-        ],
-        [
-          "2026-11-24",
-          53.815
         ]
       ],
-      "dayLow": 53.7101,
-      "dayHigh": 57.54,
-      "lastBarAt": "2026-11-24T14:30:00+00:00",
+      "dayLow": 56.66,
+      "dayHigh": 59.77,
+      "lastBarAt": "2026-11-23T14:30:00+00:00",
       "marketCap": null,
       "quoteSource": "Yahoo Finance chart",
       "fundamentals": {
@@ -23032,13 +22880,13 @@
         "analyst": false
       },
       "radar": {
-        "score": 61,
+        "score": 70,
         "max": 80,
         "components": {
           "analyst": 15,
           "growth": 15,
           "valuation": 10,
-          "momentum": 1,
+          "momentum": 10,
           "insider": 10,
           "institutional": 10
         }
